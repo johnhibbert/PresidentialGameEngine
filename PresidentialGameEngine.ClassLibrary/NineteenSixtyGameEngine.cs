@@ -13,7 +13,7 @@ namespace PresidentialGameEngine.ClassLibrary
                 {Issue.CivilRights, new SupportContest() }
             };
 
-            IssueOrder = 
+            IssueOrder =
             [
                 Issue.Defense,
                 Issue.Economy,
@@ -21,7 +21,7 @@ namespace PresidentialGameEngine.ClassLibrary
             ];
 
             SupportInStates = [];
-            foreach(State state in ((State[])Enum.GetValues(typeof(State))).Where(s => s != State.None)) 
+            foreach (State state in ((State[])Enum.GetValues(typeof(State))).Where(s => s != State.None))
             {
                 SupportInStates.Add(state, new SupportContest());
             }
@@ -95,7 +95,7 @@ namespace PresidentialGameEngine.ClassLibrary
         //Possibly rename me?
         public Dictionary<Issue, SupportContest> SupportOnIssues { get; private set; }
 
-        public void GainIssueSupport(Player player, Issue issue, int amount) 
+        public void GainIssueSupport(Player player, Issue issue, int amount)
         {
             SupportOnIssues[issue].GainSupport(player, amount);
         }
@@ -108,13 +108,13 @@ namespace PresidentialGameEngine.ClassLibrary
         public List<Issue> IssueOrder { get; private set; }
 
 
-        public void SetIssueOrder(Issue topIssue, Issue middleIssue, Issue bottomIssue) 
+        public void SetIssueOrder(Issue topIssue, Issue middleIssue, Issue bottomIssue)
         {
             IssueOrder = [topIssue, middleIssue, bottomIssue];
         }
 
         //https://stackoverflow.com/questions/450233/generic-list-moving-an-item-within-the-list
-        public void MoveIssueUp(Issue issue) 
+        public void MoveIssueUp(Issue issue)
         {
             var itemIndex = IssueOrder.IndexOf(issue);
             if (itemIndex > 0)
@@ -125,66 +125,73 @@ namespace PresidentialGameEngine.ClassLibrary
             }
         }
 
-        public Player GetIssueLeader(Issue issue) 
+        public Player GetIssueLeader(Issue issue)
         {
-            return SupportOnIssues[issue].SupportedPlayer;
+            return SupportOnIssues[issue].SupportStatus.Player;
         }
 
-        public int GetIssueSupportAmount(Issue issue) 
+        public SupportStatus GetIssueSupportStatus(Issue issue)
         {
-            return SupportOnIssues[issue].SupportAmount;
+            return SupportOnIssues[issue].SupportStatus;
         }
 
     }
 
-
+    public class SupportStatus
+    {
+        public int Amount { get; set; }
+        public Player Player { get; set; }
+    }
 
 
     //Rename me? This represents both states and issues
-    public class SupportContest()
+    public class SupportContest
     {
-        public int SupportAmount { get; set; }
-        public Player SupportedPlayer { get; set; }
+        public SupportContest()
+        {
+            SupportStatus = new SupportStatus();
+        }
+
+        public SupportStatus SupportStatus { get; internal set; }
 
         public void GainSupport(Player player, int amount)
         {
-            if(SupportAmount == 0 && SupportedPlayer == Player.None) 
+            if (SupportStatus.Amount == 0 && SupportStatus.Player == Player.None)
             {
-                SupportAmount = amount;
-                SupportedPlayer = player;
+                SupportStatus.Amount = amount;
+                SupportStatus.Player = player;
             }
-            else if (player == SupportedPlayer)
+            else if (player == SupportStatus.Player)
             {
-                SupportAmount += amount;
+                SupportStatus.Amount += amount;
             }
             else
             {
-                if (amount > SupportAmount)
+                if (amount > SupportStatus.Amount)
                 {
-                    SupportedPlayer = SupportedPlayer.ToOpponent();
-                    SupportAmount = Math.Abs(SupportAmount - amount);
+                    SupportStatus.Player = SupportStatus.Player.ToOpponent();
+                    SupportStatus.Amount = Math.Abs(SupportStatus.Amount - amount);
                 }
-                else if (amount < SupportAmount)
+                else if (amount < SupportStatus.Amount)
                 {
-                    SupportAmount -= amount;
+                    SupportStatus.Amount -= amount;
                 }
                 else
                 {
-                    SupportedPlayer = Player.None;
-                    SupportAmount = 0;
+                    SupportStatus.Player = Player.None;
+                    SupportStatus.Amount = 0;
                 }
             }
         }
-
         public void LoseSupport(Player player, int amount)
         {
-            if (player == SupportedPlayer)
+            if (player == SupportStatus.Player)
             {
-                SupportAmount -= amount;
-                if (SupportAmount <= 0)
+                SupportStatus.Amount -= amount;
+                if (SupportStatus.Amount <= 0)
                 {
-                    SupportedPlayer = Player.None;
-                    SupportAmount = 0;
+                    SupportStatus.Player = Player.None;
+                    SupportStatus.Amount = 0;
                 }
             }
         }
