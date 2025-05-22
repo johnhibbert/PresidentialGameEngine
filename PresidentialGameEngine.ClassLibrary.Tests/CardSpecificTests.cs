@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PresidentialGameEngine.ClassLibrary.Data;
 using PresidentialGameEngine.ClassLibrary.Enums;
 using System.Numerics;
 
@@ -7,6 +8,8 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
     [TestClass]
     public class CardSpecificTests
     {
+
+        PlayerChosenChanges emptyChanges = new PlayerChosenChanges();
 
         #region #5 - Volunteers
         [TestMethod]
@@ -21,7 +24,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
 
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(engine.GetPlayerMomentum(player), playerStartingMomentum + 1);
         }
@@ -39,7 +42,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.SetIssueOrder(Issue.CivilRights, Issue.Defense, Issue.Economy);
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(Issue.Economy, engine.IssueOrder[1]);
         }
@@ -55,7 +58,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.SetIssueOrder(Issue.Economy, Issue.Defense, Issue.CivilRights);
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(Issue.Economy, engine.IssueOrder[0]);
         }
@@ -72,7 +75,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainIssueSupport(player, Issue.Economy, 1);
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(1, engine.SupportInStates[State.NY].SupportStatus.Amount);
         }
@@ -88,7 +91,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.SetIssueOrder(Issue.Economy, Issue.Defense, Issue.CivilRights);
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(0, engine.SupportInStates[State.NY].SupportStatus.Amount);
         }
@@ -107,7 +110,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.SetIssueOrder(Issue.Economy, Issue.Defense, Issue.CivilRights);
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(Issue.CivilRights, engine.IssueOrder[1]);
         }
@@ -123,7 +126,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.SetIssueOrder(Issue.CivilRights, Issue.Defense, Issue.Economy);
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(Issue.CivilRights, engine.IssueOrder[0]);
         }
@@ -140,7 +143,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainIssueSupport(player, Issue.CivilRights, 1);
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(4, engine.SupportOnIssues[Issue.CivilRights].SupportStatus.Amount);
             Assert.AreEqual(player, engine.SupportOnIssues[Issue.CivilRights].SupportStatus.Player);
@@ -158,7 +161,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainIssueSupport(player.ToOpponent(), Issue.CivilRights, 2);
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(1, engine.SupportOnIssues[Issue.CivilRights].SupportStatus.Amount);
             Assert.AreEqual(player, engine.SupportOnIssues[Issue.CivilRights].SupportStatus.Player);
@@ -177,7 +180,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.SetIssueOrder(Issue.Economy, Issue.Defense, Issue.CivilRights);
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(Issue.CivilRights, engine.IssueOrder[1]);
         }
@@ -193,7 +196,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.SetIssueOrder(Issue.CivilRights, Issue.Defense, Issue.Economy);
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(Issue.CivilRights, engine.IssueOrder[0]);
         }
@@ -210,7 +213,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainIssueSupport(Player.Nixon, Issue.CivilRights, 1);
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(2, engine.SupportOnIssues[Issue.CivilRights].SupportStatus.Amount);
             Assert.AreEqual(Player.Nixon, engine.SupportOnIssues[Issue.CivilRights].SupportStatus.Player);
@@ -228,7 +231,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainIssueSupport(Player.Kennedy, Issue.CivilRights, 2);
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(1, engine.SupportOnIssues[Issue.CivilRights].SupportStatus.Amount);
             Assert.AreEqual(Player.Kennedy, engine.SupportOnIssues[Issue.CivilRights].SupportStatus.Player);
@@ -248,7 +251,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
 
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(Issue.Economy, engine.IssueOrder[1]);
         }
@@ -265,7 +268,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
 
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(Issue.Economy, engine.IssueOrder[0]);
         }
@@ -282,7 +285,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
 
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(Player.Nixon, engine.SupportOnIssues[Issue.Economy].SupportStatus.Player);
             Assert.AreEqual(2, engine.SupportOnIssues[Issue.Economy].SupportStatus.Amount);
@@ -300,7 +303,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             NineteenSixtyGameEngine engine = new();
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
 
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(Player.Kennedy, engine.SupportOnIssues[Issue.Defense].SupportStatus.Player);
             Assert.AreEqual(3, engine.SupportOnIssues[Issue.Defense].SupportStatus.Amount);
@@ -318,7 +321,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainIssueSupport(Player.Nixon, Issue.Defense, 2);
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
 
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(Player.Kennedy, engine.SupportOnIssues[Issue.Defense].SupportStatus.Player);
             Assert.AreEqual(1, engine.SupportOnIssues[Issue.Defense].SupportStatus.Amount);
@@ -335,7 +338,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainIssueSupport(Player.Nixon, Issue.Defense, 3);
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(Player.None, engine.SupportOnIssues[Issue.Defense].SupportStatus.Player);
             Assert.AreEqual(0, engine.SupportOnIssues[Issue.Defense].SupportStatus.Amount);
@@ -356,7 +359,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.SetIssueOrder(Issue.CivilRights, Issue.Economy, Issue.Defense);
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(Issue.Defense, engine.IssueOrder[0]);
         }
@@ -373,7 +376,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.SetIssueOrder(Issue.Defense, Issue.Economy, Issue.CivilRights);
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(Issue.Defense, engine.IssueOrder[0]);
         }
@@ -390,7 +393,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainIssueSupport(player, Issue.Defense, 1);
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(1, engine.GetPlayerMomentum(player));
         }
@@ -405,7 +408,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             NineteenSixtyGameEngine engine = new();
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(0, engine.KennedyMomentum);
             Assert.AreEqual(0, engine.NixonMomentum);
@@ -429,7 +432,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainIssueSupport(Player.Nixon, Issue.CivilRights, 2);
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(3, engine.GetPlayerMomentum(Player.Nixon));
             Assert.AreEqual(3, engine.SupportOnIssues[Issue.Defense].SupportStatus.Amount);
@@ -452,7 +455,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainIssueSupport(Player.Nixon, Issue.CivilRights, 0);
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(0, engine.GetPlayerMomentum(Player.Nixon));
             Assert.AreEqual(0, engine.SupportOnIssues[Issue.Defense].SupportStatus.Amount);
@@ -474,7 +477,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainMomentum(player.ToOpponent(), 5);
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(engine.GetPlayerMomentum(player), engine.GetPlayerMomentum(player.ToOpponent()));
         }
@@ -491,7 +494,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainMomentum(player, 5);
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(5, engine.GetPlayerMomentum(player));
             Assert.AreEqual(0, engine.GetPlayerMomentum(player.ToOpponent()));
@@ -507,7 +510,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             NineteenSixtyGameEngine engine = new();
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(engine.GetPlayerMomentum(player), engine.GetPlayerMomentum(player.ToOpponent()));
         }
@@ -527,7 +530,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
 
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(Issue.Defense, engine.IssueOrder[1]);
         }
@@ -544,7 +547,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
 
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(Issue.Defense, engine.IssueOrder[0]);
         }
@@ -561,7 +564,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
 
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(Player.Nixon, engine.SupportOnIssues[Issue.Defense].SupportStatus.Player);
             Assert.AreEqual(1, engine.SupportOnIssues[Issue.Defense].SupportStatus.Amount);
@@ -586,7 +589,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
 
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(engine.NixonMomentum, nixonStartingMomentum - 1);
             Assert.AreEqual(engine.KennedyMomentum, kennedyStartingMomentum - 3);
@@ -606,7 +609,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
 
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(engine.NixonMomentum, 0);
             Assert.AreEqual(engine.KennedyMomentum, 0);
@@ -627,7 +630,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.SetIssueOrder(Issue.CivilRights, Issue.Defense, Issue.Economy);
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(Issue.Economy, engine.IssueOrder[0]);
         }
@@ -643,7 +646,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.SetIssueOrder(Issue.Economy, Issue.Defense, Issue.CivilRights);
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(Issue.Economy, engine.IssueOrder[0]);
         }
@@ -660,7 +663,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainIssueSupport(player, Issue.Economy, 1);
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(2, engine.SupportInStates[State.NY].SupportStatus.Amount);
         }
@@ -676,7 +679,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.SetIssueOrder(Issue.Economy, Issue.Defense, Issue.CivilRights);
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(0, engine.SupportInStates[State.NY].SupportStatus.Amount);
         }
@@ -696,7 +699,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainIssueSupport(player, Issue.Defense, 1);
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(1, engine.SupportInStates[State.FL].SupportStatus.Amount);
             Assert.AreEqual(1, engine.GetPlayerMomentum(player));
@@ -712,7 +715,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             NineteenSixtyGameEngine engine = new();
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(0, engine.SupportInStates[State.FL].SupportStatus.Amount);
             Assert.AreEqual(0, engine.GetPlayerMomentum(player));
@@ -734,7 +737,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
 
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(engine.NixonMomentum, nixonStartingMomentum + 1);
             Assert.AreEqual(engine.KennedyMomentum, kennedyStartingMomentum);
@@ -758,7 +761,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainIssueSupport(Player.Kennedy, Issue.Economy, 1);
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(engine.NixonMomentum, 3);
             Assert.AreEqual(2, engine.GetIssueSupportStatus(Issue.CivilRights).Amount);
@@ -779,7 +782,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainIssueSupport(Player.Nixon, Issue.Defense, 2);
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(2, engine.GetIssueSupportStatus(Issue.CivilRights).Amount);
             Assert.AreEqual(2, engine.GetIssueSupportStatus(Issue.Defense).Amount);
@@ -804,7 +807,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
 
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(0, engine.GetPlayerMomentum(player));
             Assert.AreEqual(2, engine.GetIssueSupportStatus(Issue.CivilRights).Amount);
@@ -828,7 +831,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
 
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(2, engine.GetIssueSupportStatus(Issue.CivilRights).Amount);
             Assert.AreEqual(2, engine.GetIssueSupportStatus(Issue.Defense).Amount);
@@ -853,7 +856,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
 
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(2, engine.GetIssueSupportStatus(Issue.CivilRights).Amount);
             Assert.AreEqual(2, engine.GetIssueSupportStatus(Issue.Defense).Amount);
@@ -880,7 +883,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
 
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(0, engine.GetPlayerMomentum(player));
             Assert.AreEqual(3, engine.GetIssueSupportStatus(Issue.CivilRights).Amount);
@@ -904,7 +907,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
 
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(3, engine.GetIssueSupportStatus(Issue.CivilRights).Amount);
             Assert.AreEqual(1, engine.GetIssueSupportStatus(Issue.Defense).Amount);
@@ -928,7 +931,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
 
-            sut.Event(engine, player);
+            sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(3, engine.GetIssueSupportStatus(Issue.CivilRights).Amount);
             Assert.AreEqual(0, engine.GetIssueSupportStatus(Issue.Defense).Amount);
