@@ -1,4 +1,5 @@
 ﻿using PresidentialGameEngine.ClassLibrary;
+using PresidentialGameEngine.ClassLibrary.Data;
 using PresidentialGameEngine.ClassLibrary.Enums;
 
 namespace PresidentialGameEngine.ConsoleRunner

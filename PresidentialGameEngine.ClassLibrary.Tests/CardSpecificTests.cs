@@ -74,7 +74,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
             sut.Event(engine, player);
 
-            Assert.AreEqual(1, engine.SupportInStates[State.NY].SupportAmount);
+            Assert.AreEqual(1, engine.SupportInStates[State.NY].SupportStatus.Amount);
         }
 
         [TestMethod]
@@ -90,7 +90,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
             sut.Event(engine, player);
 
-            Assert.AreEqual(0, engine.SupportInStates[State.NY].SupportAmount);
+            Assert.AreEqual(0, engine.SupportInStates[State.NY].SupportStatus.Amount);
         }
 
         #endregion
@@ -142,8 +142,8 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
             sut.Event(engine, player);
 
-            Assert.AreEqual(4, engine.SupportOnIssues[Issue.CivilRights].SupportAmount);
-            Assert.AreEqual(player, engine.SupportOnIssues[Issue.CivilRights].SupportedPlayer);
+            Assert.AreEqual(4, engine.SupportOnIssues[Issue.CivilRights].SupportStatus.Amount);
+            Assert.AreEqual(player, engine.SupportOnIssues[Issue.CivilRights].SupportStatus.Player);
         }
 
         [TestMethod]
@@ -160,8 +160,8 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
             sut.Event(engine, player);
 
-            Assert.AreEqual(1, engine.SupportOnIssues[Issue.CivilRights].SupportAmount);
-            Assert.AreEqual(player, engine.SupportOnIssues[Issue.CivilRights].SupportedPlayer);
+            Assert.AreEqual(1, engine.SupportOnIssues[Issue.CivilRights].SupportStatus.Amount);
+            Assert.AreEqual(player, engine.SupportOnIssues[Issue.CivilRights].SupportStatus.Player);
         }
         #endregion
 
@@ -212,8 +212,8 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
             sut.Event(engine, player);
 
-            Assert.AreEqual(2, engine.SupportOnIssues[Issue.CivilRights].SupportAmount);
-            Assert.AreEqual(Player.Nixon, engine.SupportOnIssues[Issue.CivilRights].SupportedPlayer);
+            Assert.AreEqual(2, engine.SupportOnIssues[Issue.CivilRights].SupportStatus.Amount);
+            Assert.AreEqual(Player.Nixon, engine.SupportOnIssues[Issue.CivilRights].SupportStatus.Player);
         }
 
         [TestMethod]
@@ -230,8 +230,8 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
             sut.Event(engine, player);
 
-            Assert.AreEqual(1, engine.SupportOnIssues[Issue.CivilRights].SupportAmount);
-            Assert.AreEqual(Player.Kennedy, engine.SupportOnIssues[Issue.CivilRights].SupportedPlayer);
+            Assert.AreEqual(1, engine.SupportOnIssues[Issue.CivilRights].SupportStatus.Amount);
+            Assert.AreEqual(Player.Kennedy, engine.SupportOnIssues[Issue.CivilRights].SupportStatus.Player);
         }
         #endregion
 
@@ -284,8 +284,8 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             sut.Event(engine, player);
 
-            Assert.AreEqual(Player.Nixon, engine.SupportOnIssues[Issue.Economy].SupportedPlayer);
-            Assert.AreEqual(2, engine.SupportOnIssues[Issue.Economy].SupportAmount);
+            Assert.AreEqual(Player.Nixon, engine.SupportOnIssues[Issue.Economy].SupportStatus.Player);
+            Assert.AreEqual(2, engine.SupportOnIssues[Issue.Economy].SupportStatus.Amount);
         }
         #endregion
 
@@ -302,8 +302,8 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             sut.Event(engine, player);
 
-            Assert.AreEqual(Player.Kennedy, engine.SupportOnIssues[Issue.Defense].SupportedPlayer);
-            Assert.AreEqual(3, engine.SupportOnIssues[Issue.Defense].SupportAmount);
+            Assert.AreEqual(Player.Kennedy, engine.SupportOnIssues[Issue.Defense].SupportStatus.Player);
+            Assert.AreEqual(3, engine.SupportOnIssues[Issue.Defense].SupportStatus.Amount);
         }
 
         [TestMethod]
@@ -320,8 +320,8 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             sut.Event(engine, player);
 
-            Assert.AreEqual(Player.Kennedy, engine.SupportOnIssues[Issue.Defense].SupportedPlayer);
-            Assert.AreEqual(1, engine.SupportOnIssues[Issue.Defense].SupportAmount);
+            Assert.AreEqual(Player.Kennedy, engine.SupportOnIssues[Issue.Defense].SupportStatus.Player);
+            Assert.AreEqual(1, engine.SupportOnIssues[Issue.Defense].SupportStatus.Amount);
         }
 
         [TestMethod]
@@ -337,8 +337,8 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
             sut.Event(engine, player);
 
-            Assert.AreEqual(Player.None, engine.SupportOnIssues[Issue.Defense].SupportedPlayer);
-            Assert.AreEqual(0, engine.SupportOnIssues[Issue.Defense].SupportAmount);
+            Assert.AreEqual(Player.None, engine.SupportOnIssues[Issue.Defense].SupportStatus.Player);
+            Assert.AreEqual(0, engine.SupportOnIssues[Issue.Defense].SupportStatus.Amount);
         }
 
         #endregion
@@ -432,9 +432,9 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             sut.Event(engine, player);
 
             Assert.AreEqual(3, engine.GetPlayerMomentum(Player.Nixon));
-            Assert.AreEqual(3, engine.SupportOnIssues[Issue.Defense].SupportAmount);
-            Assert.AreEqual(2, engine.SupportOnIssues[Issue.Economy].SupportAmount);
-            Assert.AreEqual(1, engine.SupportOnIssues[Issue.CivilRights].SupportAmount);
+            Assert.AreEqual(3, engine.SupportOnIssues[Issue.Defense].SupportStatus.Amount);
+            Assert.AreEqual(2, engine.SupportOnIssues[Issue.Economy].SupportStatus.Amount);
+            Assert.AreEqual(1, engine.SupportOnIssues[Issue.CivilRights].SupportStatus.Amount);
         }
 
         [TestMethod]
@@ -455,9 +455,9 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             sut.Event(engine, player);
 
             Assert.AreEqual(0, engine.GetPlayerMomentum(Player.Nixon));
-            Assert.AreEqual(0, engine.SupportOnIssues[Issue.Defense].SupportAmount);
-            Assert.AreEqual(0, engine.SupportOnIssues[Issue.Economy].SupportAmount);
-            Assert.AreEqual(0, engine.SupportOnIssues[Issue.CivilRights].SupportAmount);
+            Assert.AreEqual(0, engine.SupportOnIssues[Issue.Defense].SupportStatus.Amount);
+            Assert.AreEqual(0, engine.SupportOnIssues[Issue.Economy].SupportStatus.Amount);
+            Assert.AreEqual(0, engine.SupportOnIssues[Issue.CivilRights].SupportStatus.Amount);
         }
         #endregion
 
@@ -563,8 +563,8 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             sut.Event(engine, player);
 
-            Assert.AreEqual(Player.Nixon, engine.SupportOnIssues[Issue.Defense].SupportedPlayer);
-            Assert.AreEqual(1, engine.SupportOnIssues[Issue.Defense].SupportAmount);
+            Assert.AreEqual(Player.Nixon, engine.SupportOnIssues[Issue.Defense].SupportStatus.Player);
+            Assert.AreEqual(1, engine.SupportOnIssues[Issue.Defense].SupportStatus.Amount);
         }
         #endregion
 
@@ -662,7 +662,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
             sut.Event(engine, player);
 
-            Assert.AreEqual(2, engine.SupportInStates[State.NY].SupportAmount);
+            Assert.AreEqual(2, engine.SupportInStates[State.NY].SupportStatus.Amount);
         }
 
         [TestMethod]
@@ -678,7 +678,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
             sut.Event(engine, player);
 
-            Assert.AreEqual(0, engine.SupportInStates[State.NY].SupportAmount);
+            Assert.AreEqual(0, engine.SupportInStates[State.NY].SupportStatus.Amount);
         }
 
         #endregion
@@ -698,7 +698,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
             sut.Event(engine, player);
 
-            Assert.AreEqual(1, engine.SupportInStates[State.FL].SupportAmount);
+            Assert.AreEqual(1, engine.SupportInStates[State.FL].SupportStatus.Amount);
             Assert.AreEqual(1, engine.GetPlayerMomentum(player));
         }
 
@@ -714,7 +714,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
             sut.Event(engine, player);
 
-            Assert.AreEqual(0, engine.SupportInStates[State.FL].SupportAmount);
+            Assert.AreEqual(0, engine.SupportInStates[State.FL].SupportStatus.Amount);
             Assert.AreEqual(0, engine.GetPlayerMomentum(player));
         }
 
@@ -761,9 +761,9 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             sut.Event(engine, player);
 
             Assert.AreEqual(engine.NixonMomentum, 3);
-            Assert.AreEqual(2, engine.GetIssueSupportAmount(Issue.CivilRights));
-            Assert.AreEqual(1, engine.GetIssueSupportAmount(Issue.Defense));
-            Assert.AreEqual(0, engine.GetIssueSupportAmount(Issue.Economy));
+            Assert.AreEqual(2, engine.GetIssueSupportStatus(Issue.CivilRights).Amount);
+            Assert.AreEqual(1, engine.GetIssueSupportStatus(Issue.Defense).Amount);
+            Assert.AreEqual(0, engine.GetIssueSupportStatus(Issue.Economy).Amount);
         }
 
         [TestMethod]
@@ -781,9 +781,9 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
             sut.Event(engine, player);
 
-            Assert.AreEqual(2, engine.GetIssueSupportAmount(Issue.CivilRights));
-            Assert.AreEqual(2, engine.GetIssueSupportAmount(Issue.Defense));
-            Assert.AreEqual(0, engine.GetIssueSupportAmount(Issue.Economy));
+            Assert.AreEqual(2, engine.GetIssueSupportStatus(Issue.CivilRights).Amount);
+            Assert.AreEqual(2, engine.GetIssueSupportStatus(Issue.Defense).Amount);
+            Assert.AreEqual(0, engine.GetIssueSupportStatus(Issue.Economy).Amount);
         }
 
         #endregion
@@ -807,9 +807,9 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             sut.Event(engine, player);
 
             Assert.AreEqual(0, engine.GetPlayerMomentum(player));
-            Assert.AreEqual(2, engine.GetIssueSupportAmount(Issue.CivilRights));
-            Assert.AreEqual(2, engine.GetIssueSupportAmount(Issue.Defense));
-            Assert.AreEqual(0, engine.GetIssueSupportAmount(Issue.Economy));
+            Assert.AreEqual(2, engine.GetIssueSupportStatus(Issue.CivilRights).Amount);
+            Assert.AreEqual(2, engine.GetIssueSupportStatus(Issue.Defense).Amount);
+            Assert.AreEqual(0, engine.GetIssueSupportStatus(Issue.Economy).Amount);
         }
 
         [TestMethod]
@@ -830,9 +830,9 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             sut.Event(engine, player);
 
-            Assert.AreEqual(2, engine.GetIssueSupportAmount(Issue.CivilRights));
-            Assert.AreEqual(2, engine.GetIssueSupportAmount(Issue.Defense));
-            Assert.AreEqual(0, engine.GetIssueSupportAmount(Issue.Economy));
+            Assert.AreEqual(2, engine.GetIssueSupportStatus(Issue.CivilRights).Amount);
+            Assert.AreEqual(2, engine.GetIssueSupportStatus(Issue.Defense).Amount);
+            Assert.AreEqual(0, engine.GetIssueSupportStatus(Issue.Economy).Amount);
             Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Nixon));
             Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Kennedy));
         }
@@ -855,9 +855,9 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             sut.Event(engine, player);
 
-            Assert.AreEqual(2, engine.GetIssueSupportAmount(Issue.CivilRights));
-            Assert.AreEqual(2, engine.GetIssueSupportAmount(Issue.Defense));
-            Assert.AreEqual(0, engine.GetIssueSupportAmount(Issue.Economy));
+            Assert.AreEqual(2, engine.GetIssueSupportStatus(Issue.CivilRights).Amount);
+            Assert.AreEqual(2, engine.GetIssueSupportStatus(Issue.Defense).Amount);
+            Assert.AreEqual(0, engine.GetIssueSupportStatus(Issue.Economy).Amount);
             Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Nixon));
             Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Kennedy));
         }
@@ -883,9 +883,9 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             sut.Event(engine, player);
 
             Assert.AreEqual(0, engine.GetPlayerMomentum(player));
-            Assert.AreEqual(3, engine.GetIssueSupportAmount(Issue.CivilRights));
-            Assert.AreEqual(1, engine.GetIssueSupportAmount(Issue.Defense));
-            Assert.AreEqual(0, engine.GetIssueSupportAmount(Issue.Economy));
+            Assert.AreEqual(3, engine.GetIssueSupportStatus(Issue.CivilRights).Amount);
+            Assert.AreEqual(1, engine.GetIssueSupportStatus(Issue.Defense).Amount);
+            Assert.AreEqual(0, engine.GetIssueSupportStatus(Issue.Economy).Amount);
         }
 
         [TestMethod]
@@ -906,9 +906,9 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             sut.Event(engine, player);
 
-            Assert.AreEqual(3, engine.GetIssueSupportAmount(Issue.CivilRights));
-            Assert.AreEqual(1, engine.GetIssueSupportAmount(Issue.Defense));
-            Assert.AreEqual(0, engine.GetIssueSupportAmount(Issue.Economy));
+            Assert.AreEqual(3, engine.GetIssueSupportStatus(Issue.CivilRights).Amount);
+            Assert.AreEqual(1, engine.GetIssueSupportStatus(Issue.Defense).Amount);
+            Assert.AreEqual(0, engine.GetIssueSupportStatus(Issue.Economy).Amount);
             Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Nixon));
             Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Kennedy));
         }
@@ -930,9 +930,9 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             sut.Event(engine, player);
 
-            Assert.AreEqual(3, engine.GetIssueSupportAmount(Issue.CivilRights));
-            Assert.AreEqual(0, engine.GetIssueSupportAmount(Issue.Defense));
-            Assert.AreEqual(0, engine.GetIssueSupportAmount(Issue.Economy));
+            Assert.AreEqual(3, engine.GetIssueSupportStatus(Issue.CivilRights).Amount);
+            Assert.AreEqual(0, engine.GetIssueSupportStatus(Issue.Defense).Amount);
+            Assert.AreEqual(0, engine.GetIssueSupportStatus(Issue.Economy).Amount);
             Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Nixon));
             Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Kennedy));
         }
