@@ -9,49 +9,17 @@ namespace PresidentialGameEngine.ConsoleRunner
         static void Main(string[] args)
         {
 
-            DisplayAllCards();
+            var choices = new BatteryOfChanges();
 
-            //Console.WriteLine($"Cards implemented: {CardManifests.TheMakingOfThePresidentGMTCards.Values.Count}");
-            //Console.WriteLine();
-            //Console.WriteLine("Press Enter to continue.");
-            //Console.ReadLine();
+            SupportChange<Issue> issueSupportChange = new SupportChange<Issue>(Player.Kennedy, Issue.CivilRights, 1);
+            SupportChange<State> stateSupportChange = new SupportChange<State>(Player.Kennedy, State.AK, -2);
 
-            //foreach (Card card in CardManifests.TheMakingOfThePresidentGMTCards.Values) 
-            //{
-            //    Console.Clear();
-            //    Console.WriteLine($"Index: {card.Index}");
-            //    Console.WriteLine($"Title: {card.Title}");
-            //    Console.WriteLine($"CP: {card.CampaignPoints} / Rest: {card.RestCubes}");
-            //    Console.WriteLine($"Issue: {card.Issue}");
-            //    Console.Write($"Candidate: ");
+            choices.IssueChanges.Add(issueSupportChange);
+            choices.StateChanges.Add(stateSupportChange);
 
-            //    switch (card.Candidate) 
-            //    {
-            //        case Candidate.Kennedy:
-            //            Console.WriteLine("Dem");
-            //            break;
-            //        case Candidate.Nixon:
-            //            Console.WriteLine("Rep");
-            //            break;
-            //        case Candidate.Both:
-            //            Console.WriteLine("Both");
-            //            break;
-            //        default:
-            //            Console.WriteLine("None");
-            //            break;
-            //    }
+            //DisplayAllCards();
 
-            //    Console.WriteLine($"State: {card.State}");
-            //    Console.WriteLine();
-            //    Console.WriteLine($"Text: {card.Text}");
-
-            //    Console.WriteLine();
-            //    Console.WriteLine("Press Enter to continue.");
-            //    Console.ReadLine();
-
-            //}
-
-
+            int i = 0;
 
         }
 
