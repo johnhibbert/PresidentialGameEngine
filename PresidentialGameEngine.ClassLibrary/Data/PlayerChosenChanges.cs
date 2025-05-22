@@ -2,9 +2,9 @@
 
 namespace PresidentialGameEngine.ClassLibrary.Data
 {
-    public class BatteryOfChanges
+    public class PlayerChosenChanges
     {
-        public BatteryOfChanges()
+        public PlayerChosenChanges()
         {
             IssueChanges = [];
             StateChanges = [];

@@ -9,7 +9,7 @@ namespace PresidentialGameEngine.ConsoleRunner
         static void Main(string[] args)
         {
 
-            var choices = new BatteryOfChanges();
+            var choices = new PlayerChosenChanges();
 
             SupportChange<Issue> issueSupportChange = new SupportChange<Issue>(Player.Kennedy, Issue.CivilRights, 1);
             SupportChange<State> stateSupportChange = new SupportChange<State>(Player.Kennedy, State.AK, -2);
