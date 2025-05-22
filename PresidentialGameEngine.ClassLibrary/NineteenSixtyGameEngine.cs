@@ -1,4 +1,5 @@
-﻿using PresidentialGameEngine.ClassLibrary.Enums;
+﻿using PresidentialGameEngine.ClassLibrary.Data;
+using PresidentialGameEngine.ClassLibrary.Enums;
 
 namespace PresidentialGameEngine.ClassLibrary
 {
@@ -135,12 +136,6 @@ namespace PresidentialGameEngine.ClassLibrary
             return SupportOnIssues[issue].SupportStatus;
         }
 
-    }
-
-    public class SupportStatus
-    {
-        public int Amount { get; set; }
-        public Player Player { get; set; }
     }
 
 

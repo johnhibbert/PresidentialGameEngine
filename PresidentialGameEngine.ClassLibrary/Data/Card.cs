@@ -1,6 +1,6 @@
 ﻿using PresidentialGameEngine.ClassLibrary.Enums;
 
-namespace PresidentialGameEngine.ClassLibrary
+namespace PresidentialGameEngine.ClassLibrary.Data
 {
     public class Card(int index, string title, string eventText, int campaignPoints, Issue issue, Candidate candidate, State state)
     {
