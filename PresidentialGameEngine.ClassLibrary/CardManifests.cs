@@ -83,7 +83,15 @@ namespace PresidentialGameEngine.ClassLibrary
             //new Card(38, "“High Hopes”"),
             //new Card(39, "Lyndon Johnson"),
             //new Card(40, "Northern Blacks"),
-            //new Card(41, "Pierre Salinger"),
+            {41, new Card(41, "Pierre Salinger", "The Kennedy player may add 3 issue support in any one issue.", 3, Issue.CivilRights, Candidate.Kennedy, State.AL)
+                {
+                    Event = (engine, player,choices) => {
+
+                        engine.ImplementChanges(choices);
+                        //throw new NotImplementedException();
+                    }
+                }
+            },
             //new Card(42, "Henry Cabot Lodge"),
             //new Card(43, "Catholic Support"),
             //new Card(44, "Puerto Rican Bishops"),

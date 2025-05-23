@@ -238,6 +238,54 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
         #endregion
 
+        #region #41 - Pierre Salinger
+
+        [TestMethod]
+        [DataRow(Issue.CivilRights)]
+        [DataRow(Issue.Defense)]
+        [DataRow(Issue.Economy)]
+        public void PierreSalinger_41_SupportChangesReflectedInIssue(Issue issue)
+        {
+            int cardIndex = 41;
+
+            NineteenSixtyGameEngine engine = new();
+            engine.GainIssueSupport(Player.Kennedy, issue, 1);
+
+            PlayerChosenChanges playerChoices = new PlayerChosenChanges();
+            var threeSupportInOneIssue = new SupportChange<Issue>(Player.Kennedy, issue, 3);
+            playerChoices.IssueChanges.Add(threeSupportInOneIssue);
+
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+
+            sut.Event(engine, Player.Kennedy, playerChoices);
+
+            Assert.AreEqual(4, engine.GetIssueSupportStatus(issue).Amount);
+        }
+
+        [TestMethod]
+        [DataRow(Issue.CivilRights)]
+        [DataRow(Issue.Defense)]
+        [DataRow(Issue.Economy)]
+        public void PierreSalinger_41_SupportChangesDeductedFromOpponent(Issue issue)
+        {
+            int cardIndex = 41;
+
+            NineteenSixtyGameEngine engine = new();
+            engine.GainIssueSupport(Player.Nixon, issue, 2);
+
+            PlayerChosenChanges playerChoices = new PlayerChosenChanges();
+            var threeSupportInOneIssue = new SupportChange<Issue>(Player.Kennedy, issue, 3);
+            playerChoices.IssueChanges.Add(threeSupportInOneIssue);
+
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+
+            sut.Event(engine, Player.Kennedy, playerChoices);
+
+            Assert.AreEqual(1, engine.GetIssueSupportStatus(issue).Amount);
+        }
+
+        #endregion
+
         #region #48 - Rising Food Prices
         [TestMethod]
         [DataRow(Player.Nixon)]
