@@ -88,7 +88,6 @@ namespace PresidentialGameEngine.ClassLibrary
                     Event = (engine, player,choices) => {
 
                         engine.ImplementChanges(choices);
-                        //throw new NotImplementedException();
                     }
                 }
             },
@@ -222,7 +221,14 @@ namespace PresidentialGameEngine.ClassLibrary
             //new Card(83, "Whistlestop"),
             //new Card(84, "Quemoy and Matsu"),
             //new Card(85, "Jackie Kennedy"),
-            //new Card(86, "Herb Klein"),
+            {86,  new Card(86, "Herb Klein", "The Nixon player may add a total of 3 issue support in any issues.", 3, Issue.CivilRights, Candidate.Nixon, State.IA)
+                {
+                    Event = (engine, player,choices) => {
+
+                        engine.ImplementChanges(choices);
+                    }
+                }
+            },
             //new Card(87, "Stevenson Loyalists"),
             //new Card(88, "Stature Gap"),
             {89, new Card(89, "The New Nixon", "The Nixon player gains 1 momentum marker.", 2, Issue.CivilRights, Candidate.Nixon, State.KS)

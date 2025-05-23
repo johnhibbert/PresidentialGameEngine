@@ -771,6 +771,57 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
         #endregion
 
+        #region #86 - Herb Klein
+
+        [TestMethod]
+        [DataRow(Issue.CivilRights)]
+        [DataRow(Issue.Defense)]
+        [DataRow(Issue.Economy)]
+        public void HerbKlein_86_SupportChangesReflectedInSingleIssue(Issue issue)
+        {
+            int cardIndex = 86;
+
+            NineteenSixtyGameEngine engine = new();
+            engine.GainIssueSupport(Player.Nixon, issue, 1);
+
+            PlayerChosenChanges playerChoices = new PlayerChosenChanges();
+            var threeSupportInOneIssue = new SupportChange<Issue>(Player.Nixon, issue, 3);
+            playerChoices.IssueChanges.Add(threeSupportInOneIssue);
+
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+
+            sut.Event(engine, Player.Kennedy, playerChoices);
+
+            Assert.AreEqual(4, engine.GetIssueSupportStatus(issue).Amount);
+        }
+
+        [TestMethod]
+        public void HerbKlein_86_SupportChangesReflectedAcrossMultipleIssues()
+        {
+            int cardIndex = 86;
+
+            NineteenSixtyGameEngine engine = new();
+
+            PlayerChosenChanges playerChoices = new PlayerChosenChanges();
+            var oneSupportInCivilRights = new SupportChange<Issue>(Player.Nixon, Issue.CivilRights, 1);
+            var oneSupportInDefense = new SupportChange<Issue>(Player.Nixon, Issue.Defense, 1);
+            var oneSupportInEconomy = new SupportChange<Issue>(Player.Nixon, Issue.Economy, 1);
+            playerChoices.IssueChanges.Add(oneSupportInCivilRights);
+            playerChoices.IssueChanges.Add(oneSupportInDefense);
+            playerChoices.IssueChanges.Add(oneSupportInEconomy);
+
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+
+            sut.Event(engine, Player.Kennedy, playerChoices);
+
+            Assert.AreEqual(1, engine.GetIssueSupportStatus(Issue.CivilRights).Amount);
+            Assert.AreEqual(1, engine.GetIssueSupportStatus(Issue.Defense).Amount);
+            Assert.AreEqual(1, engine.GetIssueSupportStatus(Issue.Economy).Amount);
+        }
+
+
+        #endregion
+
         #region #89 - The New Nixon
         [TestMethod]
         [DataRow(Player.Nixon)]
