@@ -88,6 +88,16 @@ namespace PresidentialGameEngine.ClassLibrary
                     Event = (engine, player,choices) => {
 
                         engine.ImplementChanges(choices);
+                    },
+                    AreChangesValid = (choices) =>
+                    {
+                        var threePointsOfIssueChanges = choices.TotalIssueChanges == 3;
+                        var onlyOneIssueIncluded = choices.IssueChanges.Where(x => x.Change > 0).Count() == 2;
+                        var issuePlayerIsOnlyKennedy = choices.IssueChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([ChangeType.IssueSupport]);
+
+                        return threePointsOfIssueChanges && onlyOneIssueIncluded 
+                                && issuePlayerIsOnlyKennedy && AndOnlyThisTypeOfTest;
                     }
                 }
             },
@@ -226,6 +236,14 @@ namespace PresidentialGameEngine.ClassLibrary
                     Event = (engine, player,choices) => {
 
                         engine.ImplementChanges(choices);
+                    },
+                    AreChangesValid = (choices) => 
+                    {
+                        var threePointsOfIssueChanges = choices.TotalIssueChanges == 3;
+                        var issuePlayerIsOnlyNixon = choices.IssueChanges.Select(x => x.Player).All(y => y == Player.Nixon);
+                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([ChangeType.IssueSupport]);
+
+                        return threePointsOfIssueChanges && issuePlayerIsOnlyNixon && AndOnlyThisTypeOfTest;
                     }
                 }
             },

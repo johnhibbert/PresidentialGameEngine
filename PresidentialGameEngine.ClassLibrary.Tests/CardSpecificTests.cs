@@ -284,6 +284,63 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Assert.AreEqual(1, engine.GetIssueSupportStatus(issue).Amount);
         }
 
+        [TestMethod]
+        [DataRow(Issue.CivilRights)]
+        [DataRow(Issue.Defense)]
+        [DataRow(Issue.Economy)]
+        public void PierreSalinger_41_FailsValidationIfNixonGainsSupport(Issue issue)
+        {
+            int cardIndex = 41;
+
+            PlayerChosenChanges playerChoices = new();
+            var threeSupportInOneIssue = new SupportChange<Issue>(Player.Nixon, issue, 3);
+            playerChoices.IssueChanges.Add(threeSupportInOneIssue);
+            
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        [DataRow(Issue.CivilRights)]
+        [DataRow(Issue.Defense)]
+        [DataRow(Issue.Economy)]
+        public void PierreSalinger_41_FailsValidationIfSupportGainedInMoreThanOneIssue(Issue issue)
+        {
+            int cardIndex = 41;
+
+            PlayerChosenChanges playerChoices = new();
+            var oneSupportInCivilRights = new SupportChange<Issue>(Player.Kennedy, Issue.CivilRights, 1);
+            var oneSupportInDefense = new SupportChange<Issue>(Player.Kennedy, Issue.Defense, 1);
+            var oneSupportInEconomy = new SupportChange<Issue>(Player.Kennedy, Issue.Economy, 1);
+            playerChoices.IssueChanges.Add(oneSupportInCivilRights);
+            playerChoices.IssueChanges.Add(oneSupportInDefense);
+            playerChoices.IssueChanges.Add(oneSupportInEconomy);
+
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        [DataRow(Issue.CivilRights)]
+        [DataRow(Issue.Defense)]
+        [DataRow(Issue.Economy)]
+        public void PierreSalinger_41_FailsValidationIfStateSupportGained(Issue issue)
+        {
+            int cardIndex = 41;
+
+            PlayerChosenChanges playerChoices = new();
+            var threeSupportInOneIssue = new SupportChange<Issue>(Player.Kennedy, issue, 3);
+            var oneSupportInNewYork = new SupportChange<State>(Player.Kennedy, State.NY, 1);
+            playerChoices.IssueChanges.Add(threeSupportInOneIssue);
+            playerChoices.StateChanges.Add(oneSupportInNewYork);
+
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+
         #endregion
 
         #region #48 - Rising Food Prices
@@ -819,6 +876,49 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Assert.AreEqual(1, engine.GetIssueSupportStatus(Issue.Economy).Amount);
         }
 
+        [TestMethod]
+        public void HerbKlein_86_FailsValidationIfKennedyGainsSupport()
+        {
+            int cardIndex = 86;
+
+            NineteenSixtyGameEngine engine = new();
+
+            PlayerChosenChanges playerChoices = new();
+            var oneSupportInCivilRights = new SupportChange<Issue>(Player.Nixon, Issue.CivilRights, 1);
+            var oneSupportInDefense = new SupportChange<Issue>(Player.Kennedy, Issue.Defense, 1);
+            var oneSupportInEconomy = new SupportChange<Issue>(Player.Nixon, Issue.Economy, 1);
+            playerChoices.IssueChanges.Add(oneSupportInCivilRights);
+            playerChoices.IssueChanges.Add(oneSupportInDefense);
+            playerChoices.IssueChanges.Add(oneSupportInEconomy);
+
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void HerbKlein_86_FailsValidationIfStateSupportGained()
+        {
+            int cardIndex = 86;
+
+            NineteenSixtyGameEngine engine = new();
+
+            PlayerChosenChanges playerChoices = new();
+            var oneSupportInCivilRights = new SupportChange<Issue>(Player.Nixon, Issue.CivilRights, 1);
+            var oneSupportInDefense = new SupportChange<Issue>(Player.Nixon, Issue.Defense, 1);
+            var oneSupportInEconomy = new SupportChange<Issue>(Player.Nixon, Issue.Economy, 1);
+            var oneSupportInNewYork = new SupportChange<State>(Player.Nixon, State.NY,  1);
+            playerChoices.IssueChanges.Add(oneSupportInCivilRights);
+            playerChoices.IssueChanges.Add(oneSupportInDefense);
+            playerChoices.IssueChanges.Add(oneSupportInEconomy);
+            playerChoices.StateChanges.Add(oneSupportInNewYork);
+
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+
+            Assert.IsFalse(result);
+        }
 
         #endregion
 
