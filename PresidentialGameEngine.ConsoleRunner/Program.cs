@@ -11,13 +11,23 @@ namespace PresidentialGameEngine.ConsoleRunner
 
             var choices = new PlayerChosenChanges();
 
-            SupportChange<Issue> issueSupportChange = new SupportChange<Issue>(Player.Kennedy, Issue.CivilRights, 1);
-            SupportChange<State> stateSupportChange = new SupportChange<State>(Player.Kennedy, State.AK, -2);
+            SupportChange<Issue> civilRightsSupportChange = new SupportChange<Issue>(Player.Kennedy, Issue.CivilRights, 1);
+            SupportChange<Issue> defenseSupportChange = new SupportChange<Issue>(Player.Kennedy, Issue.Defense, 2);
+            //SupportChange<State> stateSupportChange = new SupportChange<State>(Player.Kennedy, State.AK, -2);
 
-            choices.IssueChanges.Add(issueSupportChange);
-            choices.StateChanges.Add(stateSupportChange);
+            choices.IssueChanges.Add(civilRightsSupportChange);
+            choices.IssueChanges.Add(defenseSupportChange);
+            //choices.StateChanges.Add(stateSupportChange);
 
             //DisplayAllCards();
+
+            //int cardIndex = 86;
+            int cardIndex = 41;
+
+            Card card = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+
+            var holder = card.AreChangesValid(choices);
+
 
             int i = 0;
 

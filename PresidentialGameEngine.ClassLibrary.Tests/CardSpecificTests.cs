@@ -9,7 +9,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
     public class CardSpecificTests
     {
 
-        PlayerChosenChanges emptyChanges = new PlayerChosenChanges();
+        readonly PlayerChosenChanges emptyChanges = new();
 
         #region #5 - Volunteers
         [TestMethod]
@@ -27,6 +27,19 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             sut.Event(engine, player, emptyChanges);
 
             Assert.AreEqual(engine.GetPlayerMomentum(player), playerStartingMomentum + 1);
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void Volunteers_5_ValidationAlwaysTrue(Player player)
+        {
+            int cardIndex = 5;
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+
+            var result = sut.AreChangesValid(null);
+
+            Assert.IsTrue(result);
         }
         #endregion
 
@@ -96,6 +109,18 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Assert.AreEqual(0, engine.SupportInStates[State.NY].SupportStatus.Amount);
         }
 
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void SovietEconomicGrowth_8_ValidationAlwaysTrue(Player player)
+        {
+            int cardIndex = 8;
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+
+            var result = sut.AreChangesValid(null);
+
+            Assert.IsTrue(result);
+        }
         #endregion
 
         #region #23 - Martin Luther King Arrested
@@ -165,6 +190,19 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             Assert.AreEqual(1, engine.SupportOnIssues[Issue.CivilRights].SupportStatus.Amount);
             Assert.AreEqual(player, engine.SupportOnIssues[Issue.CivilRights].SupportStatus.Player);
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void MartinLutherKingArrested_23_ValidationAlwaysTrue(Player player)
+        {
+            int cardIndex = 23;
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+
+            var result = sut.AreChangesValid(null);
+
+            Assert.IsTrue(result);
         }
         #endregion
 
@@ -236,6 +274,19 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Assert.AreEqual(1, engine.SupportOnIssues[Issue.CivilRights].SupportStatus.Amount);
             Assert.AreEqual(Player.Kennedy, engine.SupportOnIssues[Issue.CivilRights].SupportStatus.Player);
         }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void CivilRightsAct_25_ValidationAlwaysTrue(Player player)
+        {
+            int cardIndex = 25;
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+
+            var result = sut.AreChangesValid(null);
+
+            Assert.IsTrue(result);
+        }
         #endregion
 
         #region #41 - Pierre Salinger
@@ -282,6 +333,63 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             sut.Event(engine, Player.Kennedy, playerChoices);
 
             Assert.AreEqual(1, engine.GetIssueSupportStatus(issue).Amount);
+        }
+
+        [TestMethod]
+        [DataRow(Issue.CivilRights)]
+        [DataRow(Issue.Defense)]
+        [DataRow(Issue.Economy)]
+        public void PierreSalinger_41_FailsValidationIfNixonGainsSupport(Issue issue)
+        {
+            int cardIndex = 41;
+
+            PlayerChosenChanges playerChoices = new();
+            var threeSupportInOneIssue = new SupportChange<Issue>(Player.Nixon, issue, 3);
+            playerChoices.IssueChanges.Add(threeSupportInOneIssue);
+            
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        [DataRow(Issue.CivilRights)]
+        [DataRow(Issue.Defense)]
+        [DataRow(Issue.Economy)]
+        public void PierreSalinger_41_FailsValidationIfSupportGainedInMoreThanOneIssue(Issue issue)
+        {
+            int cardIndex = 41;
+
+            PlayerChosenChanges playerChoices = new();
+            var oneSupportInCivilRights = new SupportChange<Issue>(Player.Kennedy, Issue.CivilRights, 1);
+            var oneSupportInDefense = new SupportChange<Issue>(Player.Kennedy, Issue.Defense, 1);
+            var oneSupportInEconomy = new SupportChange<Issue>(Player.Kennedy, Issue.Economy, 1);
+            playerChoices.IssueChanges.Add(oneSupportInCivilRights);
+            playerChoices.IssueChanges.Add(oneSupportInDefense);
+            playerChoices.IssueChanges.Add(oneSupportInEconomy);
+
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        [DataRow(Issue.CivilRights)]
+        [DataRow(Issue.Defense)]
+        [DataRow(Issue.Economy)]
+        public void PierreSalinger_41_FailsValidationIfStateSupportGained(Issue issue)
+        {
+            int cardIndex = 41;
+
+            PlayerChosenChanges playerChoices = new();
+            var threeSupportInOneIssue = new SupportChange<Issue>(Player.Kennedy, issue, 3);
+            var oneSupportInNewYork = new SupportChange<State>(Player.Kennedy, State.NY, 1);
+            playerChoices.IssueChanges.Add(threeSupportInOneIssue);
+            playerChoices.StateChanges.Add(oneSupportInNewYork);
+
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
         }
 
         #endregion
@@ -338,6 +446,19 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Assert.AreEqual(Player.Nixon, engine.SupportOnIssues[Issue.Economy].SupportStatus.Player);
             Assert.AreEqual(2, engine.SupportOnIssues[Issue.Economy].SupportStatus.Amount);
         }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void RisingFoodPrices_48_ValidationAlwaysTrue(Player player)
+        {
+            int cardIndex = 48;
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+
+            var result = sut.AreChangesValid(null);
+
+            Assert.IsTrue(result);
+        }
         #endregion
 
         #region #51 - Missile Gap
@@ -392,6 +513,18 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Assert.AreEqual(0, engine.SupportOnIssues[Issue.Defense].SupportStatus.Amount);
         }
 
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void MissileGap_51_ValidationAlwaysTrue(Player player)
+        {
+            int cardIndex = 51;
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+
+            var result = sut.AreChangesValid(null);
+
+            Assert.IsTrue(result);
+        }
         #endregion
 
         #region #62 - The Trial of Gary Powers
@@ -462,6 +595,18 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Assert.AreEqual(0, engine.NixonMomentum);
         }
 
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void TheTrialOfGaryPowers_62_ValidationAlwaysTrue(Player player)
+        {
+            int cardIndex = 62;
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+
+            var result = sut.AreChangesValid(null);
+
+            Assert.IsTrue(result);
+        }
         #endregion
 
         #region #63 - “Give Me A Week”
@@ -509,6 +654,19 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Assert.AreEqual(0, engine.SupportOnIssues[Issue.Defense].SupportStatus.Amount);
             Assert.AreEqual(0, engine.SupportOnIssues[Issue.Economy].SupportStatus.Amount);
             Assert.AreEqual(0, engine.SupportOnIssues[Issue.CivilRights].SupportStatus.Amount);
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void TheTrialOfGaryPowers_63_ValidationAlwaysTrue(Player player)
+        {
+            int cardIndex = 63;
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+
+            var result = sut.AreChangesValid(null);
+
+            Assert.IsTrue(result);
         }
         #endregion
 
@@ -563,6 +721,18 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Assert.AreEqual(engine.GetPlayerMomentum(player), engine.GetPlayerMomentum(player.ToOpponent()));
         }
 
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void StumpSpeech_64_ValidationAlwaysTrue(Player player)
+        {
+            int cardIndex = 64;
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+
+            var result = sut.AreChangesValid(null);
+
+            Assert.IsTrue(result);
+        }
         #endregion
 
         #region #68 - "Peace Without Surrender"
@@ -617,6 +787,19 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Assert.AreEqual(Player.Nixon, engine.SupportOnIssues[Issue.Defense].SupportStatus.Player);
             Assert.AreEqual(1, engine.SupportOnIssues[Issue.Defense].SupportStatus.Amount);
         }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void PeaceWithoutSurrender_68_ValidationAlwaysTrue(Player player)
+        {
+            int cardIndex = 68;
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+
+            var result = sut.AreChangesValid(null);
+
+            Assert.IsTrue(result);
+        }
         #endregion
 
         #region #70 - The Old Nixon
@@ -661,6 +844,19 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             Assert.AreEqual(engine.NixonMomentum, 0);
             Assert.AreEqual(engine.KennedyMomentum, 0);
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void TheOldNixon_70_ValidationAlwaysTrue(Player player)
+        {
+            int cardIndex = 70;
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+
+            var result = sut.AreChangesValid(null);
+
+            Assert.IsTrue(result);
         }
 
         #endregion
@@ -732,6 +928,18 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Assert.AreEqual(0, engine.SupportInStates[State.NY].SupportStatus.Amount);
         }
 
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void StockMarketInDecline_78_ValidationAlwaysTrue(Player player)
+        {
+            int cardIndex = 78;
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+
+            var result = sut.AreChangesValid(null);
+
+            Assert.IsTrue(result);
+        }
         #endregion
 
         #region #82 - Fidel Castro
@@ -769,6 +977,18 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Assert.AreEqual(0, engine.GetPlayerMomentum(player));
         }
 
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void FidelCastro_82_ValidationAlwaysTrue(Player player)
+        {
+            int cardIndex = 82;
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+
+            var result = sut.AreChangesValid(null);
+
+            Assert.IsTrue(result);
+        }
         #endregion
 
         #region #86 - Herb Klein
@@ -819,6 +1039,49 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Assert.AreEqual(1, engine.GetIssueSupportStatus(Issue.Economy).Amount);
         }
 
+        [TestMethod]
+        public void HerbKlein_86_FailsValidationIfKennedyGainsSupport()
+        {
+            int cardIndex = 86;
+
+            NineteenSixtyGameEngine engine = new();
+
+            PlayerChosenChanges playerChoices = new();
+            var oneSupportInCivilRights = new SupportChange<Issue>(Player.Nixon, Issue.CivilRights, 1);
+            var oneSupportInDefense = new SupportChange<Issue>(Player.Kennedy, Issue.Defense, 1);
+            var oneSupportInEconomy = new SupportChange<Issue>(Player.Nixon, Issue.Economy, 1);
+            playerChoices.IssueChanges.Add(oneSupportInCivilRights);
+            playerChoices.IssueChanges.Add(oneSupportInDefense);
+            playerChoices.IssueChanges.Add(oneSupportInEconomy);
+
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void HerbKlein_86_FailsValidationIfStateSupportGained()
+        {
+            int cardIndex = 86;
+
+            NineteenSixtyGameEngine engine = new();
+
+            PlayerChosenChanges playerChoices = new();
+            var oneSupportInCivilRights = new SupportChange<Issue>(Player.Nixon, Issue.CivilRights, 1);
+            var oneSupportInDefense = new SupportChange<Issue>(Player.Nixon, Issue.Defense, 1);
+            var oneSupportInEconomy = new SupportChange<Issue>(Player.Nixon, Issue.Economy, 1);
+            var oneSupportInNewYork = new SupportChange<State>(Player.Nixon, State.NY,  1);
+            playerChoices.IssueChanges.Add(oneSupportInCivilRights);
+            playerChoices.IssueChanges.Add(oneSupportInDefense);
+            playerChoices.IssueChanges.Add(oneSupportInEconomy);
+            playerChoices.StateChanges.Add(oneSupportInNewYork);
+
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+
+            Assert.IsFalse(result);
+        }
 
         #endregion
 
@@ -840,6 +1103,19 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             Assert.AreEqual(engine.NixonMomentum, nixonStartingMomentum + 1);
             Assert.AreEqual(engine.KennedyMomentum, kennedyStartingMomentum);
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void TheNewNixon_89_ValidationAlwaysTrue(Player player)
+        {
+            int cardIndex = 89;
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+
+            var result = sut.AreChangesValid(null);
+
+            Assert.IsTrue(result);
         }
         #endregion
 
@@ -888,6 +1164,18 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Assert.AreEqual(0, engine.GetIssueSupportStatus(Issue.Economy).Amount);
         }
 
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void ExperienceCounts_93_ValidationAlwaysTrue(Player player)
+        {
+            int cardIndex = 93;
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+
+            var result = sut.AreChangesValid(null);
+
+            Assert.IsTrue(result);
+        }
         #endregion
 
         #region #96 - Medal Count
@@ -964,6 +1252,19 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Kennedy));
         }
 
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void MedalCount_96_ValidationAlwaysTrue(Player player)
+        {
+            int cardIndex = 96;
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+
+            var result = sut.AreChangesValid(null);
+
+            Assert.IsTrue(result);
+        }
+
         #endregion
 
         #region #97 - Cassius Clay Wins Gold
@@ -1037,6 +1338,19 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Assert.AreEqual(0, engine.GetIssueSupportStatus(Issue.Economy).Amount);
             Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Nixon));
             Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Kennedy));
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void CassiusClayWinsGold_97_ValidationAlwaysTrue(Player player)
+        {
+            int cardIndex = 97;
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+
+            var result = sut.AreChangesValid(null);
+
+            Assert.IsTrue(result);
         }
 
         #endregion
