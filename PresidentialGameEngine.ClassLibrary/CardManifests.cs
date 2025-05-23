@@ -25,7 +25,26 @@ namespace PresidentialGameEngine.ClassLibrary
                     },
                 }
             },
-            //new Card(6, "New England"),
+            {6, new Card(6, "New England", "The Kennedy player may add a total of 5 state support in Connecticut, Massachusetts, Maine, New York, Rhode Island, and Vermont, no more than 2 per state.", 2, Issue.Defense, Candidate.Both, State.OR)
+                {
+                    Event = (engine, player, choices) => {
+                        engine.ImplementChanges(choices);
+                    },
+                    AreChangesValid = (choices) =>
+                    {
+                        State[] newEnglandStates = [State.RI, State.MA, State.CT, State.VT, State.NH, State.ME];
+
+                        var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
+                        var onlyNewEnglandStatesIncluded = choices.StateChanges.Select(s => s.Target).All(x => newEnglandStates.Contains(x));
+                        var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var noValueAboveTwo = choices.HighestStateChange <= 2;
+                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([ChangeType.StateSupport]);
+
+                        return fiveOrFewerPointsOfStateChanges && onlyNewEnglandStatesIncluded && noValueAboveTwo
+                                && statePlayerIsOnlyKennedy && AndOnlyThisTypeOfTest;
+                    },
+                }
+            },
             //new Card(7, "Late Returns From Cook County"),
             {8, new Card(8, "Soviet Economic Growth", "Economy moves up one space on the Issue Track.  The leader in Economy gains 1 state support in New York.", 2, Issue.Economy, Candidate.Both, State.NH)
                 {
