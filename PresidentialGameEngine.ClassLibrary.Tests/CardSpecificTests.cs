@@ -420,6 +420,158 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
         #endregion
 
+        #region #37 - Lunch Counter Sit-Ins
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void LunchCounterSitIns_37_CivilRightsMovesUp(Player player)
+        {
+            int cardIndex = 37;
+
+            NineteenSixtyGameEngine engine = new();
+            engine.GainIssueSupport(player, Issue.CivilRights, 1);
+            engine.SetIssueOrder(Issue.Economy, Issue.Defense, Issue.CivilRights);
+
+            PlayerChosenChanges playerChoices = new PlayerChosenChanges();
+            var oneSupportInHawaii = new SupportChange<State>(player, State.HI, 1);
+            var oneSupportInFlorida = new SupportChange<State>(player, State.FL, 1);
+            var oneSupportInVermont = new SupportChange<State>(player, State.VT, 1);
+
+            playerChoices.StateChanges.Add(oneSupportInHawaii);
+            playerChoices.StateChanges.Add(oneSupportInFlorida);
+            playerChoices.StateChanges.Add(oneSupportInVermont);
+
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+
+            sut.Event(engine, player, playerChoices);
+
+            Assert.AreEqual(Issue.CivilRights, engine.IssueOrder[1]);
+
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void LunchCounterSitIns_37_SupportAddedToStates(Player player)
+        {
+            int cardIndex = 37;
+
+            NineteenSixtyGameEngine engine = new();
+            engine.GainIssueSupport(player, Issue.CivilRights, 1);
+
+            PlayerChosenChanges playerChoices = new PlayerChosenChanges();
+            var oneSupportInHawaii = new SupportChange<State>(player, State.HI, 1);
+            var oneSupportInFlorida = new SupportChange<State>(player, State.FL, 1);
+            var oneSupportInVermont = new SupportChange<State>(player, State.VT, 1);
+
+            playerChoices.StateChanges.Add(oneSupportInHawaii);
+            playerChoices.StateChanges.Add(oneSupportInFlorida);
+            playerChoices.StateChanges.Add(oneSupportInVermont);
+
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+
+            sut.Event(engine, player, playerChoices);
+
+            Assert.AreEqual(1, engine.SupportInStates[State.HI].SupportStatus.Amount);
+            Assert.AreEqual(1, engine.SupportInStates[State.FL].SupportStatus.Amount);
+            Assert.AreEqual(1, engine.SupportInStates[State.VT].SupportStatus.Amount);
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void LunchCounterSitIns_37_FailsValidationIfNonLeaderGains(Player player)
+        {
+            int cardIndex = 37;
+
+            NineteenSixtyGameEngine engine = new();
+            engine.GainIssueSupport(player, Issue.CivilRights, 1);
+
+            PlayerChosenChanges playerChoices = new PlayerChosenChanges();
+            var oneSupportInHawaii = new SupportChange<State>(player, State.HI, 1);
+            var oneSupportInFlorida = new SupportChange<State>(player.ToOpponent(), State.FL, 1);
+            var oneSupportInVermont = new SupportChange<State>(player, State.VT, 1);
+
+            playerChoices.StateChanges.Add(oneSupportInHawaii);
+            playerChoices.StateChanges.Add(oneSupportInFlorida);
+            playerChoices.StateChanges.Add(oneSupportInVermont);
+
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void LunchCounterSitIns_37_FailsValidationIfIssueGains(Player player)
+        {
+            int cardIndex = 37;
+
+            NineteenSixtyGameEngine engine = new();
+            engine.GainIssueSupport(player, Issue.CivilRights, 1);
+
+            PlayerChosenChanges playerChoices = new PlayerChosenChanges();
+            var oneSupportInHawaii = new SupportChange<State>(player, State.HI, 1);
+            var oneSupportInFlorida = new SupportChange<State>(player, State.FL, 1);
+            var oneSupportInVermont = new SupportChange<State>(player, State.VT, 1);
+            playerChoices.StateChanges.Add(oneSupportInHawaii);
+            playerChoices.StateChanges.Add(oneSupportInFlorida);
+            playerChoices.StateChanges.Add(oneSupportInVermont);
+
+            var issueSupport = new SupportChange<Issue>(player, Issue.Defense, 1);
+            playerChoices.IssueChanges.Add(issueSupport);
+
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void LunchCounterSitIns_37_FailsValidationIfGreaterThanOne(Player player)
+        {
+            int cardIndex = 37;
+
+            NineteenSixtyGameEngine engine = new();
+
+            PlayerChosenChanges playerChoices = new PlayerChosenChanges();
+            var oneSupportInHawaii = new SupportChange<State>(player, State.HI, 1);
+            var twoSupportInFlorida = new SupportChange<State>(player, State.FL, 2);
+            playerChoices.StateChanges.Add(oneSupportInHawaii);
+            playerChoices.StateChanges.Add(twoSupportInFlorida);
+
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void LunchCounterSitIns_37_FailsValidationIfSumGreaterThanThree(Player player)
+        {
+            int cardIndex = 37;
+
+            NineteenSixtyGameEngine engine = new();
+
+            PlayerChosenChanges playerChoices = new PlayerChosenChanges();
+            var oneSupportInHawaii = new SupportChange<State>(player, State.HI, 1);
+            var oneSupportInFlorida = new SupportChange<State>(player, State.FL, 1);
+            var oneSupportInVermont = new SupportChange<State>(player, State.VT, 1);
+            var oneSupportInMissouri = new SupportChange<State>(player, State.MO, 1);
+            playerChoices.StateChanges.Add(oneSupportInHawaii);
+            playerChoices.StateChanges.Add(oneSupportInFlorida);
+            playerChoices.StateChanges.Add(oneSupportInVermont);
+            playerChoices.StateChanges.Add(oneSupportInMissouri);
+
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+        #endregion
+
         #region #41 - Pierre Salinger
 
         [TestMethod]

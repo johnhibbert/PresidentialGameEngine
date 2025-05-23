@@ -112,7 +112,29 @@ namespace PresidentialGameEngine.ClassLibrary
             //new Card(34, "“Lazy Shave”"),
             //new Card(35, "Harvard Brain Trust"),
             //new Card(36, "Henry Luce"),
-            //new Card(37, "Lunch Counter Sit-Ins"),
+            {37, new Card(37, "Lunch Counter Sit-Ins", "Civil Rights moves up one space on the Issue Track.  The leader in Civil Rights may add a total of 3 state support anywhere, no more than 1 per state.", 3, Issue.Defense, Candidate.Both, State.NJ)
+                {
+                    Event = (engine, player, choices) => {
+
+                        engine.MoveIssueUp(Issue.CivilRights);
+                        var leader = engine.GetIssueLeader(Issue.CivilRights);
+                        if(leader != Player.None)
+                        {
+                            engine.ImplementChanges(choices);
+                        }                        
+                    },
+                    AreChangesValid = (choices) =>
+                    {
+                        var threePointsOfIssueChanges = choices.TotalIssueChanges <= 3;
+                        var noValueAboveOne = choices.HighestStateChange <= 1;
+                        var issuePlayerAreAllSame = choices.IssueChanges.Select(x => x.Player).Distinct().Count() == 1;
+                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([ChangeType.IssueSupport]);
+
+                        return threePointsOfIssueChanges && noValueAboveOne
+                                && issuePlayerAreAllSame && AndOnlyThisTypeOfTest;
+                    },
+                }
+            },
             //new Card(38, "“High Hopes”"),
             //new Card(39, "Lyndon Johnson"),
             //new Card(40, "Northern Blacks"),
