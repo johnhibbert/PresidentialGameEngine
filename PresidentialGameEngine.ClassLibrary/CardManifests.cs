@@ -18,7 +18,7 @@ namespace PresidentialGameEngine.ClassLibrary
             //new Card(4, "Citizens for Nixon-Lodge"),
             {5, new Card(5, "Volunteers", "Player gains 1 momentum marker.", 2, Issue.Defense, Candidate.Both, State.OR)
                 {
-                    Event = (engine,player) => {
+                    Event = (engine,player,choices) => {
                         engine.GainMomentum(player, 1);
                     }
                 }
@@ -27,7 +27,7 @@ namespace PresidentialGameEngine.ClassLibrary
             //new Card(7, "Late Returns From Cook County"),
             {8, new Card(8, "Soviet Economic Growth", "Economy moves up one space on the Issue Track.  The leader in Economy gains 1 state support in New York.", 2, Issue.Economy, Candidate.Both, State.NH)
                 {
-                    Event = (engine,player) => {
+                    Event = (engine,player,choices) => {
                         engine.MoveIssueUp(Issue.Economy);
                         var econLeader = engine.GetIssueLeader(Issue.Economy);
                         if(econLeader != Player.None)
@@ -53,7 +53,7 @@ namespace PresidentialGameEngine.ClassLibrary
             //new Card(22, "Gaffe"),
             {23, new Card(23, "Martin Luther King Arrested", "Civil Rights moves up one space on the Issue Track.  Player gains 3 issue support in Civil Rights.\r\n", 4, Issue.CivilRights, Candidate.Both, State.CA)
                 {
-                    Event = (engine,player) => {
+                    Event = (engine,player,choices) => {
                         engine.MoveIssueUp(Issue.CivilRights);
                         engine.GainIssueSupport(player, Issue.CivilRights, 3);
                     }
@@ -62,7 +62,7 @@ namespace PresidentialGameEngine.ClassLibrary
             //new Card(24, "East Harlem Pledge"),
             {25, new Card(25, "1960 Civil Rights Act", "Civil Rights moves up one space on the Issue Track and Nixon gains 1 issue support in Civil Rights.", 2, Issue.CivilRights, Candidate.Nixon, State.ND)
                 {
-                    Event = (engine,player) => {
+                    Event = (engine,player,choices) => {
                         engine.MoveIssueUp(Issue.CivilRights);
                         engine.GainIssueSupport(Player.Nixon, Issue.CivilRights, 1);
                     }
@@ -83,7 +83,14 @@ namespace PresidentialGameEngine.ClassLibrary
             //new Card(38, "“High Hopes”"),
             //new Card(39, "Lyndon Johnson"),
             //new Card(40, "Northern Blacks"),
-            //new Card(41, "Pierre Salinger"),
+            {41, new Card(41, "Pierre Salinger", "The Kennedy player may add 3 issue support in any one issue.", 3, Issue.CivilRights, Candidate.Kennedy, State.AL)
+                {
+                    Event = (engine, player,choices) => {
+
+                        engine.ImplementChanges(choices);
+                    }
+                }
+            },
             //new Card(42, "Henry Cabot Lodge"),
             //new Card(43, "Catholic Support"),
             //new Card(44, "Puerto Rican Bishops"),
@@ -92,7 +99,7 @@ namespace PresidentialGameEngine.ClassLibrary
             //new Card(47, "The Cold War"),
             {48, new Card(48, "Rising Food Prices", "Economy moves up one space on the Issue Track and Nixon gains 2 issue support in Economy.", 3, Issue.CivilRights, Candidate.Nixon, State.IA)
                 {
-                    Event = (engine, player) => {
+                    Event = (engine, player,choices) => {
                         engine.MoveIssueUp(Issue.Economy);
                         engine.GainIssueSupport(Player.Nixon, Issue.Economy, 2);
                     }
@@ -102,7 +109,7 @@ namespace PresidentialGameEngine.ClassLibrary
             //new Card(50, "Industrial Midwest"),
             {51, new Card(51, "Missile Gap", "Kennedy gains 3 issue support in Defense.", 3, Issue.Economy, Candidate.Kennedy, State.GA)
                 {
-                    Event = (engine, player) => {
+                    Event = (engine, player,choices) => {
                         engine.GainIssueSupport(Player.Kennedy, Issue.Defense, 3);
                     }
                 }
@@ -119,7 +126,7 @@ namespace PresidentialGameEngine.ClassLibrary
             //new Card(61, "Fatigue Sets In"),
             {62, new Card(62, "Trial of Gary Powers", "Defense moves up two spaces on the Issue Track.  The leader in Defense gains 1 momentum marker.", 3, Issue.Economy, Candidate.Both, State.WI)
                 {
-                    Event = (engine, player) => {
+                    Event = (engine, player,choices) => {
                         engine.MoveIssueUp(Issue.Defense);
                         engine.MoveIssueUp(Issue.Defense);
                         var leader = engine.GetIssueLeader(Issue.Defense);
@@ -132,7 +139,7 @@ namespace PresidentialGameEngine.ClassLibrary
             },
             {63, new Card(63, "“Give Me A Week”", "The Nixon player loses 2 momentum markers and must subtract 1 issue support in each issue.", 4, Issue.Economy, Candidate.Kennedy, State.OH)
                 {
-                    Event = (engine, player) => {
+                    Event = (engine, player,choices) => {
                         engine.LoseMomentum(Player.Nixon, 2);
                         engine.LoseIssueSupport(Player.Nixon, Issue.Defense, 1);
                         engine.LoseIssueSupport(Player.Nixon, Issue.Economy, 1);
@@ -142,7 +149,7 @@ namespace PresidentialGameEngine.ClassLibrary
             },
             {64, new Card(64, "Stump Speech", "If opponent has more momentum markers, player gains enough to have the same number.", 4, Issue.Economy, Candidate.Both, State.OH)
                 {
-                    Event = (engine, player) => {
+                    Event = (engine, player,choices) => {
                         var playerMomentum = engine.GetPlayerMomentum(player);
                         var opponentMomentum = engine.GetPlayerMomentum(player.ToOpponent());
 
@@ -158,7 +165,7 @@ namespace PresidentialGameEngine.ClassLibrary
             //new Card(67, "Voter Registration Drive"),
             {68, new Card(68, "“Peace Without Surrender”", "Defense moves up one space on the Issue Track and Nixon gains 1 issue support in Defense.", 2, Issue.Defense, Candidate.Nixon, State.CO)
                 {
-                    Event = (engine, player) => {
+                    Event = (engine, player,choices) => {
                         engine.MoveIssueUp(Issue.Defense);
                         engine.GainIssueSupport(Player.Nixon, Issue.Defense, 1);
                     }
@@ -167,7 +174,7 @@ namespace PresidentialGameEngine.ClassLibrary
             //new Card(69, "Congressional Summer Session"),
             {70, new Card(70, "The Old Nixon", "The Nixon player loses 1 momentum marker.  The Kennedy player loses 3 momentum markers.", 4, Issue.Economy, Candidate.Nixon, State.IL)
                 {
-                    Event = (engine, player) => {
+                    Event = (engine, player,choices) => {
                         engine.LoseMomentum(Player.Nixon, 1);
                         engine.LoseMomentum(Player.Kennedy, 3);
                     }
@@ -183,7 +190,7 @@ namespace PresidentialGameEngine.ClassLibrary
             //new Card(77, "Suburban Voters"),
             {78, new Card(78, "Stock Market In Decline", "Economy moves up two spaces on the Issue Track. The leader in Economy gains 2 state support in New York.", 3, Issue.Defense, Candidate.Both, State.TN)
                 {
-                    Event = (engine, player) => {
+                    Event = (engine, player,choices) => {
                         engine.MoveIssueUp(Issue.Economy);
                         engine.MoveIssueUp(Issue.Economy);
 
@@ -200,7 +207,7 @@ namespace PresidentialGameEngine.ClassLibrary
             //new Card(81, "Kennedy’s Peace Corps"),
             {82, new Card(82, "Fidel Castro", "The leader in Defense gains 1 momentum marker and 1 state support in Florida.", 2, Issue.Economy, Candidate.Both, State.ID)
                 {
-                    Event = (engine, player) => {
+                    Event = (engine, player,choices) => {
                         var defenseLeader = engine.GetIssueLeader(Issue.Defense);
 
                         if(defenseLeader != Player.None)
@@ -214,12 +221,19 @@ namespace PresidentialGameEngine.ClassLibrary
             //new Card(83, "Whistlestop"),
             //new Card(84, "Quemoy and Matsu"),
             //new Card(85, "Jackie Kennedy"),
-            //new Card(86, "Herb Klein"),
+            {86,  new Card(86, "Herb Klein", "The Nixon player may add a total of 3 issue support in any issues.", 3, Issue.CivilRights, Candidate.Nixon, State.IA)
+                {
+                    Event = (engine, player,choices) => {
+
+                        engine.ImplementChanges(choices);
+                    }
+                }
+            },
             //new Card(87, "Stevenson Loyalists"),
             //new Card(88, "Stature Gap"),
             {89, new Card(89, "The New Nixon", "The Nixon player gains 1 momentum marker.", 2, Issue.CivilRights, Candidate.Nixon, State.KS)
                 {
-                    Event = (engine, player) => {
+                    Event = (engine, player,choices) => {
                         engine.GainMomentum(Player.Nixon, 1);
                     }
                 }
@@ -235,7 +249,7 @@ namespace PresidentialGameEngine.ClassLibrary
             //new Card(93, "Experience Counts"),
             {93, new Card(93, "Experience Counts", "Kennedy loses 1 issue support in each issue.  The Nixon player gains one momentum marker.", 4, Issue.Defense, Candidate.Nixon, State.CA)
                 {
-                    Event = (engine, player) => {
+                    Event = (engine, player,choices) => {
                         engine.LoseIssueSupport(Player.Kennedy, Issue.Defense, 1);
                         engine.LoseIssueSupport(Player.Kennedy, Issue.CivilRights, 1);
                         engine.LoseIssueSupport(Player.Kennedy, Issue.Economy, 1);
@@ -247,7 +261,7 @@ namespace PresidentialGameEngine.ClassLibrary
             //new Card(95, "A Time For Greatness?"),
             {96, new Card(96, "Medal Count", "The leaders in Civil Rights and Economy lose 1 issue support in those issues.  If the same player leads both, they also lose 1 momentum marker.", 2, Issue.Defense, Candidate.Both, State.PA)
                 {
-                    Event = (engine, player) => {
+                    Event = (engine, player,choices) => {
 
                         var civilRightsLeader = engine.GetIssueLeader(Issue.CivilRights);
                         var econLeader = engine.GetIssueLeader(Issue.Economy);
@@ -264,7 +278,7 @@ namespace PresidentialGameEngine.ClassLibrary
             },
             {97, new Card(97, "Cassius Clay Wins Gold", "The leaders in Defense and Economy lose 1 issue support in those issues.  If the same player leads both, they also lose 1 momentum marker.", 2, Issue.CivilRights, Candidate.Both, State.OH)
                 {
-                    Event = (engine, player) => {
+                    Event = (engine, player,choices) => {
 
                         var defenseLeader = engine.GetIssueLeader(Issue.Defense);
                         var econLeader = engine.GetIssueLeader(Issue.Economy);

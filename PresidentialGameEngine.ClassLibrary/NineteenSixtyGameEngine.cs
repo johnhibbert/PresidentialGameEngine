@@ -31,6 +31,20 @@ namespace PresidentialGameEngine.ClassLibrary
 
         }
 
+        public void ImplementChanges(PlayerChosenChanges changes) 
+        {
+            foreach (SupportChange<Issue> issueChange in changes.IssueChanges) 
+            {
+                GainIssueSupport(issueChange.Player, issueChange.Target, issueChange.Change);
+            }
+
+            foreach (SupportChange<State> stateChange in changes.StateChanges) 
+            {
+                GainStateSupport(stateChange.Player, stateChange.Target, stateChange.Change);
+            }
+        }
+
+
         public int NixonMomentum { get; private set; }
 
         public int KennedyMomentum { get; private set; }
