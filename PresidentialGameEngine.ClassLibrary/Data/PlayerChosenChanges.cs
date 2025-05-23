@@ -24,6 +24,11 @@ namespace PresidentialGameEngine.ClassLibrary.Data
 
         }
 
+        public int HighestStateChange 
+        {
+            get { return StateChanges.Max(x => x.Change); }
+        }
+
         public bool ContainsOnlyTheseChangeTypes(List<ChangeType> changeTypes)
         {
             bool returnValue = true;
@@ -39,10 +44,10 @@ namespace PresidentialGameEngine.ClassLibrary.Data
                 switch (changeType)
                 {
                     case ChangeType.IssueSupport:
-                        returnValue = !(included ^ IssueChanges.Count != 0);
+                        returnValue = returnValue && !(included ^ IssueChanges.Count != 0);
                         break;
                     case ChangeType.StateSupport:
-                        returnValue = !(included ^ StateChanges.Count != 0);
+                        returnValue = returnValue && !(included ^ StateChanges.Count != 0);
                         break;
 
                 }
