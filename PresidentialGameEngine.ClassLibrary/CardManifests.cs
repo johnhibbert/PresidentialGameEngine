@@ -25,7 +25,7 @@ namespace PresidentialGameEngine.ClassLibrary
                     },
                 }
             },
-            {6, new Card(6, "New England", "The Kennedy player may add a total of 5 state support in Connecticut, Massachusetts, Maine, New York, Rhode Island, and Vermont, no more than 2 per state.", 2, Issue.Defense, Candidate.Both, State.OR)
+            {6, new Card(6, "New England", "The Kennedy player may add a total of 5 state support in Connecticut, Massachusetts, Maine, New York, Rhode Island, and Vermont, no more than 2 per state.", 3, Issue.Defense, Candidate.Kennedy, State.LA)
                 {
                     Event = (engine, player, choices) => {
                         engine.ImplementChanges(choices);
