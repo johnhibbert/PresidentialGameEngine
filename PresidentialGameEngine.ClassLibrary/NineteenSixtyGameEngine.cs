@@ -29,9 +29,6 @@ namespace PresidentialGameEngine.ClassLibrary
             }
 
             PoliticalCapitalBag = new PoliticalCapitalBag<Player>(randomnessProvider, 12);
-
-            int i = 0;
-
         }
 
         public void ImplementChanges(PlayerChosenChanges changes) 

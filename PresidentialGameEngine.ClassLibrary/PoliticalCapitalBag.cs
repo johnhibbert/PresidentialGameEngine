@@ -1,17 +1,10 @@
-﻿using PresidentialGameEngine.ClassLibrary.Enums;
-using PresidentialGameEngine.ClassLibrary.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
+﻿using PresidentialGameEngine.ClassLibrary.Interfaces;
 
 namespace PresidentialGameEngine.ClassLibrary
 {
     public  class PoliticalCapitalBag<T> where T : Enum
     {
-        Dictionary<T, int> cubes;
+        readonly Dictionary<T, int> cubes;
 
         readonly IRandomnessProvider rng;
 
