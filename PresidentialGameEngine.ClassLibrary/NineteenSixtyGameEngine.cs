@@ -1,11 +1,12 @@
 ﻿using PresidentialGameEngine.ClassLibrary.Data;
 using PresidentialGameEngine.ClassLibrary.Enums;
+using PresidentialGameEngine.ClassLibrary.Interfaces;
 
 namespace PresidentialGameEngine.ClassLibrary
 {
     public class NineteenSixtyGameEngine
     {
-        public NineteenSixtyGameEngine()
+        public NineteenSixtyGameEngine(IRandomnessProvider randomnessProvider)
         {
             SupportOnIssues = new Dictionary<Issue, SupportContest>
             {
@@ -27,6 +28,8 @@ namespace PresidentialGameEngine.ClassLibrary
                 SupportInStates.Add(state, new SupportContest());
             }
 
+            PoliticalCapitalBag = new PoliticalCapitalBag<Player>(randomnessProvider, 12);
+
             int i = 0;
 
         }
@@ -44,6 +47,17 @@ namespace PresidentialGameEngine.ClassLibrary
             }
         }
 
+        PoliticalCapitalBag<Player> PoliticalCapitalBag;
+
+        public Player ConductInitiativeCheck() 
+        {
+            return PoliticalCapitalBag.InitiativeCheck();
+        }
+
+        public int ConductSupportCheck(Player player, int amount) 
+        {
+            return PoliticalCapitalBag.SupportCheck(player, amount);
+        }
 
         public int NixonMomentum { get; private set; }
 
@@ -140,7 +154,7 @@ namespace PresidentialGameEngine.ClassLibrary
             }
         }
 
-        public Player GetIssueLeader(Issue issue)
+        public Leader GetIssueLeader(Issue issue)
         {
             return SupportOnIssues[issue].SupportStatus.Player;
         }
@@ -165,12 +179,14 @@ namespace PresidentialGameEngine.ClassLibrary
 
         public void GainSupport(Player player, int amount)
         {
-            if (SupportStatus.Amount == 0 && SupportStatus.Player == Player.None)
+            var playerAsLeader = player.ToLeader();
+
+            if (SupportStatus.Amount == 0 && SupportStatus.Player == Leader.None)
             {
                 SupportStatus.Amount = amount;
-                SupportStatus.Player = player;
+                SupportStatus.Player = playerAsLeader;
             }
-            else if (player == SupportStatus.Player)
+            else if (playerAsLeader == SupportStatus.Player)
             {
                 SupportStatus.Amount += amount;
             }
@@ -187,19 +203,21 @@ namespace PresidentialGameEngine.ClassLibrary
                 }
                 else
                 {
-                    SupportStatus.Player = Player.None;
+                    SupportStatus.Player = Leader.None;
                     SupportStatus.Amount = 0;
                 }
             }
         }
         public void LoseSupport(Player player, int amount)
         {
-            if (player == SupportStatus.Player)
+            var playerAsLeader = player.ToLeader();
+
+            if (playerAsLeader == SupportStatus.Player)
             {
                 SupportStatus.Amount -= amount;
                 if (SupportStatus.Amount <= 0)
                 {
-                    SupportStatus.Player = Player.None;
+                    SupportStatus.Player = Leader.None;
                     SupportStatus.Amount = 0;
                 }
             }

@@ -9,6 +9,14 @@ namespace PresidentialGameEngine.ConsoleRunner
         static void Main(string[] args)
         {
 
+
+            var holder = new PoliticalCapitalBag<Player>(new DefaultRandomnessProvider(), 12);
+
+            //holder.AddCubes(ZZZ.Kennedy, 12);
+            //holder.AddCubes(ZZZ.Nixon, 12);
+
+            var cube = holder.DrawCube();
+
             //var choices = new PlayerChosenChanges();
 
             //SupportChange<Issue> civilRightsSupportChange = new SupportChange<Issue>(Player.Kennedy, Issue.CivilRights, 1);
@@ -52,13 +60,13 @@ namespace PresidentialGameEngine.ConsoleRunner
 
                 switch (card.Candidate)
                 {
-                    case Candidate.Kennedy:
+                    case Affiliation.Kennedy:
                         Console.WriteLine("Donkey");
                         break;
-                    case Candidate.Nixon:
+                    case Affiliation.Nixon:
                         Console.WriteLine("Elephant");
                         break;
-                    case Candidate.Both:
+                    case Affiliation.Both:
                         Console.WriteLine("Both");
                         break;
                     default:

@@ -5,7 +5,7 @@ namespace PresidentialGameEngine.ClassLibrary.Data
     public class SupportStatus
     {
         public int Amount { get; set; }
-        public Player Player { get; set; }
+        public Leader Player { get; set; }
     }
 
 }
