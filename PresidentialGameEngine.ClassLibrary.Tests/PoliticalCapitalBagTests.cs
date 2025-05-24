@@ -180,5 +180,21 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
         #endregion
 
+        #region InititativeCheck Tests
+        [TestMethod]
+        public void SupportCheck_ExpectedValueReturned()
+        {
+            var seededRNG = new SeededRandomnessProviderForTesting();
+
+            var sut = new PoliticalCapitalBag<Player>(seededRNG, 12);
+
+            var result = sut.SupportCheck(Player.Kennedy, 4);
+
+            Assert.AreEqual(3, result);
+            Assert.AreEqual(20, sut.TotalCubesInBag);
+        }
+
+        #endregion
+
     }
 }

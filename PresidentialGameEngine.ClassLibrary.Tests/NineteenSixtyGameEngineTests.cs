@@ -7,6 +7,8 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
     public class NineteenSixtyGameEngineTests
     {
 
+        readonly SeededRandomnessProviderForTesting seed = new();
+
         //GetPlayerMomentum
         //GainMomentum
         //LoseMomentum
@@ -22,7 +24,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [DataRow(Leader.Kennedy, 3)]
         public void GetPlayerMomentum_PlayerMomentumReturnsExpected(Player player, int amount)
         {
-            NineteenSixtyGameEngine engine = new();
+            NineteenSixtyGameEngine engine = new(seed);
             var playerStartingMomentum = engine.GetPlayerMomentum(player);
             engine.GainMomentum(player, amount);
             Assert.AreEqual(engine.GetPlayerMomentum(player), playerStartingMomentum + amount);
@@ -36,7 +38,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [DataRow(Leader.Kennedy, 3)]
         public void GainMomentum_MomentumGainedAsExpected(Player player, int amount)
         {
-            NineteenSixtyGameEngine engine = new();
+            NineteenSixtyGameEngine engine = new(seed);
             var playerStartingMomentum = engine.GetPlayerMomentum(player);
             engine.GainMomentum(player, amount);
             Assert.AreEqual(engine.GetPlayerMomentum(player), playerStartingMomentum + amount);

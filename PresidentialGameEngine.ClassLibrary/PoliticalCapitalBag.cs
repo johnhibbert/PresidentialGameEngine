@@ -34,6 +34,24 @@ namespace PresidentialGameEngine.ClassLibrary
             }
         }
 
+        public int SupportCheck(T candidate, int checkAmount) 
+        {
+            int successes = 0;
+
+            int index = 0;
+
+            while(index < checkAmount) 
+            {
+                if(EqualityComparer<T>.Default.Equals(DrawCube(), candidate)) 
+                {
+                    successes++;
+                }
+                index++;
+            }
+
+            return successes;
+
+        }
 
         private void RefillBag() 
         {

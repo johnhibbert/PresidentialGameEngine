@@ -1,11 +1,12 @@
 ﻿using PresidentialGameEngine.ClassLibrary.Data;
 using PresidentialGameEngine.ClassLibrary.Enums;
+using PresidentialGameEngine.ClassLibrary.Interfaces;
 
 namespace PresidentialGameEngine.ClassLibrary
 {
     public class NineteenSixtyGameEngine
     {
-        public NineteenSixtyGameEngine()
+        public NineteenSixtyGameEngine(IRandomnessProvider randomnessProvider)
         {
             SupportOnIssues = new Dictionary<Issue, SupportContest>
             {
@@ -27,6 +28,8 @@ namespace PresidentialGameEngine.ClassLibrary
                 SupportInStates.Add(state, new SupportContest());
             }
 
+            PoliticalCapitalBag = new PoliticalCapitalBag<Player>(randomnessProvider, 12);
+
             int i = 0;
 
         }
@@ -44,6 +47,17 @@ namespace PresidentialGameEngine.ClassLibrary
             }
         }
 
+        PoliticalCapitalBag<Player> PoliticalCapitalBag;
+
+        public Player ConductInitiativeCheck() 
+        {
+            return PoliticalCapitalBag.InitiativeCheck();
+        }
+
+        public int ConductSupportCheck(Player player, int amount) 
+        {
+            return PoliticalCapitalBag.SupportCheck(player, amount);
+        }
 
         public int NixonMomentum { get; private set; }
 
