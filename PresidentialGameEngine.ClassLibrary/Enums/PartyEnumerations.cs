@@ -1,6 +1,11 @@
 ﻿namespace PresidentialGameEngine.ClassLibrary.Enums
 {
-    public enum Candidate
+    /// <summary>
+    /// Affiliation is the party symbol found on a card
+    /// The donkey, elephant, both symbols
+    /// or none for the Gathering Momentum cards
+    /// </summary>
+    public enum Affiliation
     {
         None = 0,
         Kennedy = 1,
@@ -8,15 +13,22 @@
         Both = 3,
     }
 
-    public enum Player 
+    /// <summary>
+    /// The leader in a specific contest, issue, state, etc
+    /// This can be none at any given moment.
+    /// </summary>
+    public enum Leader 
     {
         None = 0,
         Kennedy = 1,
         Nixon = 2,
     }
 
-    //Name placeholder for new enum for just players with no option for None.
-    public enum ZZZ
+    /// <summary>
+    /// Player refers strictly to the two players
+    /// with no option for none
+    /// </summary>
+    public enum Player
     {
         Kennedy = 1,
         Nixon = 2,
@@ -33,17 +45,28 @@
                 _ => throw new ArgumentException("Opponent Not Found"),
             };
         }
+
+        //Remove me later? It's unclear if this will have use.
+        public static Leader ToOpponent(this Leader value)
+        {
+            return value switch
+            {
+                Leader.Nixon => Leader.Kennedy,
+                Leader.Kennedy => Leader.Nixon,
+                _ => throw new ArgumentException("Opponent Not Found"),
+            };
+        }
     }
 
     //https://stackoverflow.com/questions/1818131/convert-an-enum-to-another-type-of-enum
     public static class CandidateToPlayerExtensions
     {
-        public static Player ToPlayer(this Candidate value)
+        public static Leader ToPlayer(this Affiliation value)
         {
             return value switch
             {
-                Candidate.Kennedy => Player.Kennedy,
-                Candidate.Nixon => Player.Nixon,
+                Affiliation.Kennedy => Leader.Kennedy,
+                Affiliation.Nixon => Leader.Nixon,
                 _ => throw new ArgumentException("Candidate Value Cannot Be Converted To Player"),
             };
         }
@@ -52,12 +75,12 @@
     //https://stackoverflow.com/questions/1818131/convert-an-enum-to-another-type-of-enum
     public static class PlayerToCandidateExtensions
     {
-        public static Candidate ToCandidate(this Player value)
+        public static Affiliation ToCandidate(this Leader value)
         {
             return value switch
             {
-                Player.Kennedy => Candidate.Kennedy,
-                Player.Nixon => Candidate.Nixon,
+                Leader.Kennedy => Affiliation.Kennedy,
+                Leader.Nixon => Affiliation.Nixon,
                 _ => throw new ArgumentException("Player Value Cannot Be Converted To Candidate"),
             };
         }

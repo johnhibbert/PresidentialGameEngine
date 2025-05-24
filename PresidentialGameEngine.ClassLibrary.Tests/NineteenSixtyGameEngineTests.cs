@@ -18,9 +18,9 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #region GetPlayerMomentum Tests
 
         [TestMethod]
-        [DataRow(Player.Nixon, 1)]
-        [DataRow(Player.Kennedy, 3)]
-        public void GetPlayerMomentum_PlayerMomentumReturnsExpected(Player player, int amount)
+        [DataRow(Leader.Nixon, 1)]
+        [DataRow(Leader.Kennedy, 3)]
+        public void GetPlayerMomentum_PlayerMomentumReturnsExpected(Leader player, int amount)
         {
             NineteenSixtyGameEngine engine = new();
             var playerStartingMomentum = engine.GetPlayerMomentum(player);
@@ -32,9 +32,9 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
         #region GainMomentum Tests
         [TestMethod]
-        [DataRow(Player.Nixon, 1)]
-        [DataRow(Player.Kennedy, 3)]
-        public void GainMomentum_MomentumGainedAsExpected(Player player, int amount)
+        [DataRow(Leader.Nixon, 1)]
+        [DataRow(Leader.Kennedy, 3)]
+        public void GainMomentum_MomentumGainedAsExpected(Leader player, int amount)
         {
             NineteenSixtyGameEngine engine = new();
             var playerStartingMomentum = engine.GetPlayerMomentum(player);
@@ -45,9 +45,9 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
         #region LoseMomentum Tests
         [TestMethod]
-        [DataRow(Player.Nixon, 1)]
-        [DataRow(Player.Kennedy, 3)]
-        public void LoseMomentum_MomentumGainedAsExpected(Player player, int amount)
+        [DataRow(Leader.Nixon, 1)]
+        [DataRow(Leader.Kennedy, 3)]
+        public void LoseMomentum_MomentumGainedAsExpected(Leader player, int amount)
         {
             //NineteenSixtyGameEngine engine = new();
             //var playerStartingMomentum = engine.GetPlayerMomentum(player);

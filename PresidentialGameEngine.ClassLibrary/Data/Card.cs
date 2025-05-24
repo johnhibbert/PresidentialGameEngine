@@ -2,7 +2,7 @@
 
 namespace PresidentialGameEngine.ClassLibrary.Data
 {
-    public class Card(int index, string title, string eventText, int campaignPoints, Issue issue, Candidate candidate, State state)
+    public class Card(int index, string title, string eventText, int campaignPoints, Issue issue, Affiliation candidate, State state)
     {
         public int Index { get; internal set; } = index;
 
@@ -19,13 +19,13 @@ namespace PresidentialGameEngine.ClassLibrary.Data
 
         public Issue Issue { get; internal set; } = issue;
 
-        public Candidate Candidate { get; internal set; } = candidate;
+        public Affiliation Candidate { get; internal set; } = candidate;
 
         public State State { get; internal set; } = state;
 
         public Predicate<PlayerChosenChanges> AreChangesValid { get; internal set; }
 
-        public Action<NineteenSixtyGameEngine, Player, PlayerChosenChanges> Event { get; internal set; }
+        public Action<NineteenSixtyGameEngine, Leader, PlayerChosenChanges> Event { get; internal set; }
 
         public override string ToString()
         {

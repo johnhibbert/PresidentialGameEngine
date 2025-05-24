@@ -49,11 +49,11 @@ namespace PresidentialGameEngine.ClassLibrary
 
         public int KennedyMomentum { get; private set; }
 
-        public int GetPlayerMomentum(Player player)
+        public int GetPlayerMomentum(Leader player)
         {
             switch (player)
             {
-                case Player.Kennedy:
+                case Leader.Kennedy:
                     return KennedyMomentum;
                 default:
                     return NixonMomentum;
@@ -61,31 +61,31 @@ namespace PresidentialGameEngine.ClassLibrary
             }
         }
 
-        public void GainMomentum(Player player, int amount)
+        public void GainMomentum(Leader player, int amount)
         {
             switch (player)
             {
-                case Player.Nixon:
+                case Leader.Nixon:
                     NixonMomentum += amount;
                     break;
-                case Player.Kennedy:
+                case Leader.Kennedy:
                     KennedyMomentum += amount;
                     break;
             }
         }
 
-        public void LoseMomentum(Player player, int amount)
+        public void LoseMomentum(Leader player, int amount)
         {
             switch (player)
             {
-                case Player.Nixon:
+                case Leader.Nixon:
                     NixonMomentum -= amount;
                     if (NixonMomentum < 0)
                     {
                         NixonMomentum = 0;
                     }
                     break;
-                case Player.Kennedy:
+                case Leader.Kennedy:
                     KennedyMomentum -= amount;
                     if (KennedyMomentum < 0)
                     {
@@ -97,12 +97,12 @@ namespace PresidentialGameEngine.ClassLibrary
 
         public Dictionary<State, SupportContest> SupportInStates { get; private set; }
 
-        public void GainStateSupport(Player player, State state, int amount)
+        public void GainStateSupport(Leader player, State state, int amount)
         {
             SupportInStates[state].GainSupport(player, amount);
         }
 
-        public void LoseStateSupport(Player player, State state, int amount)
+        public void LoseStateSupport(Leader player, State state, int amount)
         {
             SupportInStates[state].LoseSupport(player, amount);
         }
@@ -110,12 +110,12 @@ namespace PresidentialGameEngine.ClassLibrary
         //Possibly rename me?
         public Dictionary<Issue, SupportContest> SupportOnIssues { get; private set; }
 
-        public void GainIssueSupport(Player player, Issue issue, int amount)
+        public void GainIssueSupport(Leader player, Issue issue, int amount)
         {
             SupportOnIssues[issue].GainSupport(player, amount);
         }
 
-        public void LoseIssueSupport(Player player, Issue issue, int amount)
+        public void LoseIssueSupport(Leader player, Issue issue, int amount)
         {
             SupportOnIssues[issue].LoseSupport(player, amount);
         }
@@ -140,7 +140,7 @@ namespace PresidentialGameEngine.ClassLibrary
             }
         }
 
-        public Player GetIssueLeader(Issue issue)
+        public Leader GetIssueLeader(Issue issue)
         {
             return SupportOnIssues[issue].SupportStatus.Player;
         }
@@ -163,9 +163,9 @@ namespace PresidentialGameEngine.ClassLibrary
 
         public SupportStatus SupportStatus { get; internal set; }
 
-        public void GainSupport(Player player, int amount)
+        public void GainSupport(Leader player, int amount)
         {
-            if (SupportStatus.Amount == 0 && SupportStatus.Player == Player.None)
+            if (SupportStatus.Amount == 0 && SupportStatus.Player == Leader.None)
             {
                 SupportStatus.Amount = amount;
                 SupportStatus.Player = player;
@@ -187,19 +187,19 @@ namespace PresidentialGameEngine.ClassLibrary
                 }
                 else
                 {
-                    SupportStatus.Player = Player.None;
+                    SupportStatus.Player = Leader.None;
                     SupportStatus.Amount = 0;
                 }
             }
         }
-        public void LoseSupport(Player player, int amount)
+        public void LoseSupport(Leader player, int amount)
         {
             if (player == SupportStatus.Player)
             {
                 SupportStatus.Amount -= amount;
                 if (SupportStatus.Amount <= 0)
                 {
-                    SupportStatus.Player = Player.None;
+                    SupportStatus.Player = Leader.None;
                     SupportStatus.Amount = 0;
                 }
             }
