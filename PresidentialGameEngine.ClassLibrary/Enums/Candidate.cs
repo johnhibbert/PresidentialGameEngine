@@ -15,6 +15,13 @@
         Nixon = 2,
     }
 
+    //Name placeholder for new enum for just players with no option for None.
+    public enum ZZZ
+    {
+        Kennedy = 1,
+        Nixon = 2,
+    }
+
     public static class PlayerToOpponentExtensions
     {
         public static Player ToOpponent(this Player value)
