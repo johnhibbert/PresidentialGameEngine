@@ -1,8 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PresidentialGameEngine.ClassLibrary.Enums;
 using PresidentialGameEngine.ClassLibrary.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -128,5 +130,55 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Assert.AreEqual(expectedTotal, sut.TotalCubesInBag);
         }
         #endregion
+
+        #region DrawCube Tests
+
+        [TestMethod]
+        public void DrawCube_CubeIsExpectedAndRemoved()
+        {
+            var seededRNG = new SeededRandomnessProviderForTesting();
+
+            var sut = new PoliticalCapitalBag<Player>(seededRNG, 12);
+
+            var result = sut.DrawCube();
+
+            //Seeded value is expected to be Kennedy
+            Assert.AreEqual(Player.Kennedy, result);
+            Assert.AreEqual(23, sut.TotalCubesInBag);
+        }
+
+        [TestMethod]
+        public void DrawCube_FinalCubeTakenSupplyRefreshed()
+        {
+            var seededRNG = new SeededRandomnessProviderForTesting();
+
+            var sut = new PoliticalCapitalBag<Player>(seededRNG, 2);
+
+            sut.DrawCube();
+            sut.DrawCube();
+            sut.DrawCube();
+            sut.DrawCube();
+
+            Assert.AreEqual(4, sut.TotalCubesInBag);
+        }
+
+        #endregion
+
+        #region InititativeCheck Tests
+        [TestMethod]
+        public void InititativeCheck_ExpectedValueReturned()
+        {
+            var seededRNG = new SeededRandomnessProviderForTesting();
+
+            var sut = new PoliticalCapitalBag<Player>(seededRNG, 12);
+
+            var result = sut.InitiativeCheck();
+
+            Assert.AreEqual(Player.Kennedy, result);
+            Assert.AreEqual(22, sut.TotalCubesInBag);
+        }
+
+        #endregion
+
     }
 }

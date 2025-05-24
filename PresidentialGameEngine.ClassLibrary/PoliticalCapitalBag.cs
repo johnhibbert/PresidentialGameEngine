@@ -37,9 +37,10 @@ namespace PresidentialGameEngine.ClassLibrary
 
         private void RefillBag() 
         {
+
             foreach (T val in (T[])Enum.GetValues(typeof(T)))
             {
-                cubes.Add(val, InitialCubePopulation);
+                cubes[val] = InitialCubePopulation;
             }
         }
 
@@ -50,22 +51,19 @@ namespace PresidentialGameEngine.ClassLibrary
 
         public T InitiativeCheck()
         {
-            throw new NotImplementedException();
-            //var drawOne = 
+            T firstDraw = DrawCube();
+            T secondDraw = DrawCube();
+
+            if(EqualityComparer<T>.Default.Equals(firstDraw, secondDraw))
+            {
+                return firstDraw;
+            }
+            else { return DrawCube();}
         }
 
         public T DrawCube() 
         {
-            //Hmm how to iterate over this and get what we expect.
-
-            //T ReturnValue;
-
-            int fullSum = 0;
-
-            foreach (T val in (T[])Enum.GetValues(typeof(T)))
-            {
-                fullSum += cubes[val];
-            }
+            int fullSum = TotalCubesInBag;
 
             var num = rng.GetRandomNumber(fullSum);
             var valueFound = false;
@@ -76,27 +74,19 @@ namespace PresidentialGameEngine.ClassLibrary
                 if (valueFound == false && num <= 0) 
                 {
                     cubes[val]--;
+
+                    if(TotalCubesInBag == 0) 
+                    {
+                        RefillBag();
+                    }
+
                     return val;
                 }
             }
 
             //What kind should this be?  This shouldn't be possible, at first glance.
             throw new Exception();
-           // return ReturnValue;
 
         }
-
-        //public Candidate DrawCube() 
-        //{
-        //    //var drawnCube = rng.Next(NixonCubes + KennedyCubes) < NixonCubes ? Candidate.Nixon : Candidate.Kennedy;
-
-
-
-        //    //I think this would work?
-        //    //return rng.Next(NixonCubes + KennedyCubes) < NixonCubes ? Candidate.Nixon: Candidate.Kennedy;
-
-        //}
-
-
     }
 }
