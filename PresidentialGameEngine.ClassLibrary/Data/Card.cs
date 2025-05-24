@@ -25,7 +25,7 @@ namespace PresidentialGameEngine.ClassLibrary.Data
 
         public Predicate<PlayerChosenChanges> AreChangesValid { get; internal set; }
 
-        public Action<NineteenSixtyGameEngine, Leader, PlayerChosenChanges> Event { get; internal set; }
+        public Action<NineteenSixtyGameEngine, Player, PlayerChosenChanges> Event { get; internal set; }
 
         public override string ToString()
         {

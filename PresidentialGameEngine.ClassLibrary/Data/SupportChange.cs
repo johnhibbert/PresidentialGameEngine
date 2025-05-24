@@ -2,9 +2,9 @@
 
 namespace PresidentialGameEngine.ClassLibrary.Data
 {
-    public class SupportChange<T>(Leader player, T target, int change) where T: Enum 
+    public class SupportChange<T>(Player player, T target, int change) where T: Enum 
     {
-        public Leader Player { get; internal set; } = player;
+        public Player Player { get; internal set; } = player;
 
         public T Target { get; internal set; } = target;
 

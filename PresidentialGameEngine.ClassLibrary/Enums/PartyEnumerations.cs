@@ -34,7 +34,7 @@
         Nixon = 2,
     }
 
-    public static class PlayerToOpponentExtensions
+    public static class PartyEnumerationExtensions
     {
         public static Player ToOpponent(this Player value)
         {
@@ -56,6 +56,32 @@
                 _ => throw new ArgumentException("Opponent Not Found"),
             };
         }
+
+
+
+
+        public static Leader ToLeader(this Player value)
+        {
+            return value switch
+            {
+                Player.Kennedy => Leader.Kennedy,
+                Player.Nixon => Leader.Nixon,
+                _ => throw new ArgumentException("Candidate Value Cannot Be Converted To Player"),
+            };
+        }
+
+
+
+        public static Player ToPlayer(this Leader value)
+        {
+            return value switch
+            {
+                Leader.Kennedy => Player.Kennedy,
+                Leader.Nixon => Player.Nixon,
+                _ => throw new ArgumentException("Candidate Value Cannot Be Converted To Player"),
+            };
+        }
+
     }
 
     //https://stackoverflow.com/questions/1818131/convert-an-enum-to-another-type-of-enum
