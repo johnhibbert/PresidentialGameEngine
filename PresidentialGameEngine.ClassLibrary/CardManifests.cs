@@ -45,7 +45,20 @@ namespace PresidentialGameEngine.ClassLibrary
                     },
                 }
             },
-            //new Card(7, "Late Returns From Cook County"),
+            {7, new Card(7, "Late Returns From Cook County", "ELECTION DAY EVENT!  On Election Day, the Kennedy player gains 5 support checks in Illinois.", 2, Issue.Economy, Affiliation.Kennedy, State.SC)
+                {
+                    Event = (engine, player, choices) => {
+                        //engine.GainMomentum(player, 1);
+                        var successes = engine.ConductSupportCheck(Player.Kennedy, 5);
+                        engine.GainStateSupport(Player.Kennedy, State.IL, successes);
+                    },
+                    AreChangesValid = (choices) =>
+                    {
+						//This has no player choices.
+						return true;
+                    },
+                }
+            },
             {8, new Card(8, "Soviet Economic Growth", "Economy moves up one space on the Issue Track.  The leader in Economy gains 1 state support in New York.", 2, Issue.Economy, Affiliation.Both, State.NH)
                 {
                     Event = (engine, player, choices) => {
@@ -351,9 +364,37 @@ namespace PresidentialGameEngine.ClassLibrary
                     },
                 }
             },
-            //new Card(90, "Recount"),
+            {90, new Card(90, "Recount", "ELECTION DAY EVENT!  On Election Day, the Nixon player gains 3 support checks in any one state.", 4, Issue.CivilRights, Affiliation.Nixon, State.TX)
+                {
+                    Event = (engine, player, choices) => {
+                        //engine.GainMomentum(player, 1);
+                        var successes = engine.ConductSupportCheck(Player.Nixon, 3);
+
+                        choices.StateChanges.First().Change = successes;
+
+                        engine.ImplementChanges(choices);
+
+                        //engine.GainStateSupport(Player.Kennedy, State.IL, successes);
+
+
+
+
+
+                    },
+                    AreChangesValid = (choices) =>
+                    {
+
+                        var threePointsOfStateChanges = choices.TotalStateChanges == 3;
+                        var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
+                        var onlyOneState = choices.StateChanges.Select(x => x.Target).Count() == 1;
+                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([ChangeType.StateSupport]);
+
+                        return threePointsOfStateChanges && statePlayerIsOnlyNixon && AndOnlyThisTypeOfTest;
+                    },
+                }
+            },
             //new Card(91, "Political Capital"),
-            
+
             };
 
         private static readonly Dictionary<int, Card> GMT_OnlyCards = new()

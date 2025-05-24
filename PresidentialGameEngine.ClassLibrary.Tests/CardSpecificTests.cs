@@ -3,6 +3,7 @@ using PresidentialGameEngine.ClassLibrary.Data;
 using PresidentialGameEngine.ClassLibrary.Enums;
 using PresidentialGameEngine.ClassLibrary.Interfaces;
 using System.Numerics;
+using static PresidentialGameEngine.ClassLibrary.Tests.TestStubsFakesAndMocks;
 
 namespace PresidentialGameEngine.ClassLibrary.Tests
 {
@@ -173,6 +174,26 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Assert.IsFalse(result);
         }
 
+        #endregion
+
+        #region 7 - Late Returns From Cook County
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void LateReturnsFromCookCounty_7_SupportCheckWorksAsExpected(Player player)
+        {
+            int cardIndex = 7;
+
+            NineteenSixtyGameEngine engine = new(seed);
+            engine.GainStateSupport(Player.Nixon, State.IL, 2);
+
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+
+            sut.Event(engine, player, emptyChanges);
+
+            Assert.AreEqual(Leader.Kennedy, engine.SupportInStates[State.IL].SupportStatus.Player);
+            Assert.AreEqual(2, engine.SupportInStates[State.IL].SupportStatus.Amount);
+        }
         #endregion
 
         #region #8 - Soviet Economic Growth
@@ -1145,7 +1166,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
         #endregion
 
-        #region #78 Stock Market In Decline
+        #region #78 - Stock Market In Decline
 
         [TestMethod]
         [DataRow(Player.Nixon)]
@@ -1401,6 +1422,90 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             Assert.IsTrue(result);
         }
+        #endregion
+
+        #region #90 - Recount
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void Recount_90_SupportCheckWorksAsExpected(Player player)
+        {
+            int cardIndex = 90;
+
+            NineteenSixtyGameEngine engine = new(seed);
+            engine.GainStateSupport(Player.Kennedy, State.TX, 1);
+
+            PlayerChosenChanges playerChoices = new PlayerChosenChanges();
+            var threeSupportInTexas = new SupportChange<State>(Player.Nixon, State.TX, 3);
+            playerChoices.StateChanges.Add(threeSupportInTexas);
+
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+
+            sut.Event(engine, player, playerChoices);
+
+            Assert.AreEqual(Leader.None, engine.SupportInStates[State.TX].SupportStatus.Player);
+            Assert.AreEqual(0, engine.SupportInStates[State.TX].SupportStatus.Amount);
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void Recount_90_FailsValidationIfNixonGains(Player player)
+        {
+            int cardIndex = 90;
+
+            NineteenSixtyGameEngine engine = new(seed);
+
+            PlayerChosenChanges playerChoices = new PlayerChosenChanges();
+            var threeSupportInKentucky = new SupportChange<State>(Player.Kennedy, State.KY, 3);
+
+            playerChoices.StateChanges.Add(threeSupportInKentucky);
+
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void Recount_90_FailsValidationIfIssueGains(Player player)
+        {
+            int cardIndex = 90;
+
+            NineteenSixtyGameEngine engine = new(seed);
+
+            PlayerChosenChanges playerChoices = new PlayerChosenChanges();
+            var threeSupportInKentucky = new SupportChange<State>(Player.Kennedy, State.KY, 3);
+            var issueSupport = new SupportChange<Issue>(Player.Kennedy, Issue.Defense, 1);
+
+            playerChoices.StateChanges.Add(threeSupportInKentucky);
+            playerChoices.IssueChanges.Add(issueSupport);
+
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void Recount_90_FailsValidationIfGreaterThanThree(Player player)
+        {
+            int cardIndex = 90;
+
+            NineteenSixtyGameEngine engine = new(seed);
+
+            PlayerChosenChanges playerChoices = new PlayerChosenChanges();
+            var threeSupportInKentucky = new SupportChange<State>(Player.Kennedy, State.KY, 4);
+
+            playerChoices.StateChanges.Add(threeSupportInKentucky);
+
+            var sut = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+
         #endregion
 
         #region #93 - Experience Counts

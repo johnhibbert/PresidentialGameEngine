@@ -7,7 +7,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public class SeededRandomnessProviderForTesting : IRandomnessProvider
         {
             //Seeded for consistency
-            private readonly Random Random = new(5);
+            private readonly Random Random = new(60);
 
             public int GetRandomNumber(int maxValue)
             {

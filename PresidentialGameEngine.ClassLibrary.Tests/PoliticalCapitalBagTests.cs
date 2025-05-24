@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
+using static PresidentialGameEngine.ClassLibrary.Tests.TestStubsFakesAndMocks;
 
 namespace PresidentialGameEngine.ClassLibrary.Tests
 {
@@ -32,16 +33,17 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         ElementFive,
     }
 
-    class SeededRandomnessProviderForTesting : IRandomnessProvider
-    {
-        //Seeded for consistency
-        private readonly Random Random = new(5);
+    //class SeededRandomnessProviderForTesting : IRandomnessProvider
+    //{
+    //    //Seeded for consistency
+    //    //Was 5 but that was 3 straight kennedies.
+    //    private readonly Random Random = new(1960);
 
-        public int GetRandomNumber(int maxValue)
-        {
-            return Random.Next(maxValue);
-        }
-    }
+    //    public int GetRandomNumber(int maxValue)
+    //    {
+    //        return Random.Next(maxValue);
+    //    }
+    //}
 
     [TestClass]
     public class PoliticalCapitalBagTests
