@@ -10,6 +10,13 @@ namespace PresidentialGameEngine.ConsoleRunner
         {
 
 
+
+            var generic = new GenericPresidentialGameEngine();
+
+            generic.GainMomentum(Player.Nixon, 2);
+            generic.LoseMomentum(Player.Nixon, 1);
+
+
             var holder = new PoliticalCapitalBag<Player>(new DefaultRandomnessProvider(), 12);
 
             //holder.AddCubes(ZZZ.Kennedy, 12);

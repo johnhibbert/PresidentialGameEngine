@@ -1,10 +1,20 @@
-﻿using PresidentialGameEngine.ClassLibrary.Data;
+﻿using PresidentialGameEngine.ClassLibrary.Abstracts;
+using PresidentialGameEngine.ClassLibrary.Data;
 using PresidentialGameEngine.ClassLibrary.Enums;
 using PresidentialGameEngine.ClassLibrary.Interfaces;
 
 namespace PresidentialGameEngine.ClassLibrary
 {
-    public class NineteenSixtyGameEngine
+
+    public class GenericPresidentialGameEngine : GameOfMomentum<Player>
+    {
+        public GenericPresidentialGameEngine() : base()
+        {
+            
+        }
+    }
+
+    public class NineteenSixtyGameEngine: GameOfMomentum<Player>
     {
         public NineteenSixtyGameEngine(IRandomnessProvider randomnessProvider)
         {
@@ -54,56 +64,6 @@ namespace PresidentialGameEngine.ClassLibrary
         public int ConductSupportCheck(Player player, int amount) 
         {
             return PoliticalCapitalBag.SupportCheck(player, amount);
-        }
-
-        public int NixonMomentum { get; private set; }
-
-        public int KennedyMomentum { get; private set; }
-
-        public int GetPlayerMomentum(Player player)
-        {
-            switch (player)
-            {
-                case Player.Kennedy:
-                    return KennedyMomentum;
-                default:
-                    return NixonMomentum;
-
-            }
-        }
-
-        public void GainMomentum(Player player, int amount)
-        {
-            switch (player)
-            {
-                case Player.Nixon:
-                    NixonMomentum += amount;
-                    break;
-                case Player.Kennedy:
-                    KennedyMomentum += amount;
-                    break;
-            }
-        }
-
-        public void LoseMomentum(Player player, int amount)
-        {
-            switch (player)
-            {
-                case Player.Nixon:
-                    NixonMomentum -= amount;
-                    if (NixonMomentum < 0)
-                    {
-                        NixonMomentum = 0;
-                    }
-                    break;
-                case Player.Kennedy:
-                    KennedyMomentum -= amount;
-                    if (KennedyMomentum < 0)
-                    {
-                        KennedyMomentum = 0;
-                    }
-                    break;
-            }
         }
 
         public Dictionary<State, SupportContest> SupportInStates { get; private set; }
