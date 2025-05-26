@@ -11,6 +11,10 @@ namespace PresidentialGameEngine.ClassLibrary.Interfaces
         where LeadersEnum : Enum
         where SubjectEnum : Enum
     {
+        public LeadersEnum GetLeader(SubjectEnum subject);
+
+        public int GetSupportAmount(SubjectEnum subject);
+
         public void GainSupport(PlayersEnum player, SubjectEnum state, int amount);
 
         public void LoseSupport(PlayersEnum player, SubjectEnum state, int amount);

@@ -2,17 +2,19 @@
 
 namespace PresidentialGameEngine.ClassLibrary.Data
 {
-    public class PlayerChosenChanges
+    public class PlayerChosenChanges<PlayersEnum, IssuesEnum, StatesEnum>
+        where PlayersEnum : Enum
+        where IssuesEnum : Enum
+        where StatesEnum : Enum
     {
+        public List<SupportChange<PlayersEnum, IssuesEnum>> IssueChanges { get; internal set; }
+        public List<SupportChange<PlayersEnum, StatesEnum>> StateChanges { get; internal set; }
+
         public PlayerChosenChanges()
         {
             IssueChanges = [];
             StateChanges = [];
         }
-
-        public List<SupportChange<Issue>> IssueChanges { get; internal set; }
-        public List<SupportChange<State>> StateChanges { get; internal set; }
-
         public int TotalIssueChanges
         {
             get { return IssueChanges.Select(x => x.Change).Sum(); }
@@ -24,7 +26,7 @@ namespace PresidentialGameEngine.ClassLibrary.Data
 
         }
 
-        public int HighestStateChange 
+        public int HighestStateChange
         {
             get { return StateChanges.Max(x => x.Change); }
         }
@@ -33,7 +35,7 @@ namespace PresidentialGameEngine.ClassLibrary.Data
         {
             bool returnValue = true;
 
-            foreach (ChangeType changeType in Enum.GetValues(typeof(ChangeType))) 
+            foreach (ChangeType changeType in Enum.GetValues(typeof(ChangeType)))
             {
                 bool included = changeTypes.Contains(changeType);
 
@@ -56,12 +58,10 @@ namespace PresidentialGameEngine.ClassLibrary.Data
 
             return returnValue;
         }
-    }
 
-    public enum ChangeType
-    { 
-        IssueSupport,
-        StateSupport,
+
     }
 
 }
+
+
