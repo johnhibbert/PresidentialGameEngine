@@ -1,4 +1,4 @@
-﻿using PresidentialGameEngine.ClassLibrary.Abstracts;
+﻿using PresidentialGameEngine.ClassLibrary.Components;
 using PresidentialGameEngine.ClassLibrary.Data;
 using PresidentialGameEngine.ClassLibrary.Enums;
 using PresidentialGameEngine.ClassLibrary.Interfaces;
@@ -6,15 +6,30 @@ using PresidentialGameEngine.ClassLibrary.Interfaces;
 namespace PresidentialGameEngine.ClassLibrary
 {
 
-    public class GenericPresidentialGameEngine : GameOfSupport<Player, Leader, Issue>
+    public class GenericPresidentialGameEngine : ISupportComponent<Player, Leader, Issue>
     {
-        public GenericPresidentialGameEngine() : base()
+        SupportComponent<Player, Leader, Issue> supportComponent;
+
+        public GenericPresidentialGameEngine() 
         {
-            
+            supportComponent = new Components.SupportComponent<Player, Leader, Issue>();
+       
+
+        
+        }
+
+        public void GainSupport(Player player, Issue state, int amount)
+        {
+            supportComponent.GainSupport(player, state, amount);
+        }
+
+        public void LoseSupport(Player player, Issue state, int amount)
+        {
+            supportComponent.LoseSupport(player, state, amount);
         }
     }
 
-    public class NineteenSixtyGameEngine: GameOfMomentum<Player>
+    public class NineteenSixtyGameEngine: MomentumComponent<Player>
     {
         public NineteenSixtyGameEngine(IRandomnessProvider randomnessProvider)
         {

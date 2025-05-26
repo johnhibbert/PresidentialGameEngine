@@ -1,10 +1,11 @@
-﻿namespace PresidentialGameEngine.ClassLibrary.Abstracts
+﻿namespace PresidentialGameEngine.ClassLibrary.Components
 {
-    public abstract class GameOfMomentum<PlayersEnum> where PlayersEnum : Enum
+    public class MomentumComponent<PlayersEnum>
+        where PlayersEnum : Enum
     {
         public Dictionary<PlayersEnum, int> PlayerMomentum { get; init; }
 
-        protected GameOfMomentum()
+        public MomentumComponent()
         {
             PlayerMomentum = [];
 

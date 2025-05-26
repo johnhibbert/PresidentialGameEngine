@@ -1,23 +1,19 @@
-﻿using PresidentialGameEngine.ClassLibrary.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+﻿using PresidentialGameEngine.ClassLibrary.Interfaces;
 
-namespace PresidentialGameEngine.ClassLibrary.Abstracts
+namespace PresidentialGameEngine.ClassLibrary.Components
 {
-    public abstract class GameOfSupport<PlayersEnum, LeadersEnum, SubjectEnum> 
+    public class SupportComponent<PlayersEnum, LeadersEnum, SubjectEnum> :
+        ISupportComponent<PlayersEnum, LeadersEnum, SubjectEnum>
         where PlayersEnum : Enum
         where LeadersEnum : Enum
         where SubjectEnum : Enum
+         
     {
         private readonly LeadersEnum defaultLeader = (LeadersEnum) Enum.ToObject(typeof(LeadersEnum), 0);
 
         public Dictionary<SubjectEnum, NewSupportStatus<LeadersEnum>> SubjectContests { get; init; }
 
-        protected GameOfSupport()
+        public SupportComponent()
         {
             SubjectContests = [];
 
