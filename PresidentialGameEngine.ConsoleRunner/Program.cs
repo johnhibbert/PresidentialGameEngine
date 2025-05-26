@@ -10,15 +10,17 @@ namespace PresidentialGameEngine.ConsoleRunner
         static void Main(string[] args)
         {
 
+            var random = new DefaultRandomnessProvider();
 
             var momentumComp = new MomentumComponent<Player>();
             var issueSupportComp = new SupportComponent<Player, Leader, Issue>();
             var stateSupportComp = new SupportComponent<Player, Leader, State>();
             var issuePositioningComp = new PositioningComponent<Issue>();
+            var politicalCapitalComp = new PoliticalCapitalComponent<Player>(random, 12);
 
             var generic = new GenericPresidentialGameEngine<Player, Leader, Issue, State>
                 (
-                    momentumComp, issueSupportComp, stateSupportComp, issuePositioningComp
+                    momentumComp, issueSupportComp, stateSupportComp, issuePositioningComp, politicalCapitalComp
                 );
 
             generic.GainMomentum(Player.Nixon, 2);
@@ -31,11 +33,12 @@ namespace PresidentialGameEngine.ConsoleRunner
             generic.LoseSupport(Player.Nixon, State.AK, 2);
 
             List<Issue> newIssueOrder = [Issue.CivilRights, Issue.Defense, Issue.Economy];
-
             generic.SetIssueOrder(newIssueOrder);
-
             generic.MoveIssueUp(Issue.Economy);
 
+            var initiative = generic.InitiativeCheck();
+            var support = generic.SupportCheck(Player.Nixon, 3);
+            generic.AddCubes(Player.Kennedy, 2);
 
             var holder = new PoliticalCapitalBag<Player>(new DefaultRandomnessProvider(), 12);
 
