@@ -2,9 +2,18 @@
 using PresidentialGameEngine.ClassLibrary.Data;
 using PresidentialGameEngine.ClassLibrary.Enums;
 using PresidentialGameEngine.ClassLibrary.Interfaces;
+using System.Runtime;
 
 namespace PresidentialGameEngine.ClassLibrary
 {
+
+    public class NineteenSixtyGameEngine : GenericPresidentialGameEngine<Player, Leader, Issue, State>
+    {
+        public NineteenSixtyGameEngine(IMomentumComponent<Player> momentumComponent, ISupportComponent<Player, Leader, Issue> issueSupportComponent, ISupportComponent<Player, Leader, State> stateSupportComponent, IPositioningComponent<Issue> issuePositioningComponent, IPoliticalCapitalComponent<Player> politicalCapitalComponent) : base(momentumComponent, issueSupportComponent, stateSupportComponent, issuePositioningComponent, politicalCapitalComponent)
+        {
+        }
+    }
+
 
     //We don't want to directly inherit SupportComponent because that's doing double duty.
     //So direct inheritance isn't really doing a ton in this particular spot except for mild clarity?
@@ -36,6 +45,12 @@ namespace PresidentialGameEngine.ClassLibrary
             IssuePositioningComponent = issuePositioningComponent;
             PoliticalCapitalComponent = politicalCapitalComponent;
         }
+
+        public IssuesEnum[] IssueOrder
+        {
+            get { return IssuePositioningComponent.GetSubjectOrder.ToArray(); }
+        }
+
 
         public void GainMomentum(PlayersEnum player, int amount)
         {
@@ -82,6 +97,26 @@ namespace PresidentialGameEngine.ClassLibrary
             IssuePositioningComponent.MoveSubjectUp(issue);
         }
 
+        public LeadersEnum GetLeader(IssuesEnum issue)
+        {
+            return IssueSupportComponent.GetLeader(issue);
+        }
+
+        public LeadersEnum GetLeader(StatesEnum state)
+        {
+            return StateSupportComponent.GetLeader(state);
+        }
+
+        public int GetSupportAmount(IssuesEnum issue) 
+        {
+            return IssueSupportComponent.GetSupportAmount(issue);
+        }
+
+        public int GetSupportAmount(StatesEnum state)
+        {
+            return StateSupportComponent.GetSupportAmount(state);
+        }
+
         public PlayersEnum InitiativeCheck()
         {
             return PoliticalCapitalComponent.InitiativeCheck();
@@ -113,6 +148,7 @@ namespace PresidentialGameEngine.ClassLibrary
         }
 
     }
+    /*
     public class NineteenSixtyGameEngine: MomentumComponent<Player>
     {
         public NineteenSixtyGameEngine(IRandomnessProvider randomnessProvider)
@@ -280,5 +316,5 @@ namespace PresidentialGameEngine.ClassLibrary
         }
 
     }
-
+    */
 }

@@ -29,6 +29,16 @@ namespace PresidentialGameEngine.ClassLibrary.Components
             }
         }
 
+        public LeadersEnum GetLeader(SubjectEnum subject) 
+        {
+            return SubjectContests[subject].Leader;
+        }
+
+        public int GetSupportAmount(SubjectEnum subject) 
+        {
+            return SubjectContests[subject].Amount;
+        }
+
         public void GainSupport(PlayersEnum player, SubjectEnum state, int amount)
         {
             var stateContest = SubjectContests[state];
@@ -53,7 +63,7 @@ namespace PresidentialGameEngine.ClassLibrary.Components
                 }
                 else 
                 {
-                    stateContest.Amount += amount;
+                    stateContest.Amount = amount - stateContest.Amount;
                     stateContest.Leader = (LeadersEnum)Enum.ToObject(typeof(LeadersEnum), playerAsInt);
                 }
             }
@@ -93,11 +103,13 @@ namespace PresidentialGameEngine.ClassLibrary.Components
         where PlayersEnum : Enum 
         where TargetEnum : Enum
     {
+
         public PlayersEnum Player { get; init; } = player;
 
         public TargetEnum Target { get; init; } = target;
 
-        public int Change { get; init; } = change;
+        //This is not init because we will want to deduct these after support checks.
+        public int Change { get; set; } = change;
     }
 
     public class NewPlayerChosenChanges<PlayersEnum, IssuesEnum, StatesEnum>

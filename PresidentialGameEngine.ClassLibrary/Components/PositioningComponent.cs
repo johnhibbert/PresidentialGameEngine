@@ -7,6 +7,8 @@ namespace PresidentialGameEngine.ClassLibrary.Components
     {
         private List<SubjectEnum> SubjectOrder { get; set; }
 
+        public IEnumerable<SubjectEnum> GetSubjectOrder => SubjectOrder;
+
         public PositioningComponent()
         {
             SubjectOrder = [];
