@@ -40,6 +40,20 @@ namespace PresidentialGameEngine.ConsoleRunner
             var support = generic.SupportCheck(Player.Nixon, 3);
             generic.AddCubes(Player.Kennedy, 2);
 
+
+            //NewPlayerChosenChanges
+            //NewSupportChange
+
+            NewSupportChange<Player, Issue> nixonGainsInDefense = new(Player.Nixon, Issue.Defense, 2);
+            NewSupportChange<Player, State> kennedyGainsInFlorida = new(Player.Kennedy, State.FL, 1);
+
+            NewPlayerChosenChanges<Player, Issue, State> allChanges = new NewPlayerChosenChanges<Player, Issue, State>();
+
+            allChanges.IssueChanges.Add(nixonGainsInDefense);
+            allChanges.StateChanges.Add(kennedyGainsInFlorida);
+
+            generic.ImplementChanges(allChanges);
+
             var holder = new PoliticalCapitalBag<Player>(new DefaultRandomnessProvider(), 12);
 
             //holder.AddCubes(ZZZ.Kennedy, 12);

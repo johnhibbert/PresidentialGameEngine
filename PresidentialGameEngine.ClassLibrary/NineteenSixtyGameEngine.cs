@@ -72,12 +72,12 @@ namespace PresidentialGameEngine.ClassLibrary
             StateSupportComponent.LoseSupport(player, state, amount);
         }
 
-        public void SetIssueOrder(IEnumerable<IssuesEnum> orderedIssues) 
+        public void SetIssueOrder(IEnumerable<IssuesEnum> orderedIssues)
         {
             IssuePositioningComponent.SetSubjectOrder(orderedIssues);
         }
 
-        public void MoveIssueUp(IssuesEnum issue) 
+        public void MoveIssueUp(IssuesEnum issue)
         {
             IssuePositioningComponent.MoveSubjectUp(issue);
         }
@@ -98,8 +98,21 @@ namespace PresidentialGameEngine.ClassLibrary
             PoliticalCapitalComponent.AddCubes(player, amount);
         }
 
-    }
 
+        public void ImplementChanges(NewPlayerChosenChanges<PlayersEnum, IssuesEnum, StatesEnum> changes)
+        {
+            foreach (NewSupportChange<PlayersEnum, IssuesEnum> issueChange in changes.IssueChanges)
+            {
+                GainSupport(issueChange.Player, issueChange.Target, issueChange.Change);
+            }
+
+            foreach (NewSupportChange<PlayersEnum, StatesEnum> stateChange in changes.StateChanges)
+            {
+                GainSupport(stateChange.Player, stateChange.Target, stateChange.Change);
+            }
+        }
+
+    }
     public class NineteenSixtyGameEngine: MomentumComponent<Player>
     {
         public NineteenSixtyGameEngine(IRandomnessProvider randomnessProvider)
