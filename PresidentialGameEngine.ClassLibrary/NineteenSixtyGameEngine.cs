@@ -19,15 +19,18 @@ namespace PresidentialGameEngine.ClassLibrary
         readonly IMomentumComponent<PlayersEnum> MomentumComponent;
         readonly ISupportComponent<PlayersEnum, LeadersEnum, IssuesEnum> IssueSupportComponent;
         readonly ISupportComponent<PlayersEnum, LeadersEnum, StatesEnum> StateSupportComponent;
+        readonly IPositioningComponent<IssuesEnum> IssuePositioningComponent;
 
         public GenericPresidentialGameEngine(
             IMomentumComponent<PlayersEnum> momentumComponent,
             ISupportComponent<PlayersEnum, LeadersEnum, IssuesEnum> issueSupportComponent,
-            ISupportComponent<PlayersEnum, LeadersEnum, StatesEnum> stateSupportComponent) 
+            ISupportComponent<PlayersEnum, LeadersEnum, StatesEnum> stateSupportComponent,
+            IPositioningComponent<IssuesEnum> issuePositioningComponent) 
         {
             MomentumComponent = momentumComponent;
             IssueSupportComponent = issueSupportComponent;
             StateSupportComponent = stateSupportComponent;
+            IssuePositioningComponent = issuePositioningComponent;
         }
 
         public void GainMomentum(PlayersEnum player, int amount)
@@ -65,7 +68,15 @@ namespace PresidentialGameEngine.ClassLibrary
             StateSupportComponent.LoseSupport(player, state, amount);
         }
 
+        public void SetIssueOrder(IEnumerable<IssuesEnum> orderedIssues) 
+        {
+            IssuePositioningComponent.SetSubjectOrder(orderedIssues);
+        }
 
+        public void MoveIssueUp(IssuesEnum issue) 
+        {
+            IssuePositioningComponent.MoveSubjectUp(issue);
+        }
 
     }
 
