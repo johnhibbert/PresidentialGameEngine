@@ -21,7 +21,7 @@ namespace PresidentialGameEngine.ClassLibrary.Components
             var valueOfNone = (SubjectEnum)Enum.ToObject(typeof(SubjectEnum), 0);
             subjectValues.Remove(valueOfNone);
 
-            foreach (SubjectEnum subject in (SubjectEnum[])Enum.GetValues(typeof(SubjectEnum)))
+            foreach (SubjectEnum subject in subjectValues)
             {
                 SubjectContests.Add(subject, new NewSupportStatus<LeadersEnum>());
             }
