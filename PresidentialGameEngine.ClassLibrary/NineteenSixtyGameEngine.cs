@@ -6,7 +6,7 @@ using PresidentialGameEngine.ClassLibrary.Interfaces;
 namespace PresidentialGameEngine.ClassLibrary
 {
 
-    public class GenericPresidentialGameEngine : GameOfMomentum<Player>
+    public class GenericPresidentialGameEngine : GameOfSupport<Player, Leader, Issue>
     {
         public GenericPresidentialGameEngine() : base()
         {
