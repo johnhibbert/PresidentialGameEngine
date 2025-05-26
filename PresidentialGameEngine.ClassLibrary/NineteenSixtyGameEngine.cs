@@ -20,17 +20,21 @@ namespace PresidentialGameEngine.ClassLibrary
         readonly ISupportComponent<PlayersEnum, LeadersEnum, IssuesEnum> IssueSupportComponent;
         readonly ISupportComponent<PlayersEnum, LeadersEnum, StatesEnum> StateSupportComponent;
         readonly IPositioningComponent<IssuesEnum> IssuePositioningComponent;
+        readonly IPoliticalCapitalComponent<PlayersEnum> PoliticalCapitalComponent;
 
         public GenericPresidentialGameEngine(
             IMomentumComponent<PlayersEnum> momentumComponent,
             ISupportComponent<PlayersEnum, LeadersEnum, IssuesEnum> issueSupportComponent,
             ISupportComponent<PlayersEnum, LeadersEnum, StatesEnum> stateSupportComponent,
-            IPositioningComponent<IssuesEnum> issuePositioningComponent) 
+            IPositioningComponent<IssuesEnum> issuePositioningComponent,
+            IPoliticalCapitalComponent<PlayersEnum> politicalCapitalComponent
+            )
         {
             MomentumComponent = momentumComponent;
             IssueSupportComponent = issueSupportComponent;
             StateSupportComponent = stateSupportComponent;
             IssuePositioningComponent = issuePositioningComponent;
+            PoliticalCapitalComponent = politicalCapitalComponent;
         }
 
         public void GainMomentum(PlayersEnum player, int amount)
@@ -76,6 +80,22 @@ namespace PresidentialGameEngine.ClassLibrary
         public void MoveIssueUp(IssuesEnum issue) 
         {
             IssuePositioningComponent.MoveSubjectUp(issue);
+        }
+
+        public PlayersEnum InitiativeCheck()
+        {
+            return PoliticalCapitalComponent.InitiativeCheck();
+        }
+
+        public int SupportCheck(PlayersEnum player, int checkAmount)
+        {
+            return PoliticalCapitalComponent.SupportCheck(player, checkAmount);
+
+        }
+
+        public void AddCubes(PlayersEnum player, int amount)
+        {
+            PoliticalCapitalComponent.AddCubes(player, amount);
         }
 
     }
