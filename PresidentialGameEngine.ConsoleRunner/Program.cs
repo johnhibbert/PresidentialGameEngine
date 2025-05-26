@@ -44,10 +44,10 @@ namespace PresidentialGameEngine.ConsoleRunner
             //NewPlayerChosenChanges
             //NewSupportChange
 
-            NewSupportChange<Player, Issue> nixonGainsInDefense = new(Player.Nixon, Issue.Defense, 2);
-            NewSupportChange<Player, State> kennedyGainsInFlorida = new(Player.Kennedy, State.FL, 1);
+            SupportChange<Player, Issue> nixonGainsInDefense = new(Player.Nixon, Issue.Defense, 2);
+            SupportChange<Player, State> kennedyGainsInFlorida = new(Player.Kennedy, State.FL, 1);
 
-            NewPlayerChosenChanges<Player, Issue, State> allChanges = new NewPlayerChosenChanges<Player, Issue, State>();
+            PlayerChosenChanges<Player, Issue, State> allChanges = new PlayerChosenChanges<Player, Issue, State>();
 
             allChanges.IssueChanges.Add(nixonGainsInDefense);
             allChanges.StateChanges.Add(kennedyGainsInFlorida);

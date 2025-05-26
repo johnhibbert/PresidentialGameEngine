@@ -1,5 +1,4 @@
-﻿using PresidentialGameEngine.ClassLibrary.Components;
-using PresidentialGameEngine.ClassLibrary.Data;
+﻿using PresidentialGameEngine.ClassLibrary.Data;
 using PresidentialGameEngine.ClassLibrary.Enums;
 using PresidentialGameEngine.ClassLibrary.Interfaces;
 using System.Runtime;
@@ -134,14 +133,14 @@ namespace PresidentialGameEngine.ClassLibrary
         }
 
 
-        public void ImplementChanges(NewPlayerChosenChanges<PlayersEnum, IssuesEnum, StatesEnum> changes)
+        public void ImplementChanges(PlayerChosenChanges<PlayersEnum, IssuesEnum, StatesEnum> changes)
         {
-            foreach (NewSupportChange<PlayersEnum, IssuesEnum> issueChange in changes.IssueChanges)
+            foreach (SupportChange<PlayersEnum, IssuesEnum> issueChange in changes.IssueChanges)
             {
                 GainSupport(issueChange.Player, issueChange.Target, issueChange.Change);
             }
 
-            foreach (NewSupportChange<PlayersEnum, StatesEnum> stateChange in changes.StateChanges)
+            foreach (SupportChange<PlayersEnum, StatesEnum> stateChange in changes.StateChanges)
             {
                 GainSupport(stateChange.Player, stateChange.Target, stateChange.Change);
             }

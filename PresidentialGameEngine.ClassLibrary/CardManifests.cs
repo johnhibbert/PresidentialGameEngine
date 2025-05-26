@@ -1,5 +1,4 @@
-﻿using PresidentialGameEngine.ClassLibrary.Components;
-using PresidentialGameEngine.ClassLibrary.Data;
+﻿using PresidentialGameEngine.ClassLibrary.Data;
 using PresidentialGameEngine.ClassLibrary.Enums;
 
 namespace PresidentialGameEngine.ClassLibrary
@@ -39,7 +38,7 @@ namespace PresidentialGameEngine.ClassLibrary
                         var onlyNewEnglandStatesIncluded = choices.StateChanges.Select(s => s.Target).All(x => newEnglandStates.Contains(x));
                         var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
                         var noValueAboveTwo = choices.HighestStateChange <= 2;
-                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([NewChangeType.StateSupport]);
+                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([ChangeType.StateSupport]);
 
                         return fiveOrFewerPointsOfStateChanges && onlyNewEnglandStatesIncluded && noValueAboveTwo
                                 && statePlayerIsOnlyKennedy && AndOnlyThisTypeOfTest;
@@ -142,7 +141,7 @@ namespace PresidentialGameEngine.ClassLibrary
                         var threePointsOfIssueChanges = choices.TotalIssueChanges <= 3;
                         var noValueAboveOne = choices.HighestStateChange <= 1;
                         var issuePlayerAreAllSame = choices.IssueChanges.Select(x => x.Player).Distinct().Count() == 1;
-                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([NewChangeType.IssueSupport]);
+                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([ChangeType.IssueSupport]);
 
                         return threePointsOfIssueChanges && noValueAboveOne
                                 && issuePlayerAreAllSame && AndOnlyThisTypeOfTest;
@@ -163,7 +162,7 @@ namespace PresidentialGameEngine.ClassLibrary
                         var threePointsOfIssueChanges = choices.TotalIssueChanges == 3;
                         var onlyOneIssueIncluded = choices.IssueChanges.Where(x => x.Change > 0).Count() == 2;
                         var issuePlayerIsOnlyKennedy = choices.IssueChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
-                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([NewChangeType.IssueSupport]);
+                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([ChangeType.IssueSupport]);
 
                         return threePointsOfIssueChanges && onlyOneIssueIncluded
                                 && issuePlayerIsOnlyKennedy && AndOnlyThisTypeOfTest;
@@ -346,7 +345,7 @@ namespace PresidentialGameEngine.ClassLibrary
                     {
                         var threePointsOfIssueChanges = choices.TotalIssueChanges == 3;
                         var issuePlayerIsOnlyNixon = choices.IssueChanges.Select(x => x.Player).All(y => y == Player.Nixon);
-                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([NewChangeType.IssueSupport]);
+                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([ChangeType.IssueSupport]);
 
                         return threePointsOfIssueChanges && issuePlayerIsOnlyNixon && AndOnlyThisTypeOfTest;
                     },
@@ -383,7 +382,7 @@ namespace PresidentialGameEngine.ClassLibrary
                         var threePointsOfStateChanges = choices.TotalStateChanges == 3;
                         var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
                         var onlyOneState = choices.StateChanges.Select(x => x.Target).Count() == 1;
-                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([NewChangeType.StateSupport]);
+                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([ChangeType.StateSupport]);
 
                         return threePointsOfStateChanges && statePlayerIsOnlyNixon && AndOnlyThisTypeOfTest;
                     },
