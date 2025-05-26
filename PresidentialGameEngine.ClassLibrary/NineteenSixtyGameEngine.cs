@@ -6,27 +6,67 @@ using PresidentialGameEngine.ClassLibrary.Interfaces;
 namespace PresidentialGameEngine.ClassLibrary
 {
 
-    public class GenericPresidentialGameEngine : ISupportComponent<Player, Leader, Issue>
+    //We don't want to directly inherit SupportComponent because that's doing double duty.
+    //So direct inheritance isn't really doing a ton in this particular spot except for mild clarity?
+    public class GenericPresidentialGameEngine<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum>
+       where PlayersEnum : Enum
+        where LeadersEnum : Enum
+        where IssuesEnum : Enum
+        where StatesEnum : Enum
+
     {
-        SupportComponent<Player, Leader, Issue> supportComponent;
 
-        public GenericPresidentialGameEngine() 
+        readonly IMomentumComponent<PlayersEnum> MomentumComponent;
+        readonly ISupportComponent<PlayersEnum, LeadersEnum, IssuesEnum> IssueSupportComponent;
+        readonly ISupportComponent<PlayersEnum, LeadersEnum, StatesEnum> StateSupportComponent;
+
+        public GenericPresidentialGameEngine(
+            IMomentumComponent<PlayersEnum> momentumComponent,
+            ISupportComponent<PlayersEnum, LeadersEnum, IssuesEnum> issueSupportComponent,
+            ISupportComponent<PlayersEnum, LeadersEnum, StatesEnum> stateSupportComponent) 
         {
-            supportComponent = new Components.SupportComponent<Player, Leader, Issue>();
-       
-
-        
+            MomentumComponent = momentumComponent;
+            IssueSupportComponent = issueSupportComponent;
+            StateSupportComponent = stateSupportComponent;
         }
 
-        public void GainSupport(Player player, Issue state, int amount)
+        public void GainMomentum(PlayersEnum player, int amount)
         {
-            supportComponent.GainSupport(player, state, amount);
+            MomentumComponent.GainMomentum(player, amount);
         }
 
-        public void LoseSupport(Player player, Issue state, int amount)
+        public int GetPlayerMomentum(PlayersEnum player)
         {
-            supportComponent.LoseSupport(player, state, amount);
+            return MomentumComponent.GetPlayerMomentum(player);
         }
+
+        public void LoseMomentum(PlayersEnum player, int amount)
+        {
+            MomentumComponent.LoseMomentum(player, amount);
+        }
+
+        public void GainSupport(PlayersEnum player, IssuesEnum issue, int amount)
+        {
+            IssueSupportComponent.GainSupport(player, issue, amount);
+        }
+
+        public void LoseSupport(PlayersEnum player, IssuesEnum issue, int amount)
+        {
+            IssueSupportComponent.LoseSupport(player, issue, amount);
+        }
+
+        public void GainSupport(PlayersEnum player, StatesEnum state, int amount)
+        {
+            StateSupportComponent.GainSupport(player, state, amount);
+        }
+
+        public void LoseSupport(PlayersEnum player, StatesEnum state, int amount)
+        {
+            StateSupportComponent.LoseSupport(player, state, amount);
+        }
+
+
+
     }
 
     public class NineteenSixtyGameEngine: MomentumComponent<Player>

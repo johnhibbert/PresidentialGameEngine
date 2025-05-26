@@ -1,6 +1,8 @@
-﻿namespace PresidentialGameEngine.ClassLibrary.Components
+﻿using PresidentialGameEngine.ClassLibrary.Interfaces;
+
+namespace PresidentialGameEngine.ClassLibrary.Components
 {
-    public class MomentumComponent<PlayersEnum>
+    public class MomentumComponent<PlayersEnum> : IMomentumComponent<PlayersEnum>
         where PlayersEnum : Enum
     {
         public Dictionary<PlayersEnum, int> PlayerMomentum { get; init; }

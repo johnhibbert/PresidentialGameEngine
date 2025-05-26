@@ -1,4 +1,5 @@
 ﻿using PresidentialGameEngine.ClassLibrary;
+using PresidentialGameEngine.ClassLibrary.Components;
 using PresidentialGameEngine.ClassLibrary.Data;
 using PresidentialGameEngine.ClassLibrary.Enums;
 
@@ -10,16 +11,23 @@ namespace PresidentialGameEngine.ConsoleRunner
         {
 
 
+            var momentumComp = new MomentumComponent<Player>();
+            var issueSupportComp = new SupportComponent<Player, Leader, Issue>();
+            var stateSupportComp = new SupportComponent<Player, Leader, State>();
 
-            var generic = new GenericPresidentialGameEngine();
+            var generic = new GenericPresidentialGameEngine<Player, Leader, Issue, State>
+                (
+                    momentumComp, issueSupportComp, stateSupportComp
+                );
 
-            //generic.GainStateSupport(Player.Kennedy, State.AK, 2);
-            //generic.LoseStateSupport(Player.Kennedy, State.AK, 3);
+            generic.GainMomentum(Player.Nixon, 2);
+            generic.LoseMomentum(Player.Nixon, 1);
 
             generic.GainSupport(Player.Kennedy, Issue.CivilRights, 2);
+            generic.LoseSupport(Player.Kennedy, Issue.CivilRights, 1);
 
-            //generic.GainMomentum(Player.Nixon, 2);
-            //generic.LoseMomentum(Player.Nixon, 1);
+            generic.GainSupport(Player.Nixon, State.AK, 3);
+            generic.LoseSupport(Player.Nixon, State.AK, 2);
 
 
             var holder = new PoliticalCapitalBag<Player>(new DefaultRandomnessProvider(), 12);
