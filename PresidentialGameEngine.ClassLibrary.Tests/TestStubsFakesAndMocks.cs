@@ -52,6 +52,19 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             SubjectFive = 5,
         }
 
+        public enum FakeState 
+        {
+            Being,
+            Denial,
+            Mind,
+            OfTheArt,
+        }
+
+        public enum FakeRegion 
+        {
+            North,
+            SouthEast,
+        }
 
         public class SeededRandomnessProviderForTesting : IRandomnessProvider
         {

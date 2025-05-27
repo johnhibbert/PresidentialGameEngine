@@ -58,6 +58,25 @@ namespace PresidentialGameEngine.ConsoleRunner
 
         public static void SimpleComponentTests() 
         {
+
+            Dictionary<State, Region> keyValuePairs = [];
+            keyValuePairs.Add(State.RI, Region.East);
+            keyValuePairs.Add(State.MA, Region.East);
+            keyValuePairs.Add(State.LA, Region.South);
+            keyValuePairs.Add(State.FL, Region.South);
+            keyValuePairs.Add(State.MI, Region.Midwest);
+            keyValuePairs.Add(State.IL, Region.Midwest);
+            keyValuePairs.Add(State.CO, Region.West);
+            keyValuePairs.Add(State.CA, Region.West);
+
+            var regionalComp = new RegionalComponent<State, Region>(keyValuePairs);
+
+            var regionOfRI = regionalComp.GetRegionByState(State.RI);
+            var regionOfIL = regionalComp.GetRegionByState(State.IL);
+
+            var westernStates = regionalComp.GetStatesWithinRegion(Region.West).ToList();
+
+
             var random = new DefaultRandomnessProvider();
 
             var momentumComp = new MomentumComponent<Player>();
@@ -66,9 +85,11 @@ namespace PresidentialGameEngine.ConsoleRunner
             var issuePositioningComp = new PositioningComponent<Issue>();
             var politicalCapitalComp = new PoliticalCapitalComponent<Player>(random, 12);
 
-            var generic = new GenericPresidentialGameEngine<Player, Leader, Issue, State>
+
+            var generic = new GenericPresidentialGameEngine<Player, Leader, Issue, State, Region>
                 (
-                    momentumComp, issueSupportComp, stateSupportComp, issuePositioningComp, politicalCapitalComp
+                    momentumComp, issueSupportComp, stateSupportComp, 
+                    issuePositioningComp, politicalCapitalComp, regionalComp
                 );
 
             generic.GainMomentum(Player.Nixon, 2);

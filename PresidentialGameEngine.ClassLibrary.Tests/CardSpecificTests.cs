@@ -15,6 +15,22 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
         readonly PlayerChosenChanges<Player, Issue, State> emptyChanges = new();
 
+        private Dictionary<State, Region> GetStatesAndRegions() 
+        {
+            //Expand this eventually if it matters.
+            Dictionary<State, Region> keyValuePairs = [];
+            keyValuePairs.Add(State.RI, Region.East);
+            keyValuePairs.Add(State.MA, Region.East);
+            keyValuePairs.Add(State.LA, Region.South);
+            keyValuePairs.Add(State.FL, Region.South);
+            keyValuePairs.Add(State.MI, Region.Midwest);
+            keyValuePairs.Add(State.IL, Region.Midwest);
+            keyValuePairs.Add(State.CO, Region.West);
+            keyValuePairs.Add(State.CA, Region.West);
+
+            return keyValuePairs;
+        }
+
         private NineteenSixtyGameEngine GetGameEngine() 
         {
             SeededRandomnessProviderForTesting seed = new();
@@ -24,8 +40,10 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             ISupportComponent<Player, Leader, State> stateSupportComp = new SupportComponent<Player, Leader, State>();
             IPositioningComponent<Issue> issuePositioningComp = new PositioningComponent<Issue>();
             IPoliticalCapitalComponent<Player> politicalCapitalComp = new PoliticalCapitalComponent<Player>(seed, 12);
+            IRegionalComponent<State, Region> regionalComp = new RegionalComponent<State, Region>(GetStatesAndRegions());
 
-            return new(momentumComp, issueSupportComp, stateSupportComp, issuePositioningComp, politicalCapitalComp);
+            return new(momentumComp, issueSupportComp, stateSupportComp, 
+                issuePositioningComp, politicalCapitalComp, regionalComp);
         }
 
         #region #5 - Volunteers
