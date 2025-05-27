@@ -51,17 +51,24 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
         #region Leader Tests
         [TestMethod]
-        public void LeaderToPlayer_KennedyToNixonConversionWorks()
+        public void LeaderToOpponent_KennedyToNixonConversionWorks()
         {
             Leader leader = Leader.Kennedy;
             Assert.AreEqual(Leader.Nixon, leader.ToOpponent());
         }
 
         [TestMethod]
-        public void LeaderToPlayer_NixonToKennedyConversionWorks()
+        public void LeaderToOpponent_NixonToKennedyConversionWorks()
         {
             Leader leader = Leader.Nixon;
             Assert.AreEqual(Leader.Kennedy, leader.ToOpponent());
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void LeaderToOpponent_InvalidConversionNone_Throws()
+        {
+            Leader.None.ToOpponent();
         }
 
         [TestMethod]
@@ -111,27 +118,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region Affiliation Tests
-        //[TestMethod]
-        //public void AffiliationToPlayer_KennedyToNixonConversionWorks()
-        //{
-        //    Affiliation leader = Affiliation.Kennedy;
-        //    Assert.AreEqual(Player.Kennedy, leader.ToPlayer());
-        //}
-
-        //[TestMethod]
-        //public void AffiliationToPlayer_NixonToKennedyConversionWorks()
-        //{
-        //    Affiliation leader = Affiliation.Nixon;
-        //    Assert.AreEqual(Player.Nixon, leader.ToPlayer());
-        //}
-
-        //[TestMethod]
-        //[ExpectedException(typeof(ArgumentException))]
-        //public void AffiliationToPlayer_InvalidConversion_Throws()
-        //{
-        //    Affiliation.None.ToPlayer();
-        //}
-
         [TestMethod]
         public void AffiliationToOpponent_KennedyToNixonConversionWorks()
         {
@@ -144,6 +130,20 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         {
             Affiliation affiliation = Affiliation.Nixon;
             Assert.AreEqual(Affiliation.Kennedy, affiliation.ToOpponent());
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void AffiliationToOpponent_InvalidConversionNone_Throws()
+        {
+            Affiliation.None.ToOpponent();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void AffiliationToOpponent_InvalidConversionBoth_Throws()
+        {
+            Affiliation.Both.ToOpponent();
         }
 
         [TestMethod]

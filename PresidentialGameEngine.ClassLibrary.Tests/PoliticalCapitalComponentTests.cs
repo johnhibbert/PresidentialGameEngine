@@ -83,6 +83,21 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Assert.AreEqual(FakePlayer.PlayerThree, result);
             Assert.AreEqual(expectedTotal, sut.TotalNumberOfCubesInBag);
         }
+
+        [TestMethod]
+        public void InitiativeCheck_MultipleSupportChecks()
+        {
+            PoliticalCapitalComponent<FakeEnumWithTwo> sut = new(GetSeededRandomnessProvider(), 12);
+
+            var resultOne = sut.InitiativeCheck();
+            var resultTwo = sut.InitiativeCheck();
+            var resultThree = sut.InitiativeCheck();
+
+            Assert.AreEqual(FakeEnumWithTwo.ElementOne, resultOne);
+            Assert.AreEqual(FakeEnumWithTwo.ElementOne, resultTwo);
+            Assert.AreEqual(FakeEnumWithTwo.ElementTwo, resultThree);
+        }
+
         #endregion
 
         #region SupportCheck Tests
@@ -98,6 +113,17 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Assert.AreEqual(1, result);
             Assert.AreEqual(expectedTotal, sut.TotalNumberOfCubesInBag);
         }
+
+        [TestMethod]
+        public void SupportCheck_BagRefillsAutomatically()
+        {
+            PoliticalCapitalComponent<FakePlayer> sut = new(GetSeededRandomnessProvider(), 2);
+
+            Assert.AreEqual(6, sut.TotalNumberOfCubesInBag);
+            sut.SupportCheck(FakePlayer.PlayerThree, 6);
+            Assert.AreEqual(6, sut.TotalNumberOfCubesInBag);
+        }
+
         #endregion
 
         #region AddCubes Tests
