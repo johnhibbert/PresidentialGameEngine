@@ -3,39 +3,6 @@ using static PresidentialGameEngine.ClassLibrary.Tests.TestStubsFakesAndMocks;
 
 namespace PresidentialGameEngine.ClassLibrary.Tests
 {
-    enum FakeEnumWithTwo 
-    {
-        ElementOne,
-        ElementTwo
-    }
-
-    enum FakeEnumWithThree
-    {
-        ElementOne,
-        ElementTwo,
-        ElementThree
-    }
-
-    enum FakeEnumWithFive
-    {
-        ElementOne,
-        ElementTwo,
-        ElementThree,
-        ElementFour,
-        ElementFive,
-    }
-
-    //class SeededRandomnessProviderForTesting : IRandomnessProvider
-    //{
-    //    //Seeded for consistency
-    //    //Was 5 but that was 3 straight kennedies.
-    //    private readonly Random Random = new(1960);
-
-    //    public int GetRandomNumber(int maxValue)
-    //    {
-    //        return Random.Next(maxValue);
-    //    }
-    //}
 
     [TestClass]
     public class PoliticalCapitalBagTests
