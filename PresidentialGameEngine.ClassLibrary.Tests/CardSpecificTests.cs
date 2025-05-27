@@ -31,6 +31,16 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             return keyValuePairs;
         }
 
+        private Dictionary<Player, State> GetPlayerStartingLocations()
+        {
+            //Expand this eventually if it matters.
+            Dictionary<Player, State> keyValuePairs = [];
+            keyValuePairs.Add(Player.Nixon, State.CA);
+            keyValuePairs.Add(Player.Kennedy, State.MA);
+
+            return keyValuePairs;
+        }
+
         private NineteenSixtyGameEngine GetGameEngine() 
         {
             SeededRandomnessProviderForTesting seed = new();
@@ -40,7 +50,8 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             ISupportComponent<Player, Leader, State> stateSupportComp = new SupportComponent<Player, Leader, State>();
             IPositioningComponent<Issue> issuePositioningComp = new PositioningComponent<Issue>();
             IPoliticalCapitalComponent<Player> politicalCapitalComp = new PoliticalCapitalComponent<Player>(seed, 12);
-            IRegionalComponent<State, Region> regionalComp = new RegionalComponent<State, Region>(GetStatesAndRegions());
+            IRegionalComponent<State, Region, Player> regionalComp = 
+                new RegionalComponent<State, Region, Player>(GetStatesAndRegions(), GetPlayerStartingLocations());
 
             return new(momentumComp, issueSupportComp, stateSupportComp, 
                 issuePositioningComp, politicalCapitalComp, regionalComp);

@@ -6,15 +6,20 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
     [TestClass]
     public class RegionalComponentTests
     {
-        private RegionalComponent<FakeState, FakeRegion> GetRegionalComponent()
+        private RegionalComponent<FakeState, FakeRegion, FakePlayer> GetRegionalComponent()
         {
-            Dictionary<FakeState, FakeRegion> keyValuePairs = [];
-            keyValuePairs.Add(FakeState.Mind, FakeRegion.North);
-            keyValuePairs.Add(FakeState.Denial, FakeRegion.North);
-            keyValuePairs.Add(FakeState.Being, FakeRegion.SouthEast);
-            keyValuePairs.Add(FakeState.OfTheArt, FakeRegion.SouthEast);
+            Dictionary<FakeState, FakeRegion> statesAndRegions = [];
+            statesAndRegions.Add(FakeState.Mind, FakeRegion.North);
+            statesAndRegions.Add(FakeState.Denial, FakeRegion.North);
+            statesAndRegions.Add(FakeState.Being, FakeRegion.SouthEast);
+            statesAndRegions.Add(FakeState.OfTheArt, FakeRegion.SouthEast);
 
-            return new RegionalComponent<FakeState, FakeRegion>(keyValuePairs);
+            Dictionary<FakePlayer, FakeState> playerStartingLocations = [];
+            playerStartingLocations.Add(FakePlayer.PlayerOne, FakeState.Mind);
+            playerStartingLocations.Add(FakePlayer.PlayerTwo, FakeState.Denial);
+
+            return new RegionalComponent<FakeState, FakeRegion, FakePlayer>
+                (statesAndRegions, playerStartingLocations);
         }
 
         #region Constructor Tests
@@ -58,6 +63,31 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Assert.AreEqual(2, result.Count());
             Assert.IsTrue(result.Contains(FakeState.Mind));
             Assert.IsTrue(result.Contains(FakeState.Denial));
+        }
+
+        #endregion
+
+        #region GetPlayerState Tests
+
+        [TestMethod]
+        public void GetPlayerState_CorrectStatesReturned()
+        {
+            var sut = GetRegionalComponent();
+            Assert.AreEqual(FakeState.Mind, sut.GetPlayerState(FakePlayer.PlayerOne));
+            Assert.AreEqual(FakeState.Denial, sut.GetPlayerState(FakePlayer.PlayerTwo));
+        }
+
+        #endregion
+
+        #region GetPlayerState Tests
+
+        [TestMethod]
+        public void MovePlayerToState_CorrectStatesReturned()
+        {
+            var sut = GetRegionalComponent();
+            sut.MovePlayerToState(FakePlayer.PlayerOne, FakeState.OfTheArt);
+
+            Assert.AreEqual(FakeState.OfTheArt, sut.GetPlayerState(FakePlayer.PlayerOne));
         }
 
         #endregion

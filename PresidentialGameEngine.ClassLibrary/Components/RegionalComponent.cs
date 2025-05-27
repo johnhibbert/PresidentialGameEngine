@@ -2,13 +2,17 @@
 
 namespace PresidentialGameEngine.ClassLibrary.Components
 {
-    public class RegionalComponent<StatesEnum, RegionsEnum> : IRegionalComponent<StatesEnum, RegionsEnum>
+    public class RegionalComponent<StatesEnum, RegionsEnum, PlayersEnum> : IRegionalComponent<StatesEnum, RegionsEnum, PlayersEnum>
     {
         private IDictionary<StatesEnum, RegionsEnum> StateRegions { get; init; }
 
-        public RegionalComponent(IDictionary<StatesEnum, RegionsEnum> statesAndRegions)
+        private IDictionary<PlayersEnum, StatesEnum> PlayerLocations { get; init; }
+
+        public RegionalComponent(IDictionary<StatesEnum, RegionsEnum> statesAndRegions,
+            IDictionary<PlayersEnum, StatesEnum> playerStartingLocations)
         {
             StateRegions = statesAndRegions;
+            PlayerLocations = playerStartingLocations;
         }
 
         public RegionsEnum GetRegionByState(StatesEnum state)
@@ -20,6 +24,16 @@ namespace PresidentialGameEngine.ClassLibrary.Components
         {
             //https://stackoverflow.com/questions/21704383/linq-query-dictionary-where-value-in-list
             return StateRegions.Where(x => EqualityComparer<RegionsEnum>.Default.Equals(region, x.Value)).Select(y => y.Key);
+        }
+
+        public StatesEnum GetPlayerState(PlayersEnum player)
+        {
+            return PlayerLocations[player];
+        }
+
+        public void MovePlayerToState(PlayersEnum player, StatesEnum states)
+        {
+            PlayerLocations[player] = states;
         }
     }
 }
