@@ -45,16 +45,17 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         {
             SeededRandomnessProviderForTesting seed = new();
 
-            IMomentumComponent<Player> momentumComp = new MomentumComponent<Player>();
+            IAccumulatingComponent<Player> momentumComp = new AccumulatingComponent<Player>();
             ISupportComponent<Player, Leader, Issue> issueSupportComp = new SupportComponent<Player, Leader, Issue>();
             ISupportComponent<Player, Leader, State> stateSupportComp = new SupportComponent<Player, Leader, State>();
             IPositioningComponent<Issue> issuePositioningComp = new PositioningComponent<Issue>();
             IPoliticalCapitalComponent<Player> politicalCapitalComp = new PoliticalCapitalComponent<Player>(seed, 12);
             IRegionalComponent<State, Region, Player> regionalComp = 
                 new RegionalComponent<State, Region, Player>(GetStatesAndRegions(), GetPlayerStartingLocations());
+            IAccumulatingComponent<Player> restComponent = new AccumulatingComponent<Player>();
 
             return new(momentumComp, issueSupportComp, stateSupportComp, 
-                issuePositioningComp, politicalCapitalComp, regionalComp);
+                issuePositioningComp, politicalCapitalComp, regionalComp, restComponent);
         }
 
         #region #5 - Volunteers

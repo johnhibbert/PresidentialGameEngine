@@ -9,15 +9,17 @@ namespace PresidentialGameEngine.ClassLibrary
     public class NineteenSixtyGameEngine : GenericPresidentialGameEngine<Player, Leader, Issue, State, Region>
     {
         public NineteenSixtyGameEngine
-            (IMomentumComponent<Player> momentumComponent,
+            (IAccumulatingComponent<Player> momentumComponent,
             ISupportComponent<Player, Leader, Issue> issueSupportComponent,
             ISupportComponent<Player, Leader, State> stateSupportComponent,
             IPositioningComponent<Issue> issuePositioningComponent,
             IPoliticalCapitalComponent<Player> politicalCapitalComponent,
-            IRegionalComponent<State, Region, Player> regionalComponent
+            IRegionalComponent<State, Region, Player> regionalComponent,
+            IAccumulatingComponent<Player> restComponent
             )
             : base(momentumComponent, issueSupportComponent, stateSupportComponent,
-                  issuePositioningComponent, politicalCapitalComponent, regionalComponent)
+                  issuePositioningComponent, politicalCapitalComponent, regionalComponent,
+                  restComponent)
         {
         }
     }
@@ -33,20 +35,22 @@ namespace PresidentialGameEngine.ClassLibrary
         where RegionsEnum : Enum
     {
 
-        readonly IMomentumComponent<PlayersEnum> MomentumComponent;
+        readonly IAccumulatingComponent<PlayersEnum> MomentumComponent;
         readonly ISupportComponent<PlayersEnum, LeadersEnum, IssuesEnum> IssueSupportComponent;
         readonly ISupportComponent<PlayersEnum, LeadersEnum, StatesEnum> StateSupportComponent;
         readonly IPositioningComponent<IssuesEnum> IssuePositioningComponent;
         readonly IPoliticalCapitalComponent<PlayersEnum> PoliticalCapitalComponent;
         readonly IRegionalComponent<StatesEnum, RegionsEnum, PlayersEnum> RegionalComponent;
+        readonly IAccumulatingComponent<PlayersEnum> RestComponent;
 
         public GenericPresidentialGameEngine(
-            IMomentumComponent<PlayersEnum> momentumComponent,
+            IAccumulatingComponent<PlayersEnum> momentumComponent,
             ISupportComponent<PlayersEnum, LeadersEnum, IssuesEnum> issueSupportComponent,
             ISupportComponent<PlayersEnum, LeadersEnum, StatesEnum> stateSupportComponent,
             IPositioningComponent<IssuesEnum> issuePositioningComponent,
             IPoliticalCapitalComponent<PlayersEnum> politicalCapitalComponent,
-            IRegionalComponent<StatesEnum, RegionsEnum, PlayersEnum> regionalComponent
+            IRegionalComponent<StatesEnum, RegionsEnum, PlayersEnum> regionalComponent,
+            IAccumulatingComponent<PlayersEnum> restComponent
             )
         {
             MomentumComponent = momentumComponent;
@@ -55,6 +59,7 @@ namespace PresidentialGameEngine.ClassLibrary
             IssuePositioningComponent = issuePositioningComponent;
             PoliticalCapitalComponent = politicalCapitalComponent;
             RegionalComponent = regionalComponent;
+            RestComponent = restComponent;
         }
 
         public IssuesEnum[] IssueOrder
@@ -64,18 +69,34 @@ namespace PresidentialGameEngine.ClassLibrary
 
         public void GainMomentum(PlayersEnum player, int amount)
         {
-            MomentumComponent.GainMomentum(player, amount);
+            MomentumComponent.GainAmount(player, amount);
         }
 
         public int GetPlayerMomentum(PlayersEnum player)
         {
-            return MomentumComponent.GetPlayerMomentum(player);
+            return MomentumComponent.GetPlayerAmount(player);
         }
 
         public void LoseMomentum(PlayersEnum player, int amount)
         {
-            MomentumComponent.LoseMomentum(player, amount);
+            MomentumComponent.LoseAmount(player, amount);
         }
+
+        public void GainRest(PlayersEnum player, int amount)
+        {
+            RestComponent.GainAmount(player, amount);
+        }
+
+        public int GetPlayerRest(PlayersEnum player)
+        {
+            return RestComponent.GetPlayerAmount(player);
+        }
+
+        public void EmptyRest(PlayersEnum player)
+        {
+            RestComponent.LoseAmount(player, RestComponent.GetPlayerAmount(player));
+        }
+
 
         public void GainSupport(PlayersEnum player, IssuesEnum issue, int amount)
         {
@@ -138,7 +159,7 @@ namespace PresidentialGameEngine.ClassLibrary
 
         }
 
-        public void AddCubes(PlayersEnum player, int amount)
+        public void AddCubesToBag(PlayersEnum player, int amount)
         {
             PoliticalCapitalComponent.AddCubes(player, amount);
         }
