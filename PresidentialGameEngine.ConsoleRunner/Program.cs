@@ -122,6 +122,10 @@ namespace PresidentialGameEngine.ConsoleRunner
             allChanges.StateChanges.Add(kennedyGainsInFlorida);
 
             generic.ImplementChanges(allChanges);
+
+            var kennedyHomeState = generic.GetPlayerState(Player.Kennedy);
+            var allWesternStates = generic.GetStatesInRegion(Region.West);
+            generic.MovePlayerToState(Player.Kennedy, State.CO);
         }
 
 

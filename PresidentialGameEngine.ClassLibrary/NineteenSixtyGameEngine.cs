@@ -166,5 +166,16 @@ namespace PresidentialGameEngine.ClassLibrary
         {
             return RegionalComponent.GetStatesWithinRegion(region);
         }
+
+        public StatesEnum GetPlayerState(PlayersEnum player)
+        {
+            return RegionalComponent.GetPlayerState(player);
+        }
+
+        public void MovePlayerToState(PlayersEnum player, StatesEnum states)
+        {
+            RegionalComponent.MovePlayerToState(player, states);
+        }
+
     }
 }
