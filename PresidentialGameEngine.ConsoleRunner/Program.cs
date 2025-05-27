@@ -83,17 +83,17 @@ namespace PresidentialGameEngine.ConsoleRunner
 
             var random = new DefaultRandomnessProvider();
 
-            var momentumComp = new MomentumComponent<Player>();
+            var momentumComp = new AccumulatingComponent<Player>();
             var issueSupportComp = new SupportComponent<Player, Leader, Issue>();
             var stateSupportComp = new SupportComponent<Player, Leader, State>();
             var issuePositioningComp = new PositioningComponent<Issue>();
             var politicalCapitalComp = new PoliticalCapitalComponent<Player>(random, 12);
-
+            var restComp = new AccumulatingComponent<Player>();
 
             var generic = new GenericPresidentialGameEngine<Player, Leader, Issue, State, Region>
                 (
                     momentumComp, issueSupportComp, stateSupportComp, 
-                    issuePositioningComp, politicalCapitalComp, regionalComp
+                    issuePositioningComp, politicalCapitalComp, regionalComp, restComp
                 );
 
             generic.GainMomentum(Player.Nixon, 2);
@@ -111,7 +111,7 @@ namespace PresidentialGameEngine.ConsoleRunner
 
             var initiative = generic.InitiativeCheck();
             var support = generic.SupportCheck(Player.Nixon, 3);
-            generic.AddCubes(Player.Kennedy, 2);
+            generic.AddCubesToBag(Player.Kennedy, 2);
 
             SupportChange<Player, Issue> nixonGainsInDefense = new(Player.Nixon, Issue.Defense, 2);
             SupportChange<Player, State> kennedyGainsInFlorida = new(Player.Kennedy, State.FL, 1);
@@ -126,6 +126,12 @@ namespace PresidentialGameEngine.ConsoleRunner
             var kennedyHomeState = generic.GetPlayerState(Player.Kennedy);
             var allWesternStates = generic.GetStatesInRegion(Region.West);
             generic.MovePlayerToState(Player.Kennedy, State.CO);
+
+            generic.GainRest(Player.Nixon, 2);
+            var rest = generic.GetPlayerRest(Player.Nixon);
+            generic.EmptyRest(Player.Nixon);
+            
+
         }
 
 
