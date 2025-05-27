@@ -15,7 +15,7 @@
 
     /// <summary>
     /// The leader in a specific contest, issue, state, etc
-    /// This can be none at any given moment.
+    /// This can be none at any given moment but not both.
     /// </summary>
     public enum Leader 
     {
@@ -26,7 +26,7 @@
 
     /// <summary>
     /// Player refers strictly to the two players
-    /// with no option for none
+    /// with no option for none or both.
     /// </summary>
     public enum Player
     {
@@ -34,7 +34,10 @@
         Nixon = 2,
     }
 
-    public static class PartyEnumerationExtensions
+    // I have not made these with generics, since a theoretical 
+    // multiplayer version would not have a singluar opponent.
+    //These work for 1960 only for now.
+    public static class PresidentialEnumerationExtensions
     {
         public static Player ToOpponent(this Player value)
         {
@@ -46,7 +49,6 @@
             };
         }
 
-        //Remove me later? It's unclear if this will have use.
         public static Leader ToOpponent(this Leader value)
         {
             return value switch
@@ -57,20 +59,15 @@
             };
         }
 
-
-
-
-        public static Leader ToLeader(this Player value)
+        public static Affiliation ToOpponent(this Affiliation value)
         {
             return value switch
             {
-                Player.Kennedy => Leader.Kennedy,
-                Player.Nixon => Leader.Nixon,
-                _ => throw new ArgumentException("Candidate Value Cannot Be Converted To Player"),
+                Affiliation.Nixon => Affiliation.Kennedy,
+                Affiliation.Kennedy => Affiliation.Nixon,
+                _ => throw new ArgumentException("Opponent Not Found"),
             };
         }
-
-
 
         public static Player ToPlayer(this Leader value)
         {
@@ -78,38 +75,58 @@
             {
                 Leader.Kennedy => Player.Kennedy,
                 Leader.Nixon => Player.Nixon,
-                _ => throw new ArgumentException("Candidate Value Cannot Be Converted To Player"),
+                _ => throw new ArgumentException("Leader Value Cannot Be Converted To Player"),
             };
         }
 
-    }
+        public static Player ToPlayer(this Affiliation value)
+        {
+            return value switch
+            {
+                Affiliation.Kennedy => Player.Kennedy,
+                Affiliation.Nixon => Player.Nixon,
+                _ => throw new ArgumentException("Affiliation Value Cannot Be Converted To Player"),
+            };
+        }
 
-    //https://stackoverflow.com/questions/1818131/convert-an-enum-to-another-type-of-enum
-    public static class CandidateToPlayerExtensions
-    {
-        public static Leader ToPlayer(this Affiliation value)
+        public static Leader ToLeader(this Player value)
+        {
+            return value switch
+            {
+                Player.Kennedy => Leader.Kennedy,
+                Player.Nixon => Leader.Nixon,
+                _ => throw new ArgumentException("Player Value Cannot Be Converted To Player"),
+            };
+        }
+
+        public static Leader ToLeader(this Affiliation value)
         {
             return value switch
             {
                 Affiliation.Kennedy => Leader.Kennedy,
                 Affiliation.Nixon => Leader.Nixon,
-                _ => throw new ArgumentException("Candidate Value Cannot Be Converted To Player"),
+                _ => throw new ArgumentException("Affiliation Value Cannot Be Converted To Player"),
             };
         }
-    }
 
-    //https://stackoverflow.com/questions/1818131/convert-an-enum-to-another-type-of-enum
-    public static class PlayerToCandidateExtensions
-    {
-        public static Affiliation ToCandidate(this Leader value)
+        public static Affiliation ToAffiliation(this Player value)
+        {
+            return value switch
+            {
+                Player.Kennedy => Affiliation.Kennedy,
+                Player.Nixon => Affiliation.Nixon,
+                _ => throw new ArgumentException("Player Value Cannot Be Converted To Player"),
+            };
+        }
+
+        public static Affiliation ToAffiliation(this Leader value)
         {
             return value switch
             {
                 Leader.Kennedy => Affiliation.Kennedy,
                 Leader.Nixon => Affiliation.Nixon,
-                _ => throw new ArgumentException("Player Value Cannot Be Converted To Candidate"),
+                _ => throw new ArgumentException("Leader Value Cannot Be Converted To Player"),
             };
         }
     }
-
 }
