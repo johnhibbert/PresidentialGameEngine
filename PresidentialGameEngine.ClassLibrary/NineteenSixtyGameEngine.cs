@@ -14,7 +14,7 @@ namespace PresidentialGameEngine.ClassLibrary
             ISupportComponent<Player, Leader, State> stateSupportComponent,
             IPositioningComponent<Issue> issuePositioningComponent,
             IPoliticalCapitalComponent<Player> politicalCapitalComponent,
-            IRegionalComponent<State, Region> regionalComponent
+            IRegionalComponent<State, Region, Player> regionalComponent
             )
             : base(momentumComponent, issueSupportComponent, stateSupportComponent,
                   issuePositioningComponent, politicalCapitalComponent, regionalComponent)
@@ -38,7 +38,7 @@ namespace PresidentialGameEngine.ClassLibrary
         readonly ISupportComponent<PlayersEnum, LeadersEnum, StatesEnum> StateSupportComponent;
         readonly IPositioningComponent<IssuesEnum> IssuePositioningComponent;
         readonly IPoliticalCapitalComponent<PlayersEnum> PoliticalCapitalComponent;
-        readonly IRegionalComponent<StatesEnum, RegionsEnum> RegionalComponent;
+        readonly IRegionalComponent<StatesEnum, RegionsEnum, PlayersEnum> RegionalComponent;
 
         public GenericPresidentialGameEngine(
             IMomentumComponent<PlayersEnum> momentumComponent,
@@ -46,7 +46,7 @@ namespace PresidentialGameEngine.ClassLibrary
             ISupportComponent<PlayersEnum, LeadersEnum, StatesEnum> stateSupportComponent,
             IPositioningComponent<IssuesEnum> issuePositioningComponent,
             IPoliticalCapitalComponent<PlayersEnum> politicalCapitalComponent,
-            IRegionalComponent<StatesEnum, RegionsEnum> regionalComponent
+            IRegionalComponent<StatesEnum, RegionsEnum, PlayersEnum> regionalComponent
             )
         {
             MomentumComponent = momentumComponent;
@@ -166,5 +166,16 @@ namespace PresidentialGameEngine.ClassLibrary
         {
             return RegionalComponent.GetStatesWithinRegion(region);
         }
+
+        public StatesEnum GetPlayerState(PlayersEnum player)
+        {
+            return RegionalComponent.GetPlayerState(player);
+        }
+
+        public void MovePlayerToState(PlayersEnum player, StatesEnum states)
+        {
+            RegionalComponent.MovePlayerToState(player, states);
+        }
+
     }
 }

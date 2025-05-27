@@ -59,17 +59,21 @@ namespace PresidentialGameEngine.ConsoleRunner
         public static void SimpleComponentTests() 
         {
 
-            Dictionary<State, Region> keyValuePairs = [];
-            keyValuePairs.Add(State.RI, Region.East);
-            keyValuePairs.Add(State.MA, Region.East);
-            keyValuePairs.Add(State.LA, Region.South);
-            keyValuePairs.Add(State.FL, Region.South);
-            keyValuePairs.Add(State.MI, Region.Midwest);
-            keyValuePairs.Add(State.IL, Region.Midwest);
-            keyValuePairs.Add(State.CO, Region.West);
-            keyValuePairs.Add(State.CA, Region.West);
+            Dictionary<State, Region> statesAndRegions = [];
+            statesAndRegions.Add(State.RI, Region.East);
+            statesAndRegions.Add(State.MA, Region.East);
+            statesAndRegions.Add(State.LA, Region.South);
+            statesAndRegions.Add(State.FL, Region.South);
+            statesAndRegions.Add(State.MI, Region.Midwest);
+            statesAndRegions.Add(State.IL, Region.Midwest);
+            statesAndRegions.Add(State.CO, Region.West);
+            statesAndRegions.Add(State.CA, Region.West);
 
-            var regionalComp = new RegionalComponent<State, Region>(keyValuePairs);
+            Dictionary<Player, State> playerStartingLocations = [];
+            playerStartingLocations.Add(Player.Nixon, State.CA);
+            playerStartingLocations.Add(Player.Kennedy, State.MA);
+
+            var regionalComp = new RegionalComponent<State, Region, Player>(statesAndRegions, playerStartingLocations);
 
             var regionOfRI = regionalComp.GetRegionByState(State.RI);
             var regionOfIL = regionalComp.GetRegionByState(State.IL);
@@ -118,6 +122,10 @@ namespace PresidentialGameEngine.ConsoleRunner
             allChanges.StateChanges.Add(kennedyGainsInFlorida);
 
             generic.ImplementChanges(allChanges);
+
+            var kennedyHomeState = generic.GetPlayerState(Player.Kennedy);
+            var allWesternStates = generic.GetStatesInRegion(Region.West);
+            generic.MovePlayerToState(Player.Kennedy, State.CO);
         }
 
 
