@@ -10,6 +10,54 @@ namespace PresidentialGameEngine.ConsoleRunner
         static void Main(string[] args)
         {
 
+
+            Console.WriteLine("Welcome to the Presidential Game Engine.");
+            Console.WriteLine("This exercises a class library that enforces the rules of board games based around presidential elections, such");
+            Console.WriteLine("as 1960: The Making of the President.");
+
+            Console.WriteLine();
+            Console.WriteLine("Select an option:");
+            Console.WriteLine("1: Run simple component tests");
+            Console.WriteLine("2: Display all cards");
+
+            int userSelection = GetIntFromUser();
+
+            switch (userSelection) 
+            {
+                case 1:
+                    SimpleComponentTests();
+                    break;
+                case 2:
+                    DisplayAllCards();
+                    break;
+                default:
+                    Console.WriteLine("Input not undertood.");
+                    break;
+
+            }
+
+
+
+        }
+
+        private static int GetIntFromUser() 
+        {
+            int returnValue = 0;
+
+            while (returnValue == 0) {
+
+                var input = Console.ReadLine();
+                if(int.TryParse(input, out int parsed)) 
+                {
+                    returnValue = parsed;
+                };
+            }
+
+            return returnValue;
+        }
+
+        public static void SimpleComponentTests() 
+        {
             var random = new DefaultRandomnessProvider();
 
             var momentumComp = new MomentumComponent<Player>();
@@ -40,10 +88,6 @@ namespace PresidentialGameEngine.ConsoleRunner
             var support = generic.SupportCheck(Player.Nixon, 3);
             generic.AddCubes(Player.Kennedy, 2);
 
-
-            //NewPlayerChosenChanges
-            //NewSupportChange
-
             SupportChange<Player, Issue> nixonGainsInDefense = new(Player.Nixon, Issue.Defense, 2);
             SupportChange<Player, State> kennedyGainsInFlorida = new(Player.Kennedy, State.FL, 1);
 
@@ -53,29 +97,6 @@ namespace PresidentialGameEngine.ConsoleRunner
             allChanges.StateChanges.Add(kennedyGainsInFlorida);
 
             generic.ImplementChanges(allChanges);
-
-            //var choices = new PlayerChosenChanges();
-
-            //SupportChange<Issue> civilRightsSupportChange = new SupportChange<Issue>(Player.Kennedy, Issue.CivilRights, 1);
-            //SupportChange<Issue> defenseSupportChange = new SupportChange<Issue>(Player.Kennedy, Issue.Defense, 2);
-            ////SupportChange<State> stateSupportChange = new SupportChange<State>(Player.Kennedy, State.AK, -2);
-
-            //choices.IssueChanges.Add(civilRightsSupportChange);
-            //choices.IssueChanges.Add(defenseSupportChange);
-            //choices.StateChanges.Add(stateSupportChange);
-
-            DisplayAllCards();
-
-            //int cardIndex = 86;
-            //int cardIndex = 41;
-
-            //Card card = CardManifests.TheMakingOfThePresidentGMTCards[cardIndex];
-
-            //var holder = card.AreChangesValid(choices);
-
-
-            //int i = 0;
-
         }
 
 
