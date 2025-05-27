@@ -26,6 +26,33 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             ElementFive,
         }
 
+        public enum FakePlayer 
+        {
+        
+            PlayerOne = 1,
+            PlayerTwo = 2,
+            PlayerThree = 3,
+        }
+
+        public enum FakeLeader 
+        {
+            NoLeader = 0,
+            Leader = 1,
+            Leader2 = 2,
+            Leader3 = 3,
+        }
+
+        public enum FakeSubject
+        {
+            NoSubject = 0,
+            SubjectOne = 1,
+            SubjectTwo = 2,
+            SubjectThree = 3,
+            SubjectFour = 4,
+            SubjectFive = 5,
+        }
+
+
         public class SeededRandomnessProviderForTesting : IRandomnessProvider
         {
             //Seeded for consistency
