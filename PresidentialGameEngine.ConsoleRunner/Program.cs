@@ -58,6 +58,25 @@ namespace PresidentialGameEngine.ConsoleRunner
 
         public static void SimpleComponentTests() 
         {
+
+            Dictionary<State, Region> keyValuePairs = [];
+            keyValuePairs.Add(State.RI, Region.East);
+            keyValuePairs.Add(State.MA, Region.East);
+            keyValuePairs.Add(State.LA, Region.South);
+            keyValuePairs.Add(State.FL, Region.South);
+            keyValuePairs.Add(State.MI, Region.Midwest);
+            keyValuePairs.Add(State.IL, Region.Midwest);
+            keyValuePairs.Add(State.CO, Region.West);
+            keyValuePairs.Add(State.CA, Region.West);
+
+            var regionalComp = new RegionalComponent<State, Region>(keyValuePairs);
+
+            var regionOfRI = regionalComp.GetRegionByState(State.RI);
+            var regionOfIL = regionalComp.GetRegionByState(State.IL);
+
+            var westernStates = regionalComp.GetStatesWithinRegion(Region.West).ToList();
+
+
             var random = new DefaultRandomnessProvider();
 
             var momentumComp = new MomentumComponent<Player>();
