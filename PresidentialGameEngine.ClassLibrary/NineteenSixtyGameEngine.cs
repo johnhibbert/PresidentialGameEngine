@@ -6,9 +6,18 @@ using System.Runtime;
 namespace PresidentialGameEngine.ClassLibrary
 {
 
-    public class NineteenSixtyGameEngine : GenericPresidentialGameEngine<Player, Leader, Issue, State>
+    public class NineteenSixtyGameEngine : GenericPresidentialGameEngine<Player, Leader, Issue, State, Region>
     {
-        public NineteenSixtyGameEngine(IMomentumComponent<Player> momentumComponent, ISupportComponent<Player, Leader, Issue> issueSupportComponent, ISupportComponent<Player, Leader, State> stateSupportComponent, IPositioningComponent<Issue> issuePositioningComponent, IPoliticalCapitalComponent<Player> politicalCapitalComponent) : base(momentumComponent, issueSupportComponent, stateSupportComponent, issuePositioningComponent, politicalCapitalComponent)
+        public NineteenSixtyGameEngine
+            (IMomentumComponent<Player> momentumComponent,
+            ISupportComponent<Player, Leader, Issue> issueSupportComponent,
+            ISupportComponent<Player, Leader, State> stateSupportComponent,
+            IPositioningComponent<Issue> issuePositioningComponent,
+            IPoliticalCapitalComponent<Player> politicalCapitalComponent,
+            IRegionalComponent<State, Region> regionalComponent
+            )
+            : base(momentumComponent, issueSupportComponent, stateSupportComponent,
+                  issuePositioningComponent, politicalCapitalComponent, regionalComponent)
         {
         }
     }
@@ -16,12 +25,12 @@ namespace PresidentialGameEngine.ClassLibrary
 
     //We don't want to directly inherit SupportComponent because that's doing double duty.
     //So direct inheritance isn't really doing a ton in this particular spot except for mild clarity?
-    public class GenericPresidentialGameEngine<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum>
+    public class GenericPresidentialGameEngine<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum>
        where PlayersEnum : Enum
         where LeadersEnum : Enum
         where IssuesEnum : Enum
         where StatesEnum : Enum
-
+        where RegionsEnum : Enum
     {
 
         readonly IMomentumComponent<PlayersEnum> MomentumComponent;
@@ -29,13 +38,15 @@ namespace PresidentialGameEngine.ClassLibrary
         readonly ISupportComponent<PlayersEnum, LeadersEnum, StatesEnum> StateSupportComponent;
         readonly IPositioningComponent<IssuesEnum> IssuePositioningComponent;
         readonly IPoliticalCapitalComponent<PlayersEnum> PoliticalCapitalComponent;
+        readonly IRegionalComponent<StatesEnum, RegionsEnum> RegionalComponent;
 
         public GenericPresidentialGameEngine(
             IMomentumComponent<PlayersEnum> momentumComponent,
             ISupportComponent<PlayersEnum, LeadersEnum, IssuesEnum> issueSupportComponent,
             ISupportComponent<PlayersEnum, LeadersEnum, StatesEnum> stateSupportComponent,
             IPositioningComponent<IssuesEnum> issuePositioningComponent,
-            IPoliticalCapitalComponent<PlayersEnum> politicalCapitalComponent
+            IPoliticalCapitalComponent<PlayersEnum> politicalCapitalComponent,
+            IRegionalComponent<StatesEnum, RegionsEnum> regionalComponent
             )
         {
             MomentumComponent = momentumComponent;
@@ -43,13 +54,13 @@ namespace PresidentialGameEngine.ClassLibrary
             StateSupportComponent = stateSupportComponent;
             IssuePositioningComponent = issuePositioningComponent;
             PoliticalCapitalComponent = politicalCapitalComponent;
+            RegionalComponent = regionalComponent;
         }
 
         public IssuesEnum[] IssueOrder
         {
             get { return IssuePositioningComponent.GetSubjectOrder.ToArray(); }
         }
-
 
         public void GainMomentum(PlayersEnum player, int amount)
         {
@@ -146,6 +157,14 @@ namespace PresidentialGameEngine.ClassLibrary
             }
         }
 
-    }
+        public RegionsEnum GetRegion(StatesEnum state) 
+        {
+            return RegionalComponent.GetRegionByState(state);
+        }
 
+        public IEnumerable<StatesEnum> GetStatesInRegion(RegionsEnum region)
+        {
+            return RegionalComponent.GetStatesWithinRegion(region);
+        }
+    }
 }

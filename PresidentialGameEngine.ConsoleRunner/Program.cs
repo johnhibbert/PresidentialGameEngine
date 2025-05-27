@@ -85,9 +85,11 @@ namespace PresidentialGameEngine.ConsoleRunner
             var issuePositioningComp = new PositioningComponent<Issue>();
             var politicalCapitalComp = new PoliticalCapitalComponent<Player>(random, 12);
 
-            var generic = new GenericPresidentialGameEngine<Player, Leader, Issue, State>
+
+            var generic = new GenericPresidentialGameEngine<Player, Leader, Issue, State, Region>
                 (
-                    momentumComp, issueSupportComp, stateSupportComp, issuePositioningComp, politicalCapitalComp
+                    momentumComp, issueSupportComp, stateSupportComp, 
+                    issuePositioningComp, politicalCapitalComp, regionalComp
                 );
 
             generic.GainMomentum(Player.Nixon, 2);
