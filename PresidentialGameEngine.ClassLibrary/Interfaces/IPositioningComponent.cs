@@ -9,7 +9,7 @@ namespace PresidentialGameEngine.ClassLibrary.Interfaces
     public interface IPositioningComponent<SubjectEnum>
         where SubjectEnum : Enum
     {
-        public IEnumerable<SubjectEnum> GetSubjectOrder { get; }
+        public SubjectEnum[] GetSubjectOrder { get; }
 
         public void SetSubjectOrder(IEnumerable<SubjectEnum> orderedSubjectValues);
 
