@@ -54,13 +54,6 @@ namespace PresidentialGameEngine.ConsoleRunner
 
             generic.ImplementChanges(allChanges);
 
-            var holder = new PoliticalCapitalBag<Player>(new DefaultRandomnessProvider(), 12);
-
-            //holder.AddCubes(ZZZ.Kennedy, 12);
-            //holder.AddCubes(ZZZ.Nixon, 12);
-
-            var cube = holder.DrawCube();
-
             //var choices = new PlayerChosenChanges();
 
             //SupportChange<Issue> civilRightsSupportChange = new SupportChange<Issue>(Player.Kennedy, Issue.CivilRights, 1);
