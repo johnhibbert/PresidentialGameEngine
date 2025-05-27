@@ -28,7 +28,7 @@ namespace PresidentialGameEngine.ClassLibrary.Components
             }
         }
 
-        public Dictionary<PlayersEnum, int> Peek() { return cubes; }
+        public IDictionary<PlayersEnum, int> Peek() { return cubes; }
 
         public PlayersEnum InitiativeCheck()
         {

@@ -9,6 +9,8 @@ namespace PresidentialGameEngine.ClassLibrary.Interfaces
     public interface IPoliticalCapitalComponent<PlayersEnum>
         where PlayersEnum : Enum
     {
+        IDictionary<PlayersEnum, int> Peek();
+
         PlayersEnum InitiativeCheck();
 
         int SupportCheck(PlayersEnum player, int checkAmount);
