@@ -28,6 +28,8 @@ namespace PresidentialGameEngine.ClassLibrary.Components
             }
         }
 
+        public Dictionary<PlayersEnum, int> Peek() { return cubes; }
+
         public PlayersEnum InitiativeCheck()
         {
             PlayersEnum firstDraw = DrawCube();
