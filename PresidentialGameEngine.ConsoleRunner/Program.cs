@@ -218,7 +218,7 @@ namespace PresidentialGameEngine.ConsoleRunner
             var mediaSupportInEast = generic.GetMediaSupportAmount(Region.East);
 
 
-            int i = 0;
+            Console.WriteLine();
         }
 
 
