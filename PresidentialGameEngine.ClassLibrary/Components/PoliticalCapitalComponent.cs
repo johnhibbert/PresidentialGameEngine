@@ -1,4 +1,5 @@
-﻿using PresidentialGameEngine.ClassLibrary.Interfaces;
+﻿using PresidentialGameEngine.ClassLibrary.Data;
+using PresidentialGameEngine.ClassLibrary.Interfaces;
 
 namespace PresidentialGameEngine.ClassLibrary.Components
 {
@@ -42,7 +43,7 @@ namespace PresidentialGameEngine.ClassLibrary.Components
             else { return DrawCube(); }
         }
 
-        public int SupportCheck(PlayersEnum player, int checkAmount)
+        public SupportCheckResult SupportCheck(PlayersEnum player, int checkAmount)
         {
             int successes = 0;
 
@@ -57,7 +58,7 @@ namespace PresidentialGameEngine.ClassLibrary.Components
                 index++;
             }
 
-            return successes;
+            return new SupportCheckResult(successes, checkAmount-successes);
 
         }
 

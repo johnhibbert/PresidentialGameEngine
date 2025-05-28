@@ -10,7 +10,6 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
         where StatesEnum : Enum
         where RegionsEnum : Enum
     {
-
         IAccumulatingComponent<PlayersEnum> MomentumComponent { get; init; }
         ISupportComponent<PlayersEnum, LeadersEnum, IssuesEnum> IssueSupportComponent { get; init; }
         ISupportComponent<PlayersEnum, LeadersEnum, StatesEnum> StateSupportComponent { get; init; }
@@ -135,10 +134,9 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
             return PoliticalCapitalComponent.InitiativeCheck();
         }
 
-        public int SupportCheck(PlayersEnum player, int checkAmount)
+        public SupportCheckResult SupportCheck(PlayersEnum player, int checkAmount)
         {
             return PoliticalCapitalComponent.SupportCheck(player, checkAmount);
-
         }
 
         public void AddCubesToBag(PlayersEnum player, int amount)
@@ -197,7 +195,8 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
 
         public void GainMediaSupport(PlayersEnum player, RegionsEnum region, int amount)
         {
-            MediaSupportComponent.GainSupport(player, region, amount);
+            var result = SupportCheck(player, amount);
+            MediaSupportComponent.GainSupport(player, region, result.Successes);
         }
 
         public LeadersEnum GetMediaSupportLeader(RegionsEnum region)

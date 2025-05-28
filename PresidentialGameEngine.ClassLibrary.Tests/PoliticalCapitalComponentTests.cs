@@ -110,7 +110,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var result = sut.SupportCheck(FakePlayer.PlayerThree, cubesToTake);
 
-            Assert.AreEqual(1, result);
+            Assert.AreEqual(1, result.Successes);
             Assert.AreEqual(expectedTotal, sut.TotalNumberOfCubesInBag);
         }
 
