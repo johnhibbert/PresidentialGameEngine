@@ -1,12 +1,71 @@
 ﻿using PresidentialGameEngine.ClassLibrary.Data;
 using PresidentialGameEngine.ClassLibrary.Enums;
 
-namespace PresidentialGameEngine.ClassLibrary
+namespace PresidentialGameEngine.ClassLibrary.Manifests
 {
-    public class CardManifests
+    public class NineteenSixty
     {
+        public static readonly Dictionary<Player, State> PlayerStartingPositions = new()
+        {
+            { Player.Kennedy, State.MA },
+            { Player.Nixon, State.CA }
+        };
 
-        public static readonly Dictionary<int, Card> TheMakingOfThePresidentZManCards = new()
+        public static readonly Dictionary<State, Region> RegionByState = new() 
+        {
+            { State.AK, Region.West },
+            { State.AL, Region.South },
+            { State.AR, Region.South },
+            { State.AZ, Region.West },
+            { State.CA, Region.West },
+            { State.CO, Region.West },
+            { State.CT, Region.East },
+            { State.DE, Region.East },
+            { State.FL, Region.South },
+            { State.GA, Region.South },
+            { State.HI, Region.West },
+            { State.IA, Region.Midwest },
+            { State.ID, Region.West },
+            { State.IL, Region.Midwest },
+            { State.IN, Region.Midwest },
+            { State.KS, Region.West },
+            { State.KY, Region.Midwest },
+            { State.LA, Region.South },
+            { State.MA, Region.East },
+            { State.MD, Region.East },
+            { State.ME, Region.East },
+            { State.MI, Region.Midwest },
+            { State.MN, Region.Midwest },
+            { State.MO, Region.Midwest },
+            { State.MS, Region.South },
+            { State.MT, Region.West },
+            { State.NC, Region.South },
+            { State.ND, Region.West },
+            { State.NE, Region.West },
+            { State.NH, Region.East },
+            { State.NJ, Region.East },
+            { State.NM, Region.West },
+            { State.NV, Region.West },
+            { State.NY, Region.East },
+            { State.OH, Region.Midwest },
+            { State.OK, Region.West },
+            { State.OR, Region.West },
+            { State.PA, Region.East },
+            { State.RI, Region.East },
+            { State.SC, Region.South },
+            { State.SD, Region.West },
+            { State.TN, Region.South },
+            { State.TX, Region.South },
+            { State.UT, Region.West },
+            { State.VA, Region.South },
+            { State.VT, Region.East },
+            { State.WA, Region.West },
+            { State.WI, Region.Midwest },
+            { State.WV, Region.East },
+            { State.WY, Region.West }
+        };
+
+        public static readonly Dictionary<int, Card> ZManCards = new()
         {
 
             //new Card(1, "Greater Houston Ministerial Ass’n"),
@@ -134,7 +193,7 @@ namespace PresidentialGameEngine.ClassLibrary
                         if(leader != Leader.None)
                         {
                             engine.ImplementChanges(choices);
-                        }                        
+                        }
                     },
                     AreChangesValid = (choices) =>
                     {
@@ -373,7 +432,7 @@ namespace PresidentialGameEngine.ClassLibrary
                         var successes = engine.SupportCheck(Player.Nixon, 3);
                         choices.StateChanges.First().Change = successes;
                         engine.ImplementChanges(choices);
-                        
+
 
                     },
                     AreChangesValid = (choices) =>
@@ -466,7 +525,7 @@ namespace PresidentialGameEngine.ClassLibrary
             },
         };
 
-        public static readonly Dictionary<int, Card> TheMakingOfThePresidentGMTCards =
-            TheMakingOfThePresidentZManCards.Concat(GMT_OnlyCards).ToDictionary(x => x.Key, x => x.Value);
+        public static readonly Dictionary<int, Card> GMTCards =
+            ZManCards.Concat(GMT_OnlyCards).ToDictionary(x => x.Key, x => x.Value);
     }
 }
