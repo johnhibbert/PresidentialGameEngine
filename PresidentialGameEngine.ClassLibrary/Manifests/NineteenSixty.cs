@@ -65,16 +65,24 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             { State.WY, Region.West }
         };
 
-        public static readonly Dictionary<int, Card> ZManCards = new()
+        public static readonly Dictionary<int, ICard> ZManCards = new()
         {
 
             //new Card(1, "Greater Houston Ministerial Ass’n"),
             //new Card(2, "Nixon’s Knee"),
             //new Card(3, "Gallup Poll"),
             //new Card(4, "Citizens for Nixon-Lodge"),
-            {5, new Card(5, "Volunteers", "Player gains 1 momentum marker.", 2, Issue.Defense, Affiliation.Both, State.OR)
+            {5, new NewCard()
                 {
-                    Event = (engine, player, choices) => {
+                    Index = 5,
+                    Title = "Volunteers",
+                    Text =  "Player gains 1 momentum marker.",
+                    CampaignPoints = 2,
+                    Issue = Issue.Defense,
+                    Affiliation = Affiliation.Both,
+                    State = State.OR,
+                    Event = (engine, player, choices) =>
+                    {
                         engine.GainMomentum(player, 1);
                     },
                     AreChangesValid = (choices) =>
@@ -84,8 +92,15 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     },
                 }
             },
-            {6, new Card(6, "New England", "The Kennedy player may add a total of 5 state support in Connecticut, Massachusetts, Maine, New York, Rhode Island, and Vermont, no more than 2 per state.", 3, Issue.Defense, Affiliation.Kennedy, State.LA)
+            {6, new NewCard()
                 {
+                    Index = 6,
+                    Title = "New England",
+                    Text = "The Kennedy player may add a total of 5 state support in Connecticut, Massachusetts, Maine, New York, Rhode Island, and Vermont, no more than 2 per state.",
+                    CampaignPoints = 3,
+                    Issue = Issue.Defense,
+                    Affiliation = Affiliation.Kennedy,
+                    State = State.LA,
                     Event = (engine, player, choices) => {
                         engine.ImplementChanges(choices);
                     },
@@ -104,8 +119,15 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     },
                 }
             },
-            {7, new Card(7, "Late Returns From Cook County", "ELECTION DAY EVENT!  On Election Day, the Kennedy player gains 5 support checks in Illinois.", 2, Issue.Economy, Affiliation.Kennedy, State.SC)
+            {7, new NewCard()
                 {
+                    Index = 7,
+                    Title = "Late Returns From Cook County",
+                    Text = "ELECTION DAY EVENT!  On Election Day, the Kennedy player gains 5 support checks in Illinois.",
+                    CampaignPoints = 2,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Kennedy,
+                    State = State.SC,
                     Event = (engine, player, choices) => {
                         //engine.GainMomentum(player, 1);
                         var successes = engine.SupportCheck(Player.Kennedy, 5);
@@ -451,7 +473,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
 
             };
 
-        private static readonly Dictionary<int, Card> GMT_OnlyCards = new()
+        private static readonly Dictionary<int, ICard> GMT_OnlyCards = new()
         {
             //new Card(92, "Give ‘Em Hell Harry"),
             //new Card(93, "Experience Counts"),
@@ -525,7 +547,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             },
         };
 
-        public static readonly Dictionary<int, Card> GMTCards =
+        public static readonly Dictionary<int, ICard> GMTCards =
             ZManCards.Concat(GMT_OnlyCards).ToDictionary(x => x.Key, x => x.Value);
     }
 }

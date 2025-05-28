@@ -216,7 +216,7 @@ namespace PresidentialGameEngine.ConsoleRunner
                 Console.WriteLine($"Issue: {card.Issue}");
                 Console.Write($"Candidate: ");
 
-                switch (card.Candidate)
+                switch (card.Affiliation)
                 {
                     case Affiliation.Kennedy:
                         Console.WriteLine("Donkey");
