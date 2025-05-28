@@ -65,14 +65,14 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             { State.WY, Region.West }
         };
 
-        public static readonly Dictionary<int, ICard> ZManCards = new()
+        public static readonly Dictionary<int, Card> ZManCards = new()
         {
 
             //new Card(1, "Greater Houston Ministerial Ass’n"),
             //new Card(2, "Nixon’s Knee"),
             //new Card(3, "Gallup Poll"),
             //new Card(4, "Citizens for Nixon-Lodge"),
-            {5, new NewCard()
+            {5, new Card()
                 {
                     Index = 5,
                     Title = "Volunteers",
@@ -92,7 +92,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     },
                 }
             },
-            {6, new NewCard()
+            {6, new Card()
                 {
                     Index = 6,
                     Title = "New England",
@@ -119,7 +119,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     },
                 }
             },
-            {7, new NewCard()
+            {7, new Card()
                 {
                     Index = 7,
                     Title = "Late Returns From Cook County",
@@ -140,7 +140,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     },
                 }
             },
-            {8, new NewCard()
+            {8, new Card()
                 {
                     Index = 8,
                     Title = "Soviet Economic Growth",
@@ -177,7 +177,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             //new Card(20, "Nixon Egged In Michigan"),
             //new Card(21, "Fifty Stars"),
             //new Card(22, "Gaffe"),
-            {23, new NewCard()
+            {23, new Card()
                 {
                     Index = 23,
                     Title = "Martin Luther King Arrested",
@@ -197,7 +197,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                 }
             },
             //new Card(24, "East Harlem Pledge"),
-            {25, new NewCard()
+            {25, new Card()
                 {
                     Index = 25,
                     Title = "1960 Civil Rights Act",
@@ -227,7 +227,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             //new Card(34, "“Lazy Shave”"),
             //new Card(35, "Harvard Brain Trust"),
             //new Card(36, "Henry Luce"),
-            {37, new NewCard()
+            {37, new Card()
                 {
                     Index = 37,
                     Title = "Lunch Counter Sit-Ins",
@@ -260,7 +260,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             //new Card(38, "“High Hopes”"),
             //new Card(39, "Lyndon Johnson"),
             //new Card(40, "Northern Blacks"),
-            {41, new NewCard()
+            {41, new Card()
                 {
                     Index = 41,
                     Title = "Pierre Salinger",
@@ -291,7 +291,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             //new Card(45, "Compact Of 5th Avenue"),
             //new Card(46, "Prime-Time Television"),
             //new Card(47, "The Cold War"),
-            {48, new NewCard()
+            {48, new Card()
                 {
                     Index = 48,
                     Title = "Rising Food Prices",
@@ -312,7 +312,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             },
             //new Card(49, "Eleanor Roosevelt’s Speaking Tour"),
             //new Card(50, "Industrial Midwest"),
-            {51, new NewCard()
+            {51, new Card()
                 {
                     Index = 51,
                     Title = "Missile Gap",
@@ -340,7 +340,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             //new Card(59, "Mid-Atlantic"),
             //new Card(60, "World Series Ends"),
             //new Card(61, "Fatigue Sets In"),
-            {62, new NewCard()
+            {62, new Card()
                 {
                     Index = 62,
                     Title = "Trial of Gary Powers",
@@ -364,7 +364,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     },
                 }
             },
-            {63, new NewCard()
+            {63, new Card()
                 {
                     Index = 63,
                     Title = "“Give Me A Week”",
@@ -385,7 +385,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     },
                 }
             },
-            {64, new NewCard()
+            {64, new Card()
                 {
                     Index = 64,
                     Title = "Stump Speech",
@@ -412,7 +412,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             //new Card(65, "Joe Kennedy"),
             //new Card(66, "Adlai Stevenson"),
             //new Card(67, "Voter Registration Drive"),
-            {68, new NewCard()
+            {68, new Card()
                 {
                     Index = 68,
                     Title = "“Peace Without Surrender”",
@@ -432,7 +432,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                 }
             },
             //new Card(69, "Congressional Summer Session"),
-            {70, new NewCard()
+            {70, new Card()
                 {
                     Index = 70,
                     Title = "The Old Nixon",
@@ -459,7 +459,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             //new Card(75, "Republican TV Spots"),
             //new Card(76, "Nixon’s Pledge"),
             //new Card(77, "Suburban Voters"),
-            {78, new NewCard()
+            {78, new Card()
                 {
                     Index = 78,
                     Title = "Stock Market In Decline",
@@ -487,7 +487,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             //new Card(79, "Advance Men"),
             //new Card(80, "Herblock"),
             //new Card(81, "Kennedy’s Peace Corps"),
-            {82, new NewCard()
+            {82, new Card()
                 {                    
                     Index = 82,
                     Title = "Fidel Castro",
@@ -514,7 +514,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             //new Card(83, "Whistlestop"),
             //new Card(84, "Quemoy and Matsu"),
             //new Card(85, "Jackie Kennedy"),
-            {86,  new NewCard()
+            {86,  new Card()
                 {
                     Index = 86,
                     Title = "Herb Klein",
@@ -539,7 +539,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             },
             //new Card(87, "Stevenson Loyalists"),
             //new Card(88, "Stature Gap"),
-            {89, new NewCard()
+            {89, new Card()
                 {
                     Index = 89,
                     Title = "The New Nixon",
@@ -557,7 +557,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     },
                 }
             },
-            {90, new NewCard()
+            {90, new Card()
                 {
                     Index = 90,
                     Title = "Recount",
@@ -592,11 +592,11 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
 
             };
 
-        private static readonly Dictionary<int, ICard> GMT_OnlyCards = new()
+        private static readonly Dictionary<int, Card> GMT_OnlyCards = new()
         {
             //new Card(92, "Give ‘Em Hell Harry"),
             //new Card(93, "Experience Counts"),
-            {93, new NewCard()
+            {93, new Card()
                 {
                     Index = 93,
                     Title = "Experience Counts",
@@ -619,7 +619,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             },
             //new Card(94, "A Low Blow"),
             //new Card(95, "A Time For Greatness?"),
-            {96, new NewCard()
+            {96, new Card()
                 {
                     Index = 96,
                     Title = "Medal Count",
@@ -652,7 +652,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     },
                 }
             },
-            {97, new NewCard()
+            {97, new Card()
                 {
                     Index = 97,
                     Title = "Cassius Clay Wins Gold",
@@ -687,7 +687,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             },
         };
 
-        public static readonly Dictionary<int, ICard> GMTCards =
+        public static readonly Dictionary<int, Card> GMTCards =
             ZManCards.Concat(GMT_OnlyCards).ToDictionary(x => x.Key, x => x.Value);
     }
 }

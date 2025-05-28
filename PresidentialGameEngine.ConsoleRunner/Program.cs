@@ -207,7 +207,7 @@ namespace PresidentialGameEngine.ConsoleRunner
             Console.WriteLine("Press Enter to continue.");
             Console.ReadLine();
 
-            foreach (NewCard card in NineteenSixty.GMTCards.Values)
+            foreach (Card card in NineteenSixty.GMTCards.Values)
             {
                 Console.Clear();
                 Console.WriteLine($"Index: {card.Index}");
