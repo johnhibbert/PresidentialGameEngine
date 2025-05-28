@@ -11,7 +11,7 @@ using static PresidentialGameEngine.ClassLibrary.Tests.TestStubsFakesAndMocks;
 namespace PresidentialGameEngine.ClassLibrary.Tests
 {
     [TestClass]
-    public class CardSpecificTests
+    public class NineteenSixtyCardSpecificTests
     {
         //"If it isn't tested, it's broken." Eliotte Rusty Harold
         //https://youtu.be/fr1E9aVnBxw?si=uW41ZLChgJ5EEYnl&t=138
@@ -61,29 +61,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             return new NineteenSixtyGameEngine(compColl);
         }
 
-        #region Card Value Confirmations
-        /*
-         * FIX ME LATER
-        [TestMethod]
-        [DataRow(1, 4, 0, Issue.Defense, is )]
-        public void ConfirmBasicCardValues(int index, int campaignPoints, int rest, 
-            Issue issue, Affiliation affiliation, State state)
-        {
-            
-            var sut = NineteenSixty.GMTCards[index];
 
-            //This if check is just because the entire library hasn't been made yet
-            if (sut is not null)
-            {
-                Assert.AreEqual(campaignPoints, sut.CampaignPoints);
-                Assert.AreEqual(rest, sut.RestCubes);
-                Assert.AreEqual(issue, sut.Issue);
-                Assert.AreEqual(affiliation, sut.Affiliation);
-                Assert.AreEqual(state, sut.State);
-            }
-
-        }
-        */
 
         #region #5 - Volunteers
         [TestMethod]
