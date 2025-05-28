@@ -20,7 +20,8 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
                     IssuePositioningComponent = Substitute.For<IPositioningComponent<FakeIssue>>(),
                     PoliticalCapitalComponent = Substitute.For<IPoliticalCapitalComponent<FakePlayer>>(),
                     RestComponent = Substitute.For<IAccumulatingComponent<FakePlayer>>(),
-                    RegionalComponent = Substitute.For<IRegionalComponent<FakeState, FakeRegion, FakePlayer>>()
+                    RegionalComponent = Substitute.For<IRegionalComponent<FakeState, FakeRegion, FakePlayer>>(),
+                    EndorsementComponent = Substitute.For<ISupportComponent<FakePlayer, FakeLeader, FakeRegion>>()
                 };
 
             Assert.IsTrue(collection.IsReady());

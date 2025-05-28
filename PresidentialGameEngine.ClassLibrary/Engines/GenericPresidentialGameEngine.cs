@@ -18,6 +18,8 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
         IPoliticalCapitalComponent<PlayersEnum> PoliticalCapitalComponent { get; init; }
         IRegionalComponent<StatesEnum, RegionsEnum, PlayersEnum> RegionalComponent { get; init; }
         IAccumulatingComponent<PlayersEnum> RestComponent { get; init; }
+        ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum> EndorsementComponent { get; init; }
+
 
         //Not sure I really want to be supressing warnings like this
         //but the object is intentionally nullable to use methods instead of a huge constructor
@@ -36,6 +38,7 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
                 PoliticalCapitalComponent = collection.PoliticalCapitalComponent;
                 RegionalComponent = collection.RegionalComponent;
                 RestComponent = collection.RestComponent;
+                EndorsementComponent = collection.EndorsementComponent;
 #pragma warning restore CS8601 // Possible null reference assignment.
             }
             else throw new ArgumentException("At least one necessary property on the ComponentCollection is null.");
@@ -174,6 +177,16 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
         public void MovePlayerToState(PlayersEnum player, StatesEnum states)
         {
             RegionalComponent.MovePlayerToState(player, states);
+        }
+
+        public void GainEndorsement(PlayersEnum player, RegionsEnum region)
+        {
+            EndorsementComponent.GainSupport(player, region, 1);
+        }
+
+        public LeadersEnum GetEndorsementLeader(RegionsEnum region) 
+        {
+            return EndorsementComponent.GetLeader(region);
         }
 
     }
