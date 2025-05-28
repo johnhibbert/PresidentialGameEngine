@@ -36,5 +36,6 @@ namespace PresidentialGameEngine.ClassLibrary
         public IRegionalComponent<StatesEnum, RegionsEnum, PlayersEnum>? RegionalComponent { get; set; }
         public IAccumulatingComponent<PlayersEnum>? RestComponent { get; set; }
         public ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum>? EndorsementComponent { get; set; }
+        public ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum>? MediaSupportComponent { get; set; }
     }
 }

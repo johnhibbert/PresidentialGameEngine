@@ -56,7 +56,8 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
                 PoliticalCapitalComponent = new PoliticalCapitalComponent<Player>(seed, 12),
                 RegionalComponent = new RegionalComponent<State, Region, Player>(GetStatesAndRegions(), GetPlayerStartingLocations()),
                 RestComponent = new AccumulatingComponent<Player>(),
-                EndorsementComponent = new SupportComponent<Player, Leader, Region>()
+                EndorsementComponent = new SupportComponent<Player, Leader, Region>(),
+                MediaSupportComponent = new SupportComponent<Player, Leader, Region>()
             };
 
             return new NineteenSixtyGameEngine(compColl);

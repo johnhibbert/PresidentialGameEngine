@@ -19,7 +19,7 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
         IRegionalComponent<StatesEnum, RegionsEnum, PlayersEnum> RegionalComponent { get; init; }
         IAccumulatingComponent<PlayersEnum> RestComponent { get; init; }
         ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum> EndorsementComponent { get; init; }
-
+        ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum> MediaSupportComponent { get; init; }
 
         //Not sure I really want to be supressing warnings like this
         //but the object is intentionally nullable to use methods instead of a huge constructor
@@ -39,6 +39,7 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
                 RegionalComponent = collection.RegionalComponent;
                 RestComponent = collection.RestComponent;
                 EndorsementComponent = collection.EndorsementComponent;
+                MediaSupportComponent = collection.MediaSupportComponent;
 #pragma warning restore CS8601 // Possible null reference assignment.
             }
             else throw new ArgumentException("At least one necessary property on the ComponentCollection is null.");
@@ -187,6 +188,26 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
         public LeadersEnum GetEndorsementLeader(RegionsEnum region) 
         {
             return EndorsementComponent.GetLeader(region);
+        }
+
+        public int GetNumberOfEndorsements(RegionsEnum region)
+        {
+            return EndorsementComponent.GetSupportAmount(region);
+        }
+
+        public void GainMediaSupport(PlayersEnum player, RegionsEnum region, int amount)
+        {
+            MediaSupportComponent.GainSupport(player, region, amount);
+        }
+
+        public LeadersEnum GetMediaSupportLeader(RegionsEnum region)
+        {
+            return MediaSupportComponent.GetLeader(region);
+        }
+
+        public int GetMediaSupportAmount(RegionsEnum region)
+        {
+            return MediaSupportComponent.GetSupportAmount(region);
         }
 
     }

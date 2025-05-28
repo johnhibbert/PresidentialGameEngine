@@ -152,6 +152,7 @@ namespace PresidentialGameEngine.ConsoleRunner
             var politicalCapitalComp = new PoliticalCapitalComponent<Player>(random, 12);
             var restComp = new AccumulatingComponent<Player>();
             var endorsement = new SupportComponent<Player, Leader, Region>();
+            var mediaSupport = new SupportComponent<Player, Leader, Region>();
 
             var compColl = new ComponentCollection<Player, Leader, Issue, State, Region>()
             {
@@ -162,7 +163,8 @@ namespace PresidentialGameEngine.ConsoleRunner
                 PoliticalCapitalComponent = politicalCapitalComp,
                 RegionalComponent = regionalComp,
                 RestComponent = restComp,
-                EndorsementComponent = endorsement
+                EndorsementComponent = endorsement,
+                MediaSupportComponent = mediaSupport
             };
 
             var generic = new GenericPresidentialGameEngine<Player, Leader, Issue, State, Region>
@@ -208,7 +210,13 @@ namespace PresidentialGameEngine.ConsoleRunner
 
             generic.GainEndorsement(Player.Nixon, Region.West);
             var endorsementInTheWest = generic.GetEndorsementLeader(Region.West);
+            var endorsementCount = generic.GetNumberOfEndorsements(Region.West);
             var endorsementInTheMidwest = generic.GetEndorsementLeader(Region.Midwest);
+
+
+            generic.GainMediaSupport(Player.Kennedy, Region.East, 3);
+            var mediaSupportInEast = generic.GetMediaSupportAmount(Region.East);
+
 
             int i = 0;
         }

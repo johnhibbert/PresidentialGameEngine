@@ -2,9 +2,9 @@
 {
     public enum Region
     {
-        East,
-        Midwest,
-        South,
-        West,
+        East = 1,
+        Midwest = 2,
+        South = 3,
+        West = 4,
     }
 }

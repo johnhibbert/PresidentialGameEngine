@@ -1,5 +1,4 @@
 ﻿using PresidentialGameEngine.ClassLibrary.Data;
-using PresidentialGameEngine.ClassLibrary.Enums;
 using PresidentialGameEngine.ClassLibrary.Interfaces;
 
 namespace PresidentialGameEngine.ClassLibrary.Components
@@ -39,39 +38,39 @@ namespace PresidentialGameEngine.ClassLibrary.Components
             return SubjectContests[subject].Amount;
         }
 
-        public void GainSupport(PlayersEnum player, SubjectEnum state, int amount)
+        public void GainSupport(PlayersEnum player, SubjectEnum subject, int amount)
         {
-            var stateContest = SubjectContests[state];
+            var contest = SubjectContests[subject];
 
             var playerAsInt = Convert.ToInt32(player);
-            var leaderAsInt = Convert.ToInt32(stateContest.Leader);
+            var leaderAsInt = Convert.ToInt32(contest.Leader);
 
             if (playerAsInt == leaderAsInt) 
             {
-                stateContest.Amount += amount;
+                contest.Amount += amount;
             }
-            else if(leaderAsInt != 0 && amount == stateContest.Amount) 
+            else if(leaderAsInt != 0 && amount == contest.Amount) 
             {
-                stateContest.Amount = 0;
-                stateContest.Leader = defaultLeader;
+                contest.Amount = 0;
+                contest.Leader = defaultLeader;
             }
             else 
             {
-                if(amount < stateContest.Amount) 
+                if(amount < contest.Amount) 
                 {
-                    stateContest.Amount -= amount;
+                    contest.Amount -= amount;
                 }
                 else 
                 {
-                    stateContest.Amount = amount - stateContest.Amount;
-                    stateContest.Leader = (LeadersEnum)Enum.ToObject(typeof(LeadersEnum), playerAsInt);
+                    contest.Amount = amount - contest.Amount;
+                    contest.Leader = (LeadersEnum)Enum.ToObject(typeof(LeadersEnum), playerAsInt);
                 }
             }
         }
 
-        public void LoseSupport(PlayersEnum player, SubjectEnum state, int amount)
+        public void LoseSupport(PlayersEnum player, SubjectEnum subject, int amount)
         {
-            var targetContest = SubjectContests[state];
+            var targetContest = SubjectContests[subject];
 
             var playerAsInt = Convert.ToInt32(player);
             var leaderAsInt = Convert.ToInt32(targetContest.Leader);
