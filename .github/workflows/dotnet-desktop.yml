@@ -1,0 +1,12 @@
+# https://stackoverflow.com/questions/59742930/how-to-create-github-actions-for-unit-testing-in-net-projects
+name: Unit Tests
+
+on: push
+
+jobs:
+  tests:
+    name: Unit Testing
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2.1.0
+      - run: dotnet test
