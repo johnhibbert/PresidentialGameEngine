@@ -44,18 +44,18 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         private NineteenSixtyGameEngine GetGameEngine() 
         {
             SeededRandomnessProviderForTesting seed = new();
+            ComponentCollection<Player, Leader, Issue, State, Region> compColl = new ComponentCollection<Player, Leader, Issue, State, Region>
+            {
+                MomentumComponent = new AccumulatingComponent<Player>(),
+                IssueSupportComponent = new SupportComponent<Player, Leader, Issue>(),
+                StateSupportComponent = new SupportComponent<Player, Leader, State>(),
+                IssuePositioningComponent = new PositioningComponent<Issue>(),
+                PoliticalCapitalComponent = new PoliticalCapitalComponent<Player>(seed, 12),
+                RegionalComponent = new RegionalComponent<State, Region, Player>(GetStatesAndRegions(), GetPlayerStartingLocations()),
+                RestComponent = new AccumulatingComponent<Player>(),
+            };
 
-            IAccumulatingComponent<Player> momentumComp = new AccumulatingComponent<Player>();
-            ISupportComponent<Player, Leader, Issue> issueSupportComp = new SupportComponent<Player, Leader, Issue>();
-            ISupportComponent<Player, Leader, State> stateSupportComp = new SupportComponent<Player, Leader, State>();
-            IPositioningComponent<Issue> issuePositioningComp = new PositioningComponent<Issue>();
-            IPoliticalCapitalComponent<Player> politicalCapitalComp = new PoliticalCapitalComponent<Player>(seed, 12);
-            IRegionalComponent<State, Region, Player> regionalComp = 
-                new RegionalComponent<State, Region, Player>(GetStatesAndRegions(), GetPlayerStartingLocations());
-            IAccumulatingComponent<Player> restComponent = new AccumulatingComponent<Player>();
-
-            return new(momentumComp, issueSupportComp, stateSupportComp, 
-                issuePositioningComp, politicalCapitalComp, regionalComp, restComponent);
+            return new NineteenSixtyGameEngine(compColl);
         }
 
         #region #5 - Volunteers

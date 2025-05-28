@@ -2,6 +2,7 @@
 using PresidentialGameEngine.ClassLibrary.Components;
 using PresidentialGameEngine.ClassLibrary.Data;
 using PresidentialGameEngine.ClassLibrary.Enums;
+using System;
 
 namespace PresidentialGameEngine.ConsoleRunner
 {
@@ -17,17 +18,23 @@ namespace PresidentialGameEngine.ConsoleRunner
 
             Console.WriteLine();
             Console.WriteLine("Select an option:");
-            Console.WriteLine("1: Run simple component tests");
-            Console.WriteLine("2: Display all cards");
+            Console.WriteLine("1: Simple Playground");
+            Console.WriteLine("2: Run simple component tests");
+            Console.WriteLine("3: Display all cards");
+            Console.WriteLine();
+
 
             int userSelection = GetIntFromUser();
 
             switch (userSelection) 
             {
                 case 1:
-                    SimpleComponentTests();
+                    SimplePlayground();
                     break;
                 case 2:
+                    SimpleComponentTests();
+                    break;
+                case 3:
                     DisplayAllCards();
                     break;
                 default:
@@ -35,6 +42,52 @@ namespace PresidentialGameEngine.ConsoleRunner
                     break;
 
             }
+
+
+
+        }
+
+        private static void SimplePlayground() 
+        {
+            //Code here is not permanent.
+            //Not that any code is permanent.
+
+            Dictionary<State, Region> statesAndRegions = [];
+            statesAndRegions.Add(State.RI, Region.East);
+            statesAndRegions.Add(State.MA, Region.East);
+            statesAndRegions.Add(State.LA, Region.South);
+            statesAndRegions.Add(State.FL, Region.South);
+            statesAndRegions.Add(State.MI, Region.Midwest);
+            statesAndRegions.Add(State.IL, Region.Midwest);
+            statesAndRegions.Add(State.CO, Region.West);
+            statesAndRegions.Add(State.CA, Region.West);
+
+            Dictionary<Player, State> playerStartingLocations = [];
+            playerStartingLocations.Add(Player.Nixon, State.CA);
+            playerStartingLocations.Add(Player.Kennedy, State.MA);
+
+            var random = new DefaultRandomnessProvider();
+
+            var momentumComp = new AccumulatingComponent<Player>();
+            var issueSupportComp = new SupportComponent<Player, Leader, Issue>();
+            var stateSupportComp = new SupportComponent<Player, Leader, State>();
+            var issuePositioningComp = new PositioningComponent<Issue>();
+            var politicalCapitalComp = new PoliticalCapitalComponent<Player>(random, 12);
+            var restComp = new AccumulatingComponent<Player>();
+            var regionalComp = new RegionalComponent<State, Region, Player>(statesAndRegions, playerStartingLocations);
+
+
+            ComponentCollection<Player, Leader, Issue, State, Region> componentCollection = new();
+
+            componentCollection.MomentumComponent = momentumComp;
+            componentCollection.IssueSupportComponent = issueSupportComp;
+            componentCollection.StateSupportComponent = stateSupportComp;
+            componentCollection.IssuePositioningComponent  = issuePositioningComp;
+            componentCollection.PoliticalCapitalComponent = politicalCapitalComp;
+            var isReady = componentCollection.IsReady();
+            componentCollection.RestComponent = restComp;
+            componentCollection.RegionalComponent = regionalComp;
+            isReady = componentCollection.IsReady();
 
 
 
@@ -90,11 +143,21 @@ namespace PresidentialGameEngine.ConsoleRunner
             var politicalCapitalComp = new PoliticalCapitalComponent<Player>(random, 12);
             var restComp = new AccumulatingComponent<Player>();
 
+            var compColl = new ComponentCollection<Player, Leader, Issue, State, Region>()
+            {
+                MomentumComponent = momentumComp,
+                IssueSupportComponent = issueSupportComp,
+                StateSupportComponent = stateSupportComp,
+                IssuePositioningComponent = issuePositioningComp,
+                PoliticalCapitalComponent = politicalCapitalComp,
+                RegionalComponent = regionalComp,
+                RestComponent = restComp,
+            };
+
             var generic = new GenericPresidentialGameEngine<Player, Leader, Issue, State, Region>
-                (
-                    momentumComp, issueSupportComp, stateSupportComp, 
-                    issuePositioningComp, politicalCapitalComp, regionalComp, restComp
-                );
+            (
+                compColl
+            );
 
             generic.GainMomentum(Player.Nixon, 2);
             generic.LoseMomentum(Player.Nixon, 1);

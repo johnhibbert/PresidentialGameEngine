@@ -66,6 +66,12 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             SouthEast,
         }
 
+        public enum FakeIssue
+        {
+            KetchupOnHotDogs,
+            PepsiOrCoke,
+        }
+
         public class SeededRandomnessProviderForTesting : IRandomnessProvider
         {
             //Seeded for consistency
