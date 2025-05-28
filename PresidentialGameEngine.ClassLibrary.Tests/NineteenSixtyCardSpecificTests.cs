@@ -250,7 +250,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var sut = NineteenSixty.GMTCards[cardIndex];
             sut.Event(engine, player, GetEmptyChanges());
 
-            Assert.AreEqual(Issue.Economy, engine.IssueOrder[1]);
+            Assert.AreEqual(Issue.Economy, engine.GetIssueOrder[1]);
         }
 
         [TestMethod]
@@ -266,7 +266,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var sut = NineteenSixty.GMTCards[cardIndex];
             sut.Event(engine, player, GetEmptyChanges());
 
-            Assert.AreEqual(Issue.Economy, engine.IssueOrder[0]);
+            Assert.AreEqual(Issue.Economy, engine.GetIssueOrder[0]);
         }
 
         [TestMethod]
@@ -330,7 +330,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var sut = NineteenSixty.GMTCards[cardIndex];
             sut.Event(engine, player, GetEmptyChanges());
 
-            Assert.AreEqual(Issue.CivilRights, engine.IssueOrder[1]);
+            Assert.AreEqual(Issue.CivilRights, engine.GetIssueOrder[1]);
         }
 
         [TestMethod]
@@ -346,7 +346,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var sut = NineteenSixty.GMTCards[cardIndex];
             sut.Event(engine, player, GetEmptyChanges());
 
-            Assert.AreEqual(Issue.CivilRights, engine.IssueOrder[0]);
+            Assert.AreEqual(Issue.CivilRights, engine.GetIssueOrder[0]);
         }
 
         [TestMethod]
@@ -413,7 +413,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var sut = NineteenSixty.GMTCards[cardIndex];
             sut.Event(engine, player, GetEmptyChanges());
 
-            Assert.AreEqual(Issue.CivilRights, engine.IssueOrder[1]);
+            Assert.AreEqual(Issue.CivilRights, engine.GetIssueOrder[1]);
         }
 
         [TestMethod]
@@ -429,7 +429,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var sut = NineteenSixty.GMTCards[cardIndex];
             sut.Event(engine, player, GetEmptyChanges());
 
-            Assert.AreEqual(Issue.CivilRights, engine.IssueOrder[0]);
+            Assert.AreEqual(Issue.CivilRights, engine.GetIssueOrder[0]);
         }
 
         [TestMethod]
@@ -507,7 +507,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             sut.Event(engine, player, playerChoices);
 
-            Assert.AreEqual(Issue.CivilRights, engine.IssueOrder[1]);
+            Assert.AreEqual(Issue.CivilRights, engine.GetIssueOrder[1]);
 
         }
 
@@ -752,7 +752,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             sut.Event(engine, player, GetEmptyChanges());
 
-            Assert.AreEqual(Issue.Economy, engine.IssueOrder[1]);
+            Assert.AreEqual(Issue.Economy, engine.GetIssueOrder[1]);
         }
 
         [TestMethod]
@@ -769,7 +769,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             sut.Event(engine, player, GetEmptyChanges());
 
-            Assert.AreEqual(Issue.Economy, engine.IssueOrder[0]);
+            Assert.AreEqual(Issue.Economy, engine.GetIssueOrder[0]);
         }
 
         [TestMethod]
@@ -884,7 +884,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var sut = NineteenSixty.GMTCards[cardIndex];
             sut.Event(engine, player, GetEmptyChanges());
 
-            Assert.AreEqual(Issue.Defense, engine.IssueOrder[0]);
+            Assert.AreEqual(Issue.Defense, engine.GetIssueOrder[0]);
         }
 
         [TestMethod]
@@ -900,7 +900,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var sut = NineteenSixty.GMTCards[cardIndex];
             sut.Event(engine, player, GetEmptyChanges());
 
-            Assert.AreEqual(Issue.Defense, engine.IssueOrder[0]);
+            Assert.AreEqual(Issue.Defense, engine.GetIssueOrder[0]);
         }
 
         [TestMethod]
@@ -1084,7 +1084,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             sut.Event(engine, player, GetEmptyChanges());
 
-            Assert.AreEqual(Issue.Defense, engine.IssueOrder[1]);
+            Assert.AreEqual(Issue.Defense, engine.GetIssueOrder[1]);
         }
 
         [TestMethod]
@@ -1101,7 +1101,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             sut.Event(engine, player, GetEmptyChanges());
 
-            Assert.AreEqual(Issue.Defense, engine.IssueOrder[0]);
+            Assert.AreEqual(Issue.Defense, engine.GetIssueOrder[0]);
         }
 
         [TestMethod]
@@ -1208,7 +1208,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var sut = NineteenSixty.GMTCards[cardIndex];
             sut.Event(engine, player, GetEmptyChanges());
 
-            Assert.AreEqual(Issue.Economy, engine.IssueOrder[0]);
+            Assert.AreEqual(Issue.Economy, engine.GetIssueOrder[0]);
         }
 
         [TestMethod]
@@ -1224,7 +1224,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var sut = NineteenSixty.GMTCards[cardIndex];
             sut.Event(engine, player, GetEmptyChanges());
 
-            Assert.AreEqual(Issue.Economy, engine.IssueOrder[0]);
+            Assert.AreEqual(Issue.Economy, engine.GetIssueOrder[0]);
         }
 
         [TestMethod]

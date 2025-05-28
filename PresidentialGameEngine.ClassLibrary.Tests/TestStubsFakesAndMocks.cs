@@ -54,22 +54,23 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
         public enum FakeState 
         {
-            Being,
-            Denial,
-            Mind,
-            OfTheArt,
+            NoState =0, 
+            Being = 1,
+            Denial = 2,
+            Mind = 3,
+            OfTheArt = 4
         }
 
         public enum FakeRegion 
         {
-            North,
-            SouthEast,
+            North = 0,
+            SouthEast = 1
         }
 
         public enum FakeIssue
         {
-            KetchupOnHotDogs,
-            PepsiOrCoke,
+            KetchupOnHotDogs = 1,
+            PepsiOrCoke = 2
         }
 
         public class SeededRandomnessProviderForTesting : IRandomnessProvider
