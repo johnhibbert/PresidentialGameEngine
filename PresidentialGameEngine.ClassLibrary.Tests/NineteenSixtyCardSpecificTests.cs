@@ -1,4 +1,5 @@
-﻿using PresidentialGameEngine.ClassLibrary.Components;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PresidentialGameEngine.ClassLibrary.Components;
 using PresidentialGameEngine.ClassLibrary.Data;
 using PresidentialGameEngine.ClassLibrary.Engines;
 using PresidentialGameEngine.ClassLibrary.Enums;
@@ -10,7 +11,7 @@ using static PresidentialGameEngine.ClassLibrary.Tests.TestStubsFakesAndMocks;
 namespace PresidentialGameEngine.ClassLibrary.Tests
 {
     [TestClass]
-    public class CardSpecificTests
+    public class NineteenSixtyCardSpecificTests
     {
         //"If it isn't tested, it's broken." Eliotte Rusty Harold
         //https://youtu.be/fr1E9aVnBxw?si=uW41ZLChgJ5EEYnl&t=138
@@ -59,6 +60,8 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             return new NineteenSixtyGameEngine(compColl);
         }
+
+
 
         #region #5 - Volunteers
         [TestMethod]

@@ -3,26 +3,26 @@ using PresidentialGameEngine.ClassLibrary.Enums;
 
 namespace PresidentialGameEngine.ClassLibrary.Data
 {
-    public class Card(int index, string title, string eventText, int campaignPoints, Issue issue, Affiliation candidate, State state)
+    public class Card
     {
-        public int Index { get; internal set; } = index;
+        public int Index { get; init; }
 
-        public string Title { get; internal set; } = title;
+        public required string Title { get; init; }
 
-        public string Text { get; internal set; } = eventText;
+        public required string Text { get; init; }
 
-        public int CampaignPoints { get; internal set; } = campaignPoints;
+        public int CampaignPoints { get; init; }
 
         public int RestCubes
         {
             get { return 4 - CampaignPoints; }
         }
 
-        public Issue Issue { get; internal set; } = issue;
+        public Issue Issue { get; init; }
 
-        public Affiliation Candidate { get; internal set; } = candidate;
+        public Affiliation Affiliation { get; init; }
 
-        public State State { get; internal set; } = state;
+        public State State { get; init; }
 
         public required Predicate<PlayerChosenChanges<Player, Issue, State>> AreChangesValid { get; init; }
 
@@ -32,7 +32,8 @@ namespace PresidentialGameEngine.ClassLibrary.Data
         {
             return $"{Title} [{Index}]";
         }
+    };
 
-    }
+
 
 }
