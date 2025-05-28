@@ -19,7 +19,7 @@ namespace PresidentialGameEngine.ClassLibrary
 
             foreach (PropertyInfo pi in this.GetType().GetProperties())
             {
-                object value = pi.GetValue(this);
+                object? value = pi.GetValue(this);
                 if (value is null)
                 {
                     return false;
