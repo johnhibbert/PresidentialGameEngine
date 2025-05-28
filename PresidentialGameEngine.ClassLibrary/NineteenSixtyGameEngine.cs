@@ -9,22 +9,11 @@ namespace PresidentialGameEngine.ClassLibrary
 
     public class NineteenSixtyGameEngine : GenericPresidentialGameEngine<Player, Leader, Issue, State, Region>
     {
-        public NineteenSixtyGameEngine
-            (IAccumulatingComponent<Player> momentumComponent,
-            ISupportComponent<Player, Leader, Issue> issueSupportComponent,
-            ISupportComponent<Player, Leader, State> stateSupportComponent,
-            IPositioningComponent<Issue> issuePositioningComponent,
-            IPoliticalCapitalComponent<Player> politicalCapitalComponent,
-            IRegionalComponent<State, Region, Player> regionalComponent,
-            IAccumulatingComponent<Player> restComponent
-            )
-            : base(momentumComponent, issueSupportComponent, stateSupportComponent,
-                  issuePositioningComponent, politicalCapitalComponent, regionalComponent,
-                  restComponent)
+        public NineteenSixtyGameEngine(ComponentCollection<Player, Leader, Issue, State, Region> componentCollection)
+            : base(componentCollection) 
         {
         }
     }
-
 
     //We don't want to directly inherit SupportComponent because that's doing double duty.
     //So direct inheritance isn't really doing a ton in this particular spot except for mild clarity?
@@ -43,25 +32,6 @@ namespace PresidentialGameEngine.ClassLibrary
         IPoliticalCapitalComponent<PlayersEnum> PoliticalCapitalComponent { get; init; }
         IRegionalComponent<StatesEnum, RegionsEnum, PlayersEnum> RegionalComponent { get; init; }
         IAccumulatingComponent<PlayersEnum> RestComponent { get; init; }
-
-        public GenericPresidentialGameEngine(
-            IAccumulatingComponent<PlayersEnum> momentumComponent,
-            ISupportComponent<PlayersEnum, LeadersEnum, IssuesEnum> issueSupportComponent,
-            ISupportComponent<PlayersEnum, LeadersEnum, StatesEnum> stateSupportComponent,
-            IPositioningComponent<IssuesEnum> issuePositioningComponent,
-            IPoliticalCapitalComponent<PlayersEnum> politicalCapitalComponent,
-            IRegionalComponent<StatesEnum, RegionsEnum, PlayersEnum> regionalComponent,
-            IAccumulatingComponent<PlayersEnum> restComponent
-            )
-        {
-            MomentumComponent = momentumComponent;
-            IssueSupportComponent = issueSupportComponent;
-            StateSupportComponent = stateSupportComponent;
-            IssuePositioningComponent = issuePositioningComponent;
-            PoliticalCapitalComponent = politicalCapitalComponent;
-            RegionalComponent = regionalComponent;
-            RestComponent = restComponent;
-        }
 
 //Not sure I really want to be supressing warnings like this
 //but the object is intentionally nullable to use methods instead of a huge constructor
