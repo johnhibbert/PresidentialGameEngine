@@ -1,0 +1,24 @@
+﻿using PresidentialGameEngine.ClassLibrary.Interfaces;
+
+namespace PresidentialGameEngine.ClassLibrary
+{
+    public interface IComponentCollection<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum>
+        where PlayersEnum : Enum
+        where LeadersEnum : Enum
+        where IssuesEnum : Enum
+        where StatesEnum : Enum
+        where RegionsEnum : Enum
+    {
+        ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum>? EndorsementComponent { get; set; }
+        IPositioningComponent<IssuesEnum>? IssuePositioningComponent { get; set; }
+        ISupportComponent<PlayersEnum, LeadersEnum, IssuesEnum>? IssueSupportComponent { get; set; }
+        ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum>? MediaSupportComponent { get; set; }
+        IAccumulatingComponent<PlayersEnum>? MomentumComponent { get; set; }
+        IPoliticalCapitalComponent<PlayersEnum>? PoliticalCapitalComponent { get; set; }
+        IRegionalComponent<StatesEnum, RegionsEnum, PlayersEnum>? RegionalComponent { get; set; }
+        IAccumulatingComponent<PlayersEnum>? RestComponent { get; set; }
+        ISupportComponent<PlayersEnum, LeadersEnum, StatesEnum>? StateSupportComponent { get; set; }
+
+        bool IsReady();
+    }
+}

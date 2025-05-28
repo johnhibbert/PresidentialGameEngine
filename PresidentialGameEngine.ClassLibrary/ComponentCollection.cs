@@ -3,14 +3,25 @@ using System.Reflection;
 
 namespace PresidentialGameEngine.ClassLibrary
 {
-    public class ComponentCollection<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum>()
+    public class ComponentCollection<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum>() 
+        : IComponentCollection<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum>
         where PlayersEnum : Enum
         where LeadersEnum : Enum
         where IssuesEnum : Enum
         where StatesEnum : Enum
         where RegionsEnum : Enum
     {
-        public bool IsReady() 
+        public IAccumulatingComponent<PlayersEnum>? MomentumComponent { get; set; }
+        public ISupportComponent<PlayersEnum, LeadersEnum, IssuesEnum>? IssueSupportComponent { get; set; }
+        public ISupportComponent<PlayersEnum, LeadersEnum, StatesEnum>? StateSupportComponent { get; set; }
+        public IPositioningComponent<IssuesEnum>? IssuePositioningComponent { get; set; }
+        public IPoliticalCapitalComponent<PlayersEnum>? PoliticalCapitalComponent { get; set; }
+        public IRegionalComponent<StatesEnum, RegionsEnum, PlayersEnum>? RegionalComponent { get; set; }
+        public IAccumulatingComponent<PlayersEnum>? RestComponent { get; set; }
+        public ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum>? EndorsementComponent { get; set; }
+        public ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum>? MediaSupportComponent { get; set; }
+
+        public bool IsReady()
         {
             //A slightly overengineered way to do this,
             //but it will work automatically when we add more props
@@ -24,18 +35,9 @@ namespace PresidentialGameEngine.ClassLibrary
                 {
                     return false;
                 }
-           }
+            }
             return true;
         }
 
-        public IAccumulatingComponent<PlayersEnum>? MomentumComponent { get; set; }
-        public ISupportComponent<PlayersEnum, LeadersEnum, IssuesEnum>? IssueSupportComponent { get; set; }
-        public ISupportComponent<PlayersEnum, LeadersEnum, StatesEnum>? StateSupportComponent { get; set; }
-        public IPositioningComponent<IssuesEnum>? IssuePositioningComponent { get; set; }
-        public IPoliticalCapitalComponent<PlayersEnum>? PoliticalCapitalComponent { get; set; }
-        public IRegionalComponent<StatesEnum, RegionsEnum, PlayersEnum>? RegionalComponent { get; set; }
-        public IAccumulatingComponent<PlayersEnum>? RestComponent { get; set; }
-        public ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum>? EndorsementComponent { get; set; }
-        public ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum>? MediaSupportComponent { get; set; }
     }
 }
