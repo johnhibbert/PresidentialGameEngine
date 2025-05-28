@@ -10,7 +10,6 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
         where StatesEnum : Enum
         where RegionsEnum : Enum
     {
-
         IAccumulatingComponent<PlayersEnum> MomentumComponent { get; init; }
         ISupportComponent<PlayersEnum, LeadersEnum, IssuesEnum> IssueSupportComponent { get; init; }
         ISupportComponent<PlayersEnum, LeadersEnum, StatesEnum> StateSupportComponent { get; init; }
@@ -18,6 +17,8 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
         IPoliticalCapitalComponent<PlayersEnum> PoliticalCapitalComponent { get; init; }
         IRegionalComponent<StatesEnum, RegionsEnum, PlayersEnum> RegionalComponent { get; init; }
         IAccumulatingComponent<PlayersEnum> RestComponent { get; init; }
+        ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum> EndorsementComponent { get; init; }
+        ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum> MediaSupportComponent { get; init; }
 
         //Not sure I really want to be supressing warnings like this
         //but the object is intentionally nullable to use methods instead of a huge constructor
@@ -36,6 +37,8 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
                 PoliticalCapitalComponent = collection.PoliticalCapitalComponent;
                 RegionalComponent = collection.RegionalComponent;
                 RestComponent = collection.RestComponent;
+                EndorsementComponent = collection.EndorsementComponent;
+                MediaSupportComponent = collection.MediaSupportComponent;
 #pragma warning restore CS8601 // Possible null reference assignment.
             }
             else throw new ArgumentException("At least one necessary property on the ComponentCollection is null.");
@@ -131,10 +134,9 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
             return PoliticalCapitalComponent.InitiativeCheck();
         }
 
-        public int SupportCheck(PlayersEnum player, int checkAmount)
+        public SupportCheckResult SupportCheck(PlayersEnum player, int checkAmount)
         {
             return PoliticalCapitalComponent.SupportCheck(player, checkAmount);
-
         }
 
         public void AddCubesToBag(PlayersEnum player, int amount)
@@ -174,6 +176,37 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
         public void MovePlayerToState(PlayersEnum player, StatesEnum states)
         {
             RegionalComponent.MovePlayerToState(player, states);
+        }
+
+        public void GainEndorsement(PlayersEnum player, RegionsEnum region)
+        {
+            EndorsementComponent.GainSupport(player, region, 1);
+        }
+
+        public LeadersEnum GetEndorsementLeader(RegionsEnum region) 
+        {
+            return EndorsementComponent.GetLeader(region);
+        }
+
+        public int GetNumberOfEndorsements(RegionsEnum region)
+        {
+            return EndorsementComponent.GetSupportAmount(region);
+        }
+
+        public void GainMediaSupport(PlayersEnum player, RegionsEnum region, int amount)
+        {
+            var result = SupportCheck(player, amount);
+            MediaSupportComponent.GainSupport(player, region, result.Successes);
+        }
+
+        public LeadersEnum GetMediaSupportLeader(RegionsEnum region)
+        {
+            return MediaSupportComponent.GetLeader(region);
+        }
+
+        public int GetMediaSupportAmount(RegionsEnum region)
+        {
+            return MediaSupportComponent.GetSupportAmount(region);
         }
 
     }

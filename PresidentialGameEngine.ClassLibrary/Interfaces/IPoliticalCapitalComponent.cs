@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PresidentialGameEngine.ClassLibrary.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,7 @@ namespace PresidentialGameEngine.ClassLibrary.Interfaces
 
         PlayersEnum InitiativeCheck();
 
-        int SupportCheck(PlayersEnum player, int checkAmount);
+        SupportCheckResult SupportCheck(PlayersEnum player, int checkAmount);
 
         void AddCubes(PlayersEnum player, int amount);
     }

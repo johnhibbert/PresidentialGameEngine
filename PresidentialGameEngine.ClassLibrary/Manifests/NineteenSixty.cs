@@ -184,8 +184,8 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     State = State.SC,
                     Event = (engine, player, choices) => {
                         //engine.GainMomentum(player, 1);
-                        var successes = engine.SupportCheck(Player.Kennedy, 5);
-                        engine.GainSupport(Player.Kennedy, State.IL, successes);
+                        var supportCheckResult = engine.SupportCheck(Player.Kennedy, 5);
+                        engine.GainSupport(Player.Kennedy, State.IL, supportCheckResult.Successes);
                     },
                     AreChangesValid = (choices) =>
                     {
@@ -624,8 +624,8 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         //FIXME
                         //throw new NotImplementedException();
                         
-                        var successes = engine.SupportCheck(Player.Nixon, 3);
-                        choices.StateChanges.First().Change = successes;
+                        var supportCheckResult = engine.SupportCheck(Player.Nixon, 3);
+                        choices.StateChanges.First().Change = supportCheckResult.Successes;
                         engine.ImplementChanges(choices);
 
 
