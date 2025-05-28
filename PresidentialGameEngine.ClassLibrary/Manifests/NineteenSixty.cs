@@ -140,8 +140,15 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     },
                 }
             },
-            {8, new Card(8, "Soviet Economic Growth", "Economy moves up one space on the Issue Track.  The leader in Economy gains 1 state support in New York.", 2, Issue.Economy, Affiliation.Both, State.NH)
+            {8, new NewCard()
                 {
+                    Index = 8,
+                    Title = "Soviet Economic Growth",
+                    Text = "Economy moves up one space on the Issue Track.  The leader in Economy gains 1 state support in New York.",
+                    CampaignPoints = 2,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Both,
+                    State = State.NH,
                     Event = (engine, player, choices) => {
                         engine.MoveIssueUp(Issue.Economy);
                         var econLeader = engine .GetLeader(Issue.Economy);
@@ -170,8 +177,15 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             //new Card(20, "Nixon Egged In Michigan"),
             //new Card(21, "Fifty Stars"),
             //new Card(22, "Gaffe"),
-            {23, new Card(23, "Martin Luther King Arrested", "Civil Rights moves up one space on the Issue Track.  Player gains 3 issue support in Civil Rights.\r\n", 4, Issue.CivilRights, Affiliation.Both, State.CA)
+            {23, new NewCard()
                 {
+                    Index = 8,
+                    Title = "Martin Luther King Arrested",
+                    Text = "Civil Rights moves up one space on the Issue Track.  Player gains 3 issue support in Civil Rights.",
+                    CampaignPoints = 4,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Both,
+                    State = State.CA,
                     Event = (engine, player, choices) => {
                         engine.MoveIssueUp(Issue.CivilRights);
                         engine.GainSupport(player, Issue.CivilRights, 3);
@@ -183,8 +197,15 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                 }
             },
             //new Card(24, "East Harlem Pledge"),
-            {25, new Card(25, "1960 Civil Rights Act", "Civil Rights moves up one space on the Issue Track and Nixon gains 1 issue support in Civil Rights.", 2, Issue.CivilRights, Affiliation.Nixon, State.ND)
+            {25, new NewCard()
                 {
+                    Index = 25,
+                    Title = "1960 Civil Rights Act",
+                    Text = "Civil Rights moves up one space on the Issue Track and Nixon gains 1 issue support in Civil Rights.",
+                    CampaignPoints = 2,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.ND,
                     Event = (engine, player, choices) => {
                         engine.MoveIssueUp(Issue.CivilRights);
                         engine.GainSupport(Player.Nixon, Issue.CivilRights, 1);
