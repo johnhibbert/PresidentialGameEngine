@@ -3,6 +3,7 @@ using PresidentialGameEngine.ClassLibrary.Components;
 using PresidentialGameEngine.ClassLibrary.Data;
 using PresidentialGameEngine.ClassLibrary.Engines;
 using PresidentialGameEngine.ClassLibrary.Enums;
+using PresidentialGameEngine.ClassLibrary.Manifests;
 using System;
 
 namespace PresidentialGameEngine.ConsoleRunner
@@ -201,12 +202,12 @@ namespace PresidentialGameEngine.ConsoleRunner
 
         public static void DisplayAllCards()
         {
-            Console.WriteLine($"Cards implemented: {CardManifests.TheMakingOfThePresidentGMTCards.Values.Count}");
+            Console.WriteLine($"Cards implemented: {NineteenSixty.GMTCards.Values.Count}");
             Console.WriteLine();
             Console.WriteLine("Press Enter to continue.");
             Console.ReadLine();
 
-            foreach (Card card in CardManifests.TheMakingOfThePresidentGMTCards.Values)
+            foreach (Card card in NineteenSixty.GMTCards.Values)
             {
                 Console.Clear();
                 Console.WriteLine($"Index: {card.Index}");
