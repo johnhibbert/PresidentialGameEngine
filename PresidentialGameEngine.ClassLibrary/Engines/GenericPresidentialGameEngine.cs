@@ -1,22 +1,8 @@
-﻿using PresidentialGameEngine.ClassLibrary.Components;
-using PresidentialGameEngine.ClassLibrary.Data;
-using PresidentialGameEngine.ClassLibrary.Enums;
+﻿using PresidentialGameEngine.ClassLibrary.Data;
 using PresidentialGameEngine.ClassLibrary.Interfaces;
-using System.Runtime;
 
-namespace PresidentialGameEngine.ClassLibrary
+namespace PresidentialGameEngine.ClassLibrary.Engines
 {
-
-    public class NineteenSixtyGameEngine : GenericPresidentialGameEngine<Player, Leader, Issue, State, Region>
-    {
-        public NineteenSixtyGameEngine(ComponentCollection<Player, Leader, Issue, State, Region> componentCollection)
-            : base(componentCollection) 
-        {
-        }
-    }
-
-    //We don't want to directly inherit SupportComponent because that's doing double duty.
-    //So direct inheritance isn't really doing a ton in this particular spot except for mild clarity?
     public class GenericPresidentialGameEngine<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum>
        where PlayersEnum : Enum
         where LeadersEnum : Enum
@@ -33,10 +19,10 @@ namespace PresidentialGameEngine.ClassLibrary
         IRegionalComponent<StatesEnum, RegionsEnum, PlayersEnum> RegionalComponent { get; init; }
         IAccumulatingComponent<PlayersEnum> RestComponent { get; init; }
 
-//Not sure I really want to be supressing warnings like this
-//but the object is intentionally nullable to use methods instead of a huge constructor
-//and guarded by the IsReady method.
-//So it should be fine?
+        //Not sure I really want to be supressing warnings like this
+        //but the object is intentionally nullable to use methods instead of a huge constructor
+        //and guarded by the IsReady method.
+        //So it should be fine?
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
         public GenericPresidentialGameEngine(ComponentCollection<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum> collection)
         {
@@ -91,7 +77,6 @@ namespace PresidentialGameEngine.ClassLibrary
             RestComponent.LoseAmount(player, RestComponent.GetPlayerAmount(player));
         }
 
-
         public void GainSupport(PlayersEnum player, IssuesEnum issue, int amount)
         {
             IssueSupportComponent.GainSupport(player, issue, amount);
@@ -116,7 +101,6 @@ namespace PresidentialGameEngine.ClassLibrary
         {
             IssuePositioningComponent.SetSubjectOrder(orderedIssues);
         }
-
         public void MoveIssueUp(IssuesEnum issue)
         {
             IssuePositioningComponent.MoveSubjectUp(issue);
@@ -132,7 +116,7 @@ namespace PresidentialGameEngine.ClassLibrary
             return StateSupportComponent.GetLeader(state);
         }
 
-        public int GetSupportAmount(IssuesEnum issue) 
+        public int GetSupportAmount(IssuesEnum issue)
         {
             return IssueSupportComponent.GetSupportAmount(issue);
         }
@@ -172,7 +156,7 @@ namespace PresidentialGameEngine.ClassLibrary
             }
         }
 
-        public RegionsEnum GetRegion(StatesEnum state) 
+        public RegionsEnum GetRegion(StatesEnum state)
         {
             return RegionalComponent.GetRegionByState(state);
         }
