@@ -1,4 +1,5 @@
-﻿using PresidentialGameEngine.ClassLibrary.Data;
+﻿using PresidentialGameEngine.ClassLibrary.Components;
+using PresidentialGameEngine.ClassLibrary.Data;
 using PresidentialGameEngine.ClassLibrary.Enums;
 using PresidentialGameEngine.ClassLibrary.Interfaces;
 using System.Runtime;
@@ -35,13 +36,13 @@ namespace PresidentialGameEngine.ClassLibrary
         where RegionsEnum : Enum
     {
 
-        readonly IAccumulatingComponent<PlayersEnum> MomentumComponent;
-        readonly ISupportComponent<PlayersEnum, LeadersEnum, IssuesEnum> IssueSupportComponent;
-        readonly ISupportComponent<PlayersEnum, LeadersEnum, StatesEnum> StateSupportComponent;
-        readonly IPositioningComponent<IssuesEnum> IssuePositioningComponent;
-        readonly IPoliticalCapitalComponent<PlayersEnum> PoliticalCapitalComponent;
-        readonly IRegionalComponent<StatesEnum, RegionsEnum, PlayersEnum> RegionalComponent;
-        readonly IAccumulatingComponent<PlayersEnum> RestComponent;
+        IAccumulatingComponent<PlayersEnum> MomentumComponent { get; init; }
+        ISupportComponent<PlayersEnum, LeadersEnum, IssuesEnum> IssueSupportComponent { get; init; }
+        ISupportComponent<PlayersEnum, LeadersEnum, StatesEnum> StateSupportComponent { get; init; }
+        IPositioningComponent<IssuesEnum> IssuePositioningComponent { get; init; }
+        IPoliticalCapitalComponent<PlayersEnum> PoliticalCapitalComponent { get; init; }
+        IRegionalComponent<StatesEnum, RegionsEnum, PlayersEnum> RegionalComponent { get; init; }
+        IAccumulatingComponent<PlayersEnum> RestComponent { get; init; }
 
         public GenericPresidentialGameEngine(
             IAccumulatingComponent<PlayersEnum> momentumComponent,
@@ -61,6 +62,29 @@ namespace PresidentialGameEngine.ClassLibrary
             RegionalComponent = regionalComponent;
             RestComponent = restComponent;
         }
+
+//Not sure I really want to be supressing warnings like this
+//but the object is intentionally nullable to use methods instead of a huge constructor
+//and guarded by the IsReady method.
+//So it should be fine?
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+        public GenericPresidentialGameEngine(ComponentCollection<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum> collection)
+        {
+            if (collection.IsReady())
+            {
+#pragma warning disable CS8601 // Possible null reference assignment.
+                MomentumComponent = collection.MomentumComponent;
+                IssueSupportComponent = collection.IssueSupportComponent;
+                StateSupportComponent = collection.StateSupportComponent;
+                IssuePositioningComponent = collection.IssuePositioningComponent;
+                PoliticalCapitalComponent = collection.PoliticalCapitalComponent;
+                RegionalComponent = collection.RegionalComponent;
+                RestComponent = collection.RestComponent;
+#pragma warning restore CS8601 // Possible null reference assignment.
+            }
+            else throw new ArgumentException("At least one necessary property on the ComponentCollection is null.");
+        }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
         public IssuesEnum[] IssueOrder
         {
