@@ -57,23 +57,28 @@ namespace PresidentialGameEngine.ConsoleRunner
         {
 
 
+            var holder = NineteenSixty.ElectoralVotes.Where(x => x.Value >= 20).Select(y=>y.Key).ToList();
+
+
+
+
             //var holder = NineteenSixty.StatesByRegion;
 
 
-            var oldDict = NineteenSixty.RegionByState;//.Select(x => x.Value);
+            //var oldDict = NineteenSixty.RegionByState;//.Select(x => x.Value);
 
-            Dictionary<Region, List<State>> newDict = [];
+            //Dictionary<Region, List<State>> newDict = [];
 
-            foreach (Region region in Enum.GetValues(typeof(Region)))
-            {
-                newDict.Add(region, []);
-            }
+            //foreach (Region region in Enum.GetValues(typeof(Region)))
+            //{
+            //    newDict.Add(region, []);
+            //}
 
-            foreach (State state in oldDict.Keys)
-            {
-                newDict[oldDict[state]].Add(state);
-            }
-            
+            //foreach (State state in oldDict.Keys)
+            //{
+            //    newDict[oldDict[state]].Add(state);
+            //}
+
 
 
 

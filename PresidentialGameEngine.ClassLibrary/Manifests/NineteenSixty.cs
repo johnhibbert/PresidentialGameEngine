@@ -67,6 +67,60 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
 
         public static readonly Dictionary<Region, List<State>> StatesByRegion = ReverseDictionary();
 
+        public static readonly Dictionary<State, int> ElectoralVotes = new()
+        {
+            { State.AK, 3 },
+            { State.AL, 11 },
+            { State.AR, 8 },
+            { State.AZ, 4 },
+            { State.CA, 32 },
+            { State.CO, 6 },
+            { State.CT, 8 },
+            { State.DE, 3 },
+            { State.FL, 10 },
+            { State.GA, 12 },
+            { State.HI, 3 },
+            { State.IA, 10 },
+            { State.ID, 4 },
+            { State.IL, 27 },
+            { State.IN, 13 },
+            { State.KS, 8 },
+            { State.KY, 10 },
+            { State.LA, 10 },
+            { State.MA, 16 },
+            { State.MD, 9 },
+            { State.ME, 5 },
+            { State.MI, 20 },
+            { State.MN, 11 },
+            { State.MO, 13 },
+            { State.MS, 8 },
+            { State.MT, 4 },
+            { State.NC, 14 },
+            { State.ND, 4 },
+            { State.NE, 6 },
+            { State.NH, 4 },
+            { State.NJ, 16 },
+            { State.NM, 4 },
+            { State.NV, 3 },
+            { State.NY, 45 },
+            { State.OH, 25 },
+            { State.OK, 8 },
+            { State.OR, 6 },
+            { State.PA, 32 },
+            { State.RI, 4 },
+            { State.SC, 8 },
+            { State.SD, 4 },
+            { State.TN, 11 },
+            { State.TX, 24 },
+            { State.UT, 4 },
+            { State.VA, 12 },
+            { State.VT, 3 },
+            { State.WA, 9 },
+            { State.WI, 12 },
+            { State.WV, 8 },
+            { State.WY, 3 },
+        };
+
         private static Dictionary<Region, List<State>> ReverseDictionary() 
         {
             var oldDict = NineteenSixty.RegionByState;
@@ -603,6 +657,32 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             //new Card(75, "Republican TV Spots"),
             //new Card(76, "Nixon’s Pledge"),
             //new Card(77, "Suburban Voters"),
+            {77, new Card()
+                {
+                    Index = 77,
+                    Title = "Suburban Voters",
+                    Text = "The Kennedy player may add a total of 5 state support in states having 20 or more electoral votes, no more than 2 per state.",
+                    CampaignPoints = 3,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Kennedy,
+                    State = State.MN,
+                    Event = (engine, player, choices) => {
+                        engine.ImplementChanges(choices);
+                    },
+                    AreChangesValid = (choices) => {
+                        var suburbanStates = ElectoralVotes.Where(x => x.Value >= 20).Select(y=>y.Key).ToList();
+
+                        var onlySuburbanStates = choices.StateChanges.Select(s => s.Target).All(x => suburbanStates.Contains(x));
+                        var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
+                        var noValueAboveTwo = choices.HighestStateChange <= 2;
+                        var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([ChangeType.StateSupport]);
+
+                        return onlySuburbanStates && fiveOrFewerPointsOfStateChanges
+                            && statePlayerIsOnlyKennedy && noValueAboveTwo && AndOnlyThisTypeOfTest;
+                    },
+                }
+            },
             {78, new Card()
                 {
                     Index = 78,
