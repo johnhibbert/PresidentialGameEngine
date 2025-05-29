@@ -57,7 +57,14 @@ namespace PresidentialGameEngine.ConsoleRunner
         {
 
 
-            var holder = NineteenSixty.ElectoralVotes.Where(x => x.Value >= 20).Select(y=>y.Key).ToList();
+            var lowVoteStates = NineteenSixty.ElectoralVotes.Where(x => x.Value <= 10).Select(y => y.Key).ToList();
+            var westOrMidWestStates = NineteenSixty.StatesByRegion[Region.Midwest];
+            westOrMidWestStates.AddRange(NineteenSixty.StatesByRegion[Region.West]);
+            var heartlandStates = lowVoteStates.Intersect(westOrMidWestStates);
+
+
+
+            //var holder = NineteenSixty.ElectoralVotes.Where(x => x.Value >= 20).Select(y=>y.Key).ToList();
 
 
 

@@ -619,8 +619,35 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                 }
             },
 
-            //new Card(71, "Heartland of America"),
-            //new Card(72, "Southern Revolt"),
+            {71, new Card()
+                {
+                    Index = 71,
+                    Title = "Heartland of America",
+                    Text = "The Kennedy player may add a total of 5 state support in states having 20 or more electoral votes, no more than 2 per state.",
+                    CampaignPoints = 3,
+                    Issue = Issue.Defense,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.NJ,
+                    Event = (engine, player, choices) => {
+                        engine.ImplementChanges(choices);
+                    },
+                    AreChangesValid = (choices) => {
+                        var lowVoteStates = ElectoralVotes.Where(x => x.Value <= 10).Select(y=>y.Key).ToList();
+                        var westOrMidWestStates = StatesByRegion[Region.Midwest];
+                        westOrMidWestStates.AddRange(StatesByRegion[Region.West]);
+                        var heartlandStates = lowVoteStates.Intersect(westOrMidWestStates);
+
+                        var onlyHeartlandStates = choices.StateChanges.Select(s => s.Target).All(x => heartlandStates.Contains(x));
+                        var sevenOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 7;
+                        var noValueAboveOne = choices.HighestStateChange <= 1;
+                        var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
+                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([ChangeType.StateSupport]);
+
+                        return onlyHeartlandStates && sevenOrFewerPointsOfStateChanges
+                            && statePlayerIsOnlyNixon && noValueAboveOne && AndOnlyThisTypeOfTest;
+                    },
+                }
+            },
             {72, new Card()
                 {
                     Index = 72,
