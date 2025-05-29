@@ -944,6 +944,60 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
         #endregion
 
+        #region #42 Henry Cabot Lodge
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void HenryCabotLodge_42_StateSupportGained(Player player)
+        {
+            int cardIndex = 42;
+            var engine = GetGameEngine();
+            engine.GainSupport(Player.Kennedy, State.MA, 1);
+            engine.GainSupport(Player.Kennedy, Issue.Defense, 1);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+
+            sut.Event(engine, player, EmptyChanges);
+
+            Assert.AreEqual(Leader.Nixon, engine.GetLeader(State.MA));
+            Assert.AreEqual(1, engine.GetSupportAmount(State.MA));
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void HenryCabotLodge_42_IssueSupportGained(Player player)
+        {
+            int cardIndex = 42;
+            var engine = GetGameEngine();
+            engine.GainSupport(Player.Kennedy, State.MA, 1);
+            engine.GainSupport(Player.Kennedy, Issue.Defense, 1);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+
+            sut.Event(engine, player, EmptyChanges);
+
+            Assert.AreEqual(Leader.Nixon, engine.GetLeader(Issue.Defense));
+            Assert.AreEqual(1, engine.GetSupportAmount(Issue.Defense));
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void HenryCabotLodge_42_NixonIsUnexhausted(Player player)
+        {
+            int cardIndex = 42;
+            var engine = GetGameEngine();
+            engine.ExhaustPlayer(Player.Nixon);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+
+            sut.Event(engine, player, EmptyChanges);
+
+            Assert.IsTrue(engine.IsPlayerReady(Player.Nixon));
+        }
+        #endregion
+
         #region #48 - Rising Food Prices
         [TestMethod]
         [DataRow(Player.Nixon)]
