@@ -404,7 +404,25 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     },
                 }
             },
-            //new Card(52, "Hurricane Donna"),
+            {52, new Card()
+                {
+                    Index = 52,
+                    Title = "Hurricane Donna",
+                    Text = "Move player's candidate token to Florida.  Player gains 1 momentum marker and 1 state support in Florida.",
+                    CampaignPoints = 2,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Both,
+                    State = State.MT,
+                    Event = (engine, player, choices) => {
+                        engine.MovePlayerToState(player, State.FL);
+                        engine.GainSupport(player, State.FL, 1);
+                    },
+                    AreChangesValid = (choices) => {
+						//This has no player choices.
+						return true;
+                    },
+                }
+            },
             //new Card(53, "Campaign Headquarters"),
             //new Card(54, "Bobby Kennedy"),
             //new Card(55, "Hostile Press Corps"),

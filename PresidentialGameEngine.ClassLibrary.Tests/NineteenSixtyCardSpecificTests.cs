@@ -944,6 +944,52 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
         #endregion
 
+        #region #51 - Hurricane Donna
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void HurricaneDonna_52_PlayerMoved(Player player)
+        {
+            int cardIndex = 52;
+            var engine = GetGameEngine();
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, GetEmptyChanges());
+
+            Assert.AreEqual(State.FL, engine.GetPlayerState(player));
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon, State.MI)]
+        [DataRow(Player.Kennedy, State.AZ)]
+        public void HurricaneDonna_52_SupportGained(Player player, State state)
+        {
+            int cardIndex = 52;
+            var engine = GetGameEngine();
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, GetEmptyChanges());
+
+            Assert.AreEqual(1, engine.GetSupportAmount(State.FL));
+        }
+
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void HurricaneDonna_52_ValidationAlwaysTrue(Player player)
+        {
+            int cardIndex = 52;
+            var sut = NineteenSixty.GMTCards[cardIndex];
+
+            var result = sut.AreChangesValid(GetInvalidChanges());
+
+            Assert.IsTrue(result);
+        }
+
+        #endregion
+
         #region #62 - The Trial of Gary Powers
         [TestMethod]
         [DataRow(Player.Nixon)]
