@@ -24,7 +24,7 @@ namespace PresidentialGameEngine.ClassLibrary.Data
 
         public State State { get; init; }
 
-        public EventType CardType { get; init; }
+        public EventType EventType { get; init; }
 
         public required Predicate<PlayerChosenChanges<Player, Issue, State>> AreChangesValid { get; init; }
 

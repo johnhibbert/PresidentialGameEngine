@@ -69,7 +69,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
                 },
             };
 
-            Assert.AreEqual(Card.CardType, EventType.None);
+            Assert.AreEqual(Card.EventType, EventType.None);
 
         }
     }
