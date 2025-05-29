@@ -1,4 +1,6 @@
 ﻿using PresidentialGameEngine.ClassLibrary.Components;
+using PresidentialGameEngine.ClassLibrary.Data;
+using PresidentialGameEngine.ClassLibrary.Enums;
 using static PresidentialGameEngine.ClassLibrary.Tests.TestStubsFakesAndMocks;
 
 namespace PresidentialGameEngine.ClassLibrary.Tests
@@ -6,7 +8,10 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
     [TestClass]
     public class RegionalComponentTests
     {
-        private RegionalComponent<FakeState, FakeRegion, FakePlayer> GetRegionalComponent()
+
+        public static RegionalComponent<FakeState, FakeRegion, FakePlayer> RegionalComponent { get { return GetRegionalComponent(); } }
+
+        private static RegionalComponent<FakeState, FakeRegion, FakePlayer> GetRegionalComponent()
         {
             Dictionary<FakeState, FakeRegion> statesAndRegions = [];
             statesAndRegions.Add(FakeState.Mind, FakeRegion.North);
@@ -27,7 +32,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         public void Constructor_DictionaryAccepted()
         {
-            var sut = GetRegionalComponent();
+            var sut = RegionalComponent;
             var result = sut.GetRegionByState(FakeState.Mind);
 
             Assert.AreEqual(FakeRegion.North, result);
@@ -44,7 +49,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [DataRow(FakeState.OfTheArt, FakeRegion.SouthEast)]
         public void GetRegionByState_CorrectRegionReturned(FakeState state, FakeRegion region)
         {
-            var sut = GetRegionalComponent();
+            var sut = RegionalComponent;
             var result = sut.GetRegionByState(state);
 
             Assert.AreEqual(region, result);
@@ -57,7 +62,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         public void GetStatesWithinRegion_CorrectStatesReturned()
         {
-            var sut = GetRegionalComponent();
+            var sut = RegionalComponent;
             var result = sut.GetStatesWithinRegion(FakeRegion.North);
 
             Assert.AreEqual(2, result.Count());
@@ -72,7 +77,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         public void GetPlayerState_CorrectStatesReturned()
         {
-            var sut = GetRegionalComponent();
+            var sut = RegionalComponent;
             Assert.AreEqual(FakeState.Mind, sut.GetPlayerState(FakePlayer.PlayerOne));
             Assert.AreEqual(FakeState.Denial, sut.GetPlayerState(FakePlayer.PlayerTwo));
         }
@@ -84,7 +89,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         public void MovePlayerToState_CorrectStatesReturned()
         {
-            var sut = GetRegionalComponent();
+            var sut = RegionalComponent;
             sut.MovePlayerToState(FakePlayer.PlayerOne, FakeState.OfTheArt);
 
             Assert.AreEqual(FakeState.OfTheArt, sut.GetPlayerState(FakePlayer.PlayerOne));

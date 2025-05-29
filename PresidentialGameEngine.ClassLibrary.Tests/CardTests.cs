@@ -26,5 +26,28 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Assert.IsTrue(Card.ToString().Contains(Card.Index.ToString()));
             Assert.IsTrue(Card.ToString().Contains(Card.Title.ToString()));
         }
+
+        [TestMethod]
+        public void ToLongString_ReturnsExpectedInformation()
+        {
+            var Card = new Card()
+            {
+                Index = 1,
+                Title = "Test",
+                Text = "This is a sentence",
+                Event = (engine, player, choices) =>
+                {
+                    //Nothing
+                },
+                AreChangesValid = (choices) =>
+                {
+                    return true;
+                },
+            };
+
+            Assert.IsTrue(Card.ToLongString().Contains(Card.Index.ToString()));
+            Assert.IsTrue(Card.ToLongString().Contains(Card.Title.ToString()));
+            Assert.IsTrue(Card.ToLongString().Contains(Card.Text.ToString()));
+        }
     }
 }

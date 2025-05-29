@@ -13,12 +13,16 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         //"If it isn't tested, it's broken." Eliotte Rusty Harold
         //https://youtu.be/fr1E9aVnBxw?si=uW41ZLChgJ5EEYnl&t=138
 
+        public static PlayerChosenChanges<Player, Issue, State> EmptyChanges { get { return GetEmptyChanges(); } }
+
         private static PlayerChosenChanges<Player, Issue, State> GetEmptyChanges() 
         {
             return new();
         }
 
-        private static PlayerChosenChanges<Player, Issue, State> GetInvalidChanges() 
+        public static PlayerChosenChanges<Player, Issue, State> InvalidChanges { get { return GetInvalidChanges(); } }
+
+        private static PlayerChosenChanges<Player, Issue, State> GetInvalidChanges()
         {
             //We're sending these changes that are bound to be invalid
             //but only to the methods we expect to not use them.
@@ -37,7 +41,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             return ImplausiblyLargeAndContradictoryChanges;
         }
 
-        private NineteenSixtyGameEngine GetGameEngine() 
+        private static NineteenSixtyGameEngine GetGameEngine() 
         {
             SeededRandomnessProviderForTesting seed = new();
             ComponentCollection<Player, Leader, Issue, State, Region> compColl = new()
@@ -71,7 +75,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(engine.GetPlayerMomentum(player), playerStartingMomentum + 1);
         }
@@ -82,7 +86,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 5;
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            var result = sut.AreChangesValid(GetInvalidChanges());
+            var result = sut.AreChangesValid(InvalidChanges);
 
             Assert.IsTrue(result);
         }
@@ -219,7 +223,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(Leader.Kennedy, engine.GetLeader(State.IL));
             Assert.AreEqual(2, engine.GetSupportAmount(State.IL));
@@ -238,7 +242,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.SetIssueOrder([Issue.CivilRights, Issue.Defense, Issue.Economy]);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(Issue.Economy, engine.GetIssueOrder[1]);
         }
@@ -254,7 +258,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.SetIssueOrder([Issue.Economy, Issue.Defense, Issue.CivilRights]);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(Issue.Economy, engine.GetIssueOrder[0]);
         }
@@ -271,7 +275,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainSupport(player, Issue.Economy, 1);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(1, engine.GetSupportAmount(State.NY));
         }
@@ -287,7 +291,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.SetIssueOrder([Issue.Economy, Issue.Defense, Issue.CivilRights]);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(0, engine.GetSupportAmount(State.NY));
         }
@@ -298,7 +302,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 8;
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            var result = sut.AreChangesValid(GetInvalidChanges());
+            var result = sut.AreChangesValid(InvalidChanges);
 
             Assert.IsTrue(result);
         }
@@ -320,7 +324,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainSupport(opponent, state, 3);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(0, engine.GetSupportAmount(state));
             Assert.AreEqual(Leader.None, engine.GetLeader(state));
@@ -338,7 +342,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainMomentum(opponent, 2);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(1, engine.GetPlayerMomentum(opponent));
         }
@@ -357,7 +361,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainSupport(opponent, state, 1);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(0, engine.GetSupportAmount(state));
             Assert.AreEqual(Leader.None, engine.GetLeader(state));
@@ -369,7 +373,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 22;
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            var result = sut.AreChangesValid(GetInvalidChanges());
+            var result = sut.AreChangesValid(InvalidChanges);
 
             Assert.IsTrue(result);
         }
@@ -388,7 +392,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.SetIssueOrder([Issue.Economy, Issue.Defense, Issue.CivilRights]);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(Issue.CivilRights, engine.GetIssueOrder[1]);
         }
@@ -404,7 +408,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.SetIssueOrder([Issue.CivilRights, Issue.Defense, Issue.Economy]);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(Issue.CivilRights, engine.GetIssueOrder[0]);
         }
@@ -421,7 +425,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainSupport(player, Issue.CivilRights, 1);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(4, engine.GetSupportAmount(Issue.CivilRights));
             Assert.AreEqual(player.ToLeader(), engine.GetLeader(Issue.CivilRights));
@@ -439,7 +443,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainSupport(player.ToOpponent(), Issue.CivilRights, 2);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(1, engine.GetSupportAmount(Issue.CivilRights));
             Assert.AreEqual(player.ToLeader(), engine.GetLeader(Issue.CivilRights));
@@ -451,7 +455,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 23;
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            var result = sut.AreChangesValid(GetInvalidChanges());
+            var result = sut.AreChangesValid(InvalidChanges);
 
             Assert.IsTrue(result);
         }
@@ -469,7 +473,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.SetIssueOrder([Issue.Economy, Issue.Defense, Issue.CivilRights]);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(Issue.CivilRights, engine.GetIssueOrder[1]);
         }
@@ -485,7 +489,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.SetIssueOrder([Issue.CivilRights, Issue.Defense, Issue.Economy]);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(Issue.CivilRights, engine.GetIssueOrder[0]);
         }
@@ -502,7 +506,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainSupport(Player.Nixon, Issue.CivilRights, 1);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(2, engine.GetSupportAmount(Issue.CivilRights));
             Assert.AreEqual(Leader.Nixon, engine.GetLeader(Issue.CivilRights));
@@ -520,7 +524,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainSupport(Player.Kennedy, Issue.CivilRights, 2);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(1, engine.GetSupportAmount(Issue.CivilRights));
             Assert.AreEqual(Leader.Kennedy, engine.GetLeader(Issue.CivilRights));
@@ -532,7 +536,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 25;
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            var result = sut.AreChangesValid(GetInvalidChanges());
+            var result = sut.AreChangesValid(InvalidChanges);
 
             Assert.IsTrue(result);
         }
@@ -803,7 +807,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(Issue.Economy, engine.GetIssueOrder[1]);
         }
@@ -820,7 +824,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(Issue.Economy, engine.GetIssueOrder[0]);
         }
@@ -837,7 +841,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(Leader.Nixon, engine.GetLeader(Issue.Economy));
             Assert.AreEqual(2, engine.GetSupportAmount(Issue.Economy));
@@ -849,7 +853,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 48;
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            var result = sut.AreChangesValid(GetInvalidChanges());
+            var result = sut.AreChangesValid(InvalidChanges);
 
             Assert.IsTrue(result);
         }
@@ -866,7 +870,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(Leader.Kennedy, engine.GetLeader(Issue.Defense));
             Assert.AreEqual(3, engine.GetSupportAmount(Issue.Defense));
@@ -884,7 +888,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainSupport(Player.Nixon, Issue.Defense, 2);
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(Leader.Kennedy, engine.GetLeader(Issue.Defense));
             Assert.AreEqual(1, engine.GetSupportAmount(Issue.Defense));
@@ -901,7 +905,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainSupport(Player.Nixon, Issue.Defense, 3);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(Leader.None, engine.GetLeader(Issue.Defense));
             Assert.AreEqual(0, engine.GetSupportAmount(Issue.Defense));
@@ -913,7 +917,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 51;
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            var result = sut.AreChangesValid(GetInvalidChanges());
+            var result = sut.AreChangesValid(InvalidChanges);
 
             Assert.IsTrue(result);
         }
@@ -930,21 +934,21 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var engine = GetGameEngine();
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(State.FL, engine.GetPlayerState(player));
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon, State.MI)]
-        [DataRow(Player.Kennedy, State.AZ)]
-        public void HurricaneDonna_52_SupportGained(Player player, State state)
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void HurricaneDonna_52_SupportGained(Player player)
         {
             int cardIndex = 52;
             var engine = GetGameEngine();
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(1, engine.GetSupportAmount(State.FL));
         }
@@ -956,7 +960,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 52;
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            var result = sut.AreChangesValid(GetInvalidChanges());
+            var result = sut.AreChangesValid(InvalidChanges);
 
             Assert.IsTrue(result);
         }
@@ -975,7 +979,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.SetIssueOrder([Issue.CivilRights, Issue.Economy, Issue.Defense]);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(Issue.Defense, engine.GetIssueOrder[0]);
         }
@@ -991,7 +995,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.SetIssueOrder([Issue.Defense, Issue.Economy, Issue.CivilRights]);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(Issue.Defense, engine.GetIssueOrder[0]);
         }
@@ -1007,7 +1011,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainSupport(player, Issue.Defense, 1);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(1, engine.GetPlayerMomentum(player));
         }
@@ -1021,7 +1025,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var engine = GetGameEngine();
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(0, engine.GetPlayerMomentum(Player.Kennedy));
             Assert.AreEqual(0, engine.GetPlayerMomentum(Player.Nixon));
@@ -1033,7 +1037,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 62;
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            var result = sut.AreChangesValid(GetInvalidChanges());
+            var result = sut.AreChangesValid(InvalidChanges);
 
             Assert.IsTrue(result);
         }
@@ -1054,7 +1058,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainSupport(Player.Nixon, Issue.CivilRights, 2);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(3, engine.GetPlayerMomentum(Player.Nixon));
             Assert.AreEqual(3, engine.GetSupportAmount(Issue.Defense));
@@ -1076,7 +1080,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainSupport(Player.Nixon, Issue.CivilRights, 0);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(0, engine.GetPlayerMomentum(Player.Nixon));
             Assert.AreEqual(0, engine.GetSupportAmount(Issue.Defense));
@@ -1090,7 +1094,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 63;
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            var result = sut.AreChangesValid(GetInvalidChanges());
+            var result = sut.AreChangesValid(InvalidChanges);
 
             Assert.IsTrue(result);
         }
@@ -1108,7 +1112,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainMomentum(player.ToOpponent(), 5);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(engine.GetPlayerMomentum(player), engine.GetPlayerMomentum(player.ToOpponent()));
         }
@@ -1124,7 +1128,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainMomentum(player, 5);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(5, engine.GetPlayerMomentum(player));
             Assert.AreEqual(0, engine.GetPlayerMomentum(player.ToOpponent()));
@@ -1139,7 +1143,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var engine = GetGameEngine();
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(engine.GetPlayerMomentum(player), engine.GetPlayerMomentum(player.ToOpponent()));
         }
@@ -1150,7 +1154,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 64;
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            var result = sut.AreChangesValid(GetInvalidChanges());
+            var result = sut.AreChangesValid(InvalidChanges);
 
             Assert.IsTrue(result);
         }
@@ -1169,7 +1173,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(Issue.Defense, engine.GetIssueOrder[1]);
         }
@@ -1186,7 +1190,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(Issue.Defense, engine.GetIssueOrder[0]);
         }
@@ -1203,7 +1207,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(Leader.Nixon, engine.GetLeader(Issue.Defense));
             Assert.AreEqual(1, engine.GetSupportAmount(Issue.Defense));
@@ -1215,7 +1219,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 68;
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            var result = sut.AreChangesValid(GetInvalidChanges());
+            var result = sut.AreChangesValid(InvalidChanges);
 
             Assert.IsTrue(result);
         }
@@ -1238,7 +1242,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(engine.GetPlayerMomentum(Player.Nixon), nixonStartingMomentum - 1);
             Assert.AreEqual(engine.GetPlayerMomentum(Player.Kennedy), kennedyStartingMomentum - 3);
@@ -1257,7 +1261,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(engine.GetPlayerMomentum(Player.Nixon), 0);
             Assert.AreEqual(engine.GetPlayerMomentum(Player.Kennedy), 0);
@@ -1269,7 +1273,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 70;
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            var result = sut.AreChangesValid(GetInvalidChanges());
+            var result = sut.AreChangesValid(InvalidChanges);
 
             Assert.IsTrue(result);
         }
@@ -1822,7 +1826,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.SetIssueOrder([Issue.CivilRights, Issue.Defense, Issue.Economy]);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(Issue.Economy, engine.GetIssueOrder[0]);
         }
@@ -1838,7 +1842,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.SetIssueOrder([Issue.Economy, Issue.Defense, Issue.CivilRights]);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(Issue.Economy, engine.GetIssueOrder[0]);
         }
@@ -1855,7 +1859,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainSupport(player, Issue.Economy, 1);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(2, engine.GetSupportAmount(State.NY));
         }
@@ -1871,7 +1875,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.SetIssueOrder([Issue.Economy, Issue.Defense, Issue.CivilRights]);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(0, engine.GetSupportAmount(State.NY));
         }
@@ -1882,7 +1886,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 78;
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            var result = sut.AreChangesValid(GetInvalidChanges());
+            var result = sut.AreChangesValid(InvalidChanges);
 
             Assert.IsTrue(result);
         }
@@ -1901,7 +1905,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainSupport(player, Issue.Defense, 1);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(1, engine.GetSupportAmount(State.FL));
             Assert.AreEqual(1, engine.GetPlayerMomentum(player));
@@ -1916,7 +1920,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var engine = GetGameEngine();
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(0, engine.GetSupportAmount(State.FL));
             Assert.AreEqual(0, engine.GetPlayerMomentum(player));
@@ -1928,7 +1932,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 82;
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            var result = sut.AreChangesValid(GetInvalidChanges());
+            var result = sut.AreChangesValid(InvalidChanges);
 
             Assert.IsTrue(result);
         }
@@ -2039,7 +2043,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(engine.GetPlayerMomentum(Player.Nixon), nixonStartingMomentum + 1);
             Assert.AreEqual(engine.GetPlayerMomentum(Player.Kennedy), kennedyStartingMomentum);
@@ -2051,7 +2055,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 89;
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            var result = sut.AreChangesValid(GetInvalidChanges());
+            var result = sut.AreChangesValid(InvalidChanges);
 
             Assert.IsTrue(result);
         }
@@ -2149,7 +2153,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainSupport(Player.Kennedy, Issue.Economy, 1);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(engine.GetPlayerMomentum(Player.Nixon), 3);
             Assert.AreEqual(2, engine.GetSupportAmount(Issue.CivilRights));
@@ -2169,7 +2173,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainSupport(Player.Nixon, Issue.Defense, 2);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(2, engine.GetSupportAmount(Issue.CivilRights));
             Assert.AreEqual(2, engine.GetSupportAmount(Issue.Defense));
@@ -2182,7 +2186,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 93;
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            var result = sut.AreChangesValid(GetInvalidChanges());
+            var result = sut.AreChangesValid(InvalidChanges);
 
             Assert.IsTrue(result);
         }
@@ -2204,7 +2208,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(0, engine.GetPlayerMomentum(player));
             Assert.AreEqual(2, engine.GetSupportAmount(Issue.CivilRights));
@@ -2228,7 +2232,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(2, engine.GetSupportAmount(Issue.CivilRights));
             Assert.AreEqual(2, engine.GetSupportAmount(Issue.Defense));
@@ -2253,7 +2257,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(2, engine.GetSupportAmount(Issue.CivilRights));
             Assert.AreEqual(2, engine.GetSupportAmount(Issue.Defense));
@@ -2277,7 +2281,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(0, engine.GetSupportAmount(Issue.CivilRights));
             Assert.AreEqual(2, engine.GetSupportAmount(Issue.Defense));
@@ -2292,7 +2296,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 96;
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            var result = sut.AreChangesValid(GetInvalidChanges());
+            var result = sut.AreChangesValid(InvalidChanges);
 
             Assert.IsTrue(result);
         }
@@ -2315,7 +2319,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(0, engine.GetPlayerMomentum(player));
             Assert.AreEqual(3, engine.GetSupportAmount(Issue.CivilRights));
@@ -2339,7 +2343,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(3, engine.GetSupportAmount(Issue.CivilRights));
             Assert.AreEqual(1, engine.GetSupportAmount(Issue.Defense));
@@ -2363,7 +2367,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(3, engine.GetSupportAmount(Issue.CivilRights));
             Assert.AreEqual(0, engine.GetSupportAmount(Issue.Defense));
@@ -2388,7 +2392,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            sut.Event(engine, player, GetEmptyChanges());
+            sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(3, engine.GetSupportAmount(Issue.CivilRights));
             Assert.AreEqual(1, engine.GetSupportAmount(Issue.Defense));
@@ -2403,7 +2407,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 97;
             var sut = NineteenSixty.GMTCards[cardIndex];
 
-            var result = sut.AreChangesValid(GetInvalidChanges());
+            var result = sut.AreChangesValid(InvalidChanges);
 
             Assert.IsTrue(result);
         }
