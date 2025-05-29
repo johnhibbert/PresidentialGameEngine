@@ -2192,6 +2192,167 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
         #endregion
 
+        #region #95 - A Time For Greatness
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void ATimeForGreatness_95_NixonLosesOnIssues(Player player)
+        {
+            int cardIndex = 95;
+            var engine = GetGameEngine();
+
+            engine.GainSupport(Player.Nixon, Issue.CivilRights, 2);
+            engine.GainSupport(Player.Nixon, Issue.Defense, 3);
+            engine.GainSupport(Player.Nixon, Issue.Economy, 4);
+
+            PlayerChosenChanges<Player, Issue, State> playerChoices = new();
+            var oneSupportInNewYork = new SupportChange<Player, State>(Player.Kennedy, State.NY, 1);
+            var oneSupportInColorado = new SupportChange<Player, State>(Player.Kennedy, State.CO, 1);
+            var oneSupportInWestVirginia = new SupportChange<Player, State>(Player.Kennedy, State.WV, 1);
+
+            playerChoices.StateChanges.Add(oneSupportInNewYork);
+            playerChoices.StateChanges.Add(oneSupportInColorado);
+            playerChoices.StateChanges.Add(oneSupportInWestVirginia);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+
+            sut.Event(engine, player, playerChoices);
+            Assert.AreEqual(Leader.Nixon, engine.GetLeader(Issue.CivilRights));
+            Assert.AreEqual(Leader.Nixon, engine.GetLeader(Issue.CivilRights));
+            Assert.AreEqual(Leader.Nixon, engine.GetLeader(Issue.CivilRights));
+
+            Assert.AreEqual(1, engine.GetSupportAmount(Issue.CivilRights));
+            Assert.AreEqual(2, engine.GetSupportAmount(Issue.Defense));
+            Assert.AreEqual(3, engine.GetSupportAmount(Issue.Economy));
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void ATimeForGreatness_95_SupportAddedToStates(Player player)
+        {
+            int cardIndex = 95;
+            var engine = GetGameEngine();
+
+            engine.GainSupport(Player.Nixon, Issue.CivilRights, 2);
+            engine.GainSupport(Player.Nixon, Issue.Defense, 3);
+            engine.GainSupport(Player.Nixon, Issue.Economy, 4);
+
+            PlayerChosenChanges<Player, Issue, State> playerChoices = new();
+            var oneSupportInNewYork = new SupportChange<Player, State>(Player.Kennedy, State.NY, 1);
+            var oneSupportInColorado = new SupportChange<Player, State>(Player.Kennedy, State.CO, 1);
+            var oneSupportInWestVirginia = new SupportChange<Player, State>(Player.Kennedy, State.WV, 1);
+
+            playerChoices.StateChanges.Add(oneSupportInNewYork);
+            playerChoices.StateChanges.Add(oneSupportInColorado);
+            playerChoices.StateChanges.Add(oneSupportInWestVirginia);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+
+            sut.Event(engine, player, playerChoices);
+
+            Assert.AreEqual(Leader.Kennedy, engine.GetLeader(State.NY));
+            Assert.AreEqual(Leader.Kennedy, engine.GetLeader(State.CO));
+            Assert.AreEqual(Leader.Kennedy, engine.GetLeader(State.WV));
+
+            Assert.AreEqual(1, engine.GetSupportAmount(State.NY));
+            Assert.AreEqual(1, engine.GetSupportAmount(State.CO));
+            Assert.AreEqual(1, engine.GetSupportAmount(State.WV));
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void ATimeForGreatness_95_FailsValidationIfNixonGains(Player player)
+        {
+            int cardIndex = 95;
+            var engine = GetGameEngine();
+
+            PlayerChosenChanges<Player, Issue, State> playerChoices = new();
+            var oneSupportInNewYork = new SupportChange<Player, State>(Player.Nixon, State.NY, 1);
+            var oneSupportInColorado = new SupportChange<Player, State>(Player.Kennedy, State.CO, 1);
+            var oneSupportInWestVirginia = new SupportChange<Player, State>(Player.Kennedy, State.WV, 1);
+
+            playerChoices.StateChanges.Add(oneSupportInNewYork);
+            playerChoices.StateChanges.Add(oneSupportInColorado);
+            playerChoices.StateChanges.Add(oneSupportInWestVirginia);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void ATimeForGreatness_95_FailsValidationIfIssueGains(Player player)
+        {
+            int cardIndex = 95;
+            var engine = GetGameEngine();
+
+            engine.GainSupport(player, Issue.CivilRights, 1);
+
+            PlayerChosenChanges<Player, Issue, State> playerChoices = new();
+            var oneSupportInNewYork = new SupportChange<Player, State>(Player.Kennedy, State.NY, 1);
+            var oneSupportInColorado = new SupportChange<Player, State>(Player.Kennedy, State.CO, 1);
+            var oneSupportInWestVirginia = new SupportChange<Player, State>(Player.Kennedy, State.WV, 1);
+
+            playerChoices.StateChanges.Add(oneSupportInNewYork);
+            playerChoices.StateChanges.Add(oneSupportInColorado);
+            playerChoices.StateChanges.Add(oneSupportInWestVirginia);
+
+            var issueSupport = new SupportChange<Player, Issue>(player, Issue.Defense, 1);
+            playerChoices.IssueChanges.Add(issueSupport);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void ATimeForGreatness_95_FailsValidationIfGreaterThanOne(Player player)
+        {
+            int cardIndex = 95;
+            var engine = GetGameEngine();
+
+            PlayerChosenChanges<Player, Issue, State> playerChoices = new();
+            var oneSupportInNewYork = new SupportChange<Player, State>(Player.Kennedy, State.NY, 1);
+            var twoSupportInColorado = new SupportChange<Player, State>(Player.Kennedy, State.CO, 2);
+
+            playerChoices.StateChanges.Add(oneSupportInNewYork);
+            playerChoices.StateChanges.Add(twoSupportInColorado);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void ATimeForGreatness_95_FailsValidationIfSumGreaterThanThree(Player player)
+        {
+            int cardIndex = 95;
+            var engine = GetGameEngine();
+
+            PlayerChosenChanges<Player, Issue, State> playerChoices = new();
+            var oneSupportInHawaii = new SupportChange<Player, State>(Player.Kennedy, State.HI, 1);
+            var oneSupportInFlorida = new SupportChange<Player, State>(Player.Kennedy, State.FL, 1);
+            var oneSupportInVermont = new SupportChange<Player, State>(Player.Kennedy, State.VT, 1);
+            var oneSupportInMissouri = new SupportChange<Player, State>(Player.Kennedy, State.MO, 1);
+            playerChoices.StateChanges.Add(oneSupportInHawaii);
+            playerChoices.StateChanges.Add(oneSupportInFlorida);
+            playerChoices.StateChanges.Add(oneSupportInVermont);
+            playerChoices.StateChanges.Add(oneSupportInMissouri);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+        #endregion
+
         #region #96 - Medal Count
         [TestMethod]
         [DataRow(Player.Nixon)]

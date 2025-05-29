@@ -871,7 +871,6 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
         private static readonly Dictionary<int, Card> GMT_OnlyCards = new()
         {
             //new Card(92, "Give ‘Em Hell Harry"),
-            //new Card(93, "Experience Counts"),
             {93, new Card()
                 {
                     Index = 93,
@@ -895,7 +894,34 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                 }
             },
             //new Card(94, "A Low Blow"),
-            //new Card(95, "A Time For Greatness?"),
+            //new Card(95, "A Time For Greatness"),
+            {95, new Card()
+                {
+                    Index = 95,
+                    Title = "A Time For Greatness",
+                    Text = "Nixon loses 1 issue support on each issue.  The Kennedy player may add 3 state support anywhere, no more than 1 per state.",
+                    CampaignPoints = 4,
+                    EventType = EventType.None,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Kennedy,
+                    State = State.TX,
+                    Event = (engine, player, choices) => {
+                        engine.LoseSupport(Player.Nixon, Issue.Defense, 1);
+                        engine.LoseSupport(Player.Nixon, Issue.CivilRights, 1);
+                        engine.LoseSupport(Player.Nixon, Issue.Economy, 1);
+                        engine.ImplementChanges(choices);
+                    },
+                    AreChangesValid = (choices) => {
+                        var threePointsOfStateChanges = choices.TotalStateChanges <= 3;
+                        var noValueAboveOne = choices.HighestStateChange <= 1;
+                        var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([ChangeType.StateSupport]);
+
+                        return threePointsOfStateChanges && noValueAboveOne
+                                && statePlayerIsOnlyKennedy && AndOnlyThisTypeOfTest;
+                    },
+                }
+            },
             {96, new Card()
                 {
                     Index = 96,
