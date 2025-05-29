@@ -316,6 +316,80 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
         #endregion
 
+        #region #22 - Gaffe
+
+        [TestMethod]
+        [DataRow(Player.Nixon, State.MI)]
+        [DataRow(Player.Kennedy, State.AZ)]
+        public void Gaffe_22_SupportLost(Player player, State state)
+        {
+            int cardIndex = 22;
+            var engine = GetGameEngine();
+
+            var opponent = player.ToOpponent();
+
+            engine.MovePlayerToState(opponent, state);
+            engine.GainSupport(opponent, state, 3);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, GetEmptyChanges());
+
+            Assert.AreEqual(0, engine.GetSupportAmount(state));
+            Assert.AreEqual(Leader.None, engine.GetLeader(state));
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void Gaffe_22_MomentumLost(Player player)
+        {
+            int cardIndex = 22;
+            var engine = GetGameEngine();
+
+            var opponent = player.ToOpponent();
+            engine.GainMomentum(opponent, 2);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, GetEmptyChanges());
+
+            Assert.AreEqual(1, engine.GetPlayerMomentum(opponent));
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon, State.MO)]
+        [DataRow(Player.Kennedy, State.HI)]
+        public void Gaffe_22_SupportAndMomentumDoNotGoNegative(Player player, State state)
+        {
+            int cardIndex = 22;
+            var engine = GetGameEngine();
+
+            var opponent = player.ToOpponent();
+
+            engine.MovePlayerToState(opponent, state);
+            engine.GainSupport(opponent, state, 1);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, GetEmptyChanges());
+
+            Assert.AreEqual(0, engine.GetSupportAmount(state));
+            Assert.AreEqual(Leader.None, engine.GetLeader(state));
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void Gaffe_22_ValidationAlwaysTrue(Player player)
+        {
+            int cardIndex = 22;
+            var sut = NineteenSixty.GMTCards[cardIndex];
+
+            var result = sut.AreChangesValid(GetInvalidChanges());
+
+            Assert.IsTrue(result);
+        }
+
+        #endregion
+
         #region #23 - Martin Luther King Arrested
         [TestMethod]
         [DataRow(Player.Nixon)]

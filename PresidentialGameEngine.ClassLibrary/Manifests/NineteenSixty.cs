@@ -230,7 +230,27 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             //new Card(19, "Old South"),
             //new Card(20, "Nixon Egged In Michigan"),
             //new Card(21, "Fifty Stars"),
-            //new Card(22, "Gaffe"),
+            {22, new Card()
+                {
+                    Index = 22,
+                    Title = "Gaffe",
+                    Text = "Opponent loses 1 momentum marker and 3 state support in the state currently occupied by their candidate token.",
+                    CampaignPoints = 4,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Both,
+                    State = State.TX,
+                    Event = (engine, player, choices) => {
+                        var opponent = player.ToOpponent();
+                        var opponentLocation = engine.GetPlayerState(opponent);
+                        engine.LoseMomentum(opponent, 1);
+                        engine.LoseSupport(opponent, opponentLocation, 3);
+                    },
+                    AreChangesValid = (choices) => {
+						//This has no player choices.
+						return true;
+                    },
+                }
+            },
             {23, new Card()
                 {
                     Index = 23,
