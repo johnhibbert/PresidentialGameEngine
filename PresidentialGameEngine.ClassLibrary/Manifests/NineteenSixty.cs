@@ -415,7 +415,36 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                 }
             },
             //new Card(38, "“High Hopes”"),
-            //new Card(39, "Lyndon Johnson"),
+            {39, new Card()
+                {
+                    Index = 39,
+                    Title = "Lyndon Johnson",
+                    Text = "The Kennedy player may add 2 state support in Texas and a total of 3 additional state support anywhere in the South, no more than 2 per state.  If the Kennedy candidate card is currently flipped to its Exhausted side, the Kennedy player may reclaim it face up.",
+                    CampaignPoints = 4,
+                    EventType = EventType.None,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Kennedy,
+                    State = State.CA,
+                    Event = (engine, player, choices) => {
+                        //TODO: It's unclear if you could use this to double-dip on texas.
+                        //Also, should the 2 points for texas be baked in?  Right now it's assumed to be added.
+                        engine.ImplementChanges(choices);
+                        engine.UnexhaustPlayer(Player.Kennedy);
+                    },
+                    AreChangesValid = (choices) =>{
+                        //throw new NotImplementedException();
+                        var fivePointsOfIssueChanges = choices.TotalStateChanges <= 5;
+                        var twoPointsForTexas = choices.StateChanges.Single(x => x.Target == State.TX).Change >= 2;
+                        var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var noStateAboveTwo = choices.HighestStateChange <=2;
+                        var onlySouthernStates = choices.StateChanges.Select(s => s.Target).All(x => StatesByRegion[Region.South].Contains(x));
+                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([ChangeType.StateSupport]);
+
+                        return fivePointsOfIssueChanges && noStateAboveTwo && twoPointsForTexas
+                              && onlySouthernStates && statePlayerIsOnlyKennedy && AndOnlyThisTypeOfTest;
+                    },
+                }
+            },
             //new Card(40, "Northern Blacks"),
             {41, new Card()
                 {
@@ -444,6 +473,28 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                 }
             },
             //new Card(42, "Henry Cabot Lodge"),
+            {42, new Card()
+                {
+                    Index = 42,
+                    Title = "Henry Cabot Lodge",
+                    Text = "Nixon gains 2 state support in Massachusetts and 2 issue support in Defense.  If the Nixon candidate card is currently flipped to its Exhausted side, the Nixon player may reclaim it face-up.\r\n",
+                    CampaignPoints = 4,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.NY,
+                    Event = (engine, player, choices) => {
+                        engine.GainSupport(Player.Nixon, Issue.Defense, 2);
+                        engine.GainSupport(Player.Nixon, State.MA, 2);
+                        engine.UnexhaustPlayer(Player.Nixon);
+                    },
+                    AreChangesValid = (choices) =>{
+                        //This has no player choices.
+						return true;
+
+                    },
+                }
+            },
             //new Card(43, "Catholic Support"),
             //new Card(44, "Puerto Rican Bishops"),
             //new Card(45, "Compact Of 5th Avenue"),
@@ -518,7 +569,25 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             //new Card(58, "Tricky Dick"),
             //new Card(59, "Mid-Atlantic"),
             //new Card(60, "World Series Ends"),
-            //new Card(61, "Fatigue Sets In"),
+            {61, new Card()
+                {
+                    Index = 61,
+                    Title = "Fatigue Sets In",
+                    Text = "If opponent's candidate card is currently available for play, flip it over to its Exhausted side.",
+                    CampaignPoints = 4,
+                    EventType = EventType.None,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Both,
+                    State = State.OH,
+                    Event = (engine, player, choices) => {
+                        engine.ExhaustPlayer(player.ToOpponent());
+                    },
+                    AreChangesValid = (choices) => {
+						//This has no player choices.
+						return true;
+                    },
+                }
+            },
             {62, new Card()
                 {
                     Index = 62,
@@ -544,6 +613,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     },
                 }
             },
+
             {63, new Card()
                 {
                     Index = 63,
@@ -871,7 +941,6 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
         private static readonly Dictionary<int, Card> GMT_OnlyCards = new()
         {
             //new Card(92, "Give ‘Em Hell Harry"),
-            //new Card(93, "Experience Counts"),
             {93, new Card()
                 {
                     Index = 93,
@@ -895,7 +964,34 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                 }
             },
             //new Card(94, "A Low Blow"),
-            //new Card(95, "A Time For Greatness?"),
+            //new Card(95, "A Time For Greatness"),
+            {95, new Card()
+                {
+                    Index = 95,
+                    Title = "A Time For Greatness",
+                    Text = "Nixon loses 1 issue support on each issue.  The Kennedy player may add 3 state support anywhere, no more than 1 per state.",
+                    CampaignPoints = 4,
+                    EventType = EventType.None,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Kennedy,
+                    State = State.TX,
+                    Event = (engine, player, choices) => {
+                        engine.LoseSupport(Player.Nixon, Issue.Defense, 1);
+                        engine.LoseSupport(Player.Nixon, Issue.CivilRights, 1);
+                        engine.LoseSupport(Player.Nixon, Issue.Economy, 1);
+                        engine.ImplementChanges(choices);
+                    },
+                    AreChangesValid = (choices) => {
+                        var threePointsOfStateChanges = choices.TotalStateChanges <= 3;
+                        var noValueAboveOne = choices.HighestStateChange <= 1;
+                        var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([ChangeType.StateSupport]);
+
+                        return threePointsOfStateChanges && noValueAboveOne
+                                && statePlayerIsOnlyKennedy && AndOnlyThisTypeOfTest;
+                    },
+                }
+            },
             {96, new Card()
                 {
                     Index = 96,

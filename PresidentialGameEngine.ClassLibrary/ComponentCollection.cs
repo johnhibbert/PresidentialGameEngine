@@ -20,6 +20,7 @@ namespace PresidentialGameEngine.ClassLibrary
         public IAccumulatingComponent<PlayersEnum>? RestComponent { get; set; }
         public ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum>? EndorsementComponent { get; set; }
         public ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum>? MediaSupportComponent { get; set; }
+        public IExhaustionComponent<PlayersEnum>? ExhaustionComponent { get; set; }
 
         public bool IsReady()
         {
