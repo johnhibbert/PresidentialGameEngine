@@ -32,8 +32,10 @@ namespace PresidentialGameEngine.ClassLibrary.Data
         {
             return $"{Title} [{Index}]";
         }
+
+        public string ToLongString() 
+        {
+            return $"{ToString()}: {Text}";
+        }
     };
-
-
-
 }

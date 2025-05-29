@@ -55,6 +55,10 @@ namespace PresidentialGameEngine.ConsoleRunner
 
         private static void SimplePlayground() 
         {
+
+            Console.WriteLine(NineteenSixty.GMTCards[90].ToString());
+            Console.WriteLine(NineteenSixty.GMTCards[90].ToLongString());
+
             //Code here is not permanent.
             //Not that any code is permanent.
 
