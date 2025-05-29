@@ -77,9 +77,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void Volunteers_5_ValidationAlwaysTrue(Player player)
+        public void Volunteers_5_ValidationAlwaysTrue()
         {
             int cardIndex = 5;
             var sut = NineteenSixty.GMTCards[cardIndex];
@@ -121,9 +119,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void NewEngland_6_FailsValidationIfNixonGains(Player player)
+        public void NewEngland_6_FailsValidationIfNixonGains()
         {
             int cardIndex = 6;
             var engine = GetGameEngine();
@@ -145,9 +141,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void NewEngland_6_FailsValidationIfIssueGains(Player player)
+        public void NewEngland_6_FailsValidationIfIssueGains()
         {
             int cardIndex = 6;
             var engine = GetGameEngine();
@@ -171,9 +165,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void NewEngland_6_FailsValidationIfGreaterThanTwo(Player player)
+        public void NewEngland_6_FailsValidationIfGreaterThanTwo()
         {
             int cardIndex = 6;
             var engine = GetGameEngine();
@@ -193,9 +185,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void NewEngland_6_FailsValidationIfExcludedState(Player player)
+        public void NewEngland_6_FailsValidationIfExcludedState()
         {
             int cardIndex = 6;
             var engine = GetGameEngine();
@@ -303,9 +293,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void SovietEconomicGrowth_8_ValidationAlwaysTrue(Player player)
+        public void SovietEconomicGrowth_8_ValidationAlwaysTrue()
         {
             int cardIndex = 8;
             var sut = NineteenSixty.GMTCards[cardIndex];
@@ -376,9 +364,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void Gaffe_22_ValidationAlwaysTrue(Player player)
+        public void Gaffe_22_ValidationAlwaysTrue()
         {
             int cardIndex = 22;
             var sut = NineteenSixty.GMTCards[cardIndex];
@@ -460,9 +446,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void MartinLutherKingArrested_23_ValidationAlwaysTrue(Leader player)
+        public void MartinLutherKingArrested_23_ValidationAlwaysTrue()
         {
             int cardIndex = 23;
             var sut = NineteenSixty.GMTCards[cardIndex];
@@ -543,9 +527,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void CivilRightsAct_25_ValidationAlwaysTrue(Player player)
+        public void CivilRightsAct_25_ValidationAlwaysTrue()
         {
             int cardIndex = 25;
             var sut = NineteenSixty.GMTCards[cardIndex];
@@ -770,10 +752,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Issue.CivilRights)]
-        [DataRow(Issue.Defense)]
-        [DataRow(Issue.Economy)]
-        public void PierreSalinger_41_FailsValidationIfSupportGainedInMoreThanOneIssue(Issue issue)
+        public void PierreSalinger_41_FailsValidationIfSupportGainedInMoreThanOneIssue()
         {
             int cardIndex = 41;
 
@@ -865,9 +844,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void RisingFoodPrices_48_ValidationAlwaysTrue(Player player)
+        public void RisingFoodPrices_48_ValidationAlwaysTrue()
         {
             int cardIndex = 48;
             var sut = NineteenSixty.GMTCards[cardIndex];
@@ -931,9 +908,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void MissileGap_51_ValidationAlwaysTrue(Player player)
+        public void MissileGap_51_ValidationAlwaysTrue()
         {
             int cardIndex = 51;
             var sut = NineteenSixty.GMTCards[cardIndex];
@@ -976,9 +951,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void HurricaneDonna_52_ValidationAlwaysTrue(Player player)
+        public void HurricaneDonna_52_ValidationAlwaysTrue()
         {
             int cardIndex = 52;
             var sut = NineteenSixty.GMTCards[cardIndex];
@@ -1055,9 +1028,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void TheTrialOfGaryPowers_62_ValidationAlwaysTrue(Player player)
+        public void TheTrialOfGaryPowers_62_ValidationAlwaysTrue()
         {
             int cardIndex = 62;
             var sut = NineteenSixty.GMTCards[cardIndex];
@@ -1114,9 +1085,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void TheTrialOfGaryPowers_63_ValidationAlwaysTrue(Player player)
+        public void TheTrialOfGaryPowers_63_ValidationAlwaysTrue()
         {
             int cardIndex = 63;
             var sut = NineteenSixty.GMTCards[cardIndex];
@@ -1176,9 +1145,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void StumpSpeech_64_ValidationAlwaysTrue(Player player)
+        public void StumpSpeech_64_ValidationAlwaysTrue()
         {
             int cardIndex = 64;
             var sut = NineteenSixty.GMTCards[cardIndex];
@@ -1243,9 +1210,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void PeaceWithoutSurrender_68_ValidationAlwaysTrue(Player player)
+        public void PeaceWithoutSurrender_68_ValidationAlwaysTrue()
         {
             int cardIndex = 68;
             var sut = NineteenSixty.GMTCards[cardIndex];
@@ -1299,9 +1264,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void TheOldNixon_70_ValidationAlwaysTrue(Player player)
+        public void TheOldNixon_70_ValidationAlwaysTrue()
         {
             int cardIndex = 70;
             var sut = NineteenSixty.GMTCards[cardIndex];
@@ -1353,9 +1316,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void HeartlandOfAmerica_71_FailsValidationIfKennedyGains(Player player)
+        public void HeartlandOfAmerica_71_FailsValidationIfKennedyGains()
         {
             int cardIndex = 71;
             var engine = GetGameEngine();
@@ -1383,9 +1344,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void HeartlandOfAmerica_71_FailsValidationIfIssueGains(Player player)
+        public void HeartlandOfAmerica_71_FailsValidationIfIssueGains()
         {
             int cardIndex = 71;
             var engine = GetGameEngine();
@@ -1416,9 +1375,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void HeartlandOfAmerica_71_FailsValidationIfGreaterThanOne(Player player)
+        public void HeartlandOfAmerica_71_FailsValidationIfGreaterThanOne()
         {
             int cardIndex = 71;
             var engine = GetGameEngine();
@@ -1445,9 +1402,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void HeartlandOfAmerica_71_FailsValidationIfStateNotInCorrectRegion(Player player)
+        public void HeartlandOfAmerica_71_FailsValidationIfStateNotInCorrectRegion()
         {
             int cardIndex = 71;
             var engine = GetGameEngine();
@@ -1475,9 +1430,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void HeartlandOfAmerica_71_FailsValidationIfStateHasTooManyVotes(Player player)
+        public void HeartlandOfAmerica_71_FailsValidationIfStateHasTooManyVotes()
         {
             int cardIndex = 71;
             var engine = GetGameEngine();
@@ -1767,9 +1720,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void SuburbanVoters_77_FailsValidationIfNixonGains(Player player)
+        public void SuburbanVoters_77_FailsValidationIfNixonGains()
         {
             int cardIndex = 77;
             var engine = GetGameEngine();
@@ -1791,9 +1742,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void SuburbanVoters_77_FailsValidationIfIssueGains(Player player)
+        public void SuburbanVoters_77_FailsValidationIfIssueGains()
         {
             int cardIndex = 77;
             var engine = GetGameEngine();
@@ -1817,9 +1766,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void SuburbanVoters_77_FailsValidationIfGreaterThanTwo(Player player)
+        public void SuburbanVoters_77_FailsValidationIfGreaterThanTwo()
         {
             int cardIndex = 77;
             var engine = GetGameEngine();
@@ -1839,9 +1786,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void SuburbanVoters_77_FailsValidationIfExcludedState(Player player)
+        public void SuburbanVoters_77_FailsValidationIfExcludedState()
         {
             int cardIndex = 77;
             var engine = GetGameEngine();
@@ -1932,9 +1877,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void StockMarketInDecline_78_ValidationAlwaysTrue(Player player)
+        public void StockMarketInDecline_78_ValidationAlwaysTrue()
         {
             int cardIndex = 78;
             var sut = NineteenSixty.GMTCards[cardIndex];
@@ -1980,9 +1923,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void FidelCastro_82_ValidationAlwaysTrue(Player player)
+        public void FidelCastro_82_ValidationAlwaysTrue()
         {
             int cardIndex = 82;
             var sut = NineteenSixty.GMTCards[cardIndex];
@@ -2105,9 +2046,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void TheNewNixon_89_ValidationAlwaysTrue(Player player)
+        public void TheNewNixon_89_ValidationAlwaysTrue()
         {
             int cardIndex = 89;
             var sut = NineteenSixty.GMTCards[cardIndex];
@@ -2142,9 +2081,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void Recount_90_FailsValidationIfNixonGains(Player player)
+        public void Recount_90_FailsValidationIfNixonGains()
         {
             int cardIndex = 90;
 
@@ -2161,9 +2098,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void Recount_90_FailsValidationIfIssueGains(Player player)
+        public void Recount_90_FailsValidationIfIssueGains()
         {
             int cardIndex = 90;
             var engine = GetGameEngine();
@@ -2181,9 +2116,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void Recount_90_FailsValidationIfGreaterThanThree(Player player)
+        public void Recount_90_FailsValidationIfGreaterThanThree()
         {
             int cardIndex = 90;
             var engine = GetGameEngine();
@@ -2244,9 +2177,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void ExperienceCounts_93_ValidationAlwaysTrue(Player player)
+        public void ExperienceCounts_93_ValidationAlwaysTrue()
         {
             int cardIndex = 93;
             var sut = NineteenSixty.GMTCards[cardIndex];
@@ -2356,9 +2287,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void MedalCount_96_ValidationAlwaysTrue(Player player)
+        public void MedalCount_96_ValidationAlwaysTrue()
         {
             int cardIndex = 96;
             var sut = NineteenSixty.GMTCards[cardIndex];
@@ -2469,9 +2398,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void CassiusClayWinsGold_97_ValidationAlwaysTrue(Leader player)
+        public void CassiusClayWinsGold_97_ValidationAlwaysTrue()
         {
             int cardIndex = 97;
             var sut = NineteenSixty.GMTCards[cardIndex];
