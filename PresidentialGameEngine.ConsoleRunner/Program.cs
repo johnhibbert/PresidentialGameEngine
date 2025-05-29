@@ -56,6 +56,42 @@ namespace PresidentialGameEngine.ConsoleRunner
         private static void SimplePlayground() 
         {
 
+
+            var lowVoteStates = NineteenSixty.ElectoralVotes.Where(x => x.Value <= 10).Select(y => y.Key).ToList();
+            var westOrMidWestStates = NineteenSixty.StatesByRegion[Region.Midwest];
+            westOrMidWestStates.AddRange(NineteenSixty.StatesByRegion[Region.West]);
+            var heartlandStates = lowVoteStates.Intersect(westOrMidWestStates);
+
+
+
+            //var holder = NineteenSixty.ElectoralVotes.Where(x => x.Value >= 20).Select(y=>y.Key).ToList();
+
+
+
+
+            //var holder = NineteenSixty.StatesByRegion;
+
+
+            //var oldDict = NineteenSixty.RegionByState;//.Select(x => x.Value);
+
+            //Dictionary<Region, List<State>> newDict = [];
+
+            //foreach (Region region in Enum.GetValues(typeof(Region)))
+            //{
+            //    newDict.Add(region, []);
+            //}
+
+            //foreach (State state in oldDict.Keys)
+            //{
+            //    newDict[oldDict[state]].Add(state);
+            //}
+
+
+
+
+            //foreach()
+
+
             Console.WriteLine(NineteenSixty.GMTCards[90].ToString());
             Console.WriteLine(NineteenSixty.GMTCards[90].ToLongString());
 

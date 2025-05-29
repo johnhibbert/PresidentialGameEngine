@@ -11,7 +11,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             { Player.Nixon, State.CA }
         };
 
-        public static readonly Dictionary<State, Region> RegionByState = new() 
+        public static readonly Dictionary<State, Region> RegionByState = new()
         {
             { State.AK, Region.West },
             { State.AL, Region.South },
@@ -64,6 +64,81 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             { State.WV, Region.East },
             { State.WY, Region.West }
         };
+
+        public static readonly Dictionary<Region, List<State>> StatesByRegion = ReverseDictionary();
+
+        public static readonly Dictionary<State, int> ElectoralVotes = new()
+        {
+            { State.AK, 3 },
+            { State.AL, 11 },
+            { State.AR, 8 },
+            { State.AZ, 4 },
+            { State.CA, 32 },
+            { State.CO, 6 },
+            { State.CT, 8 },
+            { State.DE, 3 },
+            { State.FL, 10 },
+            { State.GA, 12 },
+            { State.HI, 3 },
+            { State.IA, 10 },
+            { State.ID, 4 },
+            { State.IL, 27 },
+            { State.IN, 13 },
+            { State.KS, 8 },
+            { State.KY, 10 },
+            { State.LA, 10 },
+            { State.MA, 16 },
+            { State.MD, 9 },
+            { State.ME, 5 },
+            { State.MI, 20 },
+            { State.MN, 11 },
+            { State.MO, 13 },
+            { State.MS, 8 },
+            { State.MT, 4 },
+            { State.NC, 14 },
+            { State.ND, 4 },
+            { State.NE, 6 },
+            { State.NH, 4 },
+            { State.NJ, 16 },
+            { State.NM, 4 },
+            { State.NV, 3 },
+            { State.NY, 45 },
+            { State.OH, 25 },
+            { State.OK, 8 },
+            { State.OR, 6 },
+            { State.PA, 32 },
+            { State.RI, 4 },
+            { State.SC, 8 },
+            { State.SD, 4 },
+            { State.TN, 11 },
+            { State.TX, 24 },
+            { State.UT, 4 },
+            { State.VA, 12 },
+            { State.VT, 3 },
+            { State.WA, 9 },
+            { State.WI, 12 },
+            { State.WV, 8 },
+            { State.WY, 3 },
+        };
+
+        private static Dictionary<Region, List<State>> ReverseDictionary() 
+        {
+            var oldDict = NineteenSixty.RegionByState;
+
+            Dictionary<Region, List<State>> newDict = [];
+
+            foreach (Region region in Enum.GetValues(typeof(Region)))
+            {
+                newDict.Add(region, []);
+            }
+
+            foreach (State state in oldDict.Keys)
+            {
+                newDict[oldDict[state]].Add(state);
+            }
+
+            return newDict;
+        } 
 
         public static readonly Dictionary<State, Tilt<Player>> StateTilts = new()
         {
@@ -230,7 +305,27 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             //new Card(19, "Old South"),
             //new Card(20, "Nixon Egged In Michigan"),
             //new Card(21, "Fifty Stars"),
-            //new Card(22, "Gaffe"),
+            {22, new Card()
+                {
+                    Index = 22,
+                    Title = "Gaffe",
+                    Text = "Opponent loses 1 momentum marker and 3 state support in the state currently occupied by their candidate token.",
+                    CampaignPoints = 4,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Both,
+                    State = State.TX,
+                    Event = (engine, player, choices) => {
+                        var opponent = player.ToOpponent();
+                        var opponentLocation = engine.GetPlayerState(opponent);
+                        engine.LoseMomentum(opponent, 1);
+                        engine.LoseSupport(opponent, opponentLocation, 3);
+                    },
+                    AreChangesValid = (choices) => {
+						//This has no player choices.
+						return true;
+                    },
+                }
+            },
             {23, new Card()
                 {
                     Index = 23,
@@ -384,7 +479,25 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     },
                 }
             },
-            //new Card(52, "Hurricane Donna"),
+            {52, new Card()
+                {
+                    Index = 52,
+                    Title = "Hurricane Donna",
+                    Text = "Move player's candidate token to Florida.  Player gains 1 momentum marker and 1 state support in Florida.",
+                    CampaignPoints = 2,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Both,
+                    State = State.MT,
+                    Event = (engine, player, choices) => {
+                        engine.MovePlayerToState(player, State.FL);
+                        engine.GainSupport(player, State.FL, 1);
+                    },
+                    AreChangesValid = (choices) => {
+						//This has no player choices.
+						return true;
+                    },
+                }
+            },
             //new Card(53, "Campaign Headquarters"),
             //new Card(54, "Bobby Kennedy"),
             //new Card(55, "Hostile Press Corps"),
@@ -506,13 +619,97 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                 }
             },
 
-            //new Card(71, "Heartland of America"),
-            //new Card(72, "Southern Revolt"),
+            {71, new Card()
+                {
+                    Index = 71,
+                    Title = "Heartland of America",
+                    Text = "The Kennedy player may add a total of 5 state support in states having 20 or more electoral votes, no more than 2 per state.",
+                    CampaignPoints = 3,
+                    Issue = Issue.Defense,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.NJ,
+                    Event = (engine, player, choices) => {
+                        engine.ImplementChanges(choices);
+                    },
+                    AreChangesValid = (choices) => {
+                        var lowVoteStates = ElectoralVotes.Where(x => x.Value <= 10).Select(y=>y.Key).ToList();
+                        var westOrMidWestStates = StatesByRegion[Region.Midwest];
+                        westOrMidWestStates.AddRange(StatesByRegion[Region.West]);
+                        var heartlandStates = lowVoteStates.Intersect(westOrMidWestStates);
+
+                        var onlyHeartlandStates = choices.StateChanges.Select(s => s.Target).All(x => heartlandStates.Contains(x));
+                        var sevenOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 7;
+                        var noValueAboveOne = choices.HighestStateChange <= 1;
+                        var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
+                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([ChangeType.StateSupport]);
+
+                        return onlyHeartlandStates && sevenOrFewerPointsOfStateChanges
+                            && statePlayerIsOnlyNixon && noValueAboveOne && AndOnlyThisTypeOfTest;
+                    },
+                }
+            },
+            {72, new Card()
+                {
+                    Index = 72,
+                    Title = "Southern Revolt",
+                    Text = "If Kennedy is leading in Civil Rights, the Nixon player may add a total of 5 state support in the South, no more than 2 per state.",
+                    CampaignPoints = 3,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.IN,
+                    Event = (engine, player, choices) => {
+                        var civilRightsleader = engine.GetLeader(Issue.CivilRights);
+                        
+                        if(civilRightsleader == Leader.Kennedy)
+                        {
+                            engine.ImplementChanges(choices);
+                        }
+                    },
+                    AreChangesValid = (choices) => {
+                        List<State> southernStates = StatesByRegion[Region.South];
+
+                        var onlySouthernStatesIncluded = choices.StateChanges.Select(s => s.Target).All(x => southernStates.Contains(x));
+                        var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
+                        var noValueAboveTwo = choices.HighestStateChange <= 2;
+                        var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
+                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([ChangeType.StateSupport]);
+
+                        return onlySouthernStatesIncluded && fiveOrFewerPointsOfStateChanges
+                            && statePlayerIsOnlyNixon && noValueAboveTwo && AndOnlyThisTypeOfTest;
+                    },
+                }
+            },
             //new Card(73, "Norman Vincent Peale"),
             //new Card(74, "Eisenhower’s Silence"),
             //new Card(75, "Republican TV Spots"),
             //new Card(76, "Nixon’s Pledge"),
             //new Card(77, "Suburban Voters"),
+            {77, new Card()
+                {
+                    Index = 77,
+                    Title = "Suburban Voters",
+                    Text = "The Kennedy player may add a total of 5 state support in states having 20 or more electoral votes, no more than 2 per state.",
+                    CampaignPoints = 3,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Kennedy,
+                    State = State.MN,
+                    Event = (engine, player, choices) => {
+                        engine.ImplementChanges(choices);
+                    },
+                    AreChangesValid = (choices) => {
+                        var suburbanStates = ElectoralVotes.Where(x => x.Value >= 20).Select(y=>y.Key).ToList();
+
+                        var onlySuburbanStates = choices.StateChanges.Select(s => s.Target).All(x => suburbanStates.Contains(x));
+                        var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
+                        var noValueAboveTwo = choices.HighestStateChange <= 2;
+                        var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([ChangeType.StateSupport]);
+
+                        return onlySuburbanStates && fiveOrFewerPointsOfStateChanges
+                            && statePlayerIsOnlyKennedy && noValueAboveTwo && AndOnlyThisTypeOfTest;
+                    },
+                }
+            },
             {78, new Card()
                 {
                     Index = 78,
