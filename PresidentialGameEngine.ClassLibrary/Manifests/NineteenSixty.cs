@@ -518,7 +518,25 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             //new Card(58, "Tricky Dick"),
             //new Card(59, "Mid-Atlantic"),
             //new Card(60, "World Series Ends"),
-            //new Card(61, "Fatigue Sets In"),
+            {61, new Card()
+                {
+                    Index = 61,
+                    Title = "Fatigue Sets In",
+                    Text = "If opponent's candidate card is currently available for play, flip it over to its Exhausted side.",
+                    CampaignPoints = 4,
+                    EventType = EventType.None,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Both,
+                    State = State.OH,
+                    Event = (engine, player, choices) => {
+                        engine.ExhaustPlayer(player.ToOpponent());
+                    },
+                    AreChangesValid = (choices) => {
+						//This has no player choices.
+						return true;
+                    },
+                }
+            },
             {62, new Card()
                 {
                     Index = 62,
@@ -544,6 +562,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     },
                 }
             },
+
             {63, new Card()
                 {
                     Index = 63,

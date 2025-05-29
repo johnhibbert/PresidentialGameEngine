@@ -968,6 +968,37 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
         #endregion
 
+        #region #61 - Fatigue Sets In
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void FatigueSetsIn_61_OpponentExhausted(Player player)
+        {
+            int cardIndex = 61;
+            var engine = GetGameEngine();
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, EmptyChanges);
+
+            Assert.IsFalse(engine.IsPlayerReady(player.ToOpponent()));
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void FatigueSetsIn_61_OpponentAlreadyExhaustedStillWorks(Player player)
+        {
+            int cardIndex = 61;
+            var engine = GetGameEngine();
+            engine.ExhaustPlayer(player.ToOpponent());
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, EmptyChanges);
+
+            Assert.IsFalse(engine.IsPlayerReady(player.ToOpponent()));
+        }
+        #endregion
+
         #region #62 - The Trial of Gary Powers
         [TestMethod]
         [DataRow(Player.Nixon)]
