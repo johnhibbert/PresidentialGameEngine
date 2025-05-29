@@ -1313,6 +1313,236 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
         #endregion
 
+        #region 72 - Southern Revolt
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void SouthernRevolt_72_SupportAddedToStates(Player player)
+        {
+            int cardIndex = 72;
+            var engine = GetGameEngine();
+            engine.GainSupport(Player.Kennedy, Issue.CivilRights, 2);
+
+            PlayerChosenChanges<Player, Issue, State> playerChoices = new();
+            var oneSupportInFlorida = new SupportChange<Player, State>(Player.Nixon, State.FL, 1);
+            var oneSupportInVirginia = new SupportChange<Player, State>(Player.Nixon, State.VA, 1);
+            var twoSupportInLouisiana = new SupportChange<Player, State>(Player.Nixon, State.LA, 2);
+            var oneSupportInTexas = new SupportChange<Player, State>(Player.Nixon, State.TX, 1);
+
+            playerChoices.StateChanges.Add(oneSupportInFlorida);
+            playerChoices.StateChanges.Add(oneSupportInVirginia);
+            playerChoices.StateChanges.Add(twoSupportInLouisiana);
+            playerChoices.StateChanges.Add(oneSupportInTexas);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+
+            sut.Event(engine, player, playerChoices);
+
+            Assert.AreEqual(1, engine.GetSupportAmount(State.FL));
+            Assert.AreEqual(1, engine.GetSupportAmount(State.VA));
+            Assert.AreEqual(2, engine.GetSupportAmount(State.LA));
+            Assert.AreEqual(1, engine.GetSupportAmount(State.TX));
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void SouthernRevolt_72_NoChangeIfNixonLeadsInCivilRights(Player player)
+        {
+            int cardIndex = 72;
+            var engine = GetGameEngine();
+            engine.GainSupport(Player.Nixon, Issue.CivilRights, 2);
+
+            PlayerChosenChanges<Player, Issue, State> playerChoices = new();
+            var oneSupportInFlorida = new SupportChange<Player, State>(Player.Nixon, State.FL, 1);
+            var oneSupportInVirginia = new SupportChange<Player, State>(Player.Nixon, State.VA, 1);
+            var twoSupportInLouisiana = new SupportChange<Player, State>(Player.Nixon, State.LA, 2);
+            var oneSupportInTexas = new SupportChange<Player, State>(Player.Nixon, State.TX, 1);
+
+            playerChoices.StateChanges.Add(oneSupportInFlorida);
+            playerChoices.StateChanges.Add(oneSupportInVirginia);
+            playerChoices.StateChanges.Add(twoSupportInLouisiana);
+            playerChoices.StateChanges.Add(oneSupportInTexas);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+
+            sut.Event(engine, player, playerChoices);
+
+            Assert.AreEqual(0, engine.GetSupportAmount(State.FL));
+            Assert.AreEqual(0, engine.GetSupportAmount(State.VA));
+            Assert.AreEqual(0, engine.GetSupportAmount(State.LA));
+            Assert.AreEqual(0, engine.GetSupportAmount(State.TX));
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void SouthernRevolt_72_NoChangeIfNoLeaderInCivilRights(Player player)
+        {
+            int cardIndex = 72;
+            var engine = GetGameEngine();
+
+            PlayerChosenChanges<Player, Issue, State> playerChoices = new();
+            var oneSupportInFlorida = new SupportChange<Player, State>(Player.Nixon, State.FL, 1);
+            var oneSupportInVirginia = new SupportChange<Player, State>(Player.Nixon, State.VA, 1);
+            var twoSupportInLouisiana = new SupportChange<Player, State>(Player.Nixon, State.LA, 2);
+            var oneSupportInTexas = new SupportChange<Player, State>(Player.Nixon, State.TX, 1);
+
+            playerChoices.StateChanges.Add(oneSupportInFlorida);
+            playerChoices.StateChanges.Add(oneSupportInVirginia);
+            playerChoices.StateChanges.Add(twoSupportInLouisiana);
+            playerChoices.StateChanges.Add(oneSupportInTexas);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+
+            sut.Event(engine, player, playerChoices);
+
+            Assert.AreEqual(0, engine.GetSupportAmount(State.FL));
+            Assert.AreEqual(0, engine.GetSupportAmount(State.VA));
+            Assert.AreEqual(0, engine.GetSupportAmount(State.LA));
+            Assert.AreEqual(0, engine.GetSupportAmount(State.TX));
+        }
+
+        [TestMethod]
+        public void SouthernRevolt_72_PassedValidationEvenIfNixonLeadsCivilRights()
+        {
+            int cardIndex = 72;
+            var engine = GetGameEngine();
+            engine.GainSupport(Player.Nixon, Issue.CivilRights, 2);
+
+            PlayerChosenChanges<Player, Issue, State> playerChoices = new();
+            var oneSupportInFlorida = new SupportChange<Player, State>(Player.Nixon, State.FL, 1);
+            var oneSupportInVirginia = new SupportChange<Player, State>(Player.Nixon, State.VA, 1);
+            var twoSupportInLouisiana = new SupportChange<Player, State>(Player.Nixon, State.LA, 2);
+            var oneSupportInTexas = new SupportChange<Player, State>(Player.Nixon, State.TX, 1);
+
+            playerChoices.StateChanges.Add(oneSupportInFlorida);
+            playerChoices.StateChanges.Add(oneSupportInVirginia);
+            playerChoices.StateChanges.Add(twoSupportInLouisiana);
+            playerChoices.StateChanges.Add(oneSupportInTexas);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void SouthernRevolt_72_PassedValidationEvenIfNoLeaderInCivilRights()
+        {
+            int cardIndex = 72;
+            var engine = GetGameEngine();
+  
+            PlayerChosenChanges<Player, Issue, State> playerChoices = new();
+            var oneSupportInFlorida = new SupportChange<Player, State>(Player.Nixon, State.FL, 1);
+            var oneSupportInVirginia = new SupportChange<Player, State>(Player.Nixon, State.VA, 1);
+            var twoSupportInLouisiana = new SupportChange<Player, State>(Player.Nixon, State.LA, 2);
+            var oneSupportInTexas = new SupportChange<Player, State>(Player.Nixon, State.TX, 1);
+
+            playerChoices.StateChanges.Add(oneSupportInFlorida);
+            playerChoices.StateChanges.Add(oneSupportInVirginia);
+            playerChoices.StateChanges.Add(twoSupportInLouisiana);
+            playerChoices.StateChanges.Add(oneSupportInTexas);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void SouthernRevolt_72_FailsValidationIfKennedyGains()
+        {
+            int cardIndex = 72;
+            var engine = GetGameEngine();
+            engine.GainSupport(Player.Kennedy, Issue.CivilRights, 2);
+
+            PlayerChosenChanges<Player, Issue, State> playerChoices = new();
+            var oneSupportInFlorida = new SupportChange<Player, State>(Player.Nixon, State.FL, 1);
+            var oneSupportInVirginia = new SupportChange<Player, State>(Player.Kennedy, State.VA, 1);
+            var twoSupportInLouisiana = new SupportChange<Player, State>(Player.Nixon, State.LA, 2);
+            var oneSupportInTexas = new SupportChange<Player, State>(Player.Nixon, State.TX, 1);
+
+            playerChoices.StateChanges.Add(oneSupportInFlorida);
+            playerChoices.StateChanges.Add(oneSupportInVirginia);
+            playerChoices.StateChanges.Add(twoSupportInLouisiana);
+            playerChoices.StateChanges.Add(oneSupportInTexas);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void SouthernRevolt_72_FailsValidationIfIssueGains()
+        {
+            int cardIndex = 72;
+            var engine = GetGameEngine();
+            engine.GainSupport(Player.Kennedy, Issue.CivilRights, 2);
+
+            PlayerChosenChanges<Player, Issue, State> playerChoices = new();
+            var oneSupportInFlorida = new SupportChange<Player, State>(Player.Nixon, State.FL, 1);
+            var oneSupportInVirginia = new SupportChange<Player, State>(Player.Nixon, State.VA, 1);
+            var twoSupportInLouisiana = new SupportChange<Player, State>(Player.Nixon, State.LA, 2);
+            var oneSupportInTexas = new SupportChange<Player, State>(Player.Nixon, State.TX, 1);
+            var issueSupport = new SupportChange<Player, Issue>(Player.Nixon, Issue.Defense, 1);
+
+            playerChoices.StateChanges.Add(oneSupportInFlorida);
+            playerChoices.StateChanges.Add(oneSupportInVirginia);
+            playerChoices.StateChanges.Add(twoSupportInLouisiana);
+            playerChoices.StateChanges.Add(oneSupportInTexas);
+            playerChoices.IssueChanges.Add(issueSupport);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void SouthernRevolt_72_FailsValidationIfGreaterThanTwo()
+        {
+            int cardIndex = 72;
+            var engine = GetGameEngine();
+            engine.GainSupport(Player.Kennedy, Issue.CivilRights, 2);
+
+            PlayerChosenChanges<Player, Issue, State> playerChoices = new();
+            var oneSupportInFlorida = new SupportChange<Player, State>(Player.Nixon, State.FL, 1);
+            var oneSupportInVirginia = new SupportChange<Player, State>(Player.Nixon, State.VA, 1);
+            var threeSupportInLouisiana = new SupportChange<Player, State>(Player.Nixon, State.LA, 3);
+
+            playerChoices.StateChanges.Add(oneSupportInFlorida);
+            playerChoices.StateChanges.Add(oneSupportInVirginia);
+            playerChoices.StateChanges.Add(threeSupportInLouisiana);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void SouthernRevolt_72_FailsValidationIfExcludedState()
+        {
+            int cardIndex = 72;
+            var engine = GetGameEngine();
+            engine.GainSupport(Player.Kennedy, Issue.CivilRights, 2);
+
+            PlayerChosenChanges<Player, Issue, State> playerChoices = new();
+            var oneSupportInFlorida = new SupportChange<Player, State>(Player.Nixon, State.FL, 1);
+            var oneSupportInVirginia = new SupportChange<Player, State>(Player.Nixon, State.VA, 1);
+            var twoSupportInLouisiana = new SupportChange<Player, State>(Player.Nixon, State.LA, 2);
+            var oneSupportInRhodeIsland = new SupportChange<Player, State>(Player.Kennedy, State.RI, 1);
+
+            playerChoices.StateChanges.Add(oneSupportInFlorida);
+            playerChoices.StateChanges.Add(oneSupportInVirginia);
+            playerChoices.StateChanges.Add(twoSupportInLouisiana);
+            playerChoices.StateChanges.Add(oneSupportInRhodeIsland);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+
+        #endregion
+
         #region #78 - Stock Market In Decline
 
         [TestMethod]

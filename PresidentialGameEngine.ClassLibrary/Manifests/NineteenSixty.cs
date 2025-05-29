@@ -11,7 +11,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             { Player.Nixon, State.CA }
         };
 
-        public static readonly Dictionary<State, Region> RegionByState = new() 
+        public static readonly Dictionary<State, Region> RegionByState = new()
         {
             { State.AK, Region.West },
             { State.AL, Region.South },
@@ -64,6 +64,27 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             { State.WV, Region.East },
             { State.WY, Region.West }
         };
+
+        public static readonly Dictionary<Region, List<State>> StatesByRegion = ReverseDictionary();
+
+        private static Dictionary<Region, List<State>> ReverseDictionary() 
+        {
+            var oldDict = NineteenSixty.RegionByState;
+
+            Dictionary<Region, List<State>> newDict = [];
+
+            foreach (Region region in Enum.GetValues(typeof(Region)))
+            {
+                newDict.Add(region, []);
+            }
+
+            foreach (State state in oldDict.Keys)
+            {
+                newDict[oldDict[state]].Add(state);
+            }
+
+            return newDict;
+        } 
 
         public static readonly Dictionary<State, Tilt<Player>> StateTilts = new()
         {
@@ -546,6 +567,37 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
 
             //new Card(71, "Heartland of America"),
             //new Card(72, "Southern Revolt"),
+            {72, new Card()
+                {
+                    Index = 72,
+                    Title = "Southern Revolt",
+                    Text = "If Kennedy is leading in Civil Rights, the Nixon player may add a total of 5 state support in the South, no more than 2 per state.",
+                    CampaignPoints = 3,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.IN,
+                    Event = (engine, player, choices) => {
+                        var civilRightsleader = engine.GetLeader(Issue.CivilRights);
+                        
+                        if(civilRightsleader == Leader.Kennedy)
+                        {
+                            engine.ImplementChanges(choices);
+                        }
+                    },
+                    AreChangesValid = (choices) => {
+                        List<State> southernStates = StatesByRegion[Region.South];
+
+                        var onlySouthernStatesIncluded = choices.StateChanges.Select(s => s.Target).All(x => southernStates.Contains(x));
+                        var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
+                        var noValueAboveTwo = choices.HighestStateChange <= 2;
+                        var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
+                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([ChangeType.StateSupport]);
+
+                        return onlySouthernStatesIncluded && fiveOrFewerPointsOfStateChanges
+                            && statePlayerIsOnlyNixon && noValueAboveTwo && AndOnlyThisTypeOfTest;
+                    },
+                }
+            },
             //new Card(73, "Norman Vincent Peale"),
             //new Card(74, "Eisenhower’s Silence"),
             //new Card(75, "Republican TV Spots"),
