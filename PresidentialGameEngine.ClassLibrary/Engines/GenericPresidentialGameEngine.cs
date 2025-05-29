@@ -40,6 +40,7 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
                 RestComponent = collection.RestComponent;
                 EndorsementComponent = collection.EndorsementComponent;
                 MediaSupportComponent = collection.MediaSupportComponent;
+                ExhaustionComponent = collection.ExhaustionComponent;
 #pragma warning restore CS8601 // Possible null reference assignment.
             }
             else throw new ArgumentException("At least one necessary property on the ComponentCollection is null.");
