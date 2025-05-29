@@ -30,7 +30,8 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
                 RestComponent = Substitute.For<IAccumulatingComponent<FakePlayer>>(),
                 RegionalComponent = Substitute.For<IRegionalComponent<FakeState, FakeRegion, FakePlayer>>(),
                 EndorsementComponent = Substitute.For<ISupportComponent<FakePlayer, FakeLeader, FakeRegion>>(),
-                MediaSupportComponent = Substitute.For<ISupportComponent<FakePlayer, FakeLeader, FakeRegion>>()
+                MediaSupportComponent = Substitute.For<ISupportComponent<FakePlayer, FakeLeader, FakeRegion>>(),
+                ExhaustionComponent = Substitute.For<IExhaustionComponent<FakePlayer>>()
             };
         }
 
@@ -47,6 +48,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
                 RegionalComponent = Substitute.For<IRegionalComponent<FakeState, FakeRegion, FakePlayer>>(),
                 EndorsementComponent = new SupportComponent<FakePlayer, FakeLeader, FakeRegion>(),
                 MediaSupportComponent = new SupportComponent<FakePlayer, FakeLeader, FakeRegion>(),
+                ExhaustionComponent = new ExhaustionComponent<FakePlayer>()
             };
         }
 

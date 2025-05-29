@@ -19,6 +19,7 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
         IAccumulatingComponent<PlayersEnum> RestComponent { get; init; }
         ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum> EndorsementComponent { get; init; }
         ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum> MediaSupportComponent { get; init; }
+        IExhaustionComponent<PlayersEnum> ExhaustionComponent { get; init; }
 
         //Not sure I really want to be supressing warnings like this
         //but the object is intentionally nullable to use methods instead of a huge constructor
@@ -207,6 +208,21 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
         public int GetMediaSupportAmount(RegionsEnum region)
         {
             return MediaSupportComponent.GetSupportAmount(region);
+        }
+
+        public void ExhaustPlayer(PlayersEnum player) 
+        {
+            ExhaustionComponent.ExhaustPlayer(player);
+        }
+
+        public void UnexhaustPlayer(PlayersEnum player)
+        {
+            ExhaustionComponent.UnexhaustPlayer(player);
+        }
+
+        public bool IsPlayerReady(PlayersEnum player)
+        {
+            return ExhaustionComponent.IsPlayerReady(player);
         }
 
     }

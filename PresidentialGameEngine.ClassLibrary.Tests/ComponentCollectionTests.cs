@@ -22,7 +22,8 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
                     RestComponent = Substitute.For<IAccumulatingComponent<FakePlayer>>(),
                     RegionalComponent = Substitute.For<IRegionalComponent<FakeState, FakeRegion, FakePlayer>>(),
                     EndorsementComponent = Substitute.For<ISupportComponent<FakePlayer, FakeLeader, FakeRegion>>(),
-                    MediaSupportComponent = Substitute.For<ISupportComponent<FakePlayer, FakeLeader, FakeRegion>>()
+                    MediaSupportComponent = Substitute.For<ISupportComponent<FakePlayer, FakeLeader, FakeRegion>>(),
+                    ExhaustionComponent = Substitute.For<IExhaustionComponent<FakePlayer>>()
                 };
 
             Assert.IsTrue(collection.IsReady());
