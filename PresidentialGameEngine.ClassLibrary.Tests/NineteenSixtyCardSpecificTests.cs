@@ -693,6 +693,155 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
         #endregion
 
+        #region #39 - Lyndon Johnson
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void LyndonJohnson_39_SupportAddedToStates(Player player)
+        {
+            int cardIndex = 39;
+            var engine = GetGameEngine();
+
+            PlayerChosenChanges<Player, Issue, State> playerChoices = new();
+            var twoSupportInTexas = new SupportChange<Player, State>(Player.Kennedy, State.TX, 2);
+            var oneSupportInFlorida = new SupportChange<Player, State>(Player.Kennedy, State.FL, 1);
+            var oneSupportInAlabama = new SupportChange<Player, State>(Player.Kennedy, State.AL, 1);
+            var oneSupportInTennessee = new SupportChange<Player, State>(Player.Kennedy, State.TN, 1);
+
+            playerChoices.StateChanges.Add(twoSupportInTexas);
+            playerChoices.StateChanges.Add(oneSupportInFlorida);
+            playerChoices.StateChanges.Add(oneSupportInAlabama);
+            playerChoices.StateChanges.Add(oneSupportInTennessee);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+
+            sut.Event(engine, player, playerChoices);
+
+            Assert.AreEqual(2, engine.GetSupportAmount(State.TX));
+            Assert.AreEqual(1, engine.GetSupportAmount(State.FL));
+            Assert.AreEqual(1, engine.GetSupportAmount(State.AL));
+            Assert.AreEqual(1, engine.GetSupportAmount(State.TN));
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void LyndonJohnson_39_PlayerCardUnexhausted(Player player)
+        {
+            int cardIndex = 39;
+            var engine = GetGameEngine();
+
+            PlayerChosenChanges<Player, Issue, State> playerChoices = new();
+            var twoSupportInTexas = new SupportChange<Player, State>(Player.Kennedy, State.TX, 2);
+            var oneSupportInFlorida = new SupportChange<Player, State>(Player.Kennedy, State.FL, 1);
+            var oneSupportInAlabama = new SupportChange<Player, State>(Player.Kennedy, State.AL, 1);
+            var oneSupportInTennessee = new SupportChange<Player, State>(Player.Kennedy, State.TN, 1);
+
+            playerChoices.StateChanges.Add(twoSupportInTexas);
+            playerChoices.StateChanges.Add(oneSupportInFlorida);
+            playerChoices.StateChanges.Add(oneSupportInAlabama);
+            playerChoices.StateChanges.Add(oneSupportInTennessee);
+
+            engine.ExhaustPlayer(Player.Kennedy);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+
+            sut.Event(engine, player, playerChoices);
+
+            Assert.IsTrue(engine.IsPlayerReady(Player.Kennedy));
+
+        }
+
+        [TestMethod]
+        public void LyndonJohnson_39_FailsValidationIfNixonGains()
+        {
+            int cardIndex = 39;
+            var engine = GetGameEngine();
+
+            PlayerChosenChanges<Player, Issue, State> playerChoices = new();
+            var twoSupportInTexas = new SupportChange<Player, State>(Player.Kennedy, State.TX, 2);
+            var oneSupportInFlorida = new SupportChange<Player, State>(Player.Nixon, State.FL, 1);
+            var oneSupportInAlabama = new SupportChange<Player, State>(Player.Kennedy, State.AL, 1);
+            var oneSupportInTennessee = new SupportChange<Player, State>(Player.Kennedy, State.TN, 1);
+
+            playerChoices.StateChanges.Add(twoSupportInTexas);
+            playerChoices.StateChanges.Add(oneSupportInFlorida);
+            playerChoices.StateChanges.Add(oneSupportInAlabama);
+            playerChoices.StateChanges.Add(oneSupportInTennessee);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void LyndonJohnson_39_FailsValidationIfIssueGains()
+        {
+            int cardIndex = 39;
+            var engine = GetGameEngine();
+
+            PlayerChosenChanges<Player, Issue, State> playerChoices = new();
+
+            var twoSupportInTexas = new SupportChange<Player, State>(Player.Kennedy, State.TX, 2);
+            var oneSupportInFlorida = new SupportChange<Player, State>(Player.Nixon, State.FL, 1);
+            var oneSupportInAlabama = new SupportChange<Player, State>(Player.Kennedy, State.AL, 1);
+            var oneSupportInTennessee = new SupportChange<Player, State>(Player.Kennedy, State.TN, 1);
+            var issueSupport = new SupportChange<Player, Issue>(Player.Kennedy, Issue.Defense, 1);
+
+            playerChoices.StateChanges.Add(twoSupportInTexas);
+            playerChoices.StateChanges.Add(oneSupportInFlorida);
+            playerChoices.StateChanges.Add(oneSupportInAlabama);
+            playerChoices.StateChanges.Add(oneSupportInTennessee);
+            playerChoices.IssueChanges.Add(issueSupport);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void LyndonJohnson_39_FailsValidationIfGreaterThanOne()
+        {
+            int cardIndex = 39;
+            var engine = GetGameEngine();
+
+            PlayerChosenChanges<Player, Issue, State> playerChoices = new();
+            var twoSupportInTexas = new SupportChange<Player, State>(Player.Kennedy, State.TX, 2);
+            var threeSupportInFlorida = new SupportChange<Player, State>(Player.Kennedy, State.FL, 3);
+
+            playerChoices.StateChanges.Add(twoSupportInTexas);
+            playerChoices.StateChanges.Add(threeSupportInFlorida);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void LyndonJohnson_39_FailsValidationIfStateNotInCorrectRegion()
+        {
+            int cardIndex = 39;
+            var engine = GetGameEngine();
+
+            PlayerChosenChanges<Player, Issue, State> playerChoices = new();
+            var twoSupportInTexas = new SupportChange<Player, State>(Player.Kennedy, State.TX, 2);
+            var oneSupportInFlorida = new SupportChange<Player, State>(Player.Kennedy, State.FL, 1);
+            var oneSupportInAlabama = new SupportChange<Player, State>(Player.Kennedy, State.AL, 1);
+            var oneSupportInOhio = new SupportChange<Player, State>(Player.Kennedy, State.OH, 1);
+
+            playerChoices.StateChanges.Add(twoSupportInTexas);
+            playerChoices.StateChanges.Add(oneSupportInFlorida);
+            playerChoices.StateChanges.Add(oneSupportInAlabama);
+            playerChoices.StateChanges.Add(oneSupportInOhio);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+
+        #endregion
+
         #region #41 - Pierre Salinger
 
         [TestMethod]
