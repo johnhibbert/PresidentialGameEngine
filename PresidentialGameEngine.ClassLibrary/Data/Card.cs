@@ -24,6 +24,8 @@ namespace PresidentialGameEngine.ClassLibrary.Data
 
         public State State { get; init; }
 
+        public EventType EventType { get; init; }
+
         public required Predicate<PlayerChosenChanges<Player, Issue, State>> AreChangesValid { get; init; }
 
         public required Action<NineteenSixtyGameEngine, Player, PlayerChosenChanges<Player, Issue, State>> Event { get; init; }

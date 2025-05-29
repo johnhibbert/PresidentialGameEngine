@@ -1,4 +1,5 @@
 ﻿using PresidentialGameEngine.ClassLibrary.Data;
+using PresidentialGameEngine.ClassLibrary.Enums;
 
 namespace PresidentialGameEngine.ClassLibrary.Tests
 {
@@ -48,6 +49,28 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Assert.IsTrue(Card.ToLongString().Contains(Card.Index.ToString()));
             Assert.IsTrue(Card.ToLongString().Contains(Card.Title.ToString()));
             Assert.IsTrue(Card.ToLongString().Contains(Card.Text.ToString()));
+        }
+
+        [TestMethod]
+        public void CardType_UnassignedToNone()
+        {
+            var Card = new Card()
+            {
+                Index = 1,
+                Title = "Test",
+                Text = "Test",
+                Event = (engine, player, choices) =>
+                {
+                    //Nothing
+                },
+                AreChangesValid = (choices) =>
+                {
+                    return true;
+                },
+            };
+
+            Assert.AreEqual(Card.EventType, EventType.None);
+
         }
     }
 }
