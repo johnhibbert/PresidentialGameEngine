@@ -3,6 +3,7 @@ using PresidentialGameEngine.ClassLibrary.Data;
 using PresidentialGameEngine.ClassLibrary.Engines;
 using PresidentialGameEngine.ClassLibrary.Enums;
 using PresidentialGameEngine.ClassLibrary.Manifests;
+using System.Numerics;
 using static PresidentialGameEngine.ClassLibrary.Tests.TestStubsFakesAndMocks;
 
 namespace PresidentialGameEngine.ClassLibrary.Tests
@@ -542,6 +543,129 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             Assert.IsTrue(result);
         }
+        #endregion
+
+        #region #29 - The Great Seal Bug
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void TheGreatSealBug_29_NixonGainsDefenseSupport(Player player)
+        {
+            int cardIndex = 29;
+            var engine = GetGameEngine();
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, EmptyChanges);
+
+            Assert.AreEqual(1, engine.GetSupportAmount(Issue.Defense));
+            
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void TheGreatSealBug_29_HenryCabotLodgeRecoveredFromDiscard(Player player)
+        {
+            int cardIndex = 29;
+            var engine = GetGameEngine();
+
+            var cardToRetrieve = NineteenSixty.GMTCards[42];
+
+            engine.MoveCardFromOneZoneToAnother(Player.Nixon, NineteenSixty.GMTCards[42], CardZone.Deck, CardZone.Discard);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            
+
+            sut.Event(engine, player, EmptyChanges);
+
+            Assert.AreEqual(cardToRetrieve, engine.GetPlayerHand(Player.Nixon).First());
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void TheGreatSealBug_29_HenryCabotLodgeNotRecoveredFromRemovedPile(Player player)
+        {
+            int cardIndex = 29;
+            var engine = GetGameEngine();
+
+            var cardToRetrieve = NineteenSixty.GMTCards[42];
+
+            engine.MoveCardFromOneZoneToAnother(Player.Nixon, NineteenSixty.GMTCards[42], CardZone.Deck, CardZone.Removed);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+
+            sut.Event(engine, player, EmptyChanges);
+
+            Assert.AreEqual(0, engine.GetPlayerHand(Player.Nixon).Count());
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void TheGreatSealBug_29_HenryCabotLodgeNotRecoveredFromStrategyPile(Player player)
+        {
+            int cardIndex = 29;
+            var engine = GetGameEngine();
+
+            var cardToRetrieve = NineteenSixty.GMTCards[42];
+
+            engine.MoveCardFromOneZoneToAnother(player, NineteenSixty.GMTCards[42], CardZone.Deck, CardZone.CampaignStrategy);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+
+            sut.Event(engine, player, EmptyChanges);
+
+            Assert.AreEqual(0, engine.GetPlayerHand(Player.Nixon).Count());
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void TheGreatSealBug_29_HenryCabotLodgeNotRecoveredFromOpponentHand(Player player)
+        {
+            int cardIndex = 29;
+            var engine = GetGameEngine();
+
+            var cardToRetrieve = NineteenSixty.GMTCards[42];
+
+            engine.MoveCardFromOneZoneToAnother(Player.Kennedy, NineteenSixty.GMTCards[42], CardZone.Deck, CardZone.Hand);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+
+            sut.Event(engine, player, EmptyChanges);
+
+            Assert.AreEqual(0, engine.GetPlayerHand(Player.Nixon).Count());
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void TheGreatSealBug_29_HenryCabotLodgeNotRecoveredFromDeck(Player player)
+        {
+            int cardIndex = 29;
+            var engine = GetGameEngine();
+
+            var cardToRetrieve = NineteenSixty.GMTCards[42];
+            var sut = NineteenSixty.GMTCards[cardIndex];
+
+            sut.Event(engine, player, EmptyChanges);
+
+            Assert.AreEqual(0, engine.GetPlayerHand(Player.Nixon).Count());
+        }
+
+        [TestMethod]
+        public void TheGreatSealBug_29_ValidationAlwaysTrue()
+        {
+            int cardIndex = 29;
+            var sut = NineteenSixty.GMTCards[cardIndex];
+
+            var result = sut.AreChangesValid(InvalidChanges);
+
+            Assert.IsTrue(result);
+        }
+
         #endregion
 
         #region #37 - Lunch Counter Sit-Ins

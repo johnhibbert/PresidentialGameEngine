@@ -1,7 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PresidentialGameEngine.ClassLibrary.Components;
-using PresidentialGameEngine.ClassLibrary.Data;
-using PresidentialGameEngine.ClassLibrary.Manifests;
+﻿using PresidentialGameEngine.ClassLibrary.Components;
 using static PresidentialGameEngine.ClassLibrary.Tests.TestStubsFakesAndMocks;
 
 namespace PresidentialGameEngine.ClassLibrary.Tests
@@ -120,10 +117,9 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
         #endregion
 
-        #region DiscardCardFromHand Tests
-
+        #region GetPlayerHand Tests
         [TestMethod]
-        public void DiscardCardFromHand_CardNoLongerInHand()
+        public void GetPlayerHand_HandsAsExpected()
         {
             SeededRandomnessProviderForTesting seed = new();
 
@@ -131,143 +127,14 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
                 = new(seed, FakeManifest);
 
             sut.DrawCards(FakePlayer.PlayerOne, 1);
-            var card = sut.GetPlayerHand(FakePlayer.PlayerOne).First();
+            sut.DrawCards(FakePlayer.PlayerTwo, 3);
 
-            sut.DiscardCardFromHand(FakePlayer.PlayerOne, card);
+            var resultOne = sut.ViewCardsInZone(CardZone.Hand, FakePlayer.PlayerOne);
+            var resultTwo = sut.ViewCardsInZone(CardZone.Hand, FakePlayer.PlayerTwo);
 
-            var result = sut.ViewCardsInZone(CardZone.Discard, FakePlayer.PlayerOne).First();
-
-            Assert.AreEqual(result, FakeManifest[1]);
+            Assert.AreEqual(1, resultOne.Count());
+            Assert.AreEqual(3, resultTwo.Count());
         }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void DiscardCardFromHand_ThrowsIfCardNotInHand()
-        {
-            SeededRandomnessProviderForTesting seed = new();
-
-            CardComponent<FakePlayer, FakeCardClass> sut
-                = new(seed, FakeManifest);
-
-            sut.DrawCards(FakePlayer.PlayerOne, 2);
-            var card = FakeManifest[5];
-
-            sut.DiscardCardFromHand(FakePlayer.PlayerOne, card);
-        }
-
-        #endregion
-
-        #region DiscardCardFromHand Tests
-
-        [TestMethod]
-        public void MoveCardFromHandToRemovedPile_CardNoLongerInHand()
-        {
-            SeededRandomnessProviderForTesting seed = new();
-
-            CardComponent<FakePlayer, FakeCardClass> sut
-                = new(seed, FakeManifest);
-
-            sut.DrawCards(FakePlayer.PlayerOne, 1);
-            var card = sut.GetPlayerHand(FakePlayer.PlayerOne).First();
-
-            sut.MoveCardFromHandToRemovedPile(FakePlayer.PlayerOne, card);
-
-            var result = sut.ViewCardsInZone(CardZone.Removed, FakePlayer.PlayerOne).First();
-
-            Assert.AreEqual(result, FakeManifest[1]);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void MoveCardFromHandToRemovedPile_ThrowsIfCardNotInHand()
-        {
-            SeededRandomnessProviderForTesting seed = new();
-
-            CardComponent<FakePlayer, FakeCardClass> sut
-                = new(seed, FakeManifest);
-
-            sut.DrawCards(FakePlayer.PlayerOne, 2);
-            var card = FakeManifest[5];
-
-            sut.MoveCardFromHandToRemovedPile(FakePlayer.PlayerOne, card);
-        }
-
-        #endregion
-
-        #region RetrieveCardFromDiscardPile Tests
-
-        [TestMethod]
-        public void RetrieveCardFromDiscardPile_CardRetrievedAsExpected()
-        {
-            SeededRandomnessProviderForTesting seed = new();
-
-            CardComponent<FakePlayer, FakeCardClass> sut
-                = new(seed, FakeManifest);
-
-            sut.DrawCards(FakePlayer.PlayerOne, 1);
-            var card = sut.GetPlayerHand(FakePlayer.PlayerOne).First();
-
-            sut.DiscardCardFromHand(FakePlayer.PlayerOne, card);
-
-            sut.RetrieveCardFromDiscardPile(FakePlayer.PlayerTwo, card);
-
-            var result = sut.GetPlayerHand(FakePlayer.PlayerTwo).First();
-
-            Assert.AreEqual(result, FakeManifest[1]);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void RetrieveCardFromDiscardPile_ThrowsIfCardNotFound()
-        {
-            SeededRandomnessProviderForTesting seed = new();
-
-            CardComponent<FakePlayer, FakeCardClass> sut
-                = new(seed, FakeManifest);
-
-            sut.DrawCards(FakePlayer.PlayerOne, 1);
-            var card = sut.GetPlayerHand(FakePlayer.PlayerOne).First();
-            sut.RetrieveCardFromDiscardPile(FakePlayer.PlayerTwo, card);
-        }
-
-        #endregion
-
-        #region MoveCardFromHandToCampaignStrategyPile Tests
-
-        [TestMethod]
-        public void MoveCardFromHandToCampaignStrategyPile_CardMovedAsExpected()
-        {
-            SeededRandomnessProviderForTesting seed = new();
-
-            CardComponent<FakePlayer, FakeCardClass> sut
-                = new(seed, FakeManifest);
-
-            sut.DrawCards(FakePlayer.PlayerOne, 1);
-            var card = sut.GetPlayerHand(FakePlayer.PlayerOne).First();
-
-            sut.MoveCardFromHandToCampaignStrategyPile(FakePlayer.PlayerOne, card);
-
-            var result = sut.ViewCardsInZone(CardZone.CampaignStrategy, FakePlayer.PlayerOne).First();
-
-            Assert.AreEqual(result, FakeManifest[1]);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void MoveCardFromHandToCampaignStrategyPile_ThrowsIfCardNotFound()
-        {
-            SeededRandomnessProviderForTesting seed = new();
-
-            CardComponent<FakePlayer, FakeCardClass> sut
-                = new(seed, FakeManifest);
-
-            sut.DrawCards(FakePlayer.PlayerOne, 1);
-            var card = sut.GetPlayerHand(FakePlayer.PlayerOne).First();
-            sut.DiscardCardFromHand(FakePlayer.PlayerOne, card);
-
-            sut.MoveCardFromHandToCampaignStrategyPile(FakePlayer.PlayerOne, card);
-        }
-
         #endregion
 
         #region MoveCardFromOneZoneToAnother Tests
@@ -410,7 +277,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         #endregion
-
 
         #region ViewCardsInZone Tests
 

@@ -1,4 +1,5 @@
-﻿using PresidentialGameEngine.ClassLibrary.Data;
+﻿using PresidentialGameEngine.ClassLibrary.Components;
+using PresidentialGameEngine.ClassLibrary.Data;
 using PresidentialGameEngine.ClassLibrary.Enums;
 using PresidentialGameEngine.ClassLibrary.Interfaces;
 
@@ -239,6 +240,11 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
         }
 
 
+        public IEnumerable<CardClass> GetPlayerHand(PlayersEnum player)
+        {
+            return CardComponent.GetPlayerHand(player);
+        }
+
 
         public int CountCardsLeftInDeck() 
         {
@@ -247,7 +253,7 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
 
         public void DiscardCardFromHand(PlayersEnum player, CardClass card)
         {
-            CardComponent.DiscardCardFromHand(player, card);
+            CardComponent.MoveCardFromOneZoneToAnother(player, card, CardZone.Hand, CardZone.Discard);
         }
 
         public void DrawCards(PlayersEnum player, int numberToDraw)
@@ -257,17 +263,35 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
 
         public void MoveCardFromHandToCampaignStrategyPile(PlayersEnum player, CardClass card)
         {
-            CardComponent.MoveCardFromHandToCampaignStrategyPile(player, card);
+            CardComponent.MoveCardFromOneZoneToAnother(player, card, CardZone.Hand, CardZone.CampaignStrategy);
         }
 
         public void MoveCardFromHandToRemovedPile(PlayersEnum player, CardClass card)
         {
-            CardComponent.MoveCardFromHandToRemovedPile(player, card);
+            CardComponent.MoveCardFromOneZoneToAnother(player, card, CardZone.Hand, CardZone.Removed);
         }
 
-        public void RetrieveCardFromDiscardPile(PlayersEnum player, CardClass card)
+        public void RetrieveCardFromDiscardPile(PlayersEnum player, CardClass card, bool okayIfCardNotFound = false)
         {
-            CardComponent.RetrieveCardFromDiscardPile(player, card);
+            try
+            {
+                CardComponent.MoveCardFromOneZoneToAnother(player, card, CardZone.Discard, CardZone.Hand);
+            }
+            catch(CardNotFoundException) 
+            {
+                //Ignore it if we know it's okay
+                if (okayIfCardNotFound == false) 
+                {
+                    throw;
+                }
+            }
+
+        }
+
+        public void MoveCardFromOneZoneToAnother(PlayersEnum player, CardClass cardToMove,
+            CardZone source, CardZone destination)
+        {
+            CardComponent.MoveCardFromOneZoneToAnother(player, cardToMove, source, destination);
         }
 
     }

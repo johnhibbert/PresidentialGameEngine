@@ -375,7 +375,31 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             //new Card(26, "Ken-Air"),
             //new Card(27, "Nelson Rockefeller"),
             //new Card(28, "Harry F. Byrd"),
-            //new Card(29, "The Great Seal Bug"),
+            {29, new Card()
+                {
+                    Index = 29,
+                    Title = "The Great Seal Bug",
+                    Text = "Nixon gains 1 issue support in Defense and may retrieve the Henry Cabot Lodge card from the discard pile if it is there.",
+                    CampaignPoints = 3,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.WI,
+                    Event = (engine, player, choices) => {
+                        engine.GainSupport(Player.Nixon, Issue.Defense, 1);
+                        //Hmm odd. It doesn't like doing it this way.
+                        //Or at least the compiler warns against it.
+                        engine.RetrieveCardFromDiscardPile(Player.Nixon, ZManCards[42], true);
+                        //Engine get card?
+
+                    },
+                    AreChangesValid = (choices) =>
+                    {
+ 						//This has no player choices.
+						return true;
+                    },
+                }
+            },
             //new Card(30, "Johnson Jeered In Dallas"),
             //new Card(31, "Profiles In Courage"),
             //new Card(32, "Early Returns From Connecticut"),

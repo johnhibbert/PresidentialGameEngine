@@ -1,6 +1,4 @@
 ﻿using PresidentialGameEngine.ClassLibrary.Interfaces;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace PresidentialGameEngine.ClassLibrary.Components
 {
@@ -63,26 +61,6 @@ namespace PresidentialGameEngine.ClassLibrary.Components
             return PlayerHands[player];
         }
 
-        public void DiscardCardFromHand(PlayersEnum player, CardClass card)
-        {
-            MoveCardFromOneZoneToAnother(player, card, CardZone.Hand, CardZone.Discard);
-        }
-
-        public void MoveCardFromHandToRemovedPile(PlayersEnum player, CardClass card)
-        {
-            MoveCardFromOneZoneToAnother(player, card, CardZone.Hand, CardZone.Removed);
-        }
-
-        public void MoveCardFromHandToCampaignStrategyPile(PlayersEnum player, CardClass card)
-        {
-            MoveCardFromOneZoneToAnother(player, card, CardZone.Hand, CardZone.CampaignStrategy);
-        }
-
-        public void RetrieveCardFromDiscardPile(PlayersEnum player, CardClass card)
-        {
-            MoveCardFromOneZoneToAnother(player, card, CardZone.Discard, CardZone.Hand);
-        }
-
         public void MoveCardFromOneZoneToAnother(PlayersEnum player, CardClass cardToMove, 
             CardZone source, CardZone destination) 
         {
@@ -114,7 +92,7 @@ namespace PresidentialGameEngine.ClassLibrary.Components
 
             if (isCardInSource == false) 
             {
-                throw new ArgumentException("Card not in source.");
+                throw new CardNotFoundException("Card not in source.");
             }
             else
             {
@@ -147,7 +125,11 @@ namespace PresidentialGameEngine.ClassLibrary.Components
         CampaignStrategy
     }
 
-
+    public class CardNotFoundException : ArgumentException 
+    {
+        public CardNotFoundException() : base() { }
+        public CardNotFoundException(string? message) : base(message) { }
+    }
 
 
     //https://stackoverflow.com/questions/33643104/shuffling-a-stackt

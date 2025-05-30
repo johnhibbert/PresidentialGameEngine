@@ -69,7 +69,7 @@ namespace PresidentialGameEngine.ConsoleRunner
             var nixonHand = cardComponent.GetPlayerHand(Player.Nixon);
             var kennedyHand = cardComponent.GetPlayerHand(Player.Kennedy);
 
-            cardComponent.DiscardCardFromHand(Player.Nixon, nixonHand.First());
+            cardComponent.MoveCardFromOneZoneToAnother(Player.Nixon, nixonHand.First(), CardZone.Hand, CardZone.Discard);
             var discardPile = cardComponent.ViewCardsInZone(CardZone.Discard, Player.Nixon).ToList();
 
 
