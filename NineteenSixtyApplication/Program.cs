@@ -4,8 +4,6 @@ using PresidentialGameEngine.ClassLibrary.Engines;
 using PresidentialGameEngine.ClassLibrary.Enums;
 using PresidentialGameEngine.ClassLibrary.Manifests;
 using PresidentialGameEngine.ClassLibrary.Randomness;
-using System;
-
 
 namespace NineteenSixtyApplication
 {
@@ -20,6 +18,20 @@ namespace NineteenSixtyApplication
             var engine = GetGameEngine();
 
             var gameState = engine.GetGameState();
+
+
+            //Theoretical tilt application:
+
+            //Probably want to pass this to the Engine itself instead of the pieces
+            //And save it, since the Support component won't know anything about it.
+            foreach(var kvp in NineteenSixty.StateTilts) 
+            {
+                if(kvp.Value.StartingSupport > 0) 
+                {
+                    engine.GainSupport(kvp.Value.Player, kvp.Key, kvp.Value.StartingSupport);
+                }
+            }
+
 
 
             DisplayGameState(gameState);
