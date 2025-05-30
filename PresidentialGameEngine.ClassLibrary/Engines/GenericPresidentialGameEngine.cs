@@ -195,10 +195,16 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
             return EndorsementComponent.GetSupportAmount(region);
         }
 
-        public void GainMediaSupport(PlayersEnum player, RegionsEnum region, int amount)
+        public SupportCheckResult GainMediaSupport(PlayersEnum player, RegionsEnum region, int amount)
         {
             var result = SupportCheck(player, amount);
             MediaSupportComponent.GainSupport(player, region, result.Successes);
+            return result;
+        }
+
+        public void LoseMediaSupport(PlayersEnum player, RegionsEnum region, int amount)
+        {
+            MediaSupportComponent.LoseSupport(player, region, amount);
         }
 
         public LeadersEnum GetMediaSupportLeader(RegionsEnum region)
