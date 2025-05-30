@@ -1,6 +1,7 @@
 ﻿using static PresidentialGameEngine.ClassLibrary.Tests.TestStubsFakesAndMocks;
 using NSubstitute;
 using PresidentialGameEngine.ClassLibrary.Interfaces;
+using PresidentialGameEngine.ClassLibrary.Components;
 
 namespace PresidentialGameEngine.ClassLibrary.Tests
 {

@@ -140,11 +140,6 @@ namespace PresidentialGameEngine.ClassLibrary.Components
     //Fisher-Yates Shuffle
     public static class EnumerableExtensions
     {
-        //public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source)
-        //{
-        //    return source.Shuffle(new Random());
-        //}
-
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, IRandomnessProvider rng)
         {
             ArgumentNullException.ThrowIfNull(source);
@@ -166,6 +161,4 @@ namespace PresidentialGameEngine.ClassLibrary.Components
             }
         }
     }
-
-
 }

@@ -1,6 +1,4 @@
-﻿using PresidentialGameEngine.ClassLibrary.Interfaces;
-
-namespace PresidentialGameEngine.ClassLibrary
+﻿namespace PresidentialGameEngine.ClassLibrary.Interfaces
 {
     public interface IComponentCollection<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum, CardClass>
         where PlayersEnum : Enum

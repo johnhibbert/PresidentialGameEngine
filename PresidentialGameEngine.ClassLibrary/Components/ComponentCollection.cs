@@ -1,9 +1,9 @@
 ﻿using PresidentialGameEngine.ClassLibrary.Interfaces;
 using System.Reflection;
 
-namespace PresidentialGameEngine.ClassLibrary
+namespace PresidentialGameEngine.ClassLibrary.Components
 {
-    public class ComponentCollection<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum, CardClass>() 
+    public class ComponentCollection<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum, CardClass>()
         : IComponentCollection<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum, CardClass>
         where PlayersEnum : Enum
         where LeadersEnum : Enum
@@ -31,7 +31,7 @@ namespace PresidentialGameEngine.ClassLibrary
             //Modified from
             //https://stackoverflow.com/questions/22683040/how-to-check-whether-all-properties-of-an-object-are-null-or-empty
 
-            foreach (PropertyInfo pi in this.GetType().GetProperties())
+            foreach (PropertyInfo pi in GetType().GetProperties())
             {
                 object? value = pi.GetValue(this);
                 if (value is null)
