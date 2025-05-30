@@ -11,7 +11,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         public void IsReady_AllPropsAdded_ReturnsTrue()
         {
-            ComponentCollection<FakePlayer, FakeLeader, FakeIssue, FakeState, FakeRegion> collection
+            ComponentCollection<FakePlayer, FakeLeader, FakeIssue, FakeState, FakeRegion, FakeCardClass> collection
                 = new()
                 {
                     MomentumComponent = Substitute.For<IAccumulatingComponent<FakePlayer>>(),
@@ -23,7 +23,8 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
                     RegionalComponent = Substitute.For<IRegionalComponent<FakeState, FakeRegion, FakePlayer>>(),
                     EndorsementComponent = Substitute.For<ISupportComponent<FakePlayer, FakeLeader, FakeRegion>>(),
                     MediaSupportComponent = Substitute.For<ISupportComponent<FakePlayer, FakeLeader, FakeRegion>>(),
-                    ExhaustionComponent = Substitute.For<IExhaustionComponent<FakePlayer>>()
+                    ExhaustionComponent = Substitute.For<IExhaustionComponent<FakePlayer>>(),
+                    CardComponent = Substitute.For<ICardComponent<FakePlayer, FakeCardClass>>()
                 };
 
             Assert.IsTrue(collection.IsReady());
@@ -32,7 +33,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         public void IsReady_MissingAnyProps_ReturnsFalse()
         {
-            ComponentCollection<FakePlayer, FakeLeader, FakeIssue, FakeState, FakeRegion> collection
+            ComponentCollection<FakePlayer, FakeLeader, FakeIssue, FakeState, FakeRegion, FakeCardClass> collection
                 = new()
                 {
                     MomentumComponent = Substitute.For<IAccumulatingComponent<FakePlayer>>(),

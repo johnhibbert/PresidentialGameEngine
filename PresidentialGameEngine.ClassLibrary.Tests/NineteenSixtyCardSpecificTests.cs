@@ -44,7 +44,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         private static NineteenSixtyGameEngine GetGameEngine() 
         {
             SeededRandomnessProviderForTesting seed = new();
-            ComponentCollection<Player, Leader, Issue, State, Region> compColl = new()
+            ComponentCollection<Player, Leader, Issue, State, Region, Card> compColl = new()
             {
                 MomentumComponent = new AccumulatingComponent<Player>(),
                 IssueSupportComponent = new SupportComponent<Player, Leader, Issue>(),
@@ -55,7 +55,8 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
                 RestComponent = new AccumulatingComponent<Player>(),
                 EndorsementComponent = new SupportComponent<Player, Leader, Region>(),
                 MediaSupportComponent = new SupportComponent<Player, Leader, Region>(),
-                ExhaustionComponent = new ExhaustionComponent<Player>()
+                ExhaustionComponent = new ExhaustionComponent<Player>(),
+                CardComponent = new CardComponent<Player, Card>(seed, NineteenSixty.GMTCards)
             };
 
             return new NineteenSixtyGameEngine(compColl);
@@ -227,7 +228,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(Leader.Kennedy, engine.GetLeader(State.IL));
-            Assert.AreEqual(2, engine.GetSupportAmount(State.IL));
+            Assert.AreEqual(1, engine.GetSupportAmount(State.IL));
         }
         #endregion
 

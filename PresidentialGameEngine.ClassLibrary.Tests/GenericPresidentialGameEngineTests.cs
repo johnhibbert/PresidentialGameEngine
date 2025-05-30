@@ -18,7 +18,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         //Hmm This might take a LOT of mocking.  Is it worth it?  Or should I just send concretes down?
         //Or let it be covered by everything else?
 
-        private ComponentCollection<FakePlayer, FakeLeader, FakeIssue, FakeState, FakeRegion> GetMockComponentCollection() 
+        private ComponentCollection<FakePlayer, FakeLeader, FakeIssue, FakeState, FakeRegion, FakeCardClass> GetMockComponentCollection() 
         {
             return new()
             {
@@ -31,11 +31,12 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
                 RegionalComponent = Substitute.For<IRegionalComponent<FakeState, FakeRegion, FakePlayer>>(),
                 EndorsementComponent = Substitute.For<ISupportComponent<FakePlayer, FakeLeader, FakeRegion>>(),
                 MediaSupportComponent = Substitute.For<ISupportComponent<FakePlayer, FakeLeader, FakeRegion>>(),
-                ExhaustionComponent = Substitute.For<IExhaustionComponent<FakePlayer>>()
+                ExhaustionComponent = Substitute.For<IExhaustionComponent<FakePlayer>>(),
+                CardComponent = Substitute.For<ICardComponent<FakePlayer, FakeCardClass>>()
             };
         }
 
-        private ComponentCollection<FakePlayer, FakeLeader, FakeIssue, FakeState, FakeRegion> GetMostlyRealComponentCollection()
+        private ComponentCollection<FakePlayer, FakeLeader, FakeIssue, FakeState, FakeRegion, FakeCardClass> GetMostlyRealComponentCollection()
         {
             return new()
             {
@@ -48,7 +49,8 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
                 RegionalComponent = Substitute.For<IRegionalComponent<FakeState, FakeRegion, FakePlayer>>(),
                 EndorsementComponent = new SupportComponent<FakePlayer, FakeLeader, FakeRegion>(),
                 MediaSupportComponent = new SupportComponent<FakePlayer, FakeLeader, FakeRegion>(),
-                ExhaustionComponent = new ExhaustionComponent<FakePlayer>()
+                ExhaustionComponent = new ExhaustionComponent<FakePlayer>(),
+                CardComponent = Substitute.For<ICardComponent<FakePlayer, FakeCardClass>>()
             };
         }
 
@@ -62,7 +64,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             components.MediaSupportComponent = null;
 
             var sut = new GenericPresidentialGameEngine
-                <FakePlayer, FakeLeader, FakeIssue, FakeState, FakeRegion>(components);
+                <FakePlayer, FakeLeader, FakeIssue, FakeState, FakeRegion, FakeCardClass>(components);
 
         }
 
@@ -72,7 +74,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var components = GetMockComponentCollection();
 
             var sut = new GenericPresidentialGameEngine
-                <FakePlayer, FakeLeader, FakeIssue, FakeState, FakeRegion>(components);
+                <FakePlayer, FakeLeader, FakeIssue, FakeState, FakeRegion, FakeCardClass>(components);
 
             Assert.IsNotNull(sut);
 
@@ -100,7 +102,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var components = GetMostlyRealComponentCollection();
 
             var sut = new GenericPresidentialGameEngine
-                <FakePlayer, FakeLeader, FakeIssue, FakeState, FakeRegion>(components);
+                <FakePlayer, FakeLeader, FakeIssue, FakeState, FakeRegion, FakeCardClass>(components);
 
             sut.ImplementChanges(playerChoices);
 
@@ -127,7 +129,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var components = GetMostlyRealComponentCollection();
 
             var sut = new GenericPresidentialGameEngine
-                <FakePlayer, FakeLeader, FakeIssue, FakeState, FakeRegion>(components);
+                <FakePlayer, FakeLeader, FakeIssue, FakeState, FakeRegion, FakeCardClass>(components);
 
             sut.ImplementChanges(playerChoices);
 

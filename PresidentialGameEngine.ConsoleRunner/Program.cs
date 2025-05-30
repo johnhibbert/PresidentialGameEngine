@@ -147,7 +147,7 @@ namespace PresidentialGameEngine.ConsoleRunner
             var regionalComp = new RegionalComponent<State, Region, Player>(statesAndRegions, playerStartingLocations);
             var endorsementComp = new SupportComponent<Player, Leader, Region>();
 
-            ComponentCollection<Player, Leader, Issue, State, Region> componentCollection = new();
+            ComponentCollection<Player, Leader, Issue, State, Region, Card> componentCollection = new();
 
             componentCollection.MomentumComponent = momentumComp;
             componentCollection.IssueSupportComponent = issueSupportComp;
@@ -218,7 +218,7 @@ namespace PresidentialGameEngine.ConsoleRunner
             var endorsement = new SupportComponent<Player, Leader, Region>();
             var mediaSupport = new SupportComponent<Player, Leader, Region>();
 
-            var compColl = new ComponentCollection<Player, Leader, Issue, State, Region>()
+            var compColl = new ComponentCollection<Player, Leader, Issue, State, Region, Card>()
             {
                 MomentumComponent = momentumComp,
                 IssueSupportComponent = issueSupportComp,
@@ -231,7 +231,7 @@ namespace PresidentialGameEngine.ConsoleRunner
                 MediaSupportComponent = mediaSupport
             };
 
-            var generic = new GenericPresidentialGameEngine<Player, Leader, Issue, State, Region>
+            var generic = new GenericPresidentialGameEngine<Player, Leader, Issue, State, Region, Card>
             (
                 compColl
             );

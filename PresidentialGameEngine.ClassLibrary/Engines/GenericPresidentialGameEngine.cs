@@ -3,12 +3,13 @@ using PresidentialGameEngine.ClassLibrary.Interfaces;
 
 namespace PresidentialGameEngine.ClassLibrary.Engines
 {
-    public class GenericPresidentialGameEngine<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum>
+    public class GenericPresidentialGameEngine<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum, CardClass>
        where PlayersEnum : Enum
         where LeadersEnum : Enum
         where IssuesEnum : Enum
         where StatesEnum : Enum
         where RegionsEnum : Enum
+        where CardClass : class
     {
         IAccumulatingComponent<PlayersEnum> MomentumComponent { get; init; }
         ISupportComponent<PlayersEnum, LeadersEnum, IssuesEnum> IssueSupportComponent { get; init; }
@@ -26,7 +27,9 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
         //and guarded by the IsReady method.
         //So it should be fine?
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
-        public GenericPresidentialGameEngine(ComponentCollection<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum> collection)
+        public GenericPresidentialGameEngine
+            (ComponentCollection<PlayersEnum, LeadersEnum, IssuesEnum,
+                StatesEnum, RegionsEnum, CardClass> collection)
         {
             if (collection.IsReady())
             {
@@ -231,6 +234,11 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
         {
             return ExhaustionComponent.IsPlayerReady(player);
         }
+
+
+
+
+
 
     }
 }

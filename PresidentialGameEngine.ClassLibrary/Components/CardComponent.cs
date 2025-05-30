@@ -2,8 +2,7 @@
 
 namespace PresidentialGameEngine.ClassLibrary.Components
 {
-    public class CardComponent<PlayersEnum, CardClass>
-        where PlayersEnum : Enum
+    public class CardComponent<PlayersEnum, CardClass> : ICardComponent<PlayersEnum, CardClass> where PlayersEnum : Enum
         where CardClass : class
     {
 
@@ -41,12 +40,12 @@ namespace PresidentialGameEngine.ClassLibrary.Components
             PrepareShuffledDeck();
         }
 
-        private void PrepareShuffledDeck() 
+        private void PrepareShuffledDeck()
         {
             List<CardClass> cards = [.. CardManifest.Values];
 
             var shuffledList = cards.Shuffle(rng).ToList();
-            
+
             //Why reverse?  Well, a list pushed to a stack becomes reversed
             //Both are random, so it won't matter in the long run
             //but this will probably make it easier to see during development
@@ -55,7 +54,7 @@ namespace PresidentialGameEngine.ClassLibrary.Components
             shuffledList.ForEach(x => deck.Push(x));
         }
 
-        public int CountCardsLeftInDeck() 
+        public int CountCardsLeftInDeck()
         {
             return deck.Count;
         }
@@ -65,7 +64,7 @@ namespace PresidentialGameEngine.ClassLibrary.Components
             return discardPile;
         }
 
-        public void DrawCards(PlayersEnum player, int numberToDraw) 
+        public void DrawCards(PlayersEnum player, int numberToDraw)
         {
             int counter = 1;
             while (counter <= numberToDraw)
@@ -76,13 +75,13 @@ namespace PresidentialGameEngine.ClassLibrary.Components
         }
 
         //Call this GetPlayerHand or LookAtPlayerHand?
-        public IEnumerable<CardClass> LookAtPlayerHand(PlayersEnum player) 
+        public IEnumerable<CardClass> LookAtPlayerHand(PlayersEnum player)
         {
             return PlayerHands[player];
         }
-        
 
-        public void DiscardCardFromHand(PlayersEnum player, CardClass card) 
+
+        public void DiscardCardFromHand(PlayersEnum player, CardClass card)
         {
             ThrowIfCardNotInPlayerHand(player, card);
 
@@ -123,9 +122,9 @@ namespace PresidentialGameEngine.ClassLibrary.Components
 
 
 
-        public void RetrieveCardFromDiscardPile(PlayersEnum player, CardClass card) 
+        public void RetrieveCardFromDiscardPile(PlayersEnum player, CardClass card)
         {
-            if(discardPile.Contains(card) == false) 
+            if (discardPile.Contains(card) == false)
             {
                 throw new ArgumentException("Card not in discard pile");
             }
