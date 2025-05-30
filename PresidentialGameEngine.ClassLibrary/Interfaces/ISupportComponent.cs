@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PresidentialGameEngine.ClassLibrary.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,8 @@ namespace PresidentialGameEngine.ClassLibrary.Interfaces
         where LeadersEnum : Enum
         where SubjectEnum : Enum
     {
+        public IDictionary<SubjectEnum, SupportStatus<LeadersEnum>> GetRawData();
+
         public LeadersEnum GetLeader(SubjectEnum subject);
 
         public int GetSupportAmount(SubjectEnum subject);

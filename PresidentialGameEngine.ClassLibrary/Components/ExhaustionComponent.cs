@@ -5,11 +5,13 @@ namespace PresidentialGameEngine.ClassLibrary.Components
     public class ExhaustionComponent<PlayersEnum> : IExhaustionComponent<PlayersEnum>
         where PlayersEnum : Enum
     {
-        private Dictionary<PlayersEnum, bool> PlayerStatuses { get; init; }
+        private IDictionary<PlayersEnum, bool> PlayerStatuses { get; init; }
+
+        public IDictionary<PlayersEnum, bool> GetRawData() { return PlayerStatuses; }
 
         public ExhaustionComponent()
         {
-            PlayerStatuses = [];
+            PlayerStatuses = new Dictionary<PlayersEnum, bool>();
 
             foreach (PlayersEnum player in (PlayersEnum[])Enum.GetValues(typeof(PlayersEnum)))
             {

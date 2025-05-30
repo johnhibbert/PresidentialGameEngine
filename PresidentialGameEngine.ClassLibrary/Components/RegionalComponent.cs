@@ -8,6 +8,8 @@ namespace PresidentialGameEngine.ClassLibrary.Components
 
         private IDictionary<PlayersEnum, StatesEnum> PlayerLocations { get; init; }
 
+        public IDictionary<PlayersEnum, StatesEnum> GetRawData() { return PlayerLocations; }
+
         public RegionalComponent(IDictionary<StatesEnum, RegionsEnum> statesAndRegions,
             IDictionary<PlayersEnum, StatesEnum> playerStartingLocations)
         {
