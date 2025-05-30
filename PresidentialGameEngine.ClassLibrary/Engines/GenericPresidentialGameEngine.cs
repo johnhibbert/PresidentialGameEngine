@@ -255,26 +255,6 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
             CardComponent.DrawCards(player, numberToDraw);
         }
 
-        public IEnumerable<CardClass> LookAtDiscardPile()
-        {
-            return CardComponent.LookAtDiscardPile();
-        }
-
-        public IEnumerable<CardClass> LookAtPlayerCampaignStrategyPile(PlayersEnum player)
-        {
-            return CardComponent.LookAtPlayerCampaignStrategyPile(player);
-        }
-
-        public IEnumerable<CardClass> LookAtPlayerHand(PlayersEnum player)
-        {
-            return CardComponent.LookAtPlayerHand(player);
-        }
-
-        public IEnumerable<CardClass> LookAtRemovedPile()
-        {
-            return CardComponent.LookAtRemovedPile();
-        }
-
         public void MoveCardFromHandToCampaignStrategyPile(PlayersEnum player, CardClass card)
         {
             CardComponent.MoveCardFromHandToCampaignStrategyPile(player, card);
@@ -289,10 +269,6 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
         {
             CardComponent.RetrieveCardFromDiscardPile(player, card);
         }
-
-
-
-
 
     }
 }

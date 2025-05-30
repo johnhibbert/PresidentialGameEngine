@@ -1,4 +1,6 @@
 ﻿using PresidentialGameEngine.ClassLibrary.Interfaces;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace PresidentialGameEngine.ClassLibrary.Components
 {
@@ -6,22 +8,18 @@ namespace PresidentialGameEngine.ClassLibrary.Components
         where CardClass : class
     {
 
+        private IRandomnessProvider Random { get; init; }
+
         private Dictionary<PlayersEnum, List<CardClass>> PlayerHands { get; init; }
         private Dictionary<PlayersEnum, List<CardClass>> PlayerCampaignStrategyPiles { get; init; }
-
         private Dictionary<int, CardClass> CardManifest { get; init; }
-
-        readonly IRandomnessProvider rng;
-
-        readonly Stack<CardClass> deck;
-
-        readonly List<CardClass> discardPile;
-
-        readonly List<CardClass> removedFromGame;
+        private List<CardClass> Deck { get; init; }
+        private List<CardClass> DiscardPile { get; init; }
+        private List<CardClass> RemovedFromGame { get; init; }
 
         public CardComponent(IRandomnessProvider random, Dictionary<int, CardClass> cardManifest)
         {
-            rng = random;
+            Random = random;
             CardManifest = cardManifest;
 
             PlayerHands = [];
@@ -33,35 +31,18 @@ namespace PresidentialGameEngine.ClassLibrary.Components
                 PlayerCampaignStrategyPiles.Add(player, []);
             }
 
-            deck = [];
-            discardPile = [];
-            removedFromGame = [];
+            Deck = [];
 
-            PrepareShuffledDeck();
-        }
-
-        private void PrepareShuffledDeck()
-        {
             List<CardClass> cards = [.. CardManifest.Values];
+            Deck = cards.Shuffle(Random).ToList();
 
-            var shuffledList = cards.Shuffle(rng).ToList();
-
-            //Why reverse?  Well, a list pushed to a stack becomes reversed
-            //Both are random, so it won't matter in the long run
-            //but this will probably make it easier to see during development
-            shuffledList.Reverse();
-
-            shuffledList.ForEach(x => deck.Push(x));
+            DiscardPile = [];
+            RemovedFromGame = [];
         }
 
         public int CountCardsLeftInDeck()
         {
-            return deck.Count;
-        }
-
-        public IEnumerable<CardClass> LookAtDiscardPile()
-        {
-            return discardPile;
+            return Deck.Count;
         }
 
         public void DrawCards(PlayersEnum player, int numberToDraw)
@@ -69,85 +50,102 @@ namespace PresidentialGameEngine.ClassLibrary.Components
             int counter = 1;
             while (counter <= numberToDraw)
             {
-                PlayerHands[player].Add(deck.Pop());
+                var nextCard = Deck.First();
+                PlayerHands[player].Add(nextCard);
+                Deck.Remove(nextCard);
                 counter++;
             }
         }
 
-        //Call this GetPlayerHand or LookAtPlayerHand?
-        public IEnumerable<CardClass> LookAtPlayerHand(PlayersEnum player)
+        //Redirect through main method?  This is the only specific one I want to keep.
+        public IEnumerable<CardClass> GetPlayerHand(PlayersEnum player)
         {
             return PlayerHands[player];
         }
 
-
         public void DiscardCardFromHand(PlayersEnum player, CardClass card)
         {
-            ThrowIfCardNotInPlayerHand(player, card);
-
-            PlayerHands[player].Remove(card);
-            discardPile.Add(card);
-        }
-
-
-
-        public IEnumerable<CardClass> LookAtRemovedPile()
-        {
-            return removedFromGame;
+            MoveCardFromOneZoneToAnother(player, card, CardZone.Hand, CardZone.Discard);
         }
 
         public void MoveCardFromHandToRemovedPile(PlayersEnum player, CardClass card)
         {
-            ThrowIfCardNotInPlayerHand(player, card);
-
-            PlayerHands[player].Remove(card);
-            removedFromGame.Add(card);
-        }
-
-
-
-        public IEnumerable<CardClass> LookAtPlayerCampaignStrategyPile(PlayersEnum player)
-        {
-            return PlayerCampaignStrategyPiles[player];
+            MoveCardFromOneZoneToAnother(player, card, CardZone.Hand, CardZone.Removed);
         }
 
         public void MoveCardFromHandToCampaignStrategyPile(PlayersEnum player, CardClass card)
         {
-            ThrowIfCardNotInPlayerHand(player, card);
-
-            PlayerHands[player].Remove(card);
-            PlayerCampaignStrategyPiles[player].Add(card);
+            MoveCardFromOneZoneToAnother(player, card, CardZone.Hand, CardZone.CampaignStrategy);
         }
-
-
-
 
         public void RetrieveCardFromDiscardPile(PlayersEnum player, CardClass card)
         {
-            if (discardPile.Contains(card) == false)
+            MoveCardFromOneZoneToAnother(player, card, CardZone.Discard, CardZone.Hand);
+        }
+
+        public void MoveCardFromOneZoneToAnother(PlayersEnum player, CardClass cardToMove, 
+            CardZone source, CardZone destination) 
+        {
+            if(source == destination) 
             {
-                throw new ArgumentException("Card not in discard pile");
+                throw new ArgumentException("Source and destination cannot be the same");
             }
 
-            discardPile.Remove(card);
-            PlayerHands[player].Add(card);
+            var originList = source switch
+            {
+                CardZone.Removed => throw new ArgumentException("Cards can never be taken from Removed Zone."),
+                CardZone.Deck => Deck,
+                CardZone.Discard => DiscardPile,
+                CardZone.Hand => PlayerHands[player],
+                CardZone.CampaignStrategy => PlayerCampaignStrategyPiles[player],
+                _ => throw new ArgumentException("Card source not understood."),
+            };
+            bool isCardInSource = originList.Contains(cardToMove);
+
+            List<CardClass> targetList = destination switch
+            {
+                CardZone.Deck => throw new ArgumentException("Cards can never be returned to the Deck."),
+                CardZone.Removed => RemovedFromGame,
+                CardZone.Discard => DiscardPile,
+                CardZone.Hand => PlayerHands[player],
+                CardZone.CampaignStrategy => PlayerCampaignStrategyPiles[player],
+                _ => throw new ArgumentException("Card destination not understood."),
+            };
+
+            if (isCardInSource == false) 
+            {
+                throw new ArgumentException("Card not in source.");
+            }
+            else
+            {
+                originList.Remove(cardToMove);
+                targetList.Add(cardToMove);
+            }
         }
 
-
-
-
-        private void ThrowIfCardNotInPlayerHand(PlayersEnum player, CardClass card)
+        public IEnumerable<CardClass> ViewCardsInZone(CardZone zone, PlayersEnum player)
         {
-            if (PlayerHands[player].Contains(card) == false)
+            return zone switch
             {
-                throw new ArgumentException("Card not in player's hand");
+                CardZone.Deck => throw new ArgumentException("Looking at deck is not allowed."),
+                CardZone.Removed => RemovedFromGame,
+                CardZone.Discard => DiscardPile,
+                CardZone.Hand => PlayerHands[player],
+                CardZone.CampaignStrategy => PlayerCampaignStrategyPiles[player],
+                _ => throw new ArgumentException("Zone Unknown."),
             };
         }
-
-
-
     }
 
+
+    public enum CardZone 
+    {
+        Deck,
+        Hand,
+        Discard,
+        Removed,
+        CampaignStrategy
+    }
 
 
 

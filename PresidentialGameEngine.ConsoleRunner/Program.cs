@@ -66,11 +66,11 @@ namespace PresidentialGameEngine.ConsoleRunner
             cardComponent.DrawCards(Player.Nixon, 5);
 
 
-            var nixonHand = cardComponent.LookAtPlayerHand(Player.Nixon);
-            var kennedyHand = cardComponent.LookAtPlayerHand(Player.Kennedy);
+            var nixonHand = cardComponent.GetPlayerHand(Player.Nixon);
+            var kennedyHand = cardComponent.GetPlayerHand(Player.Kennedy);
 
             cardComponent.DiscardCardFromHand(Player.Nixon, nixonHand.First());
-            var discardPile = cardComponent.LookAtDiscardPile().ToList();
+            var discardPile = cardComponent.ViewCardsInZone(CardZone.Discard, Player.Nixon).ToList();
 
 
 

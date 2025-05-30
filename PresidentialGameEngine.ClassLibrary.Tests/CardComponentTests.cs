@@ -1,4 +1,7 @@
-﻿using PresidentialGameEngine.ClassLibrary.Components;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PresidentialGameEngine.ClassLibrary.Components;
+using PresidentialGameEngine.ClassLibrary.Data;
+using PresidentialGameEngine.ClassLibrary.Manifests;
 using static PresidentialGameEngine.ClassLibrary.Tests.TestStubsFakesAndMocks;
 
 namespace PresidentialGameEngine.ClassLibrary.Tests
@@ -16,8 +19,8 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             CardComponent<FakeEnumWithTwo, FakeCardClass> sut
                 = new(seed, FakeManifest);
 
-            Assert.AreEqual(0, sut.LookAtPlayerHand(FakeEnumWithTwo.ElementOne).Count());
-            Assert.AreEqual(0, sut.LookAtPlayerHand(FakeEnumWithTwo.ElementTwo).Count());
+            Assert.AreEqual(0, sut.ViewCardsInZone(CardZone.Hand, FakeEnumWithTwo.ElementOne).Count());
+            Assert.AreEqual(0, sut.ViewCardsInZone(CardZone.Hand, FakeEnumWithTwo.ElementTwo).Count());
         }
 
         [TestMethod]
@@ -25,12 +28,12 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         {
             SeededRandomnessProviderForTesting seed = new();
 
-            CardComponent<FakeEnumWithFive, FakeCardClass> sut
+            CardComponent<FakeEnumWithThree, FakeCardClass> sut
                 = new(seed, FakeManifest);
 
-            Assert.AreEqual(0, sut.LookAtPlayerHand(FakeEnumWithFive.ElementOne).Count());
-            Assert.AreEqual(0, sut.LookAtPlayerHand(FakeEnumWithFive.ElementTwo).Count());
-            Assert.AreEqual(0, sut.LookAtPlayerHand(FakeEnumWithFive.ElementThree).Count());
+            Assert.AreEqual(0, sut.ViewCardsInZone(CardZone.Hand, FakeEnumWithThree.ElementOne).Count());
+            Assert.AreEqual(0, sut.ViewCardsInZone(CardZone.Hand, FakeEnumWithThree.ElementTwo).Count());
+            Assert.AreEqual(0, sut.ViewCardsInZone(CardZone.Hand, FakeEnumWithThree.ElementThree).Count());
         }
 
         [TestMethod]
@@ -41,11 +44,11 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             CardComponent<FakeEnumWithFive, FakeCardClass> sut
                 = new(seed, FakeManifest);
 
-            Assert.AreEqual(0, sut.LookAtPlayerHand(FakeEnumWithFive.ElementOne).Count());
-            Assert.AreEqual(0, sut.LookAtPlayerHand(FakeEnumWithFive.ElementTwo).Count());
-            Assert.AreEqual(0, sut.LookAtPlayerHand(FakeEnumWithFive.ElementThree).Count());
-            Assert.AreEqual(0, sut.LookAtPlayerHand(FakeEnumWithFive.ElementFour).Count());
-            Assert.AreEqual(0, sut.LookAtPlayerHand(FakeEnumWithFive.ElementFive).Count());
+            Assert.AreEqual(0, sut.ViewCardsInZone(CardZone.Hand, FakeEnumWithFive.ElementOne).Count());
+            Assert.AreEqual(0, sut.ViewCardsInZone(CardZone.Hand, FakeEnumWithFive.ElementTwo).Count());
+            Assert.AreEqual(0, sut.ViewCardsInZone(CardZone.Hand, FakeEnumWithFive.ElementThree).Count());
+            Assert.AreEqual(0, sut.ViewCardsInZone(CardZone.Hand, FakeEnumWithFive.ElementFour).Count());
+            Assert.AreEqual(0, sut.ViewCardsInZone(CardZone.Hand, FakeEnumWithFive.ElementFive).Count());
         }
 
         [TestMethod]
@@ -95,90 +98,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
         #endregion
 
-        #region LookAtPlayerHand Tests
-
-        [TestMethod]
-        public void LookAtPlayerHand_ExpectedCardsFound()
-        {
-            SeededRandomnessProviderForTesting seed = new();
-
-            CardComponent<FakePlayer, FakeCardClass> sut
-                = new(seed, FakeManifest);
-
-            sut.DrawCards(FakePlayer.PlayerOne, 2);
-
-            var result = sut.LookAtPlayerHand(FakePlayer.PlayerOne).ToList();
-
-            Assert.AreEqual(result[0], FakeManifest[1]);
-            Assert.AreEqual(result[1], FakeManifest[3]);
-        }
-
-        #endregion
-
-        #region LookAtDiscardPile Tests
-
-        [TestMethod]
-        public void LookAtDiscardPile_ExpectedCardFound()
-        {
-            SeededRandomnessProviderForTesting seed = new();
-
-            CardComponent<FakePlayer, FakeCardClass> sut
-                = new(seed, FakeManifest);
-
-            sut.DrawCards(FakePlayer.PlayerOne, 1);
-            var card = sut.LookAtPlayerHand(FakePlayer.PlayerOne).First();
-
-            sut.DiscardCardFromHand(FakePlayer.PlayerOne, card);
-
-            var result = sut.LookAtDiscardPile().First();
-
-            Assert.AreEqual(result, card);
-        }
-
-        #endregion
-
-        #region LookAtCampaignStrategyPile Tests
-
-        [TestMethod]
-        public void LookAtCampaignStrategyPile_ExpectedCardsFound()
-        {
-            SeededRandomnessProviderForTesting seed = new();
-
-            CardComponent<FakePlayer, FakeCardClass> sut
-                = new(seed, FakeManifest);
-
-            sut.DrawCards(FakePlayer.PlayerOne, 1);
-            var card = sut.LookAtPlayerHand(FakePlayer.PlayerOne).First();
-            sut.MoveCardFromHandToCampaignStrategyPile(FakePlayer.PlayerOne, card);
-
-            var result = sut.LookAtPlayerCampaignStrategyPile(FakePlayer.PlayerOne).First();
-
-            Assert.AreEqual(result, card);
-        }
-
-        #endregion
-
-        #region LookAtRemovedPile Tests
-
-        [TestMethod]
-        public void LookAtRemovedPile_ExpectedCardsFound()
-        {
-            SeededRandomnessProviderForTesting seed = new();
-
-            CardComponent<FakePlayer, FakeCardClass> sut
-                = new(seed, FakeManifest);
-
-            sut.DrawCards(FakePlayer.PlayerOne, 1);
-            var card = sut.LookAtPlayerHand(FakePlayer.PlayerOne).First();
-            sut.MoveCardFromHandToRemovedPile(FakePlayer.PlayerOne, card);
-
-            var result = sut.LookAtRemovedPile().First();
-
-            Assert.AreEqual(result, card);
-        }
-
-        #endregion
-
         #region DrawCards Tests
 
         [TestMethod]
@@ -192,8 +111,8 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             sut.DrawCards(FakePlayer.PlayerOne, 1);
             sut.DrawCards(FakePlayer.PlayerTwo, 1);
 
-            var resultOne = sut.LookAtPlayerHand(FakePlayer.PlayerOne).First();
-            var resultTwo = sut.LookAtPlayerHand(FakePlayer.PlayerTwo).First();
+            var resultOne = sut.ViewCardsInZone(CardZone.Hand, FakePlayer.PlayerOne).First();
+            var resultTwo = sut.ViewCardsInZone(CardZone.Hand, FakePlayer.PlayerTwo).First();
 
             Assert.AreEqual(resultOne, FakeManifest[1]);
             Assert.AreEqual(resultTwo, FakeManifest[3]);
@@ -211,14 +130,14 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             CardComponent<FakePlayer, FakeCardClass> sut
                 = new(seed, FakeManifest);
 
-            sut.DrawCards(FakePlayer.PlayerOne, 2);
-            var card = sut.LookAtPlayerHand(FakePlayer.PlayerOne).First();
+            sut.DrawCards(FakePlayer.PlayerOne, 1);
+            var card = sut.GetPlayerHand(FakePlayer.PlayerOne).First();
 
             sut.DiscardCardFromHand(FakePlayer.PlayerOne, card);
 
-            var result = sut.LookAtPlayerHand(FakePlayer.PlayerOne).First();
+            var result = sut.ViewCardsInZone(CardZone.Discard, FakePlayer.PlayerOne).First();
 
-            Assert.AreEqual(result, FakeManifest[3]);
+            Assert.AreEqual(result, FakeManifest[1]);
         }
 
         [TestMethod]
@@ -238,6 +157,43 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
         #endregion
 
+        #region DiscardCardFromHand Tests
+
+        [TestMethod]
+        public void MoveCardFromHandToRemovedPile_CardNoLongerInHand()
+        {
+            SeededRandomnessProviderForTesting seed = new();
+
+            CardComponent<FakePlayer, FakeCardClass> sut
+                = new(seed, FakeManifest);
+
+            sut.DrawCards(FakePlayer.PlayerOne, 1);
+            var card = sut.GetPlayerHand(FakePlayer.PlayerOne).First();
+
+            sut.MoveCardFromHandToRemovedPile(FakePlayer.PlayerOne, card);
+
+            var result = sut.ViewCardsInZone(CardZone.Removed, FakePlayer.PlayerOne).First();
+
+            Assert.AreEqual(result, FakeManifest[1]);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void MoveCardFromHandToRemovedPile_ThrowsIfCardNotInHand()
+        {
+            SeededRandomnessProviderForTesting seed = new();
+
+            CardComponent<FakePlayer, FakeCardClass> sut
+                = new(seed, FakeManifest);
+
+            sut.DrawCards(FakePlayer.PlayerOne, 2);
+            var card = FakeManifest[5];
+
+            sut.MoveCardFromHandToRemovedPile(FakePlayer.PlayerOne, card);
+        }
+
+        #endregion
+
         #region RetrieveCardFromDiscardPile Tests
 
         [TestMethod]
@@ -249,13 +205,13 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
                 = new(seed, FakeManifest);
 
             sut.DrawCards(FakePlayer.PlayerOne, 1);
-            var card = sut.LookAtPlayerHand(FakePlayer.PlayerOne).First();
+            var card = sut.GetPlayerHand(FakePlayer.PlayerOne).First();
 
             sut.DiscardCardFromHand(FakePlayer.PlayerOne, card);
 
             sut.RetrieveCardFromDiscardPile(FakePlayer.PlayerTwo, card);
 
-            var result = sut.LookAtPlayerHand(FakePlayer.PlayerTwo).First();
+            var result = sut.GetPlayerHand(FakePlayer.PlayerTwo).First();
 
             Assert.AreEqual(result, FakeManifest[1]);
         }
@@ -270,7 +226,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
                 = new(seed, FakeManifest);
 
             sut.DrawCards(FakePlayer.PlayerOne, 1);
-            var card = sut.LookAtPlayerHand(FakePlayer.PlayerOne).First();
+            var card = sut.GetPlayerHand(FakePlayer.PlayerOne).First();
             sut.RetrieveCardFromDiscardPile(FakePlayer.PlayerTwo, card);
         }
 
@@ -287,11 +243,11 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
                 = new(seed, FakeManifest);
 
             sut.DrawCards(FakePlayer.PlayerOne, 1);
-            var card = sut.LookAtPlayerHand(FakePlayer.PlayerOne).First();
+            var card = sut.GetPlayerHand(FakePlayer.PlayerOne).First();
 
             sut.MoveCardFromHandToCampaignStrategyPile(FakePlayer.PlayerOne, card);
 
-            var result = sut.LookAtPlayerCampaignStrategyPile(FakePlayer.PlayerOne).First();
+            var result = sut.ViewCardsInZone(CardZone.CampaignStrategy, FakePlayer.PlayerOne).First();
 
             Assert.AreEqual(result, FakeManifest[1]);
         }
@@ -306,10 +262,235 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
                 = new(seed, FakeManifest);
 
             sut.DrawCards(FakePlayer.PlayerOne, 1);
-            var card = sut.LookAtPlayerHand(FakePlayer.PlayerOne).First();
+            var card = sut.GetPlayerHand(FakePlayer.PlayerOne).First();
             sut.DiscardCardFromHand(FakePlayer.PlayerOne, card);
 
             sut.MoveCardFromHandToCampaignStrategyPile(FakePlayer.PlayerOne, card);
+        }
+
+        #endregion
+
+        #region MoveCardFromOneZoneToAnother Tests
+
+        [TestMethod]
+        [DataRow(FakePlayer.PlayerOne, CardZone.Hand)]
+        [DataRow(FakePlayer.PlayerOne, CardZone.Discard)]
+        [DataRow(FakePlayer.PlayerOne, CardZone.Removed)]
+        [DataRow(FakePlayer.PlayerOne, CardZone.CampaignStrategy)]
+
+        public void MoveCardFromOneZoneToAnother_MoveFromDeckSuccessful(FakePlayer player, CardZone destinationZone)
+        {
+            CardZone sourceZone = CardZone.Deck;
+            SeededRandomnessProviderForTesting seed = new();
+
+            CardComponent<FakePlayer, FakeCardClass> sut
+                = new(seed, FakeManifest);
+
+            var card = FakeManifest[1];
+
+            sut.MoveCardFromOneZoneToAnother(player, card, sourceZone, destinationZone);
+
+            var result = sut.ViewCardsInZone(destinationZone, player).First();
+
+            Assert.AreEqual(result, card);
+        }
+
+        [TestMethod]
+        [DataRow(FakePlayer.PlayerOne, CardZone.Discard)]
+        [DataRow(FakePlayer.PlayerOne, CardZone.Removed)]
+        [DataRow(FakePlayer.PlayerOne, CardZone.CampaignStrategy)]
+
+        public void MoveCardFromOneZoneToAnother_MoveFromHandSuccessful(FakePlayer player, CardZone destinationZone)
+        {
+            CardZone sourceZone = CardZone.Hand;
+            SeededRandomnessProviderForTesting seed = new();
+
+            CardComponent<FakePlayer, FakeCardClass> sut
+                = new(seed, FakeManifest);
+
+            var card = FakeManifest[1];
+            sut.MoveCardFromOneZoneToAnother(player, card, CardZone.Deck, sourceZone);
+
+            sut.MoveCardFromOneZoneToAnother(player, card, sourceZone, destinationZone);
+
+            var result = sut.ViewCardsInZone(destinationZone, player).First();
+
+            Assert.AreEqual(result, card);
+        }
+
+        [TestMethod]
+        [DataRow(FakePlayer.PlayerOne, CardZone.Hand)]
+        [DataRow(FakePlayer.PlayerOne, CardZone.Removed)]
+        [DataRow(FakePlayer.PlayerOne, CardZone.CampaignStrategy)]
+
+        public void MoveCardFromOneZoneToAnother_MoveFromDiscardSuccessful(FakePlayer player, CardZone destinationZone)
+        {
+            CardZone sourceZone = CardZone.Discard;
+            SeededRandomnessProviderForTesting seed = new();
+
+            CardComponent<FakePlayer, FakeCardClass> sut
+                = new(seed, FakeManifest);
+
+            var card = FakeManifest[1];
+            sut.MoveCardFromOneZoneToAnother(player, card, CardZone.Deck, sourceZone);
+
+            sut.MoveCardFromOneZoneToAnother(player, card, sourceZone, destinationZone);
+
+            var result = sut.ViewCardsInZone(destinationZone, player).First();
+
+            Assert.AreEqual(result, card);
+        }
+
+        [TestMethod]
+        [DataRow(FakePlayer.PlayerOne, CardZone.Hand)]
+        [DataRow(FakePlayer.PlayerOne, CardZone.Removed)]
+        [DataRow(FakePlayer.PlayerOne, CardZone.Discard)]
+
+        public void MoveCardFromOneZoneToAnother_MoveFromCampgainStrategySuccessful(FakePlayer player, CardZone destinationZone)
+        {
+            CardZone sourceZone = CardZone.CampaignStrategy;
+            SeededRandomnessProviderForTesting seed = new();
+
+            CardComponent<FakePlayer, FakeCardClass> sut
+                = new(seed, FakeManifest);
+
+            var card = FakeManifest[1];
+            sut.MoveCardFromOneZoneToAnother(player, card, CardZone.Deck, sourceZone);
+
+            sut.MoveCardFromOneZoneToAnother(player, card, sourceZone, destinationZone);
+
+            var result = sut.ViewCardsInZone(destinationZone, player).First();
+
+            Assert.AreEqual(result, card);
+        }
+
+        [TestMethod]
+        [DataRow(FakePlayer.PlayerOne, CardZone.Hand)]
+        [DataRow(FakePlayer.PlayerOne, CardZone.Discard)]
+        [DataRow(FakePlayer.PlayerOne, CardZone.Removed)]
+        [DataRow(FakePlayer.PlayerOne, CardZone.CampaignStrategy)]
+        [ExpectedException(typeof(ArgumentException))]
+        public void MoveCardFromOneZoneToAnother_MoveToDeckAlwaysUnsuccessful(FakePlayer player, CardZone sourceZone)
+        {
+            CardZone destinationZone = CardZone.Deck;
+            SeededRandomnessProviderForTesting seed = new();
+
+            CardComponent<FakePlayer, FakeCardClass> sut
+                = new(seed, FakeManifest);
+
+            var card = FakeManifest[1];
+            sut.MoveCardFromOneZoneToAnother(player, card, CardZone.Deck, sourceZone);
+
+            sut.MoveCardFromOneZoneToAnother(player, card, sourceZone, destinationZone);
+
+            var result = sut.ViewCardsInZone(destinationZone, player).First();
+
+            Assert.AreEqual(result, card);
+        }
+
+        [TestMethod]
+        [DataRow(FakePlayer.PlayerOne, CardZone.Hand)]
+        [DataRow(FakePlayer.PlayerOne, CardZone.Discard)]
+        [DataRow(FakePlayer.PlayerOne, CardZone.Removed)]
+        [DataRow(FakePlayer.PlayerOne, CardZone.CampaignStrategy)]
+        [ExpectedException(typeof(ArgumentException))]
+        public void MoveCardFromOneZoneToAnother_SourceAndDestinationCannotBeTheSame(FakePlayer player, CardZone sourceZone)
+        {
+            CardZone destinationZone = sourceZone;
+            SeededRandomnessProviderForTesting seed = new();
+
+            CardComponent<FakePlayer, FakeCardClass> sut
+                = new(seed, FakeManifest);
+
+            var card = FakeManifest[1];
+            sut.MoveCardFromOneZoneToAnother(player, card, CardZone.Deck, sourceZone);
+
+            sut.MoveCardFromOneZoneToAnother(player, card, sourceZone, destinationZone);
+
+        }
+
+        #endregion
+
+
+        #region ViewCardsInZone Tests
+
+
+        [TestMethod]
+        public void ViewCardsInZone_ExpectedCardFoundInHand()
+        {
+            SeededRandomnessProviderForTesting seed = new();
+
+            CardComponent<FakePlayer, FakeCardClass> sut
+                = new(seed, FakeManifest);
+
+            var card = FakeManifest[1];
+            sut.MoveCardFromOneZoneToAnother(FakePlayer.PlayerOne, card, CardZone.Deck, CardZone.Hand);
+
+            var result = sut.ViewCardsInZone(CardZone.Hand, FakePlayer.PlayerOne).First();
+
+            Assert.AreEqual(result, card);
+        }
+
+
+        [TestMethod]
+        public void ViewCardsInZone_ExpectedCardFoundInDiscardPile()
+        {
+            SeededRandomnessProviderForTesting seed = new();
+
+            CardComponent<FakePlayer, FakeCardClass> sut
+                = new(seed, FakeManifest);
+
+            var card = FakeManifest[1];
+            sut.MoveCardFromOneZoneToAnother(FakePlayer.PlayerOne, card, CardZone.Deck, CardZone.Discard);
+
+            var result = sut.ViewCardsInZone(CardZone.Discard, FakePlayer.PlayerOne).First();
+
+            Assert.AreEqual(result, card);
+        }
+
+
+        [TestMethod]
+        public void ViewCardsInZone_ExpectedCardsFoundInCampaignStrategyPile()
+        {
+            SeededRandomnessProviderForTesting seed = new();
+
+            CardComponent<FakePlayer, FakeCardClass> sut
+                = new(seed, FakeManifest);
+
+            var card = FakeManifest[2];
+            sut.MoveCardFromOneZoneToAnother(FakePlayer.PlayerOne, card, CardZone.Deck, CardZone.CampaignStrategy);
+
+            var result = sut.ViewCardsInZone(CardZone.CampaignStrategy, FakePlayer.PlayerOne).First();
+
+            Assert.AreEqual(result, card);
+        }
+
+        [TestMethod]
+        public void ViewCardsInZone_ExpectedCardsFoundInRemovedPile()
+        {
+            SeededRandomnessProviderForTesting seed = new();
+
+            CardComponent<FakePlayer, FakeCardClass> sut
+                = new(seed, FakeManifest);
+
+            var card = FakeManifest[3];
+            sut.MoveCardFromOneZoneToAnother(FakePlayer.PlayerOne, card, CardZone.Deck, CardZone.Removed);
+
+            var result = sut.ViewCardsInZone(CardZone.Removed, FakePlayer.PlayerOne).First();
+
+            Assert.AreEqual(result, card);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ViewCardsInZone_LookingAtDeckIsDisallowed()
+        {
+            SeededRandomnessProviderForTesting seed = new();
+
+            CardComponent<FakePlayer, FakeCardClass> sut
+                = new(seed, FakeManifest);
+
+            sut.ViewCardsInZone(CardZone.Deck, FakePlayer.PlayerOne);
         }
 
         #endregion
