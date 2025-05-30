@@ -1,4 +1,4 @@
-﻿using PresidentialGameEngine.ClassLibrary.Components;
+﻿using PresidentialGameEngine.ClassLibrary.Enums;
 
 namespace PresidentialGameEngine.ClassLibrary.Interfaces
 {

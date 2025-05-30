@@ -1,6 +1,7 @@
 ﻿using PresidentialGameEngine.ClassLibrary.Components;
 using PresidentialGameEngine.ClassLibrary.Data;
 using PresidentialGameEngine.ClassLibrary.Enums;
+using PresidentialGameEngine.ClassLibrary.Exceptions;
 using PresidentialGameEngine.ClassLibrary.Interfaces;
 
 namespace PresidentialGameEngine.ClassLibrary.Engines
@@ -18,7 +19,7 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
         ISupportComponent<PlayersEnum, LeadersEnum, StatesEnum> StateSupportComponent { get; init; }
         IPositioningComponent<IssuesEnum> IssuePositioningComponent { get; init; }
         IPoliticalCapitalComponent<PlayersEnum> PoliticalCapitalComponent { get; init; }
-        IRegionalComponent<StatesEnum, RegionsEnum, PlayersEnum> RegionalComponent { get; init; }
+        IPlayerLocationComponent<PlayersEnum, StatesEnum> PlayerLocationComponent { get; init; }
         IAccumulatingComponent<PlayersEnum> RestComponent { get; init; }
         ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum> EndorsementComponent { get; init; }
         ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum> MediaSupportComponent { get; init; }
@@ -42,7 +43,7 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
                 StateSupportComponent = collection.StateSupportComponent;
                 IssuePositioningComponent = collection.IssuePositioningComponent;
                 PoliticalCapitalComponent = collection.PoliticalCapitalComponent;
-                RegionalComponent = collection.RegionalComponent;
+                PlayerLocationComponent = collection.PlayerLocationComponent;
                 RestComponent = collection.RestComponent;
                 EndorsementComponent = collection.EndorsementComponent;
                 MediaSupportComponent = collection.MediaSupportComponent;
@@ -167,24 +168,14 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
             }
         }
 
-        public RegionsEnum GetRegion(StatesEnum state)
-        {
-            return RegionalComponent.GetRegionByState(state);
-        }
-
-        public IEnumerable<StatesEnum> GetStatesInRegion(RegionsEnum region)
-        {
-            return RegionalComponent.GetStatesWithinRegion(region);
-        }
-
         public StatesEnum GetPlayerState(PlayersEnum player)
         {
-            return RegionalComponent.GetPlayerState(player);
+            return PlayerLocationComponent.GetPlayerState(player);
         }
 
         public void MovePlayerToState(PlayersEnum player, StatesEnum states)
         {
-            RegionalComponent.MovePlayerToState(player, states);
+            PlayerLocationComponent.MovePlayerToState(player, states);
         }
 
         public void GainEndorsement(PlayersEnum player, RegionsEnum region)
@@ -285,7 +276,6 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
                     throw;
                 }
             }
-
         }
 
         public void MoveCardFromOneZoneToAnother(PlayersEnum player, CardClass cardToMove,
@@ -306,12 +296,10 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
                 Endorsements = EndorsementComponent.GetRawData(),
                 Exhaustion = ExhaustionComponent.GetRawData(),
                 MediaSupportLevels = MediaSupportComponent.GetRawData(),
-                PlayerLocations = RegionalComponent.GetRawData(),
+                PlayerLocations = PlayerLocationComponent.GetRawData(),
                 StateContests = StateSupportComponent.GetRawData(),
             };
-
         }
-
     }
 
 

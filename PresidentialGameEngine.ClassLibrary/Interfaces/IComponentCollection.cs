@@ -14,7 +14,7 @@
         ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum>? MediaSupportComponent { get; set; }
         IAccumulatingComponent<PlayersEnum>? MomentumComponent { get; set; }
         IPoliticalCapitalComponent<PlayersEnum>? PoliticalCapitalComponent { get; set; }
-        IRegionalComponent<StatesEnum, RegionsEnum, PlayersEnum>? RegionalComponent { get; set; }
+        IPlayerLocationComponent<PlayersEnum, StatesEnum>? PlayerLocationComponent { get; set; }
         IAccumulatingComponent<PlayersEnum>? RestComponent { get; set; }
         ISupportComponent<PlayersEnum, LeadersEnum, StatesEnum>? StateSupportComponent { get; set; }
         ICardComponent<PlayersEnum, CardClass>? CardComponent { get; set; }
