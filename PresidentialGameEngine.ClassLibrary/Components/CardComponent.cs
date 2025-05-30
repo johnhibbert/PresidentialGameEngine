@@ -1,11 +1,12 @@
-﻿using PresidentialGameEngine.ClassLibrary.Interfaces;
+﻿using PresidentialGameEngine.ClassLibrary.Enums;
+using PresidentialGameEngine.ClassLibrary.Exceptions;
+using PresidentialGameEngine.ClassLibrary.Interfaces;
 
 namespace PresidentialGameEngine.ClassLibrary.Components
 {
     public class CardComponent<PlayersEnum, CardClass> : ICardComponent<PlayersEnum, CardClass> where PlayersEnum : Enum
         where CardClass : class
     {
-
         private IRandomnessProvider Random { get; init; }
 
         private Dictionary<PlayersEnum, List<CardClass>> PlayerHands { get; init; }
@@ -116,25 +117,7 @@ namespace PresidentialGameEngine.ClassLibrary.Components
     }
 
 
-    public enum CardZone 
-    {
-        Deck,
-        Hand,
-        Discard,
-        Removed,
-        CampaignStrategy
-    }
-
-    public class CardNotFoundException : ArgumentException 
-    {
-        public CardNotFoundException() : base() { }
-        public CardNotFoundException(string? message) : base(message) { }
-    }
-
-
     //https://stackoverflow.com/questions/33643104/shuffling-a-stackt
-
-
     //'Borrowed' from here.
     //https://stackoverflow.com/questions/17530306/getting-random-numbers-from-a-list-of-integers
     //Fisher-Yates Shuffle
