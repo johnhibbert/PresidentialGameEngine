@@ -294,5 +294,51 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
             CardComponent.MoveCardFromOneZoneToAnother(player, cardToMove, source, destination);
         }
 
+
+        public GameState<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum> GetGameState() 
+        {
+            return new GameState<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum>()
+            {
+                Momentum = MomentumComponent.GetRawData(),
+                RestCubes = RestComponent.GetRawData(),
+                IssueContests = IssueSupportComponent.GetRawData(),
+                IssueOrder = IssuePositioningComponent.GetSubjectOrder,
+                Endorsements = EndorsementComponent.GetRawData(),
+                Exhaustion = ExhaustionComponent.GetRawData(),
+                MediaSupportLevels = MediaSupportComponent.GetRawData(),
+                PlayerLocations = RegionalComponent.GetRawData(),
+                StateContests = StateSupportComponent.GetRawData(),
+            };
+
+        }
+
+    }
+
+
+    public class GameState<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum>
+       where PlayersEnum : Enum
+        where LeadersEnum : Enum
+        where IssuesEnum : Enum
+        where StatesEnum : Enum
+        where RegionsEnum : Enum
+    {
+        public required IDictionary<PlayersEnum, int> Momentum { get; init; }
+
+        public required IDictionary<PlayersEnum, int> RestCubes { get; init; }
+
+        public required IDictionary<IssuesEnum, SupportStatus<LeadersEnum>> IssueContests { get; init; }
+
+        public required IDictionary<StatesEnum, SupportStatus<LeadersEnum>> StateContests { get; init; }
+
+        public required IList<IssuesEnum> IssueOrder { get; init; }
+
+        public required IDictionary<RegionsEnum, SupportStatus<LeadersEnum>> Endorsements { get; init; }
+
+        public required IDictionary<RegionsEnum, SupportStatus<LeadersEnum>> MediaSupportLevels { get; init; }
+
+        public required IDictionary<PlayersEnum, StatesEnum> PlayerLocations { get; init; }
+
+        public required IDictionary<PlayersEnum, bool> Exhaustion { get; init; }
+
     }
 }

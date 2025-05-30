@@ -12,11 +12,13 @@ namespace PresidentialGameEngine.ClassLibrary.Components
     {
         private readonly LeadersEnum defaultLeader = (LeadersEnum) Enum.ToObject(typeof(LeadersEnum), 0);
 
-        public Dictionary<SubjectEnum, SupportStatus<LeadersEnum>> SubjectContests { get; init; }
+        public IDictionary<SubjectEnum, SupportStatus<LeadersEnum>> SubjectContests { get; init; }
+
+        public IDictionary<SubjectEnum, SupportStatus<LeadersEnum>> GetRawData() { return SubjectContests; }
 
         public SupportComponent()
         {
-            SubjectContests = [];
+            SubjectContests = new Dictionary<SubjectEnum, SupportStatus<LeadersEnum>>();
 
             var subjectValues = Enum.GetValues(typeof(SubjectEnum)).OfType<SubjectEnum>().ToList();
             var valueOfNone = (SubjectEnum)Enum.ToObject(typeof(SubjectEnum), 0);

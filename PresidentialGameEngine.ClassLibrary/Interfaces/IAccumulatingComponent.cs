@@ -3,6 +3,8 @@
     public interface IAccumulatingComponent<PlayersEnum>
         where PlayersEnum : Enum
     {
+        public IDictionary<PlayersEnum, int> GetRawData();
+
         public int GetPlayerAmount(PlayersEnum player);
 
         public void GainAmount(PlayersEnum player, int amount);

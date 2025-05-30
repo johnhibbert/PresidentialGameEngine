@@ -7,6 +7,9 @@ namespace PresidentialGameEngine.ClassLibrary.Components
     {
         private Dictionary<PlayersEnum, int> PlayerAmounts { get; init; }
 
+        public IDictionary<PlayersEnum, int> GetRawData() { return PlayerAmounts; }
+
+
         public AccumulatingComponent()
         {
             PlayerAmounts = [];
