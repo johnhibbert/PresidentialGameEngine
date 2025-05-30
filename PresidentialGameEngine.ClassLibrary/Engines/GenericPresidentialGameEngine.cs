@@ -1,4 +1,5 @@
 ﻿using PresidentialGameEngine.ClassLibrary.Data;
+using PresidentialGameEngine.ClassLibrary.Enums;
 using PresidentialGameEngine.ClassLibrary.Interfaces;
 
 namespace PresidentialGameEngine.ClassLibrary.Engines
@@ -21,6 +22,7 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
         ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum> EndorsementComponent { get; init; }
         ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum> MediaSupportComponent { get; init; }
         IExhaustionComponent<PlayersEnum> ExhaustionComponent { get; init; }
+        ICardComponent<PlayersEnum, CardClass> CardComponent { get; init; }
 
         //Not sure I really want to be supressing warnings like this
         //but the object is intentionally nullable to use methods instead of a huge constructor
@@ -44,6 +46,7 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
                 EndorsementComponent = collection.EndorsementComponent;
                 MediaSupportComponent = collection.MediaSupportComponent;
                 ExhaustionComponent = collection.ExhaustionComponent;
+                CardComponent = collection.CardComponent;
 #pragma warning restore CS8601 // Possible null reference assignment.
             }
             else throw new ArgumentException("At least one necessary property on the ComponentCollection is null.");
@@ -235,6 +238,57 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
             return ExhaustionComponent.IsPlayerReady(player);
         }
 
+
+
+        public int CountCardsLeftInDeck() 
+        {
+            return CardComponent.CountCardsLeftInDeck();
+        }
+
+        public void DiscardCardFromHand(PlayersEnum player, CardClass card)
+        {
+            CardComponent.DiscardCardFromHand(player, card);
+        }
+
+        public void DrawCards(PlayersEnum player, int numberToDraw)
+        {
+            CardComponent.DrawCards(player, numberToDraw);
+        }
+
+        public IEnumerable<CardClass> LookAtDiscardPile()
+        {
+            return CardComponent.LookAtDiscardPile();
+        }
+
+        public IEnumerable<CardClass> LookAtPlayerCampaignStrategyPile(PlayersEnum player)
+        {
+            return CardComponent.LookAtPlayerCampaignStrategyPile(player);
+        }
+
+        public IEnumerable<CardClass> LookAtPlayerHand(PlayersEnum player)
+        {
+            return CardComponent.LookAtPlayerHand(player);
+        }
+
+        public IEnumerable<CardClass> LookAtRemovedPile()
+        {
+            return CardComponent.LookAtRemovedPile();
+        }
+
+        public void MoveCardFromHandToCampaignStrategyPile(PlayersEnum player, CardClass card)
+        {
+            CardComponent.MoveCardFromHandToCampaignStrategyPile(player, card);
+        }
+
+        public void MoveCardFromHandToRemovedPile(PlayersEnum player, CardClass card)
+        {
+            CardComponent.MoveCardFromHandToRemovedPile(player, card);
+        }
+
+        public void RetrieveCardFromDiscardPile(PlayersEnum player, CardClass card)
+        {
+            CardComponent.RetrieveCardFromDiscardPile(player, card);
+        }
 
 
 
