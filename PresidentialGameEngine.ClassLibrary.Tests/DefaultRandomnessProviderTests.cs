@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using PresidentialGameEngine.ClassLibrary.Randomness;
 
 namespace PresidentialGameEngine.ClassLibrary.Tests
 {
@@ -18,6 +18,18 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void Constructor_Seeded()
         {
             Assert.IsTrue(new DefaultRandomnessProvider(1).GetRandomNumber(10) >= 0);
+        }
+
+        [TestMethod]
+        public void GetRandomNumber_Seeded()
+        {
+            Assert.IsTrue(new DefaultRandomnessProvider(1).GetRandomNumber(10) >= 0);
+        }
+
+        [TestMethod]
+        public void GetRandomNumber_SeededWithMinAndMax()
+        {
+            Assert.IsTrue(new DefaultRandomnessProvider(1).GetRandomNumber(0,10) >= 0);
         }
     }
 }

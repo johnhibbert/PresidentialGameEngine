@@ -4,7 +4,6 @@
         where PlayersEnum : Enum
         where TargetEnum : Enum
     {
-
         public PlayersEnum Player { get; init; } = player;
 
         public TargetEnum Target { get; init; } = target;

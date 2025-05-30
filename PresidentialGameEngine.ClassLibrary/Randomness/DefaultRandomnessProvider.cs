@@ -1,6 +1,6 @@
 ﻿using PresidentialGameEngine.ClassLibrary.Interfaces;
 
-namespace PresidentialGameEngine.ClassLibrary
+namespace PresidentialGameEngine.ClassLibrary.Randomness
 {
     public class DefaultRandomnessProvider : IRandomnessProvider
     {
@@ -12,7 +12,7 @@ namespace PresidentialGameEngine.ClassLibrary
             {
                 Random = new Random();
             }
-            else 
+            else
             {
                 Random = new Random(seed);
             }
