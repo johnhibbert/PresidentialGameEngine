@@ -1,14 +1,17 @@
-﻿using PresidentialGameEngine.ClassLibrary.Data;
+﻿using PresidentialGameEngine.ClassLibrary.Components;
+using PresidentialGameEngine.ClassLibrary.Data;
+using PresidentialGameEngine.ClassLibrary.Enums;
 using PresidentialGameEngine.ClassLibrary.Interfaces;
 
 namespace PresidentialGameEngine.ClassLibrary.Engines
 {
-    public class GenericPresidentialGameEngine<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum>
+    public class GenericPresidentialGameEngine<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum, CardClass>
        where PlayersEnum : Enum
         where LeadersEnum : Enum
         where IssuesEnum : Enum
         where StatesEnum : Enum
         where RegionsEnum : Enum
+        where CardClass : class
     {
         IAccumulatingComponent<PlayersEnum> MomentumComponent { get; init; }
         ISupportComponent<PlayersEnum, LeadersEnum, IssuesEnum> IssueSupportComponent { get; init; }
@@ -20,13 +23,16 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
         ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum> EndorsementComponent { get; init; }
         ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum> MediaSupportComponent { get; init; }
         IExhaustionComponent<PlayersEnum> ExhaustionComponent { get; init; }
+        ICardComponent<PlayersEnum, CardClass> CardComponent { get; init; }
 
         //Not sure I really want to be supressing warnings like this
         //but the object is intentionally nullable to use methods instead of a huge constructor
         //and guarded by the IsReady method.
         //So it should be fine?
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
-        public GenericPresidentialGameEngine(ComponentCollection<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum> collection)
+        public GenericPresidentialGameEngine
+            (ComponentCollection<PlayersEnum, LeadersEnum, IssuesEnum,
+                StatesEnum, RegionsEnum, CardClass> collection)
         {
             if (collection.IsReady())
             {
@@ -41,6 +47,7 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
                 EndorsementComponent = collection.EndorsementComponent;
                 MediaSupportComponent = collection.MediaSupportComponent;
                 ExhaustionComponent = collection.ExhaustionComponent;
+                CardComponent = collection.CardComponent;
 #pragma warning restore CS8601 // Possible null reference assignment.
             }
             else throw new ArgumentException("At least one necessary property on the ComponentCollection is null.");
@@ -230,6 +237,61 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
         public bool IsPlayerReady(PlayersEnum player)
         {
             return ExhaustionComponent.IsPlayerReady(player);
+        }
+
+
+        public IEnumerable<CardClass> GetPlayerHand(PlayersEnum player)
+        {
+            return CardComponent.GetPlayerHand(player);
+        }
+
+
+        public int CountCardsLeftInDeck() 
+        {
+            return CardComponent.CountCardsLeftInDeck();
+        }
+
+        public void DiscardCardFromHand(PlayersEnum player, CardClass card)
+        {
+            CardComponent.MoveCardFromOneZoneToAnother(player, card, CardZone.Hand, CardZone.Discard);
+        }
+
+        public void DrawCards(PlayersEnum player, int numberToDraw)
+        {
+            CardComponent.DrawCards(player, numberToDraw);
+        }
+
+        public void MoveCardFromHandToCampaignStrategyPile(PlayersEnum player, CardClass card)
+        {
+            CardComponent.MoveCardFromOneZoneToAnother(player, card, CardZone.Hand, CardZone.CampaignStrategy);
+        }
+
+        public void MoveCardFromHandToRemovedPile(PlayersEnum player, CardClass card)
+        {
+            CardComponent.MoveCardFromOneZoneToAnother(player, card, CardZone.Hand, CardZone.Removed);
+        }
+
+        public void RetrieveCardFromDiscardPile(PlayersEnum player, CardClass card, bool okayIfCardNotFound = false)
+        {
+            try
+            {
+                CardComponent.MoveCardFromOneZoneToAnother(player, card, CardZone.Discard, CardZone.Hand);
+            }
+            catch(CardNotFoundException) 
+            {
+                //Ignore it if we know it's okay
+                if (okayIfCardNotFound == false) 
+                {
+                    throw;
+                }
+            }
+
+        }
+
+        public void MoveCardFromOneZoneToAnother(PlayersEnum player, CardClass cardToMove,
+            CardZone source, CardZone destination)
+        {
+            CardComponent.MoveCardFromOneZoneToAnother(player, cardToMove, source, destination);
         }
 
     }

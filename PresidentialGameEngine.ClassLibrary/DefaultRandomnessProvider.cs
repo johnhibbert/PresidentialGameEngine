@@ -22,5 +22,10 @@ namespace PresidentialGameEngine.ClassLibrary
         {
             return Random.Next(maxValue);
         }
+
+        public int GetRandomNumber(int minvalue, int maxValue)
+        {
+            return Random.Next(minvalue, maxValue);
+        }
     }
 }
