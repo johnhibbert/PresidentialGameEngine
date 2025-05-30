@@ -29,17 +29,55 @@ namespace NineteenSixtyApplication
 
         private static void DisplayGameState(GameState<Player, Leader, Issue, State, Region> gameState) 
         {
-            foreach(Player player in gameState.Momentum.Keys) 
+            Console.WriteLine("Momentum Levels:");
+            foreach (Player player in gameState.Momentum.Keys) 
             {
                 Console.WriteLine($"{player} Momentum: {gameState.Momentum[player]}");
             }
             Console.WriteLine();
+
+
+            Console.WriteLine("Candidate Locations:");
             foreach (Player player in gameState.PlayerLocations.Keys)
             {
                 Console.WriteLine($"{player} in {gameState.PlayerLocations[player]}");
             }
+            Console.WriteLine();
+
+
+
+            Console.WriteLine("State Support Levels:");
+            int counter = 0;
+            foreach (State state in gameState.StateContests.Keys)
+            {
+                var leader = gameState.StateContests[state].Leader;
+                string shortLeader = "_";
+                switch (leader) 
+                {
+                    case Leader.Kennedy:
+                        shortLeader = "K";
+                        break;
+                    case Leader.Nixon:
+                        shortLeader = "N";
+                        break;
+                }
+
+                Console.Write($"{state}:{shortLeader}{gameState.StateContests[state].Amount}  ");
+                counter++;
+                if(counter % 10 == 0) 
+                {
+                    Console.WriteLine();
+                }
+            }
+
+
+
+            Console.WriteLine();
             Console.WriteLine("Press Enter to continue.");
             Console.ReadLine();
+        
+        
+        
         }
 
 
