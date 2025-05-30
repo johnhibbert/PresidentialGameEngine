@@ -52,7 +52,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
                 StateSupportComponent = new SupportComponent<Player, Leader, State>(),
                 IssuePositioningComponent = new PositioningComponent<Issue>(),
                 PoliticalCapitalComponent = new PoliticalCapitalComponent<Player>(seed, 12),
-                RegionalComponent = new RegionalComponent<State, Region, Player>(NineteenSixty.RegionByState, NineteenSixty.PlayerStartingPositions),
+                PlayerLocationComponent = new PlayerLocationComponent<Player, State>(NineteenSixty.PlayerStartingPositions),
                 RestComponent = new AccumulatingComponent<Player>(),
                 EndorsementComponent = new SupportComponent<Player, Leader, Region>(),
                 MediaSupportComponent = new SupportComponent<Player, Leader, Region>(),

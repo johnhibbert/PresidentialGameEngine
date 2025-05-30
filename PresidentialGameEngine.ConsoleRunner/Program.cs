@@ -141,7 +141,7 @@ namespace PresidentialGameEngine.ConsoleRunner
             var issuePositioningComp = new PositioningComponent<Issue>();
             var politicalCapitalComp = new PoliticalCapitalComponent<Player>(random, 12);
             var restComp = new AccumulatingComponent<Player>();
-            var regionalComp = new RegionalComponent<State, Region, Player>(statesAndRegions, playerStartingLocations);
+            var regionalComp = new PlayerLocationComponent<Player, State>(playerStartingLocations);
             var endorsementComp = new SupportComponent<Player, Leader, Region>();
 
             ComponentCollection<Player, Leader, Issue, State, Region, Card> componentCollection = new();
@@ -153,7 +153,7 @@ namespace PresidentialGameEngine.ConsoleRunner
             componentCollection.PoliticalCapitalComponent = politicalCapitalComp;
             var isReady = componentCollection.IsReady();
             componentCollection.RestComponent = restComp;
-            componentCollection.RegionalComponent = regionalComp;
+            componentCollection.PlayerLocationComponent = regionalComp;
             componentCollection.EndorsementComponent = endorsementComp;
             isReady = componentCollection.IsReady();
 
@@ -181,28 +181,11 @@ namespace PresidentialGameEngine.ConsoleRunner
 
         public static void SimpleComponentTests() 
         {
-
-            Dictionary<State, Region> statesAndRegions = [];
-            statesAndRegions.Add(State.RI, Region.East);
-            statesAndRegions.Add(State.MA, Region.East);
-            statesAndRegions.Add(State.LA, Region.South);
-            statesAndRegions.Add(State.FL, Region.South);
-            statesAndRegions.Add(State.MI, Region.Midwest);
-            statesAndRegions.Add(State.IL, Region.Midwest);
-            statesAndRegions.Add(State.CO, Region.West);
-            statesAndRegions.Add(State.CA, Region.West);
-
             Dictionary<Player, State> playerStartingLocations = [];
             playerStartingLocations.Add(Player.Nixon, State.CA);
             playerStartingLocations.Add(Player.Kennedy, State.MA);
 
-            var regionalComp = new RegionalComponent<State, Region, Player>(statesAndRegions, playerStartingLocations);
-
-            var regionOfRI = regionalComp.GetRegionByState(State.RI);
-            var regionOfIL = regionalComp.GetRegionByState(State.IL);
-
-            var westernStates = regionalComp.GetStatesWithinRegion(Region.West).ToList();
-
+            var playerLocation = new PlayerLocationComponent<Player, State>(playerStartingLocations);
 
             var random = new DefaultRandomnessProvider();
 
@@ -222,7 +205,7 @@ namespace PresidentialGameEngine.ConsoleRunner
                 StateSupportComponent = stateSupportComp,
                 IssuePositioningComponent = issuePositioningComp,
                 PoliticalCapitalComponent = politicalCapitalComp,
-                RegionalComponent = regionalComp,
+                PlayerLocationComponent = playerLocation,
                 RestComponent = restComp,
                 EndorsementComponent = endorsement,
                 MediaSupportComponent = mediaSupport
@@ -261,7 +244,6 @@ namespace PresidentialGameEngine.ConsoleRunner
             generic.ImplementChanges(allChanges);
 
             var kennedyHomeState = generic.GetPlayerState(Player.Kennedy);
-            var allWesternStates = generic.GetStatesInRegion(Region.West);
             generic.MovePlayerToState(Player.Kennedy, State.CO);
 
             generic.GainRest(Player.Nixon, 2);

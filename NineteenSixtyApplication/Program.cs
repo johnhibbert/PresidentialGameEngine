@@ -98,7 +98,7 @@ namespace NineteenSixtyApplication
             var ff = NineteenSixty.RegionByState;
             var ll = NineteenSixty.PlayerStartingPositions;
 
-            var regionalComp = new RegionalComponent<State, Region, Player>(ff, ll);
+            var playerLocationComp = new PlayerLocationComponent<Player, State>(ll);
 
             var random = new DefaultRandomnessProvider();
 
@@ -120,7 +120,7 @@ namespace NineteenSixtyApplication
                 StateSupportComponent = stateSupportComp,
                 IssuePositioningComponent = issuePositioningComp,
                 PoliticalCapitalComponent = politicalCapitalComp,
-                RegionalComponent = regionalComp,
+                PlayerLocationComponent = playerLocationComp,
                 RestComponent = restComp,
                 EndorsementComponent = endorsement,
                 MediaSupportComponent = mediaSupport,

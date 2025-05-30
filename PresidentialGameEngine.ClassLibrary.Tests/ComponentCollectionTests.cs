@@ -21,7 +21,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
                     IssuePositioningComponent = Substitute.For<IPositioningComponent<FakeIssue>>(),
                     PoliticalCapitalComponent = Substitute.For<IPoliticalCapitalComponent<FakePlayer>>(),
                     RestComponent = Substitute.For<IAccumulatingComponent<FakePlayer>>(),
-                    RegionalComponent = Substitute.For<IRegionalComponent<FakeState, FakeRegion, FakePlayer>>(),
+                    PlayerLocationComponent = Substitute.For<IPlayerLocationComponent<FakePlayer, FakeState>>(),
                     EndorsementComponent = Substitute.For<ISupportComponent<FakePlayer, FakeLeader, FakeRegion>>(),
                     MediaSupportComponent = Substitute.For<ISupportComponent<FakePlayer, FakeLeader, FakeRegion>>(),
                     ExhaustionComponent = Substitute.For<IExhaustionComponent<FakePlayer>>(),
