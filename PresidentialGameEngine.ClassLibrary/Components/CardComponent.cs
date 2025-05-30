@@ -1,5 +1,4 @@
 ﻿using PresidentialGameEngine.ClassLibrary.Interfaces;
-using System.Security.AccessControl;
 
 namespace PresidentialGameEngine.ClassLibrary.Components
 {
@@ -27,14 +26,14 @@ namespace PresidentialGameEngine.ClassLibrary.Components
             CardManifest = cardManifest;
 
             PlayerHands = [];
+            PlayerCampaignStrategyPiles = [];
 
             foreach (PlayersEnum player in (PlayersEnum[])Enum.GetValues(typeof(PlayersEnum)))
             {
                 PlayerHands.Add(player, []);
+                PlayerCampaignStrategyPiles.Add(player, []);
             }
 
-
-            PlayerCampaignStrategyPiles = [];
             deck = [];
             discardPile = [];
             removedFromGame = [];
@@ -56,6 +55,16 @@ namespace PresidentialGameEngine.ClassLibrary.Components
             shuffledList.ForEach(x => deck.Push(x));
         }
 
+        public int CountCardsLeftInDeck() 
+        {
+            return deck.Count;
+        }
+
+        public IEnumerable<CardClass> LookAtDiscardPile()
+        {
+            return discardPile;
+        }
+
         public void DrawCards(PlayersEnum player, int numberToDraw) 
         {
             int counter = 1;
@@ -72,13 +81,6 @@ namespace PresidentialGameEngine.ClassLibrary.Components
             return PlayerHands[player];
         }
         
-        private void ThrowIfCardNotInPlayerHand(PlayersEnum player, CardClass card) 
-        {
-            if(PlayerHands[player].Contains(card) == false) 
-            {
-                throw new ArgumentException("Card not in player's hand");
-            };
-        }
 
         public void DiscardCardFromHand(PlayersEnum player, CardClass card) 
         {
@@ -88,12 +90,26 @@ namespace PresidentialGameEngine.ClassLibrary.Components
             discardPile.Add(card);
         }
 
+
+
+        public IEnumerable<CardClass> LookAtRemovedPile()
+        {
+            return removedFromGame;
+        }
+
         public void MoveCardFromHandToRemovedPile(PlayersEnum player, CardClass card)
         {
             ThrowIfCardNotInPlayerHand(player, card);
 
             PlayerHands[player].Remove(card);
             removedFromGame.Add(card);
+        }
+
+
+
+        public IEnumerable<CardClass> LookAtPlayerCampaignStrategyPile(PlayersEnum player)
+        {
+            return PlayerCampaignStrategyPiles[player];
         }
 
         public void MoveCardFromHandToCampaignStrategyPile(PlayersEnum player, CardClass card)
@@ -106,12 +122,8 @@ namespace PresidentialGameEngine.ClassLibrary.Components
 
 
 
-        public IEnumerable<CardClass> LookAtDiscardPile() 
-        {
-            return discardPile;
-        }
 
-        public void RetrieveCardFromDiscard(PlayersEnum player, CardClass card) 
+        public void RetrieveCardFromDiscardPile(PlayersEnum player, CardClass card) 
         {
             if(discardPile.Contains(card) == false) 
             {
@@ -120,6 +132,17 @@ namespace PresidentialGameEngine.ClassLibrary.Components
 
             discardPile.Remove(card);
             PlayerHands[player].Add(card);
+        }
+
+
+
+
+        private void ThrowIfCardNotInPlayerHand(PlayersEnum player, CardClass card)
+        {
+            if (PlayerHands[player].Contains(card) == false)
+            {
+                throw new ArgumentException("Card not in player's hand");
+            };
         }
 
 

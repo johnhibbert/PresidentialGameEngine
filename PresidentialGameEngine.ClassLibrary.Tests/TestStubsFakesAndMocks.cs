@@ -26,15 +26,15 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             ElementFive,
         }
 
-        public enum FakePlayer 
+        public enum FakePlayer
         {
-        
+
             PlayerOne = 1,
             PlayerTwo = 2,
             PlayerThree = 3,
         }
 
-        public enum FakeLeader 
+        public enum FakeLeader
         {
             NoLeader = 0,
             Leader = 1,
@@ -52,16 +52,16 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             SubjectFive = 5,
         }
 
-        public enum FakeState 
+        public enum FakeState
         {
-            NoState =0, 
+            NoState = 0,
             Being = 1,
             Denial = 2,
             Mind = 3,
             OfTheArt = 4
         }
 
-        public enum FakeRegion 
+        public enum FakeRegion
         {
             North = 0,
             SouthEast = 1
@@ -72,6 +72,21 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             KetchupOnHotDogs = 1,
             PepsiOrCoke = 2
         }
+
+        public class FakeCardClass
+        {
+            public int index;
+        };
+
+        public static readonly Dictionary<int, FakeCardClass> FakeManifest = new Dictionary<int, FakeCardClass>()
+        {
+            {1, new FakeCardClass() { index = 1 } },
+            {2, new FakeCardClass() { index = 2 } },
+            {3, new FakeCardClass() { index = 3 } },
+            {4, new FakeCardClass() { index = 4 } },
+            {5, new FakeCardClass() { index = 5 } },
+        };
+
 
         public class SeededRandomnessProviderForTesting : IRandomnessProvider
         {

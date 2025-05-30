@@ -72,6 +72,9 @@ namespace PresidentialGameEngine.ConsoleRunner
             cardComponent.DiscardCardFromHand(Player.Nixon, nixonHand.First());
             var discardPile = cardComponent.LookAtDiscardPile().ToList();
 
+
+
+
             //var ll = cardComponent.RetrieveCardFromDiscardToHand()
 
 
