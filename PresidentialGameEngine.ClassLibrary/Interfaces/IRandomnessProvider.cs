@@ -9,5 +9,6 @@ namespace PresidentialGameEngine.ClassLibrary.Interfaces
     public interface IRandomnessProvider
     {
         int GetRandomNumber(int maxValue);
+        int GetRandomNumber(int minValue, int maxValue);
     }
 }

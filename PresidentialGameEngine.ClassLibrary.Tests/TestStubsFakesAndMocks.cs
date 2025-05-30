@@ -82,6 +82,11 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             {
                 return Random.Next(maxValue);
             }
+
+            public int GetRandomNumber(int minValue, int maxValue)
+            {
+                return Random.Next(minValue, maxValue);
+            }
         }
     }
 }

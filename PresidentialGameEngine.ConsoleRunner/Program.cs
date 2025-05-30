@@ -56,12 +56,33 @@ namespace PresidentialGameEngine.ConsoleRunner
         private static void SimplePlayground() 
         {
 
+            DefaultRandomnessProvider rando = new DefaultRandomnessProvider(6);
 
+
+            CardComponent<Player, Card> cardComponent 
+                = new(rando, NineteenSixty.GMTCards);
+
+            cardComponent.DrawCards(Player.Kennedy, 5);
+            cardComponent.DrawCards(Player.Nixon, 5);
+
+
+            var nixonHand = cardComponent.LookAtPlayerHand(Player.Nixon);
+            var kennedyHand = cardComponent.LookAtPlayerHand(Player.Kennedy);
+
+            cardComponent.DiscardCardFromHand(Player.Nixon, nixonHand.First());
+            var discardPile = cardComponent.LookAtDiscardPile().ToList();
+
+            //var ll = cardComponent.RetrieveCardFromDiscardToHand()
+
+
+            int i = 0;
+
+            /*
             var lowVoteStates = NineteenSixty.ElectoralVotes.Where(x => x.Value <= 10).Select(y => y.Key).ToList();
             var westOrMidWestStates = NineteenSixty.StatesByRegion[Region.Midwest];
             westOrMidWestStates.AddRange(NineteenSixty.StatesByRegion[Region.West]);
             var heartlandStates = lowVoteStates.Intersect(westOrMidWestStates);
-
+            */
 
 
             //var holder = NineteenSixty.ElectoralVotes.Where(x => x.Value >= 20).Select(y=>y.Key).ToList();
