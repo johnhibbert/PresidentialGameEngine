@@ -2,6 +2,7 @@
 using PresidentialGameEngine.ClassLibrary.Data;
 using PresidentialGameEngine.ClassLibrary.Engines;
 using PresidentialGameEngine.ClassLibrary.Enums;
+using PresidentialGameEngine.ClassLibrary.Interfaces;
 using PresidentialGameEngine.ClassLibrary.Manifests;
 using PresidentialGameEngine.ClassLibrary.Randomness;
 
@@ -17,8 +18,14 @@ namespace NineteenSixtyApplication
 
             var engine = GetGameEngine();
 
-            var gameState = engine.GetGameState();
 
+
+
+
+            engine.DoInitialSetup();
+
+
+            var gameState = engine.GetGameState();
 
             //Theoretical tilt application:
 
@@ -112,6 +119,7 @@ namespace NineteenSixtyApplication
             var mediaSupport = new SupportComponent<Player, Leader, Region>();
             var exhaustionComponent = new ExhaustionComponent<Player>();
             var cardComponent = new CardComponent<Player, Card>(random, NineteenSixty.GMTCards);
+            var staticDataComponent = new StaticDataComponent<State, Player, Region>(NineteenSixty.StateData);
 
             var compColl = new ComponentCollection<Player, Leader, Issue, State, Region, Card>()
             {
@@ -125,7 +133,8 @@ namespace NineteenSixtyApplication
                 EndorsementComponent = endorsement,
                 MediaSupportComponent = mediaSupport,
                 CardComponent = cardComponent,
-                ExhaustionComponent = exhaustionComponent
+                ExhaustionComponent = exhaustionComponent,
+                StaticDataComponent = staticDataComponent,
             };
 
             var engine = new NineteenSixtyGameEngine
