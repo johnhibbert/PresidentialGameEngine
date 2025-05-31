@@ -7,7 +7,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
 {
     public class NineteenSixty
     {
-        public static readonly Dictionary<State, StateData> StateData = new()
+        public static readonly Dictionary<State, ILocationData<State, Player, Region>> StateData = new()
         {
             {State.AK, new StateData(State.AK, Region.West, 3, Player.Nixon, 0)},
             {State.AL, new StateData(State.AL, Region.South, 3, Player.Nixon, 0)},

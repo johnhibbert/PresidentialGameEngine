@@ -57,7 +57,8 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
                 EndorsementComponent = new SupportComponent<Player, Leader, Region>(),
                 MediaSupportComponent = new SupportComponent<Player, Leader, Region>(),
                 ExhaustionComponent = new ExhaustionComponent<Player>(),
-                CardComponent = new CardComponent<Player, Card>(seed, NineteenSixty.GMTCards)
+                CardComponent = new CardComponent<Player, Card>(seed, NineteenSixty.GMTCards),
+                StaticDataComponent = new StaticDataComponent<State, Player, Region>(NineteenSixty.StateData)
             };
 
             return new NineteenSixtyGameEngine(compColl);

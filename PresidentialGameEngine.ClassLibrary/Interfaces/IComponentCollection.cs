@@ -18,6 +18,7 @@
         IAccumulatingComponent<PlayersEnum>? RestComponent { get; set; }
         ISupportComponent<PlayersEnum, LeadersEnum, StatesEnum>? StateSupportComponent { get; set; }
         ICardComponent<PlayersEnum, CardClass>? CardComponent { get; set; }
+        IStaticDataComponent<StatesEnum, PlayersEnum, RegionsEnum>? StaticDataComponent { get; set; }
 
         bool IsReady();
     }

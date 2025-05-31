@@ -2,6 +2,7 @@
 using PresidentialGameEngine.ClassLibrary.Data;
 using PresidentialGameEngine.ClassLibrary.Engines;
 using PresidentialGameEngine.ClassLibrary.Enums;
+using PresidentialGameEngine.ClassLibrary.Interfaces;
 using PresidentialGameEngine.ClassLibrary.Manifests;
 using PresidentialGameEngine.ClassLibrary.Randomness;
 
@@ -53,8 +54,12 @@ namespace PresidentialGameEngine.ConsoleRunner
         private static void SimplePlayground() 
         {
 
+
+            var fff = new StaticDataComponent<State, Player, Region>(NineteenSixty.StateData);
+
+
             //var holder = NineteenSixty.stateLocationData;
-            //int s = 0;
+            int s = 0;
 
             //var ll = new StaticDataComponent<State, Player, Region>(holder);
 
