@@ -25,6 +25,7 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
         ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum> MediaSupportComponent { get; init; }
         IExhaustionComponent<PlayersEnum> ExhaustionComponent { get; init; }
         ICardComponent<PlayersEnum, CardClass> CardComponent { get; init; }
+        IStaticDataComponent<StatesEnum, PlayersEnum, RegionsEnum> StaticDataComponent { get; init; }
 
         //Not sure I really want to be supressing warnings like this
         //but the object is intentionally nullable to use methods instead of a huge constructor
@@ -49,11 +50,33 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
                 MediaSupportComponent = collection.MediaSupportComponent;
                 ExhaustionComponent = collection.ExhaustionComponent;
                 CardComponent = collection.CardComponent;
+                StaticDataComponent = collection.StaticDataComponent;
 #pragma warning restore CS8601 // Possible null reference assignment.
             }
             else throw new ArgumentException("At least one necessary property on the ComponentCollection is null.");
         }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+
+        public void DoInitialSetup()
+        {
+            var holder = StaticDataComponent.GetRawData().Values;
+
+            foreach (var item in holder)
+            {
+                StateSupportComponent.GainSupport(item.Tilt, item.State, item.StartingSupport);
+            }
+
+            foreach (PlayersEnum player in (PlayersEnum[])Enum.GetValues(typeof(PlayersEnum)))
+            {
+                MomentumComponent.GainAmount(player, 2);
+                //CardComponent.DrawCards(player, 6);
+            }
+
+            
+
+        }
+
+        
 
         public IssuesEnum[] GetIssueOrder
         {
