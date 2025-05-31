@@ -17,16 +17,12 @@ namespace PresidentialGameEngine.ClassLibrary.Components
         {
             stateLocationData = locationData;
 
-
-            //Unsure if this is something we want to bother with.
-            //But it might be faster than looking it up every time?
-            //Might not matter overall.
+            //We could simplify this
+            //But I think encoding it now and making it available is better
             stateByRegion = ExtractStatesByRegion();
             stateElectoralVotes = ExtractElectoralVotes();
             stateStartingSupport = ExtractStartingSupportLevels();
             stateTilts = ExtractStateTilts();
-
-
         }
 
         private Dictionary<RegionsEnum, IList<StatesEnum>> ExtractStatesByRegion()
