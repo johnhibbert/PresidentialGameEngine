@@ -2,8 +2,7 @@
 
 namespace PresidentialGameEngine.ClassLibrary.Components
 {
-    public class StaticDataComponent<StatesEnum, PlayersEnum, RegionsEnum>
-        where StatesEnum : Enum
+    public class StaticDataComponent<StatesEnum, PlayersEnum, RegionsEnum> : IStaticDataComponent<StatesEnum, PlayersEnum, RegionsEnum> where StatesEnum : Enum
         where PlayersEnum : Enum
         where RegionsEnum : Enum
     {
@@ -49,7 +48,7 @@ namespace PresidentialGameEngine.ClassLibrary.Components
             return newDict;
         }
 
-        private IDictionary<StatesEnum, int> ExtractElectoralVotes() 
+        private IDictionary<StatesEnum, int> ExtractElectoralVotes()
         {
             var oldDict = stateLocationData;
 
@@ -91,22 +90,22 @@ namespace PresidentialGameEngine.ClassLibrary.Components
             return newDict;
         }
 
-        public IDictionary<StatesEnum, ILocationData<StatesEnum, PlayersEnum, RegionsEnum>> GetRawData() 
+        public IDictionary<StatesEnum, ILocationData<StatesEnum, PlayersEnum, RegionsEnum>> GetRawData()
         {
             return stateLocationData;
         }
 
-        public ILocationData<StatesEnum, PlayersEnum, RegionsEnum> GetStateData(StatesEnum state) 
+        public ILocationData<StatesEnum, PlayersEnum, RegionsEnum> GetStateData(StatesEnum state)
         {
             return stateLocationData[state];
         }
 
-        public IList<StatesEnum> GetStatesInRegion(RegionsEnum region) 
+        public IList<StatesEnum> GetStatesInRegion(RegionsEnum region)
         {
             return stateByRegion[region];
         }
 
-        public int GetStateElectoralCollegeVotes(StatesEnum state) 
+        public int GetStateElectoralCollegeVotes(StatesEnum state)
         {
             return stateElectoralVotes[state];
         }
