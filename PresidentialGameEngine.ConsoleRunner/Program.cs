@@ -20,7 +20,7 @@ namespace PresidentialGameEngine.ConsoleRunner
             Console.WriteLine("1: Simple Playground");
             Console.WriteLine("2: Run simple component tests");
             Console.WriteLine("3: Display all cards");
-            Console.WriteLine("4: Display state tilts");
+            //Console.WriteLine("4: Display state tilts");
             Console.WriteLine();
 
 
@@ -37,9 +37,9 @@ namespace PresidentialGameEngine.ConsoleRunner
                 case 3:
                     DisplayAllCards();
                     break;
-                case 4:
-                    DisplayStateTilts();
-                    break;
+                //case 4:
+                //    DisplayStateTilts();
+                //    break;
                 default:
                     Console.WriteLine("Input not undertood.");
                     break;
@@ -53,10 +53,10 @@ namespace PresidentialGameEngine.ConsoleRunner
         private static void SimplePlayground() 
         {
 
-            var holder = NineteenSixty.staticStateData;
-            int s = 0;
+            //var holder = NineteenSixty.stateLocationData;
+            //int s = 0;
 
-            var ll = new StaticDataComponent<State, Player, Region>(holder);
+            //var ll = new StaticDataComponent<State, Player, Region>(holder);
 
 
             //staticStateData
@@ -285,22 +285,22 @@ namespace PresidentialGameEngine.ConsoleRunner
         }
 
 
-        public static void DisplayStateTilts() 
-        {
-            foreach (State state in NineteenSixty.StateTilts.Keys)
-            {
-                Tilt<Player> tilt = NineteenSixty.StateTilts[state];
+        //public static void DisplayStateTilts() 
+        //{
+        //    foreach (State state in NineteenSixty.StateTilts.Keys)
+        //    {
+        //        Tilt<Player> tilt = NineteenSixty.StateTilts[state];
 
-                Console.Clear();
-                Console.WriteLine($"State: {state}");
-                Console.WriteLine($"Player: {tilt.Player}");
-                Console.WriteLine($"Support: {tilt.StartingSupport}");
+        //        Console.Clear();
+        //        Console.WriteLine($"State: {state}");
+        //        Console.WriteLine($"Player: {tilt.Player}");
+        //        Console.WriteLine($"Support: {tilt.StartingSupport}");
 
-                Console.WriteLine();
-                Console.WriteLine("Press Enter to continue.");
-                Console.ReadLine();
-            }
-        }
+        //        Console.WriteLine();
+        //        Console.WriteLine("Press Enter to continue.");
+        //        Console.ReadLine();
+        //    }
+        //}
 
         public static void DisplayAllCards()
         {

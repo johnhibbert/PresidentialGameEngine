@@ -7,7 +7,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
 {
     public class NineteenSixty
     {
-        public static readonly Dictionary<State, ILocationData<State, Player, Region>> staticStateData = new()
+        public static readonly Dictionary<State, StateData> StateData = new()
         {
             {State.AK, new StateData(State.AK, Region.West, 3, Player.Nixon, 0)},
             {State.AL, new StateData(State.AL, Region.South, 3, Player.Nixon, 0)},
@@ -61,194 +61,10 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             {State.WY, new StateData(State.WY, Region.West, 8, Player.Kennedy, 0)},
         };
 
-
         public static readonly Dictionary<Player, State> PlayerStartingPositions = new()
         {
             { Player.Kennedy, State.MA },
             { Player.Nixon, State.CA }
-        };
-
-        public static readonly Dictionary<State, Region> RegionByState = new()
-        {
-            { State.AK, Region.West },
-            { State.AL, Region.South },
-            { State.AR, Region.South },
-            { State.AZ, Region.West },
-            { State.CA, Region.West },
-            { State.CO, Region.West },
-            { State.CT, Region.East },
-            { State.DE, Region.East },
-            { State.FL, Region.South },
-            { State.GA, Region.South },
-            { State.HI, Region.West },
-            { State.IA, Region.Midwest },
-            { State.ID, Region.West },
-            { State.IL, Region.Midwest },
-            { State.IN, Region.Midwest },
-            { State.KS, Region.West },
-            { State.KY, Region.Midwest },
-            { State.LA, Region.South },
-            { State.MA, Region.East },
-            { State.MD, Region.East },
-            { State.ME, Region.East },
-            { State.MI, Region.Midwest },
-            { State.MN, Region.Midwest },
-            { State.MO, Region.Midwest },
-            { State.MS, Region.South },
-            { State.MT, Region.West },
-            { State.NC, Region.South },
-            { State.ND, Region.West },
-            { State.NE, Region.West },
-            { State.NH, Region.East },
-            { State.NJ, Region.East },
-            { State.NM, Region.West },
-            { State.NV, Region.West },
-            { State.NY, Region.East },
-            { State.OH, Region.Midwest },
-            { State.OK, Region.West },
-            { State.OR, Region.West },
-            { State.PA, Region.East },
-            { State.RI, Region.East },
-            { State.SC, Region.South },
-            { State.SD, Region.West },
-            { State.TN, Region.South },
-            { State.TX, Region.South },
-            { State.UT, Region.West },
-            { State.VA, Region.South },
-            { State.VT, Region.East },
-            { State.WA, Region.West },
-            { State.WI, Region.Midwest },
-            { State.WV, Region.East },
-            { State.WY, Region.West }
-        };
-
-        public static readonly Dictionary<Region, List<State>> StatesByRegion = ReverseStateRegionDictionary();
-
-        public static readonly Dictionary<State, int> ElectoralVotes = new()
-        {
-            { State.AK, 3 },
-            { State.AL, 11 },
-            { State.AR, 8 },
-            { State.AZ, 4 },
-            { State.CA, 32 },
-            { State.CO, 6 },
-            { State.CT, 8 },
-            { State.DE, 3 },
-            { State.FL, 10 },
-            { State.GA, 12 },
-            { State.HI, 3 },
-            { State.IA, 10 },
-            { State.ID, 4 },
-            { State.IL, 27 },
-            { State.IN, 13 },
-            { State.KS, 8 },
-            { State.KY, 10 },
-            { State.LA, 10 },
-            { State.MA, 16 },
-            { State.MD, 9 },
-            { State.ME, 5 },
-            { State.MI, 20 },
-            { State.MN, 11 },
-            { State.MO, 13 },
-            { State.MS, 8 },
-            { State.MT, 4 },
-            { State.NC, 14 },
-            { State.ND, 4 },
-            { State.NE, 6 },
-            { State.NH, 4 },
-            { State.NJ, 16 },
-            { State.NM, 4 },
-            { State.NV, 3 },
-            { State.NY, 45 },
-            { State.OH, 25 },
-            { State.OK, 8 },
-            { State.OR, 6 },
-            { State.PA, 32 },
-            { State.RI, 4 },
-            { State.SC, 8 },
-            { State.SD, 4 },
-            { State.TN, 11 },
-            { State.TX, 24 },
-            { State.UT, 4 },
-            { State.VA, 12 },
-            { State.VT, 3 },
-            { State.WA, 9 },
-            { State.WI, 12 },
-            { State.WV, 8 },
-            { State.WY, 3 },
-        };
-
-        private static Dictionary<Region, List<State>> ReverseStateRegionDictionary() 
-        {
-            var oldDict = NineteenSixty.RegionByState;
-
-            Dictionary<Region, List<State>> newDict = [];
-
-            foreach (Region region in Enum.GetValues(typeof(Region)))
-            {
-                newDict.Add(region, []);
-            }
-
-            foreach (State state in oldDict.Keys)
-            {
-                newDict[oldDict[state]].Add(state);
-            }
-
-            return newDict;
-        } 
-
-        public static readonly Dictionary<State, Tilt<Player>> StateTilts = new()
-        {
-            { State.AK, new Tilt<Player>{Player = Player.Nixon, StartingSupport = 0 } },
-            { State.AL, new Tilt<Player>{Player = Player.Kennedy, StartingSupport = 1 } },
-            { State.AR, new Tilt<Player>{Player = Player.Kennedy, StartingSupport = 1 } },
-            { State.AZ, new Tilt<Player>{Player = Player.Nixon, StartingSupport = 1 } },
-            { State.CA, new Tilt<Player>{Player = Player.Nixon, StartingSupport = 0 } },
-            { State.CO, new Tilt<Player>{Player = Player.Nixon, StartingSupport = 1 } },
-            { State.CT, new Tilt<Player>{Player = Player.Kennedy, StartingSupport = 0 } },
-            { State.DE, new Tilt<Player>{Player = Player.Kennedy, StartingSupport = 0 } },
-            { State.FL, new Tilt<Player>{Player = Player.Nixon, StartingSupport = 0 } },
-            { State.GA, new Tilt<Player>{Player = Player.Kennedy, StartingSupport = 2 } },
-            { State.HI, new Tilt<Player>{Player = Player.Nixon, StartingSupport = 0 } },
-            { State.IA, new Tilt<Player>{Player = Player.Nixon, StartingSupport = 1 } },
-            { State.ID, new Tilt<Player>{Player = Player.Nixon, StartingSupport = 0 } },
-            { State.IL, new Tilt<Player>{Player = Player.Kennedy, StartingSupport = 0 } },
-            { State.IN, new Tilt<Player>{Player = Player.Nixon, StartingSupport = 1 } },
-            { State.KS, new Tilt<Player>{Player = Player.Nixon, StartingSupport = 2 } },
-            { State.KY, new Tilt<Player>{Player = Player.Nixon, StartingSupport = 0 } },
-            { State.LA, new Tilt<Player>{Player = Player.Kennedy, StartingSupport = 2 } },
-            { State.MA, new Tilt<Player>{Player = Player.Kennedy, StartingSupport = 2 } },
-            { State.MD, new Tilt<Player>{Player = Player.Kennedy, StartingSupport = 0 } },
-            { State.ME, new Tilt<Player>{Player = Player.Nixon, StartingSupport = 1 } },
-            { State.MI, new Tilt<Player>{Player = Player.Kennedy, StartingSupport = 0 } },
-            { State.MN, new Tilt<Player>{Player = Player.Kennedy, StartingSupport = 0 } },
-            { State.MO, new Tilt<Player>{Player = Player.Kennedy, StartingSupport = 1 } },
-            { State.MS, new Tilt<Player>{Player = Player.Kennedy, StartingSupport = 2 } },
-            { State.MT, new Tilt<Player>{Player = Player.Nixon , StartingSupport = 0 } },
-            { State.NC, new Tilt<Player>{Player = Player.Kennedy, StartingSupport = 1 } },
-            { State.ND, new Tilt<Player>{Player = Player.Nixon, StartingSupport = 1 } },
-            { State.NE, new Tilt<Player>{Player = Player.Nixon, StartingSupport = 2 } },
-            { State.NH, new Tilt<Player>{Player = Player.Nixon, StartingSupport = 0 } },
-            { State.NJ, new Tilt<Player>{Player = Player.Kennedy, StartingSupport = 0 } },
-            { State.NM, new Tilt<Player>{Player = Player.Kennedy, StartingSupport = 0 } },
-            { State.NV, new Tilt<Player>{Player = Player.Kennedy, StartingSupport = 0 } },
-            { State.NY, new Tilt<Player>{Player = Player.Kennedy, StartingSupport = 0 } },
-            { State.OH, new Tilt<Player>{Player = Player.Nixon, StartingSupport = 1 } },
-            { State.OK, new Tilt<Player>{Player = Player.Nixon, StartingSupport = 1 } },
-            { State.OR, new Tilt<Player>{Player = Player.Nixon, StartingSupport = 0 } },
-            { State.PA, new Tilt<Player>{Player = Player.Kennedy, StartingSupport = 0 } },
-            { State.RI, new Tilt<Player>{Player = Player.Kennedy, StartingSupport = 2 } },
-            { State.SC, new Tilt<Player>{Player = Player.Kennedy, StartingSupport = 1 } },
-            { State.SD, new Tilt<Player>{Player = Player.Nixon, StartingSupport = 1 } },
-            { State.TN, new Tilt<Player>{Player = Player.Nixon, StartingSupport = 0 } },
-            { State.TX, new Tilt<Player>{Player = Player.Kennedy, StartingSupport = 0 } },
-            { State.UT, new Tilt<Player>{Player = Player.Nixon, StartingSupport = 1 } },
-            { State.VA, new Tilt<Player>{Player = Player.Nixon, StartingSupport = 0 } },
-            { State.VT, new Tilt<Player>{Player = Player.Nixon, StartingSupport = 1 } },
-            { State.WA, new Tilt<Player>{Player = Player.Nixon, StartingSupport = 0 } },
-            { State.WI, new Tilt<Player>{Player = Player.Nixon, StartingSupport = 0 } },
-            { State.WV, new Tilt<Player>{Player = Player.Kennedy, StartingSupport = 0 } },
-            { State.WY, new Tilt<Player>{Player =  Player.Nixon, StartingSupport = 1 } },
         };
 
         public static readonly Dictionary<int, Card> ZManCards = new()
@@ -518,7 +334,11 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         var twoPointsForTexas = choices.StateChanges.Single(x => x.Target == State.TX).Change >= 2;
                         var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
                         var noStateAboveTwo = choices.HighestStateChange <=2;
-                        var onlySouthernStates = choices.StateChanges.Select(s => s.Target).All(x => StatesByRegion[Region.South].Contains(x));
+
+                        var southernStates = StateData.Where(y => y.Value.Region == Region.South).Select(z => z.Key);
+                        var onlySouthernStates = choices.StateChanges.Select(s => s.Target).All(x => southernStates.Contains(x));
+
+                        //var onlySouthernStates = choices.StateChanges.Select(s => s.Target).All(x => StatesByRegion[Region.South].Contains(x));
                         var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([ChangeType.StateSupport]);
 
                         return fivePointsOfIssueChanges && noStateAboveTwo && twoPointsForTexas
@@ -801,10 +621,16 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         engine.ImplementChanges(choices);
                     },
                     AreChangesValid = (choices) => {
-                        var lowVoteStates = ElectoralVotes.Where(x => x.Value <= 10).Select(y=>y.Key).ToList();
-                        var westOrMidWestStates = StatesByRegion[Region.Midwest];
-                        westOrMidWestStates.AddRange(StatesByRegion[Region.West]);
-                        var heartlandStates = lowVoteStates.Intersect(westOrMidWestStates);
+
+                        var heartlandStates = StateData.Where(x => x.Value.ElectoralVotes <=10)
+                        .Where(y => y.Value.Region == Region.Midwest || y.Value.Region == Region.West).Select(z => z.Key);
+                        
+                        //var lowVoteStates = ElectoralVotes.Where(x => x.Value <= 10).Select(y=>y.Key).ToList();
+
+
+                        //var westOrMidWestStates = StatesByRegion[Region.Midwest];
+                        //westOrMidWestStates.AddRange(StatesByRegion[Region.West]);
+                        //var heartlandStates = lowVoteStates.Intersect(westOrMidWestStates);
 
                         var onlyHeartlandStates = choices.StateChanges.Select(s => s.Target).All(x => heartlandStates.Contains(x));
                         var sevenOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 7;
@@ -836,7 +662,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         }
                     },
                     AreChangesValid = (choices) => {
-                        List<State> southernStates = StatesByRegion[Region.South];
+                        var southernStates = StateData.Where(y => y.Value.Region == Region.South).Select(z => z.Key);
 
                         var onlySouthernStatesIncluded = choices.StateChanges.Select(s => s.Target).All(x => southernStates.Contains(x));
                         var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
@@ -868,7 +694,8 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         engine.ImplementChanges(choices);
                     },
                     AreChangesValid = (choices) => {
-                        var suburbanStates = ElectoralVotes.Where(x => x.Value >= 20).Select(y=>y.Key).ToList();
+
+                        var suburbanStates = StateData.Where(x => x.Value.ElectoralVotes >=20).Select(y => y.Key);
 
                         var onlySuburbanStates = choices.StateChanges.Select(s => s.Target).All(x => suburbanStates.Contains(x));
                         var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;

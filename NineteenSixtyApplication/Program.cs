@@ -24,13 +24,13 @@ namespace NineteenSixtyApplication
 
             //Probably want to pass this to the Engine itself instead of the pieces
             //And save it, since the Support component won't know anything about it.
-            foreach(var kvp in NineteenSixty.StateTilts) 
-            {
-                if(kvp.Value.StartingSupport > 0) 
-                {
-                    engine.GainSupport(kvp.Value.Player, kvp.Key, kvp.Value.StartingSupport);
-                }
-            }
+            //foreach(var kvp in NineteenSixty.StateTilts) 
+            //{
+            //    if(kvp.Value.StartingSupport > 0) 
+            //    {
+            //        engine.GainSupport(kvp.Value.Player, kvp.Key, kvp.Value.StartingSupport);
+            //    }
+            //}
 
 
 
@@ -95,7 +95,7 @@ namespace NineteenSixtyApplication
 
         private static NineteenSixtyGameEngine GetGameEngine() 
         {
-            var ff = NineteenSixty.RegionByState;
+            //var ff = NineteenSixty.RegionByState;
             var ll = NineteenSixty.PlayerStartingPositions;
 
             var playerLocationComp = new PlayerLocationComponent<Player, State>(ll);
