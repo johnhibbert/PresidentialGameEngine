@@ -69,7 +69,7 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
             foreach (PlayersEnum player in (PlayersEnum[])Enum.GetValues(typeof(PlayersEnum)))
             {
                 MomentumComponent.GainAmount(player, 2);
-                CardComponent.DrawCards(player, 6);
+                //CardComponent.DrawCards(player, 6);
             }
 
             
