@@ -2,6 +2,7 @@
 using PresidentialGameEngine.ClassLibrary.Data;
 using PresidentialGameEngine.ClassLibrary.Engines;
 using PresidentialGameEngine.ClassLibrary.Enums;
+using PresidentialGameEngine.ClassLibrary.Interfaces;
 using PresidentialGameEngine.ClassLibrary.Manifests;
 using PresidentialGameEngine.ClassLibrary.Randomness;
 
@@ -20,7 +21,7 @@ namespace PresidentialGameEngine.ConsoleRunner
             Console.WriteLine("1: Simple Playground");
             Console.WriteLine("2: Run simple component tests");
             Console.WriteLine("3: Display all cards");
-            Console.WriteLine("4: Display state tilts");
+            //Console.WriteLine("4: Display state tilts");
             Console.WriteLine();
 
 
@@ -37,9 +38,9 @@ namespace PresidentialGameEngine.ConsoleRunner
                 case 3:
                     DisplayAllCards();
                     break;
-                case 4:
-                    DisplayStateTilts();
-                    break;
+                //case 4:
+                //    DisplayStateTilts();
+                //    break;
                 default:
                     Console.WriteLine("Input not undertood.");
                     break;
@@ -53,21 +54,45 @@ namespace PresidentialGameEngine.ConsoleRunner
         private static void SimplePlayground() 
         {
 
-            DefaultRandomnessProvider rando = new DefaultRandomnessProvider(6);
+
+            var fff = new StaticDataComponent<State, Player, Region>(NineteenSixty.StateData);
 
 
-            CardComponent<Player, Card> cardComponent 
-                = new(rando, NineteenSixty.GMTCards);
+            //var holder = NineteenSixty.stateLocationData;
+            int s = 0;
 
-            cardComponent.DrawCards(Player.Kennedy, 5);
-            cardComponent.DrawCards(Player.Nixon, 5);
+            //var ll = new StaticDataComponent<State, Player, Region>(holder);
 
 
-            var nixonHand = cardComponent.GetPlayerHand(Player.Nixon);
-            var kennedyHand = cardComponent.GetPlayerHand(Player.Kennedy);
+            //staticStateData
 
-            cardComponent.MoveCardFromOneZoneToAnother(Player.Nixon, nixonHand.First(), CardZone.Hand, CardZone.Discard);
-            var discardPile = cardComponent.ViewCardsInZone(CardZone.Discard, Player.Nixon).ToList();
+            //StateData rhodeIsland = new()
+            //{
+            //    ElectoralVotes = 3,
+            //    Region = Region.East,
+            //    Tilt = Player.Kennedy,
+            //    StartingSupportAmount = 2
+            //};
+
+            //Dictionary<State, StateData> fff = new Dictionary<State, StateData>();
+
+
+
+            //DefaultRandomnessProvider rando = new DefaultRandomnessProvider(6);
+
+
+            //CardComponent<Player, Card> cardComponent 
+            //    = new(rando, NineteenSixty.GMTCards);
+
+            //cardComponent.DrawCards(Player.Kennedy, 5);
+            //cardComponent.DrawCards(Player.Nixon, 5);
+
+
+            //var nixonHand = cardComponent.GetPlayerHand(Player.Nixon);
+            //var kennedyHand = cardComponent.GetPlayerHand(Player.Kennedy);
+
+            //cardComponent.MoveCardFromOneZoneToAnother(Player.Nixon, nixonHand.First(), CardZone.Hand, CardZone.Discard);
+            //var discardPile = cardComponent.ViewCardsInZone(CardZone.Discard, Player.Nixon).ToList();
 
 
 
@@ -265,22 +290,22 @@ namespace PresidentialGameEngine.ConsoleRunner
         }
 
 
-        public static void DisplayStateTilts() 
-        {
-            foreach (State state in NineteenSixty.StateTilts.Keys)
-            {
-                Tilt<Player> tilt = NineteenSixty.StateTilts[state];
+        //public static void DisplayStateTilts() 
+        //{
+        //    foreach (State state in NineteenSixty.StateTilts.Keys)
+        //    {
+        //        Tilt<Player> tilt = NineteenSixty.StateTilts[state];
 
-                Console.Clear();
-                Console.WriteLine($"State: {state}");
-                Console.WriteLine($"Player: {tilt.Player}");
-                Console.WriteLine($"Support: {tilt.StartingSupport}");
+        //        Console.Clear();
+        //        Console.WriteLine($"State: {state}");
+        //        Console.WriteLine($"Player: {tilt.Player}");
+        //        Console.WriteLine($"Support: {tilt.StartingSupport}");
 
-                Console.WriteLine();
-                Console.WriteLine("Press Enter to continue.");
-                Console.ReadLine();
-            }
-        }
+        //        Console.WriteLine();
+        //        Console.WriteLine("Press Enter to continue.");
+        //        Console.ReadLine();
+        //    }
+        //}
 
         public static void DisplayAllCards()
         {

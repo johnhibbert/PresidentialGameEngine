@@ -23,6 +23,7 @@ namespace PresidentialGameEngine.ClassLibrary.Components
         public ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum>? MediaSupportComponent { get; set; }
         public IExhaustionComponent<PlayersEnum>? ExhaustionComponent { get; set; }
         public ICardComponent<PlayersEnum, CardClass>? CardComponent { get; set; }
+        public IStaticDataComponent<StatesEnum, PlayersEnum, RegionsEnum>? StaticDataComponent { get; set; }
 
         public bool IsReady()
         {

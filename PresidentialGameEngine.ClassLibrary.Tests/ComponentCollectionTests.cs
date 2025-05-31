@@ -25,7 +25,8 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
                     EndorsementComponent = Substitute.For<ISupportComponent<FakePlayer, FakeLeader, FakeRegion>>(),
                     MediaSupportComponent = Substitute.For<ISupportComponent<FakePlayer, FakeLeader, FakeRegion>>(),
                     ExhaustionComponent = Substitute.For<IExhaustionComponent<FakePlayer>>(),
-                    CardComponent = Substitute.For<ICardComponent<FakePlayer, FakeCardClass>>()
+                    CardComponent = Substitute.For<ICardComponent<FakePlayer, FakeCardClass>>(),
+                    StaticDataComponent = Substitute.For<IStaticDataComponent<FakeState, FakePlayer, FakeRegion>>(),
                 };
 
             Assert.IsTrue(collection.IsReady());
