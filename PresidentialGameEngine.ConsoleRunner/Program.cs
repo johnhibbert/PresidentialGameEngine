@@ -53,21 +53,41 @@ namespace PresidentialGameEngine.ConsoleRunner
         private static void SimplePlayground() 
         {
 
-            DefaultRandomnessProvider rando = new DefaultRandomnessProvider(6);
+            var holder = NineteenSixty.staticStateData;
+            int s = 0;
+
+            var ll = new StaticDataComponent<State, Player, Region>(holder);
 
 
-            CardComponent<Player, Card> cardComponent 
-                = new(rando, NineteenSixty.GMTCards);
+            //staticStateData
 
-            cardComponent.DrawCards(Player.Kennedy, 5);
-            cardComponent.DrawCards(Player.Nixon, 5);
+            //StateData rhodeIsland = new()
+            //{
+            //    ElectoralVotes = 3,
+            //    Region = Region.East,
+            //    Tilt = Player.Kennedy,
+            //    StartingSupportAmount = 2
+            //};
+
+            //Dictionary<State, StateData> fff = new Dictionary<State, StateData>();
 
 
-            var nixonHand = cardComponent.GetPlayerHand(Player.Nixon);
-            var kennedyHand = cardComponent.GetPlayerHand(Player.Kennedy);
 
-            cardComponent.MoveCardFromOneZoneToAnother(Player.Nixon, nixonHand.First(), CardZone.Hand, CardZone.Discard);
-            var discardPile = cardComponent.ViewCardsInZone(CardZone.Discard, Player.Nixon).ToList();
+            //DefaultRandomnessProvider rando = new DefaultRandomnessProvider(6);
+
+
+            //CardComponent<Player, Card> cardComponent 
+            //    = new(rando, NineteenSixty.GMTCards);
+
+            //cardComponent.DrawCards(Player.Kennedy, 5);
+            //cardComponent.DrawCards(Player.Nixon, 5);
+
+
+            //var nixonHand = cardComponent.GetPlayerHand(Player.Nixon);
+            //var kennedyHand = cardComponent.GetPlayerHand(Player.Kennedy);
+
+            //cardComponent.MoveCardFromOneZoneToAnother(Player.Nixon, nixonHand.First(), CardZone.Hand, CardZone.Discard);
+            //var discardPile = cardComponent.ViewCardsInZone(CardZone.Discard, Player.Nixon).ToList();
 
 
 

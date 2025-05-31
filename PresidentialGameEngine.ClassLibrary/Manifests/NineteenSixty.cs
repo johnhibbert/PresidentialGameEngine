@@ -1,10 +1,67 @@
-﻿using PresidentialGameEngine.ClassLibrary.Data;
+﻿using PresidentialGameEngine.ClassLibrary.Components;
+using PresidentialGameEngine.ClassLibrary.Data;
 using PresidentialGameEngine.ClassLibrary.Enums;
+using PresidentialGameEngine.ClassLibrary.Interfaces;
 
 namespace PresidentialGameEngine.ClassLibrary.Manifests
 {
     public class NineteenSixty
     {
+        public static readonly Dictionary<State, ILocationData<State, Player, Region>> staticStateData = new()
+        {
+            {State.AK, new StateData(State.AK, Region.West, 3, Player.Nixon, 0)},
+            {State.AL, new StateData(State.AL, Region.South, 3, Player.Nixon, 0)},
+            {State.AR, new StateData(State.AR, Region.South, 11, Player.Kennedy, 1)},
+            {State.AZ, new StateData(State.AZ, Region.West, 8, Player.Kennedy, 1)},
+            {State.CA, new StateData(State.CA, Region.West, 4, Player.Nixon, 1)},
+            {State.CO, new StateData(State.CO, Region.West, 32, Player.Nixon, 0)},
+            {State.CT, new StateData(State.CT, Region.East, 6, Player.Nixon, 1)},
+            {State.DE, new StateData(State.DE, Region.East, 8, Player.Kennedy, 0)},
+            {State.FL, new StateData(State.FL, Region.South, 3, Player.Kennedy, 0)},
+            {State.GA, new StateData(State.GA, Region.South, 10, Player.Nixon, 0)},
+            {State.HI, new StateData(State.HI, Region.West, 12, Player.Kennedy, 2)},
+            {State.IA, new StateData(State.IA, Region.Midwest, 3, Player.Nixon, 0)},
+            {State.ID, new StateData(State.ID, Region.West, 10, Player.Nixon, 1)},
+            {State.IL, new StateData(State.IL, Region.Midwest, 4, Player.Nixon, 0)},
+            {State.IN, new StateData(State.IN, Region.Midwest, 27, Player.Kennedy, 0)},
+            {State.KS, new StateData(State.KS, Region.West, 13, Player.Nixon, 1)},
+            {State.KY, new StateData(State.KY, Region.Midwest, 8, Player.Nixon, 2)},
+            {State.LA, new StateData(State.LA, Region.South, 10, Player.Nixon, 0)},
+            {State.MA, new StateData(State.MA, Region.East, 10, Player.Kennedy, 2)},
+            {State.MD, new StateData(State.MD, Region.East, 16, Player.Kennedy, 2)},
+            {State.ME, new StateData(State.ME, Region.East, 9, Player.Kennedy, 0)},
+            {State.MI, new StateData(State.MI, Region.Midwest, 5, Player.Nixon, 1)},
+            {State.MN, new StateData(State.MN, Region.Midwest, 20, Player.Kennedy, 0)},
+            {State.MO, new StateData(State.MO, Region.Midwest, 11, Player.Kennedy, 0)},
+            {State.MS, new StateData(State.MS, Region.South, 13, Player.Kennedy, 1)},
+            {State.MT, new StateData(State.MT, Region.West, 8, Player.Kennedy, 2)},
+            {State.NC, new StateData(State.NC, Region.South, 4, Player.Nixon , 0)},
+            {State.ND, new StateData(State.ND, Region.West, 14, Player.Kennedy, 1)},
+            {State.NE, new StateData(State.NE, Region.West, 4, Player.Nixon, 1)},
+            {State.NH, new StateData(State.NH, Region.East, 6, Player.Nixon, 2)},
+            {State.NJ, new StateData(State.NJ, Region.East, 4, Player.Nixon, 0)},
+            {State.NM, new StateData(State.NM, Region.West, 16, Player.Kennedy, 0)},
+            {State.NV, new StateData(State.NV, Region.West, 4, Player.Kennedy, 0)},
+            {State.NY, new StateData(State.NY, Region.East, 3, Player.Kennedy, 0)},
+            {State.OH, new StateData(State.OH, Region.Midwest, 45, Player.Kennedy, 0)},
+            {State.OK, new StateData(State.OK, Region.West, 25, Player.Nixon, 1)},
+            {State.OR, new StateData(State.OR, Region.West, 8, Player.Nixon, 1)},
+            {State.PA, new StateData(State.PA, Region.East, 6, Player.Nixon, 0)},
+            {State.RI, new StateData(State.RI, Region.East, 32, Player.Kennedy, 0)},
+            {State.SC, new StateData(State.SC, Region.South, 4, Player.Kennedy, 2)},
+            {State.SD, new StateData(State.SD, Region.West, 8, Player.Kennedy, 1)},
+            {State.TN, new StateData(State.TN, Region.South, 4, Player.Nixon, 1)},
+            {State.TX, new StateData(State.TX, Region.South, 11, Player.Nixon, 0)},
+            {State.UT, new StateData(State.UT, Region.West, 24, Player.Kennedy, 0)},
+            {State.VA, new StateData(State.VA, Region.South, 4, Player.Nixon, 1)},
+            {State.VT, new StateData(State.VT, Region.East, 12, Player.Nixon, 0)},
+            {State.WA, new StateData(State.WA, Region.West, 3, Player.Nixon, 1)},
+            {State.WI, new StateData(State.WI, Region.Midwest, 9, Player.Nixon, 0)},
+            {State.WV, new StateData(State.WV, Region.East, 12, Player.Nixon, 0)},
+            {State.WY, new StateData(State.WY, Region.West, 8, Player.Kennedy, 0)},
+        };
+
+
         public static readonly Dictionary<Player, State> PlayerStartingPositions = new()
         {
             { Player.Kennedy, State.MA },
@@ -65,7 +122,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             { State.WY, Region.West }
         };
 
-        public static readonly Dictionary<Region, List<State>> StatesByRegion = ReverseDictionary();
+        public static readonly Dictionary<Region, List<State>> StatesByRegion = ReverseStateRegionDictionary();
 
         public static readonly Dictionary<State, int> ElectoralVotes = new()
         {
@@ -121,7 +178,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             { State.WY, 3 },
         };
 
-        private static Dictionary<Region, List<State>> ReverseDictionary() 
+        private static Dictionary<Region, List<State>> ReverseStateRegionDictionary() 
         {
             var oldDict = NineteenSixty.RegionByState;
 
