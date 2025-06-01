@@ -203,19 +203,6 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
 
         }
 
-        public void ImplementChanges(PlayerChosenChanges<PlayersEnum, IssuesEnum, StatesEnum> changes)
-        {
-            foreach (SupportChange<PlayersEnum, IssuesEnum> issueChange in changes.IssueChanges)
-            {
-                GainSupport(issueChange.Player, issueChange.Target, issueChange.Change);
-            }
-
-            foreach (SupportChange<PlayersEnum, StatesEnum> stateChange in changes.StateChanges)
-            {
-                GainSupport(stateChange.Player, stateChange.Target, stateChange.Change);
-            }
-        }
-
         public StatesEnum GetPlayerState(PlayersEnum player)
         {
             return PlayerLocationComponent.GetPlayerState(player);
