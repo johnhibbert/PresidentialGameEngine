@@ -2280,6 +2280,66 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
         #endregion
 
+        #region #75 Republican TV Spots
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void RepublicanTVSpots_75_NixonMovedToNewYork(Player player)
+        {
+            int cardIndex = 75;
+            var engine = GetGameEngine();
+
+            engine.MovePlayerToState(Player.Nixon, State.AK);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+
+            sut.Event(engine, player, EmptyChanges);
+
+            Assert.AreEqual(State.NY, engine.GetPlayerState(Player.Nixon));
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void RepublicanTVSpots_75_MediaSupportAdded(Player player)
+        {
+            int cardIndex = 75;
+            var engine = GetGameEngine();
+            engine.GainSupport(Player.Kennedy, Issue.CivilRights, 2);
+
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            var mediaSupportGained = new SupportChange<Player, Region>(Player.Nixon, Region.West, 3);
+
+            playerChoices.MediaSupportChanges.Add(mediaSupportGained);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+
+            sut.Event(engine, player, playerChoices);
+
+            Assert.AreEqual(3, engine.GetMediaSupportAmount(Region.West));
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void RepublicanTVSpots_75_ValidationGreaterThanThreeMediaSupportFails(Player player)
+        {
+            int cardIndex = 75;
+            var engine = GetGameEngine();
+            engine.GainSupport(Player.Kennedy, Issue.CivilRights, 2);
+
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            var mediaSupportGained = new SupportChange<Player, Region>(Player.Nixon, Region.West, 4);
+
+            playerChoices.MediaSupportChanges.Add(mediaSupportGained);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+        #endregion
+
         #region #77 - Suburban Voters
         [TestMethod]
         [DataRow(Player.Nixon)]

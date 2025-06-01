@@ -192,7 +192,7 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
 
             foreach (SupportChange<PlayersEnum, RegionsEnum> mediaChange in changes.MediaSupportChanges)
             {
-                GainMediaSupport(mediaChange.Player, mediaChange.Target, mediaChange.Change);
+                GainMediaSupportWithoutSupportCheck(mediaChange.Player, mediaChange.Target, mediaChange.Change);
             }
 
             foreach (SupportChange<PlayersEnum, RegionsEnum> endorsementChange in changes.EndorsementChanges)
