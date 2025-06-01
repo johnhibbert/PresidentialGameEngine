@@ -222,6 +222,11 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
                 GainEndorsement(endorsementChange.Player, endorsementChange.Target);
             }
 
+            if (changes.NewIssuesOrder.Any())
+            {
+                IssuePositioningComponent.SetSubjectOrder(changes.NewIssuesOrder);
+            }
+
         }
 
         public StatesEnum GetPlayerState(PlayersEnum player)
