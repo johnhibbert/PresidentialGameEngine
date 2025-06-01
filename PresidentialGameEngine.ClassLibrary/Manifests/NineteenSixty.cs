@@ -116,10 +116,10 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         var onlyNewEnglandStatesIncluded = choices.StateChanges.Select(s => s.Target).All(x => newEnglandStates.Contains(x));
                         var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
                         var noValueAboveTwo = choices.HighestStateChange <= 2;
-                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([ChangeType.StateSupport]);
+                        var AndOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
 
                         return fiveOrFewerPointsOfStateChanges && onlyNewEnglandStatesIncluded && noValueAboveTwo
-                                && statePlayerIsOnlyKennedy && AndOnlyThisTypeOfTest;
+                                && statePlayerIsOnlyKennedy && AndOnlyOneTypeOfTest;
                     },
                 }
             },
@@ -304,10 +304,10 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         var threePointsOfIssueChanges = choices.TotalIssueChanges <= 3;
                         var noValueAboveOne = choices.HighestStateChange <= 1;
                         var issuePlayerAreAllSame = choices.IssueChanges.Select(x => x.Player).Distinct().Count() == 1;
-                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([ChangeType.IssueSupport]);
+                        var AndOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
 
                         return threePointsOfIssueChanges && noValueAboveOne
-                                && issuePlayerAreAllSame && AndOnlyThisTypeOfTest;
+                                && issuePlayerAreAllSame && AndOnlyOneTypeOfTest;
                     },
                 }
             },
@@ -339,10 +339,10 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         var onlySouthernStates = choices.StateChanges.Select(s => s.Target).All(x => southernStates.Contains(x));
 
                         //var onlySouthernStates = choices.StateChanges.Select(s => s.Target).All(x => StatesByRegion[Region.South].Contains(x));
-                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([ChangeType.StateSupport]);
+                        var AndOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
 
                         return fivePointsOfIssueChanges && noStateAboveTwo && twoPointsForTexas
-                              && onlySouthernStates && statePlayerIsOnlyKennedy && AndOnlyThisTypeOfTest;
+                              && onlySouthernStates && statePlayerIsOnlyKennedy && AndOnlyOneTypeOfTest;
                     },
                 }
             },
@@ -366,10 +366,10 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         var threePointsOfIssueChanges = choices.TotalIssueChanges == 3;
                         var onlyOneIssueIncluded = choices.IssueChanges.Where(x => x.Change > 0).Count() == 2;
                         var issuePlayerIsOnlyKennedy = choices.IssueChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
-                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([ChangeType.IssueSupport]);
+                        var AndOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
 
                         return threePointsOfIssueChanges && onlyOneIssueIncluded
-                                && issuePlayerIsOnlyKennedy && AndOnlyThisTypeOfTest;
+                                && issuePlayerIsOnlyKennedy && AndOnlyOneTypeOfTest;
                     },
                 }
             },
@@ -636,11 +636,12 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         var sevenOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 7;
                         var noValueAboveOne = choices.HighestStateChange <= 1;
                         var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
-                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([ChangeType.StateSupport]);
+                        var AndOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
 
                         return onlyHeartlandStates && sevenOrFewerPointsOfStateChanges
-                            && statePlayerIsOnlyNixon && noValueAboveOne && AndOnlyThisTypeOfTest;
+                            && statePlayerIsOnlyNixon && noValueAboveOne && AndOnlyOneTypeOfTest;
                     },
+                
                 }
             },
             {72, new Card()
@@ -655,7 +656,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     State = State.IN,
                     Event = (engine, player, choices) => {
                         var civilRightsleader = engine.GetLeader(Issue.CivilRights);
-                        
+
                         if(civilRightsleader == Leader.Kennedy)
                         {
                             engine.ImplementChanges(choices);
@@ -668,10 +669,10 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
                         var noValueAboveTwo = choices.HighestStateChange <= 2;
                         var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
-                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([ChangeType.StateSupport]);
+                        var AndOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
 
                         return onlySouthernStatesIncluded && fiveOrFewerPointsOfStateChanges
-                            && statePlayerIsOnlyNixon && noValueAboveTwo && AndOnlyThisTypeOfTest;
+                            && statePlayerIsOnlyNixon && noValueAboveTwo && AndOnlyOneTypeOfTest;
                     },
                 }
             },
@@ -701,10 +702,10 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
                         var noValueAboveTwo = choices.HighestStateChange <= 2;
                         var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
-                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([ChangeType.StateSupport]);
+                        var AndOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
 
                         return onlySuburbanStates && fiveOrFewerPointsOfStateChanges
-                            && statePlayerIsOnlyKennedy && noValueAboveTwo && AndOnlyThisTypeOfTest;
+                            && statePlayerIsOnlyKennedy && noValueAboveTwo && AndOnlyOneTypeOfTest;
                     },
                 }
             },
@@ -783,9 +784,9 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     {
                         var threePointsOfIssueChanges = choices.TotalIssueChanges == 3;
                         var issuePlayerIsOnlyNixon = choices.IssueChanges.Select(x => x.Player).All(y => y == Player.Nixon);
-                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([ChangeType.IssueSupport]);
+                        var AndOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
 
-                        return threePointsOfIssueChanges && issuePlayerIsOnlyNixon && AndOnlyThisTypeOfTest;
+                        return threePointsOfIssueChanges && issuePlayerIsOnlyNixon && AndOnlyOneTypeOfTest;
                     },
                 }
             },
@@ -836,9 +837,9 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         var threePointsOfStateChanges = choices.TotalStateChanges == 3;
                         var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
                         var onlyOneState = choices.StateChanges.Select(x => x.Target).Count() == 1;
-                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([ChangeType.StateSupport]);
+                        var AndOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
 
-                        return threePointsOfStateChanges && statePlayerIsOnlyNixon && AndOnlyThisTypeOfTest;
+                        return threePointsOfStateChanges && statePlayerIsOnlyNixon && AndOnlyOneTypeOfTest;
                     },
                 }
             },
@@ -893,10 +894,10 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         var threePointsOfStateChanges = choices.TotalStateChanges <= 3;
                         var noValueAboveOne = choices.HighestStateChange <= 1;
                         var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
-                        var AndOnlyThisTypeOfTest = choices.ContainsOnlyTheseChangeTypes([ChangeType.StateSupport]);
+                        var AndOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
 
                         return threePointsOfStateChanges && noValueAboveOne
-                                && statePlayerIsOnlyKennedy && AndOnlyThisTypeOfTest;
+                                && statePlayerIsOnlyKennedy && AndOnlyOneTypeOfTest;
                     },
                 }
             },

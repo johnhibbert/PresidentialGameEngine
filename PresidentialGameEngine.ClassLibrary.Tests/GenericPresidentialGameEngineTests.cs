@@ -89,7 +89,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         public void ImplementChanges_ChangesApplied()
         {
-            PlayerChosenChanges<FakePlayer, FakeIssue, FakeState> playerChoices = new();
+            PlayerChosenChanges<FakePlayer, FakeIssue, FakeState, FakeRegion> playerChoices = new();
 
             var oneStateSupport =
                 new SupportChange<FakePlayer, FakeState>(FakePlayer.PlayerTwo, FakeState.Being, 1);
@@ -113,7 +113,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         public void ImplementChanges_MoreChangesApplied()
         {
-            PlayerChosenChanges<FakePlayer, FakeIssue, FakeState> playerChoices = new();
+            PlayerChosenChanges<FakePlayer, FakeIssue, FakeState, FakeRegion> playerChoices = new();
 
             var threeSupportInDenial =
                 new SupportChange<FakePlayer, FakeState>(FakePlayer.PlayerTwo, FakeState.Denial, 3);

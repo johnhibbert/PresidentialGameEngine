@@ -261,12 +261,12 @@ namespace PresidentialGameEngine.ConsoleRunner
             SupportChange<Player, Issue> nixonGainsInDefense = new(Player.Nixon, Issue.Defense, 2);
             SupportChange<Player, State> kennedyGainsInFlorida = new(Player.Kennedy, State.FL, 1);
 
-            PlayerChosenChanges<Player, Issue, State> allChanges = new PlayerChosenChanges<Player, Issue, State>();
+            //PlayerChosenChanges<Player, Issue, State> allChanges = new PlayerChosenChanges<Player, Issue, State>();
 
-            allChanges.IssueChanges.Add(nixonGainsInDefense);
-            allChanges.StateChanges.Add(kennedyGainsInFlorida);
+            //allChanges.IssueChanges.Add(nixonGainsInDefense);
+            //allChanges.StateChanges.Add(kennedyGainsInFlorida);
 
-            generic.ImplementChanges(allChanges);
+            //generic.ImplementChanges(allChanges);
 
             var kennedyHomeState = generic.GetPlayerState(Player.Kennedy);
             generic.MovePlayerToState(Player.Kennedy, State.CO);

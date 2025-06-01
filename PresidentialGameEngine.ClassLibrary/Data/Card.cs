@@ -26,9 +26,9 @@ namespace PresidentialGameEngine.ClassLibrary.Data
 
         public EventType EventType { get; init; }
 
-        public required Predicate<PlayerChosenChanges<Player, Issue, State>> AreChangesValid { get; init; }
+        public required Predicate<PlayerChosenChanges<Player, Issue, State, Region>> AreChangesValid { get; init; }
 
-        public required Action<NineteenSixtyGameEngine, Player, PlayerChosenChanges<Player, Issue, State>> Event { get; init; }
+        public required Action<NineteenSixtyGameEngine, Player, PlayerChosenChanges<Player, Issue, State, Region>> Event { get; init; }
 
         public override string ToString()
         {
