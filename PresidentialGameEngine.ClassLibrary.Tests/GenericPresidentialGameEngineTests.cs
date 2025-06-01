@@ -89,7 +89,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         public void ImplementChanges_ChangesApplied()
         {
-            NewMasterPlayerChosenChanges<FakePlayer, FakeIssue, FakeState, FakeRegion> playerChoices = new();
+            PlayerChosenChanges<FakePlayer, FakeIssue, FakeState, FakeRegion> playerChoices = new();
 
             var oneStateSupport =
                 new SupportChange<FakePlayer, FakeState>(FakePlayer.PlayerTwo, FakeState.Being, 1);
@@ -104,7 +104,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var sut = new GenericPresidentialGameEngine
                 <FakePlayer, FakeLeader, FakeIssue, FakeState, FakeRegion, FakeCardClass>(components);
 
-            sut.NEWImplementChanges(playerChoices);
+            sut.ImplementChanges(playerChoices);
 
             Assert.AreEqual(1, sut.GetSupportAmount(FakeState.Being));
             Assert.AreEqual(1, sut.GetSupportAmount(FakeIssue.KetchupOnHotDogs));
@@ -113,7 +113,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         public void ImplementChanges_MoreChangesApplied()
         {
-            NewMasterPlayerChosenChanges<FakePlayer, FakeIssue, FakeState, FakeRegion> playerChoices = new();
+            PlayerChosenChanges<FakePlayer, FakeIssue, FakeState, FakeRegion> playerChoices = new();
 
             var threeSupportInDenial =
                 new SupportChange<FakePlayer, FakeState>(FakePlayer.PlayerTwo, FakeState.Denial, 3);
@@ -131,7 +131,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var sut = new GenericPresidentialGameEngine
                 <FakePlayer, FakeLeader, FakeIssue, FakeState, FakeRegion, FakeCardClass>(components);
 
-            sut.NEWImplementChanges(playerChoices);
+            sut.ImplementChanges(playerChoices);
 
             Assert.AreEqual(3, sut.GetSupportAmount(FakeState.Denial));
             Assert.AreEqual(5, sut.GetSupportAmount(FakeState.Being));

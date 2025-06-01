@@ -1,9 +1,7 @@
-﻿using PresidentialGameEngine.ClassLibrary.Enums;
-
-namespace PresidentialGameEngine.ClassLibrary.Data
+﻿namespace PresidentialGameEngine.ClassLibrary.Data
 {
     //We could change this to be just Game State Changes or something, unsure if that's more clear
-    public class NewMasterPlayerChosenChanges<PlayersEnum, IssuesEnum, StatesEnum, RegionsEnum>
+    public class PlayerChosenChanges<PlayersEnum, IssuesEnum, StatesEnum, RegionsEnum>
      where PlayersEnum : Enum
      where IssuesEnum : Enum
      where StatesEnum : Enum
@@ -18,7 +16,7 @@ namespace PresidentialGameEngine.ClassLibrary.Data
 
 
 
-        public NewMasterPlayerChosenChanges()
+        public PlayerChosenChanges()
         {
             IssueChanges = [];
             StateChanges = [];

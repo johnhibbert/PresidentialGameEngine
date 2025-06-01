@@ -106,7 +106,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     Affiliation = Affiliation.Kennedy,
                     State = State.LA,
                     Event = (engine, player, choices) => {
-                        engine.NEWImplementChanges(choices);
+                        engine.ImplementChanges(choices);
                     },
                     AreChangesValid = (choices) =>
                     {
@@ -296,7 +296,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         var leader = engine.GetLeader(Issue.CivilRights);
                         if(leader != Leader.None)
                         {
-                            engine.NEWImplementChanges(choices);
+                            engine.ImplementChanges(choices);
                         }
                     },
                     AreChangesValid = (choices) =>
@@ -325,7 +325,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     Event = (engine, player, choices) => {
                         //TODO: It's unclear if you could use this to double-dip on texas.
                         //Also, should the 2 points for texas be baked in?  Right now it's assumed to be added.
-                        engine.NEWImplementChanges(choices);
+                        engine.ImplementChanges(choices);
                         engine.UnexhaustPlayer(Player.Kennedy);
                     },
                     AreChangesValid = (choices) =>{
@@ -359,7 +359,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     State = State.AL,
                     Event = (engine, player, choices) => {
 
-                        engine.NEWImplementChanges(choices);
+                        engine.ImplementChanges(choices);
                     },
                     AreChangesValid = (choices) =>
                     {
@@ -618,7 +618,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     Affiliation = Affiliation.Nixon,
                     State = State.NJ,
                     Event = (engine, player, choices) => {
-                        engine.NEWImplementChanges(choices);
+                        engine.ImplementChanges(choices);
                     },
                     AreChangesValid = (choices) => {
 
@@ -659,7 +659,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
 
                         if(civilRightsleader == Leader.Kennedy)
                         {
-                            engine.NEWImplementChanges(choices);
+                            engine.ImplementChanges(choices);
                         }
                     },
                     AreChangesValid = (choices) => {
@@ -692,7 +692,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     Affiliation = Affiliation.Kennedy,
                     State = State.MN,
                     Event = (engine, player, choices) => {
-                        engine.NEWImplementChanges(choices);
+                        engine.ImplementChanges(choices);
                     },
                     AreChangesValid = (choices) => {
 
@@ -778,7 +778,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     State = State.IA,
                     Event = (engine, player, choices) => {
 
-                        engine.NEWImplementChanges(choices);
+                        engine.ImplementChanges(choices);
                     },
                     AreChangesValid = (choices) =>
                     {
@@ -827,7 +827,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         
                         var supportCheckResult = engine.SupportCheck(Player.Nixon, 3);
                         choices.StateChanges.First().Change = supportCheckResult.Successes;
-                        engine.NEWImplementChanges(choices);
+                        engine.ImplementChanges(choices);
 
 
                     },
@@ -888,7 +888,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         engine.LoseSupport(Player.Nixon, Issue.Defense, 1);
                         engine.LoseSupport(Player.Nixon, Issue.CivilRights, 1);
                         engine.LoseSupport(Player.Nixon, Issue.Economy, 1);
-                        engine.NEWImplementChanges(choices);
+                        engine.ImplementChanges(choices);
                     },
                     AreChangesValid = (choices) => {
                         var threePointsOfStateChanges = choices.TotalStateChanges <= 3;

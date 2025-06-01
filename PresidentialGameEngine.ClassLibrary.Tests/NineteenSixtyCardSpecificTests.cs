@@ -14,22 +14,22 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         //"If it isn't tested, it's broken." Eliotte Rusty Harold
         //https://youtu.be/fr1E9aVnBxw?si=uW41ZLChgJ5EEYnl&t=138
 
-        public static NewMasterPlayerChosenChanges<Player, Issue, State, Region> EmptyChanges { get { return GetEmptyChanges(); } }
+        public static PlayerChosenChanges<Player, Issue, State, Region> EmptyChanges { get { return GetEmptyChanges(); } }
 
-        private static NewMasterPlayerChosenChanges<Player, Issue, State, Region> GetEmptyChanges() 
+        private static PlayerChosenChanges<Player, Issue, State, Region> GetEmptyChanges() 
         {
             return new();
         }
 
-        public static NewMasterPlayerChosenChanges<Player, Issue, State, Region> InvalidChanges { get { return GetInvalidChanges(); } }
+        public static PlayerChosenChanges<Player, Issue, State, Region> InvalidChanges { get { return GetInvalidChanges(); } }
 
-        private static NewMasterPlayerChosenChanges<Player, Issue, State, Region> GetInvalidChanges()
+        private static PlayerChosenChanges<Player, Issue, State, Region> GetInvalidChanges()
         {
             //We're sending these changes that are bound to be invalid
             //but only to the methods we expect to not use them.
             //This is to get the compiler to stop complaining about sending null
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> ImplausiblyLargeAndContradictoryChanges = new();
+            PlayerChosenChanges<Player, Issue, State, Region> ImplausiblyLargeAndContradictoryChanges = new();
 
             var hugeKennedySupportInHawaii = new SupportChange<Player, State>(Player.Kennedy, State.HI, int.MaxValue);
             var nixonIsThereTooSupportInHawaii = new SupportChange<Player, State>(Player.Kennedy, State.HI, int.MaxValue);
@@ -105,7 +105,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 6;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInRhodeIsland = new SupportChange<Player,State>(Player.Kennedy, State.RI, 1);
             var oneSupportInMaine = new SupportChange<Player, State>(Player.Kennedy, State.ME, 1);
             var twoSupportInNewHampshire = new SupportChange<Player, State>(Player.Kennedy, State.NH, 2);
@@ -132,7 +132,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 6;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInRhodeIsland = new SupportChange<Player, State>(Player.Kennedy, State.RI, 1);
             var oneSupportInMaine = new SupportChange<Player, State>(Player.Nixon, State.ME, 1);
             var twoSupportInNewHampshire = new SupportChange<Player, State>(Player.Kennedy, State.NH, 2);
@@ -154,7 +154,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 6;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInRhodeIsland = new SupportChange<Player, State>(Player.Kennedy, State.RI, 1);
             var oneSupportInMaine = new SupportChange<Player, State>(Player.Kennedy, State.ME, 1);
             var twoSupportInNewHampshire = new SupportChange<Player, State>(Player.Kennedy, State.NH, 2);
@@ -178,7 +178,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 6;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInRhodeIsland = new SupportChange<Player, State>(Player.Kennedy, State.RI, 1);
             var oneSupportInMaine = new SupportChange<Player, State>(Player.Kennedy, State.ME, 1);
             var threeSupportInNewHampshire = new SupportChange<Player, State>(Player.Kennedy, State.NH, 3); ;
@@ -198,7 +198,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 6;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInRhodeIsland = new SupportChange<Player, State>(Player.Kennedy, State.RI, 1);
             var twoSupportInMaine = new SupportChange<Player, State>(Player.Kennedy, State.ME, 2);
             var twoSupportInAlaska = new SupportChange<Player, State>(Player.Kennedy, State.AK, 2); ;
@@ -681,7 +681,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainSupport(player, Issue.CivilRights, 1);
             engine.SetIssueOrder([Issue.Economy, Issue.Defense, Issue.CivilRights]);
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInHawaii = new SupportChange<Player, State>(player, State.HI, 1);
             var oneSupportInFlorida = new SupportChange<Player, State>(player, State.FL, 1);
             var oneSupportInVermont = new SupportChange<Player, State>(player, State.VT, 1);
@@ -708,7 +708,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             engine.GainSupport(player, Issue.CivilRights, 1);
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInHawaii = new SupportChange<Player, State>(player, State.HI, 1);
             var oneSupportInFlorida = new SupportChange<Player, State>(player, State.FL, 1);
             var oneSupportInVermont = new SupportChange<Player, State>(player, State.VT, 1);
@@ -736,7 +736,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             engine.GainSupport(player, Issue.CivilRights, 1);
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInHawaii = new SupportChange<Player, State>(player, State.HI, 1);
             var oneSupportInFlorida = new SupportChange<Player, State>(player.ToOpponent(), State.FL, 1);
             var oneSupportInVermont = new SupportChange<Player, State>(player, State.VT, 1);
@@ -760,7 +760,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             engine.GainSupport(player, Issue.CivilRights, 1);
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInHawaii = new SupportChange<Player, State>(player, State.HI, 1);
             var oneSupportInFlorida = new SupportChange<Player, State>(player, State.FL, 1);
             var oneSupportInVermont = new SupportChange<Player, State>(player, State.VT, 1);
@@ -784,7 +784,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 37;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInHawaii = new SupportChange<Player, State>(player, State.HI, 1);
             var twoSupportInFlorida = new SupportChange<Player, State>(player, State.FL, 2);
             playerChoices.StateChanges.Add(oneSupportInHawaii);
@@ -803,7 +803,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 37;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInHawaii = new SupportChange<Player, State>(player, State.HI, 1);
             var oneSupportInFlorida = new SupportChange<Player, State>(player, State.FL, 1);
             var oneSupportInVermont = new SupportChange<Player, State>(player, State.VT, 1);
@@ -829,7 +829,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 39;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var twoSupportInTexas = new SupportChange<Player, State>(Player.Kennedy, State.TX, 2);
             var oneSupportInFlorida = new SupportChange<Player, State>(Player.Kennedy, State.FL, 1);
             var oneSupportInAlabama = new SupportChange<Player, State>(Player.Kennedy, State.AL, 1);
@@ -858,7 +858,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 39;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var twoSupportInTexas = new SupportChange<Player, State>(Player.Kennedy, State.TX, 2);
             var oneSupportInFlorida = new SupportChange<Player, State>(Player.Kennedy, State.FL, 1);
             var oneSupportInAlabama = new SupportChange<Player, State>(Player.Kennedy, State.AL, 1);
@@ -885,7 +885,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 39;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var twoSupportInTexas = new SupportChange<Player, State>(Player.Kennedy, State.TX, 2);
             var oneSupportInFlorida = new SupportChange<Player, State>(Player.Nixon, State.FL, 1);
             var oneSupportInAlabama = new SupportChange<Player, State>(Player.Kennedy, State.AL, 1);
@@ -907,7 +907,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 39;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
 
             var twoSupportInTexas = new SupportChange<Player, State>(Player.Kennedy, State.TX, 2);
             var oneSupportInFlorida = new SupportChange<Player, State>(Player.Nixon, State.FL, 1);
@@ -932,7 +932,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 39;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var twoSupportInTexas = new SupportChange<Player, State>(Player.Kennedy, State.TX, 2);
             var threeSupportInFlorida = new SupportChange<Player, State>(Player.Kennedy, State.FL, 3);
 
@@ -950,7 +950,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 39;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var twoSupportInTexas = new SupportChange<Player, State>(Player.Kennedy, State.TX, 2);
             var oneSupportInFlorida = new SupportChange<Player, State>(Player.Kennedy, State.FL, 1);
             var oneSupportInAlabama = new SupportChange<Player, State>(Player.Kennedy, State.AL, 1);
@@ -981,7 +981,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             engine.GainSupport(Player.Kennedy, issue, 1);
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var threeSupportInOneIssue = new SupportChange<Player, Issue>(Player.Kennedy, issue, 3);
             playerChoices.IssueChanges.Add(threeSupportInOneIssue);
 
@@ -1003,7 +1003,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             
             engine.GainSupport(Player.Nixon, issue, 2);
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var threeSupportInOneIssue = new SupportChange<Player, Issue>(Player.Kennedy, issue, 3);
             playerChoices.IssueChanges.Add(threeSupportInOneIssue);
 
@@ -1022,7 +1022,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         {
             int cardIndex = 41;
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var threeSupportInOneIssue = new SupportChange<Player, Issue>(Player.Nixon, issue, 3);
             playerChoices.IssueChanges.Add(threeSupportInOneIssue);
 
@@ -1036,7 +1036,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         {
             int cardIndex = 41;
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInCivilRights = new SupportChange<Player, Issue>(Player.Kennedy, Issue.CivilRights, 1);
             var oneSupportInDefense = new SupportChange<Player, Issue>(Player.Kennedy, Issue.Defense, 1);
             var oneSupportInEconomy = new SupportChange<Player, Issue>(Player.Kennedy, Issue.Economy, 1);
@@ -1057,7 +1057,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         {
             int cardIndex = 41;
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var threeSupportInOneIssue = new SupportChange<Player, Issue>(Player.Kennedy, issue, 3);
             var oneSupportInNewYork = new SupportChange<Player, State>(Player.Kennedy, State.NY, 1);
             playerChoices.IssueChanges.Add(threeSupportInOneIssue);
@@ -1650,7 +1650,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 71;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInWyoming = new SupportChange<Player, State>(Player.Nixon, State.WY, 1);
             var oneSupportInIdaho = new SupportChange<Player, State>(Player.Nixon, State.ID, 1);
             var oneSupportInNorthDakota = new SupportChange<Player, State>(Player.Nixon, State.ND, 1);
@@ -1686,7 +1686,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 71;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInWyoming = new SupportChange<Player, State>(Player.Kennedy, State.WY, 1);
             var oneSupportInIdaho = new SupportChange<Player, State>(Player.Nixon, State.ID, 1);
             var oneSupportInNorthDakota = new SupportChange<Player, State>(Player.Nixon, State.ND, 1);
@@ -1714,7 +1714,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 71;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
 
             var oneSupportInWyoming = new SupportChange<Player, State>(Player.Nixon, State.WY, 1);
             var oneSupportInIdaho = new SupportChange<Player, State>(Player.Nixon, State.ID, 1);
@@ -1745,7 +1745,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 71;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInWyoming = new SupportChange<Player, State>(Player.Nixon, State.WY, 1);
             var oneSupportInIdaho = new SupportChange<Player, State>(Player.Nixon, State.ID, 1);
             var oneSupportInNorthDakota = new SupportChange<Player, State>(Player.Nixon, State.ND, 1);
@@ -1772,7 +1772,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 71;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInWyoming = new SupportChange<Player, State>(Player.Nixon, State.WY, 1);
             var oneSupportInIdaho = new SupportChange<Player, State>(Player.Nixon, State.ID, 1);
             var oneSupportInNorthDakota = new SupportChange<Player, State>(Player.Nixon, State.ND, 1);
@@ -1800,7 +1800,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 71;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInWyoming = new SupportChange<Player, State>(Player.Nixon, State.WY, 1);
             var oneSupportInIdaho = new SupportChange<Player, State>(Player.Nixon, State.ID, 1);
             var oneSupportInNorthDakota = new SupportChange<Player, State>(Player.Nixon, State.ND, 1);
@@ -1835,7 +1835,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var engine = GetGameEngine();
             engine.GainSupport(Player.Kennedy, Issue.CivilRights, 2);
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInFlorida = new SupportChange<Player, State>(Player.Nixon, State.FL, 1);
             var oneSupportInVirginia = new SupportChange<Player, State>(Player.Nixon, State.VA, 1);
             var twoSupportInLouisiana = new SupportChange<Player, State>(Player.Nixon, State.LA, 2);
@@ -1865,7 +1865,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var engine = GetGameEngine();
             engine.GainSupport(Player.Nixon, Issue.CivilRights, 2);
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInFlorida = new SupportChange<Player, State>(Player.Nixon, State.FL, 1);
             var oneSupportInVirginia = new SupportChange<Player, State>(Player.Nixon, State.VA, 1);
             var twoSupportInLouisiana = new SupportChange<Player, State>(Player.Nixon, State.LA, 2);
@@ -1894,7 +1894,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 72;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInFlorida = new SupportChange<Player, State>(Player.Nixon, State.FL, 1);
             var oneSupportInVirginia = new SupportChange<Player, State>(Player.Nixon, State.VA, 1);
             var twoSupportInLouisiana = new SupportChange<Player, State>(Player.Nixon, State.LA, 2);
@@ -1922,7 +1922,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var engine = GetGameEngine();
             engine.GainSupport(Player.Nixon, Issue.CivilRights, 2);
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInFlorida = new SupportChange<Player, State>(Player.Nixon, State.FL, 1);
             var oneSupportInVirginia = new SupportChange<Player, State>(Player.Nixon, State.VA, 1);
             var twoSupportInLouisiana = new SupportChange<Player, State>(Player.Nixon, State.LA, 2);
@@ -1944,7 +1944,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 72;
             var engine = GetGameEngine();
   
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInFlorida = new SupportChange<Player, State>(Player.Nixon, State.FL, 1);
             var oneSupportInVirginia = new SupportChange<Player, State>(Player.Nixon, State.VA, 1);
             var twoSupportInLouisiana = new SupportChange<Player, State>(Player.Nixon, State.LA, 2);
@@ -1967,7 +1967,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var engine = GetGameEngine();
             engine.GainSupport(Player.Kennedy, Issue.CivilRights, 2);
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInFlorida = new SupportChange<Player, State>(Player.Nixon, State.FL, 1);
             var oneSupportInVirginia = new SupportChange<Player, State>(Player.Kennedy, State.VA, 1);
             var twoSupportInLouisiana = new SupportChange<Player, State>(Player.Nixon, State.LA, 2);
@@ -1990,7 +1990,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var engine = GetGameEngine();
             engine.GainSupport(Player.Kennedy, Issue.CivilRights, 2);
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInFlorida = new SupportChange<Player, State>(Player.Nixon, State.FL, 1);
             var oneSupportInVirginia = new SupportChange<Player, State>(Player.Nixon, State.VA, 1);
             var twoSupportInLouisiana = new SupportChange<Player, State>(Player.Nixon, State.LA, 2);
@@ -2015,7 +2015,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var engine = GetGameEngine();
             engine.GainSupport(Player.Kennedy, Issue.CivilRights, 2);
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInFlorida = new SupportChange<Player, State>(Player.Nixon, State.FL, 1);
             var oneSupportInVirginia = new SupportChange<Player, State>(Player.Nixon, State.VA, 1);
             var threeSupportInLouisiana = new SupportChange<Player, State>(Player.Nixon, State.LA, 3);
@@ -2036,7 +2036,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var engine = GetGameEngine();
             engine.GainSupport(Player.Kennedy, Issue.CivilRights, 2);
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInFlorida = new SupportChange<Player, State>(Player.Nixon, State.FL, 1);
             var oneSupportInVirginia = new SupportChange<Player, State>(Player.Nixon, State.VA, 1);
             var twoSupportInLouisiana = new SupportChange<Player, State>(Player.Nixon, State.LA, 2);
@@ -2063,7 +2063,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 77;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInMichigan = new SupportChange<Player, State>(Player.Kennedy, State.MI, 1);
             var oneSupportInPenn = new SupportChange<Player, State>(Player.Kennedy, State.PA, 1);
             var twoSupportInCali = new SupportChange<Player, State>(Player.Kennedy, State.CA, 2);
@@ -2090,7 +2090,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 77;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInMichigan = new SupportChange<Player, State>(Player.Kennedy, State.MI, 1);
             var oneSupportInPenn = new SupportChange<Player, State>(Player.Nixon, State.PA, 1);
             var twoSupportInCali = new SupportChange<Player, State>(Player.Kennedy, State.CA, 2);
@@ -2112,7 +2112,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 77;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInMichigan = new SupportChange<Player, State>(Player.Kennedy, State.MI, 1);
             var oneSupportInPenn = new SupportChange<Player, State>(Player.Kennedy, State.PA, 1);
             var twoSupportInCali = new SupportChange<Player, State>(Player.Kennedy, State.CA, 2);
@@ -2136,7 +2136,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 77;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInMichigan = new SupportChange<Player, State>(Player.Kennedy, State.MI, 1);
             var oneSupportInPenn = new SupportChange<Player, State>(Player.Nixon, State.PA, 1);
             var threeSupportInCali = new SupportChange<Player, State>(Player.Kennedy, State.CA, 2);
@@ -2156,7 +2156,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 77;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInMichigan = new SupportChange<Player, State>(Player.Kennedy, State.MI, 1);
             var oneSupportInPenn = new SupportChange<Player, State>(Player.Kennedy, State.PA, 1);
             var twoSupportInCali = new SupportChange<Player, State>(Player.Kennedy, State.CA, 2);
@@ -2312,7 +2312,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             engine.GainSupport(Player.Nixon, issue, 1);
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var threeSupportInOneIssue = new SupportChange<Player, Issue>(Player.Nixon, issue, 3);
             playerChoices.IssueChanges.Add(threeSupportInOneIssue);
 
@@ -2329,7 +2329,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 86;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInCivilRights = new SupportChange<Player, Issue>(Player.Nixon, Issue.CivilRights, 1);
             var oneSupportInDefense = new SupportChange<Player, Issue>(Player.Nixon, Issue.Defense, 1);
             var oneSupportInEconomy = new SupportChange<Player, Issue>(Player.Nixon, Issue.Economy, 1);
@@ -2352,7 +2352,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 86;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInCivilRights = new SupportChange<Player, Issue>(Player.Nixon, Issue.CivilRights, 1);
             var oneSupportInDefense = new SupportChange<Player, Issue>(Player.Kennedy, Issue.Defense, 1);
             var oneSupportInEconomy = new SupportChange<Player, Issue>(Player.Nixon, Issue.Economy, 1);
@@ -2372,7 +2372,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 86;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInCivilRights = new SupportChange<Player, Issue>(Player.Nixon, Issue.CivilRights, 1);
             var oneSupportInDefense = new SupportChange<Player, Issue>(Player.Nixon, Issue.Defense, 1);
             var oneSupportInEconomy = new SupportChange<Player, Issue>(Player.Nixon, Issue.Economy, 1);
@@ -2433,7 +2433,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             engine.GainSupport(Player.Kennedy, State.TX, 1);
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var threeSupportInTexas = new SupportChange<Player, State>(Player.Nixon, State.TX, 3);
             playerChoices.StateChanges.Add(threeSupportInTexas);
 
@@ -2452,7 +2452,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var threeSupportInKentucky = new SupportChange<Player, State>(Player.Kennedy, State.KY, 3);
 
             playerChoices.StateChanges.Add(threeSupportInKentucky);
@@ -2468,7 +2468,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 90;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var threeSupportInKentucky = new SupportChange<Player, State>(Player.Kennedy, State.KY, 3);
             var issueSupport = new SupportChange<Player, Issue>(Player.Kennedy, Issue.Defense, 1);
 
@@ -2486,7 +2486,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 90;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var threeSupportInKentucky = new SupportChange<Player, State>(Player.Kennedy, State.KY, 4);
 
             playerChoices.StateChanges.Add(threeSupportInKentucky);
@@ -2566,7 +2566,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainSupport(Player.Nixon, Issue.Defense, 3);
             engine.GainSupport(Player.Nixon, Issue.Economy, 4);
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInNewYork = new SupportChange<Player, State>(Player.Kennedy, State.NY, 1);
             var oneSupportInColorado = new SupportChange<Player, State>(Player.Kennedy, State.CO, 1);
             var oneSupportInWestVirginia = new SupportChange<Player, State>(Player.Kennedy, State.WV, 1);
@@ -2599,7 +2599,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainSupport(Player.Nixon, Issue.Defense, 3);
             engine.GainSupport(Player.Nixon, Issue.Economy, 4);
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInNewYork = new SupportChange<Player, State>(Player.Kennedy, State.NY, 1);
             var oneSupportInColorado = new SupportChange<Player, State>(Player.Kennedy, State.CO, 1);
             var oneSupportInWestVirginia = new SupportChange<Player, State>(Player.Kennedy, State.WV, 1);
@@ -2629,7 +2629,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 95;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInNewYork = new SupportChange<Player, State>(Player.Nixon, State.NY, 1);
             var oneSupportInColorado = new SupportChange<Player, State>(Player.Kennedy, State.CO, 1);
             var oneSupportInWestVirginia = new SupportChange<Player, State>(Player.Kennedy, State.WV, 1);
@@ -2653,7 +2653,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             engine.GainSupport(player, Issue.CivilRights, 1);
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInNewYork = new SupportChange<Player, State>(Player.Kennedy, State.NY, 1);
             var oneSupportInColorado = new SupportChange<Player, State>(Player.Kennedy, State.CO, 1);
             var oneSupportInWestVirginia = new SupportChange<Player, State>(Player.Kennedy, State.WV, 1);
@@ -2678,7 +2678,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 95;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInNewYork = new SupportChange<Player, State>(Player.Kennedy, State.NY, 1);
             var twoSupportInColorado = new SupportChange<Player, State>(Player.Kennedy, State.CO, 2);
 
@@ -2698,7 +2698,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 95;
             var engine = GetGameEngine();
 
-            NewMasterPlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInHawaii = new SupportChange<Player, State>(Player.Kennedy, State.HI, 1);
             var oneSupportInFlorida = new SupportChange<Player, State>(Player.Kennedy, State.FL, 1);
             var oneSupportInVermont = new SupportChange<Player, State>(Player.Kennedy, State.VT, 1);

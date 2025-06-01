@@ -9,7 +9,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         public void ContainsExactlyOneTypeOfChange_MultipleOfOneTypeReturnTrue()
         {
-            var sut = new NewMasterPlayerChosenChanges<FakePlayer, FakeIssue, FakeState, FakeRegion>();
+            var sut = new PlayerChosenChanges<FakePlayer, FakeIssue, FakeState, FakeRegion>();
 
             SupportChange<FakePlayer, FakeIssue> issueChangeOne = new(FakePlayer.PlayerOne, FakeIssue.KetchupOnHotDogs, 1);
             SupportChange<FakePlayer, FakeIssue> issueChangeTwo = new(FakePlayer.PlayerTwo, FakeIssue.PepsiOrCoke, 2);
@@ -27,7 +27,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         public void ContainsExactlyOneTypeOfChange_MultipleTypesReturnFalse()
         {
-            var sut = new NewMasterPlayerChosenChanges<FakePlayer, FakeIssue, FakeState, FakeRegion>();
+            var sut = new PlayerChosenChanges<FakePlayer, FakeIssue, FakeState, FakeRegion>();
 
             SupportChange<FakePlayer, FakeIssue> issueChange = new(FakePlayer.PlayerOne, FakeIssue.KetchupOnHotDogs, 1);
             SupportChange<FakePlayer, FakeState> stateChange = new(FakePlayer.PlayerOne, FakeState.Being, 2);

@@ -178,7 +178,7 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
         }
 
 
-        public void NEWImplementChanges(NewMasterPlayerChosenChanges<PlayersEnum, IssuesEnum, StatesEnum, RegionsEnum> changes)
+        public void ImplementChanges(PlayerChosenChanges<PlayersEnum, IssuesEnum, StatesEnum, RegionsEnum> changes)
         {
             foreach (SupportChange<PlayersEnum, IssuesEnum> issueChange in changes.IssueChanges)
             {
