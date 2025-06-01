@@ -93,6 +93,15 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
 						//This has no player choices.
 						return true;
                     },
+                    NEWEvent = (engine, player, choices) =>
+                    {
+                        engine.GainMomentum(player, 1);
+                    },
+                    NEWAreChangesValid = (choices) =>
+                    {
+						//This has no player choices.
+						return true;
+                    },
                 }
             },
             {6, new Card()
@@ -121,6 +130,22 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         return fiveOrFewerPointsOfStateChanges && onlyNewEnglandStatesIncluded && noValueAboveTwo
                                 && statePlayerIsOnlyKennedy && AndOnlyThisTypeOfTest;
                     },
+                    NEWEvent = (engine, player, choices) => {
+                        engine.NEWImplementChanges(choices);
+                    },
+                    NEWAreChangesValid = (choices) =>
+                    {
+                        State[] newEnglandStates = [State.RI, State.MA, State.CT, State.VT, State.NH, State.ME];
+
+                        var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
+                        var onlyNewEnglandStatesIncluded = choices.StateChanges.Select(s => s.Target).All(x => newEnglandStates.Contains(x));
+                        var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var noValueAboveTwo = choices.HighestStateChange <= 2;
+                        var AndOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
+
+                        return fiveOrFewerPointsOfStateChanges && onlyNewEnglandStatesIncluded && noValueAboveTwo
+                                && statePlayerIsOnlyKennedy && AndOnlyOneTypeOfTest;
+                    },
                 }
             },
             {7, new Card()
@@ -139,6 +164,16 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         engine.GainSupport(Player.Kennedy, State.IL, supportCheckResult.Successes);
                     },
                     AreChangesValid = (choices) =>
+                    {
+						//This has no player choices.
+						return true;
+                    },
+                    NEWEvent = (engine, player, choices) => {
+                        //engine.GainMomentum(player, 1);
+                        var supportCheckResult = engine.SupportCheck(Player.Kennedy, 5);
+                        engine.GainSupport(Player.Kennedy, State.IL, supportCheckResult.Successes);
+                    },
+                    NEWAreChangesValid = (choices) =>
                     {
 						//This has no player choices.
 						return true;
@@ -164,6 +199,18 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         }
                     },
                     AreChangesValid = (choices) => {
+						//This has no player choices.
+						return true;
+                    },
+                    NEWEvent = (engine, player, choices) => {
+                        engine.MoveIssueUp(Issue.Economy);
+                        var econLeader = engine .GetLeader(Issue.Economy);
+                        if(econLeader != Leader.None)
+                        {
+                            engine.GainSupport(econLeader.ToPlayer(), State.NY, 1);
+                        }
+                    },
+                    NEWAreChangesValid = (choices) => {
 						//This has no player choices.
 						return true;
                     },
@@ -202,6 +249,16 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
 						//This has no player choices.
 						return true;
                     },
+                    NEWEvent = (engine, player, choices) => {
+                        var opponent = player.ToOpponent();
+                        var opponentLocation = engine.GetPlayerState(opponent);
+                        engine.LoseMomentum(opponent, 1);
+                        engine.LoseSupport(opponent, opponentLocation, 3);
+                    },
+                    NEWAreChangesValid = (choices) => {
+						//This has no player choices.
+						return true;
+                    },
                 }
             },
             {23, new Card()
@@ -219,6 +276,14 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         engine.GainSupport(player, Issue.CivilRights, 3);
                     },
                     AreChangesValid = (choices) => {
+						//This has no player choices.
+						return true;
+                    },
+                    NEWEvent = (engine, player, choices) => {
+                        engine.MoveIssueUp(Issue.CivilRights);
+                        engine.GainSupport(player, Issue.CivilRights, 3);
+                    },
+                    NEWAreChangesValid = (choices) => {
 						//This has no player choices.
 						return true;
                     },
@@ -240,6 +305,14 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         engine.GainSupport(Player.Nixon, Issue.CivilRights, 1);
                     },
                     AreChangesValid = (choices) => {
+						//This has no player choices.
+						return true;
+                    },
+                    NEWEvent = (engine, player, choices) => {
+                        engine.MoveIssueUp(Issue.CivilRights);
+                        engine.GainSupport(Player.Nixon, Issue.CivilRights, 1);
+                    },
+                    NEWAreChangesValid = (choices) => {
 						//This has no player choices.
 						return true;
                     },
@@ -267,6 +340,19 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
 
                     },
                     AreChangesValid = (choices) =>
+                    {
+ 						//This has no player choices.
+						return true;
+                    },
+                    NEWEvent = (engine, player, choices) => {
+                        engine.GainSupport(Player.Nixon, Issue.Defense, 1);
+                        //Hmm odd. It doesn't like doing it this way.
+                        //Or at least the compiler warns against it.
+                        engine.RetrieveCardFromDiscardPile(Player.Nixon, ZManCards[42], true);
+                        //Engine get card?
+
+                    },
+                    NEWAreChangesValid = (choices) =>
                     {
  						//This has no player choices.
 						return true;
@@ -309,6 +395,25 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         return threePointsOfIssueChanges && noValueAboveOne
                                 && issuePlayerAreAllSame && AndOnlyThisTypeOfTest;
                     },
+                    NEWEvent = (engine, player, choices) => {
+
+                        engine.MoveIssueUp(Issue.CivilRights);
+                        var leader = engine.GetLeader(Issue.CivilRights);
+                        if(leader != Leader.None)
+                        {
+                            engine.NEWImplementChanges(choices);
+                        }
+                    },
+                    NEWAreChangesValid = (choices) =>
+                    {
+                        var threePointsOfIssueChanges = choices.TotalIssueChanges <= 3;
+                        var noValueAboveOne = choices.HighestStateChange <= 1;
+                        var issuePlayerAreAllSame = choices.IssueChanges.Select(x => x.Player).Distinct().Count() == 1;
+                        var AndOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
+
+                        return threePointsOfIssueChanges && noValueAboveOne
+                                && issuePlayerAreAllSame && AndOnlyOneTypeOfTest;
+                    },
                 }
             },
             //new Card(38, "“High Hopes”"),
@@ -344,6 +449,28 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         return fivePointsOfIssueChanges && noStateAboveTwo && twoPointsForTexas
                               && onlySouthernStates && statePlayerIsOnlyKennedy && AndOnlyThisTypeOfTest;
                     },
+                    NEWEvent = (engine, player, choices) => {
+                        //TODO: It's unclear if you could use this to double-dip on texas.
+                        //Also, should the 2 points for texas be baked in?  Right now it's assumed to be added.
+                        engine.NEWImplementChanges(choices);
+                        engine.UnexhaustPlayer(Player.Kennedy);
+                    },
+                    NEWAreChangesValid = (choices) =>{
+                        //throw new NotImplementedException();
+                        var fivePointsOfIssueChanges = choices.TotalStateChanges <= 5;
+                        var twoPointsForTexas = choices.StateChanges.Single(x => x.Target == State.TX).Change >= 2;
+                        var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var noStateAboveTwo = choices.HighestStateChange <=2;
+
+                        var southernStates = StateData.Where(y => y.Value.Region == Region.South).Select(z => z.Key);
+                        var onlySouthernStates = choices.StateChanges.Select(s => s.Target).All(x => southernStates.Contains(x));
+
+                        //var onlySouthernStates = choices.StateChanges.Select(s => s.Target).All(x => StatesByRegion[Region.South].Contains(x));
+                        var AndOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
+
+                        return fivePointsOfIssueChanges && noStateAboveTwo && twoPointsForTexas
+                              && onlySouthernStates && statePlayerIsOnlyKennedy && AndOnlyOneTypeOfTest;
+                    },
                 }
             },
             //new Card(40, "Northern Blacks"),
@@ -371,6 +498,20 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         return threePointsOfIssueChanges && onlyOneIssueIncluded
                                 && issuePlayerIsOnlyKennedy && AndOnlyThisTypeOfTest;
                     },
+                    NEWEvent = (engine, player, choices) => {
+
+                        engine.NEWImplementChanges(choices);
+                    },
+                    NEWAreChangesValid = (choices) =>
+                    {
+                        var threePointsOfIssueChanges = choices.TotalIssueChanges == 3;
+                        var onlyOneIssueIncluded = choices.IssueChanges.Where(x => x.Change > 0).Count() == 2;
+                        var issuePlayerIsOnlyKennedy = choices.IssueChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var AndOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
+
+                        return threePointsOfIssueChanges && onlyOneIssueIncluded
+                                && issuePlayerIsOnlyKennedy && AndOnlyOneTypeOfTest;
+                    },
                 }
             },
             //new Card(42, "Henry Cabot Lodge"),
@@ -390,6 +531,16 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         engine.UnexhaustPlayer(Player.Nixon);
                     },
                     AreChangesValid = (choices) =>{
+                        //This has no player choices.
+						return true;
+
+                    },
+                    NEWEvent = (engine, player, choices) => {
+                        engine.GainSupport(Player.Nixon, Issue.Defense, 2);
+                        engine.GainSupport(Player.Nixon, State.MA, 2);
+                        engine.UnexhaustPlayer(Player.Nixon);
+                    },
+                    NEWAreChangesValid = (choices) =>{
                         //This has no player choices.
 						return true;
 
@@ -419,6 +570,14 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
 						//This has no player choices.
 						return true;
                     },
+                    NEWEvent = (engine, player, choices) => {
+                        engine.MoveIssueUp(Issue.Economy);
+                        engine.GainSupport(Player.Nixon, Issue.Economy, 2);
+                    },
+                    NEWAreChangesValid = (choices) => {
+						//This has no player choices.
+						return true;
+                    },
                 }
             },
             //new Card(49, "Eleanor Roosevelt’s Speaking Tour"),
@@ -440,6 +599,13 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
 						//This has no player choices.
 						return true;
                     },
+                    NEWEvent = (engine, player, choices) => {
+                        engine.GainSupport(Player.Kennedy, Issue.Defense, 3);
+                    },
+                    NEWAreChangesValid = (choices) => {
+						//This has no player choices.
+						return true;
+                    },
                 }
             },
             {52, new Card()
@@ -457,6 +623,14 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         engine.GainSupport(player, State.FL, 1);
                     },
                     AreChangesValid = (choices) => {
+						//This has no player choices.
+						return true;
+                    },
+                    NEWEvent = (engine, player, choices) => {
+                        engine.MovePlayerToState(player, State.FL);
+                        engine.GainSupport(player, State.FL, 1);
+                    },
+                    NEWAreChangesValid = (choices) => {
 						//This has no player choices.
 						return true;
                     },
@@ -487,6 +661,13 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
 						//This has no player choices.
 						return true;
                     },
+                    NEWEvent = (engine, player, choices) => {
+                        engine.ExhaustPlayer(player.ToOpponent());
+                    },
+                    NEWAreChangesValid = (choices) => {
+						//This has no player choices.
+						return true;
+                    },
                 }
             },
             {62, new Card()
@@ -512,6 +693,19 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
 						//This has no player choices.
 						return true;
                     },
+                    NEWEvent = (engine, player, choices) => {
+                        engine.MoveIssueUp(Issue.Defense);
+                        engine.MoveIssueUp(Issue.Defense);
+                        var leader = engine.GetLeader(Issue.Defense);
+                        if(leader != Leader.None)
+                        {
+                            engine.GainMomentum(leader.ToPlayer(), 1);
+                        }
+                    },
+                    NEWAreChangesValid = (choices) => {
+						//This has no player choices.
+						return true;
+                    },
                 }
             },
 
@@ -532,6 +726,16 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         engine.LoseSupport(Player.Nixon, Issue.CivilRights, 1);
                     },
                     AreChangesValid = (choices) => {
+						//This has no player choices.
+						return true;
+                    },
+                    NEWEvent = (engine, player, choices) => {
+                        engine.LoseMomentum(Player.Nixon, 2);
+                        engine.LoseSupport(Player.Nixon, Issue.Defense, 1);
+                        engine.LoseSupport(Player.Nixon, Issue.Economy, 1);
+                        engine.LoseSupport(Player.Nixon, Issue.CivilRights, 1);
+                    },
+                    NEWAreChangesValid = (choices) => {
 						//This has no player choices.
 						return true;
                     },
@@ -560,6 +764,19 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
 						//This has no player choices.
 						return true;
                     },
+                    NEWEvent = (engine, player, choices) => {
+                        var playerMomentum = engine.GetPlayerMomentum(player);
+                        var opponentMomentum = engine.GetPlayerMomentum(player.ToOpponent());
+
+                        if(opponentMomentum > playerMomentum)
+                        {
+                            engine.GainMomentum(player, opponentMomentum - playerMomentum);
+                        }
+                    },
+                    NEWAreChangesValid = (choices) => {
+						//This has no player choices.
+						return true;
+                    },
                 }
             },
             //new Card(65, "Joe Kennedy"),
@@ -583,6 +800,14 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
 						//This has no player choices.
 						return true;
                     },
+                    NEWEvent = (engine, player, choices) => {
+                        engine.MoveIssueUp(Issue.Defense);
+                        engine.GainSupport(Player.Nixon, Issue.Defense, 1);
+                    },
+                    NEWAreChangesValid = (choices) => {
+						//This has no player choices.
+						return true;
+                    },
                 }
             },
             //new Card(69, "Congressional Summer Session"),
@@ -601,6 +826,14 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         engine.LoseMomentum(Player.Kennedy, 3);
                     },
                     AreChangesValid = (choices) => {
+						//This has no player choices.
+						return true;
+                    },
+                    NEWEvent = (engine, player, choices) => {
+                        engine.LoseMomentum(Player.Nixon, 1);
+                        engine.LoseMomentum(Player.Kennedy, 3);
+                    },
+                    NEWAreChangesValid = (choices) => {
 						//This has no player choices.
 						return true;
                     },
@@ -641,6 +874,31 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         return onlyHeartlandStates && sevenOrFewerPointsOfStateChanges
                             && statePlayerIsOnlyNixon && noValueAboveOne && AndOnlyThisTypeOfTest;
                     },
+                    NEWEvent = (engine, player, choices) => {
+                        engine.NEWImplementChanges(choices);
+                    },
+                    NEWAreChangesValid = (choices) => {
+
+                        var heartlandStates = StateData.Where(x => x.Value.ElectoralVotes <=10)
+                        .Where(y => y.Value.Region == Region.Midwest || y.Value.Region == Region.West).Select(z => z.Key);
+                        
+                        //var lowVoteStates = ElectoralVotes.Where(x => x.Value <= 10).Select(y=>y.Key).ToList();
+
+
+                        //var westOrMidWestStates = StatesByRegion[Region.Midwest];
+                        //westOrMidWestStates.AddRange(StatesByRegion[Region.West]);
+                        //var heartlandStates = lowVoteStates.Intersect(westOrMidWestStates);
+
+                        var onlyHeartlandStates = choices.StateChanges.Select(s => s.Target).All(x => heartlandStates.Contains(x));
+                        var sevenOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 7;
+                        var noValueAboveOne = choices.HighestStateChange <= 1;
+                        var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
+                        var AndOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
+
+                        return onlyHeartlandStates && sevenOrFewerPointsOfStateChanges
+                            && statePlayerIsOnlyNixon && noValueAboveOne && AndOnlyOneTypeOfTest;
+                    },
+                
                 }
             },
             {72, new Card()
@@ -672,6 +930,26 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
 
                         return onlySouthernStatesIncluded && fiveOrFewerPointsOfStateChanges
                             && statePlayerIsOnlyNixon && noValueAboveTwo && AndOnlyThisTypeOfTest;
+                    },
+                    NEWEvent = (engine, player, choices) => {
+                        var civilRightsleader = engine.GetLeader(Issue.CivilRights);
+
+                        if(civilRightsleader == Leader.Kennedy)
+                        {
+                            engine.NEWImplementChanges(choices);
+                        }
+                    },
+                    NEWAreChangesValid = (choices) => {
+                        var southernStates = StateData.Where(y => y.Value.Region == Region.South).Select(z => z.Key);
+
+                        var onlySouthernStatesIncluded = choices.StateChanges.Select(s => s.Target).All(x => southernStates.Contains(x));
+                        var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
+                        var noValueAboveTwo = choices.HighestStateChange <= 2;
+                        var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
+                        var AndOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
+
+                        return onlySouthernStatesIncluded && fiveOrFewerPointsOfStateChanges
+                            && statePlayerIsOnlyNixon && noValueAboveTwo && AndOnlyOneTypeOfTest;
                     },
                 }
             },
@@ -706,6 +984,22 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         return onlySuburbanStates && fiveOrFewerPointsOfStateChanges
                             && statePlayerIsOnlyKennedy && noValueAboveTwo && AndOnlyThisTypeOfTest;
                     },
+                    NEWEvent = (engine, player, choices) => {
+                        engine.NEWImplementChanges(choices);
+                    },
+                    NEWAreChangesValid = (choices) => {
+
+                        var suburbanStates = StateData.Where(x => x.Value.ElectoralVotes >=20).Select(y => y.Key);
+
+                        var onlySuburbanStates = choices.StateChanges.Select(s => s.Target).All(x => suburbanStates.Contains(x));
+                        var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
+                        var noValueAboveTwo = choices.HighestStateChange <= 2;
+                        var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var AndOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
+
+                        return onlySuburbanStates && fiveOrFewerPointsOfStateChanges
+                            && statePlayerIsOnlyKennedy && noValueAboveTwo && AndOnlyOneTypeOfTest;
+                    },
                 }
             },
             {78, new Card()
@@ -729,6 +1023,20 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         }
                     },
                     AreChangesValid = (choices) => {
+						//This has no player choices.
+						return true;
+                    },
+                    NEWEvent = (engine, player, choices) => {
+                        engine.MoveIssueUp(Issue.Economy);
+                        engine.MoveIssueUp(Issue.Economy);
+
+                        var econLeader = engine.GetLeader(Issue.Economy);
+                        if(econLeader != Leader.None)
+                        {
+                            engine.GainSupport(econLeader.ToPlayer(), State.NY, 2);
+                        }
+                    },
+                    NEWAreChangesValid = (choices) => {
 						//This has no player choices.
 						return true;
                     },
@@ -760,6 +1068,19 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
 						//This has no player choices.
 						return true;
                     },
+                    NEWEvent = (engine, player, choices) => {
+                        var defenseLeader = engine.GetLeader(Issue.Defense);
+
+                        if(defenseLeader != Leader.None)
+                        {
+                            engine.GainMomentum(defenseLeader.ToPlayer(), 1);
+                            engine.GainSupport(defenseLeader.ToPlayer(), State.FL, 1);
+                        }
+                    },
+                    NEWAreChangesValid = (choices) => {
+						//This has no player choices.
+						return true;
+                    },
                 }
             },
             //new Card(83, "Whistlestop"),
@@ -787,6 +1108,18 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
 
                         return threePointsOfIssueChanges && issuePlayerIsOnlyNixon && AndOnlyThisTypeOfTest;
                     },
+                    NEWEvent = (engine, player, choices) => {
+
+                        engine.NEWImplementChanges(choices);
+                    },
+                    NEWAreChangesValid = (choices) =>
+                    {
+                        var threePointsOfIssueChanges = choices.TotalIssueChanges == 3;
+                        var issuePlayerIsOnlyNixon = choices.IssueChanges.Select(x => x.Player).All(y => y == Player.Nixon);
+                        var AndOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
+
+                        return threePointsOfIssueChanges && issuePlayerIsOnlyNixon && AndOnlyOneTypeOfTest;
+                    },
                 }
             },
             //new Card(87, "Stevenson Loyalists"),
@@ -805,6 +1138,13 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         engine.GainMomentum(Player.Nixon, 1);
                     },
                     AreChangesValid = (choices) => {
+						//This has no player choices.
+						return true;
+                    },
+                    NEWEvent = (engine, player, choices) => {
+                        engine.GainMomentum(Player.Nixon, 1);
+                    },
+                    NEWAreChangesValid = (choices) => {
 						//This has no player choices.
 						return true;
                     },
@@ -840,6 +1180,26 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
 
                         return threePointsOfStateChanges && statePlayerIsOnlyNixon && AndOnlyThisTypeOfTest;
                     },
+                    NEWEvent = (engine, player, choices) => {
+                        //FIXME
+                        //throw new NotImplementedException();
+                        
+                        var supportCheckResult = engine.SupportCheck(Player.Nixon, 3);
+                        choices.StateChanges.First().Change = supportCheckResult.Successes;
+                        engine.NEWImplementChanges(choices);
+
+
+                    },
+                    NEWAreChangesValid = (choices) =>
+                    {
+
+                        var threePointsOfStateChanges = choices.TotalStateChanges == 3;
+                        var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
+                        var onlyOneState = choices.StateChanges.Select(x => x.Target).Count() == 1;
+                        var AndOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
+
+                        return threePointsOfStateChanges && statePlayerIsOnlyNixon && AndOnlyOneTypeOfTest;
+                    },
                 }
             },
             //new Card(91, "Political Capital"),
@@ -866,6 +1226,16 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         engine.GainMomentum(Player.Nixon, 1);
                     },
                     AreChangesValid = (choices) => {
+						//This has no player choices.
+						return true;
+                    },
+                    NEWEvent = (engine, player, choices) => {
+                        engine.LoseSupport(Player.Kennedy, Issue.Defense, 1);
+                        engine.LoseSupport(Player.Kennedy, Issue.CivilRights, 1);
+                        engine.LoseSupport(Player.Kennedy, Issue.Economy, 1);
+                        engine.GainMomentum(Player.Nixon, 1);
+                    },
+                    NEWAreChangesValid = (choices) => {
 						//This has no player choices.
 						return true;
                     },
@@ -897,6 +1267,21 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
 
                         return threePointsOfStateChanges && noValueAboveOne
                                 && statePlayerIsOnlyKennedy && AndOnlyThisTypeOfTest;
+                    },
+                    NEWEvent = (engine, player, choices) => {
+                        engine.LoseSupport(Player.Nixon, Issue.Defense, 1);
+                        engine.LoseSupport(Player.Nixon, Issue.CivilRights, 1);
+                        engine.LoseSupport(Player.Nixon, Issue.Economy, 1);
+                        engine.NEWImplementChanges(choices);
+                    },
+                    NEWAreChangesValid = (choices) => {
+                        var threePointsOfStateChanges = choices.TotalStateChanges <= 3;
+                        var noValueAboveOne = choices.HighestStateChange <= 1;
+                        var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var AndOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
+
+                        return threePointsOfStateChanges && noValueAboveOne
+                                && statePlayerIsOnlyKennedy && AndOnlyOneTypeOfTest;
                     },
                 }
             },
@@ -932,6 +1317,28 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
 						//This has no player choices.
 						return true;
                     },
+                    NEWEvent = (engine, player, choices) => {
+
+                        var civilRightsLeader = engine.GetLeader(Issue.CivilRights);
+                        var econLeader = engine.GetLeader(Issue.Economy);
+
+                        if(civilRightsLeader == econLeader && civilRightsLeader != Leader.None)
+                        {
+                            engine.LoseMomentum(civilRightsLeader.ToPlayer(), 1);
+                        }
+                        if(civilRightsLeader != Leader.None)
+                        {
+                        engine.LoseSupport(civilRightsLeader.ToPlayer(), Issue.CivilRights, 1);
+                        }
+                        if(econLeader != Leader.None)
+                        {
+                        engine.LoseSupport(econLeader.ToPlayer(), Issue.Economy, 1);
+                        }
+                    },
+                    NEWAreChangesValid = (choices) => {
+						//This has no player choices.
+						return true;
+                    },
                 }
             },
             {97, new Card()
@@ -963,6 +1370,28 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         }
                     },
                     AreChangesValid = (choices) => {
+						//This has no player choices.
+						return true;
+                    },
+                    NEWEvent = (engine, player, choices) => {
+
+                        var defenseLeader = engine.GetLeader(Issue.Defense);
+                        var econLeader = engine.GetLeader(Issue.Economy);
+
+                        if(defenseLeader == econLeader && defenseLeader != Leader.None)
+                        {
+                            engine.LoseMomentum(defenseLeader.ToPlayer(), 1);
+                        }
+                        if(defenseLeader != Leader.None)
+                        {
+                            engine.LoseSupport(defenseLeader.ToPlayer(), Issue.Defense, 1);
+                        }
+                        if(econLeader != Leader.None)
+                        {
+                            engine.LoseSupport(econLeader.ToPlayer(), Issue.Economy, 1);
+                        }
+                    },
+                    NEWAreChangesValid = (choices) => {
 						//This has no player choices.
 						return true;
                     },
