@@ -4,7 +4,7 @@ using static PresidentialGameEngine.ClassLibrary.Tests.TestStubsFakesAndMocks;
 namespace PresidentialGameEngine.ClassLibrary.Tests
 {
     [TestClass]
-    public class NewMasterPlayerChosenChangesTests
+    public class PlayerChosenChangesTests
     {
         [TestMethod]
         public void ContainsExactlyOneTypeOfChange_MultipleOfOneTypeReturnTrue()
