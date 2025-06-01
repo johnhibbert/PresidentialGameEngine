@@ -235,6 +235,11 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
             return result;
         }
 
+        public void GainMediaSupportWithoutSupportCheck(PlayersEnum player, RegionsEnum region, int amount)
+        {
+            MediaSupportComponent.GainSupport(player, region, amount);
+        }
+
         public void LoseMediaSupport(PlayersEnum player, RegionsEnum region, int amount)
         {
             MediaSupportComponent.LoseSupport(player, region, amount);

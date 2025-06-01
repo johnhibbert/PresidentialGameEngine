@@ -1383,6 +1383,146 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
         #endregion
 
+        #region #60 World Series Ends
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void WorldSeriesEnds_60_SupportGainedIfMediaSupportInEast(Player player)
+        {
+            int cardIndex = 60;
+            var engine = GetGameEngine();
+            engine.GainMediaSupport(player, Region.East, 1);
+
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            var oneSupportInRhodeIsland = new SupportChange<Player, State>(Player.Nixon, State.RI, 1);
+            var oneSupportInWestVirginia = new SupportChange<Player, State>(Player.Nixon, State.WV, 1);
+            var twoSupportInNewYork = new SupportChange<Player, State>(Player.Nixon, State.NY, 2);
+            var oneSupportInPenn = new SupportChange<Player, State>(Player.Nixon, State.PA, 1);
+
+            playerChoices.StateChanges.Add(oneSupportInRhodeIsland);
+            playerChoices.StateChanges.Add(oneSupportInWestVirginia);
+            playerChoices.StateChanges.Add(twoSupportInNewYork);
+            playerChoices.StateChanges.Add(oneSupportInPenn);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, playerChoices);
+
+            Assert.AreEqual(1, engine.GetSupportAmount(State.RI));
+            Assert.AreEqual(1, engine.GetSupportAmount(State.WV));
+            Assert.AreEqual(2, engine.GetSupportAmount(State.NY));
+            Assert.AreEqual(1, engine.GetSupportAmount(State.PA));
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void WorldSeriesEnds_60_NoChangeIfNoMediaSupportInEast(Player player)
+        {
+            int cardIndex = 60;
+            var engine = GetGameEngine();
+
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            var oneSupportInRhodeIsland = new SupportChange<Player, State>(Player.Nixon, State.RI, 1);
+            var oneSupportInWestVirginia = new SupportChange<Player, State>(Player.Nixon, State.WV, 1);
+            var twoSupportInNewYork = new SupportChange<Player, State>(Player.Nixon, State.NY, 2);
+            var oneSupportInPenn = new SupportChange<Player, State>(Player.Nixon, State.PA, 1);
+
+            playerChoices.StateChanges.Add(oneSupportInRhodeIsland);
+            playerChoices.StateChanges.Add(oneSupportInWestVirginia);
+            playerChoices.StateChanges.Add(twoSupportInNewYork);
+            playerChoices.StateChanges.Add(oneSupportInPenn);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, playerChoices);
+
+            Assert.AreEqual(0, engine.GetSupportAmount(State.RI));
+            Assert.AreEqual(0, engine.GetSupportAmount(State.WV));
+            Assert.AreEqual(0, engine.GetSupportAmount(State.NY));
+            Assert.AreEqual(0, engine.GetSupportAmount(State.PA));
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void WorldSeriesEnds_60_NoChangeIfNoMediaSupportElsewhere(Player player)
+        {
+            int cardIndex = 60;
+            var engine = GetGameEngine();
+            engine.GainMediaSupport(player, Region.West, 1);
+            engine.GainMediaSupport(player, Region.Midwest, 1);
+            engine.GainMediaSupport(player, Region.South, 1);
+
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            var oneSupportInRhodeIsland = new SupportChange<Player, State>(Player.Nixon, State.RI, 1);
+            var oneSupportInWestVirginia = new SupportChange<Player, State>(Player.Nixon, State.WV, 1);
+            var twoSupportInNewYork = new SupportChange<Player, State>(Player.Nixon, State.NY, 2);
+            var oneSupportInPenn = new SupportChange<Player, State>(Player.Nixon, State.PA, 1);
+
+            playerChoices.StateChanges.Add(oneSupportInRhodeIsland);
+            playerChoices.StateChanges.Add(oneSupportInWestVirginia);
+            playerChoices.StateChanges.Add(twoSupportInNewYork);
+            playerChoices.StateChanges.Add(oneSupportInPenn);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, playerChoices);
+
+            Assert.AreEqual(0, engine.GetSupportAmount(State.RI));
+            Assert.AreEqual(0, engine.GetSupportAmount(State.WV));
+            Assert.AreEqual(0, engine.GetSupportAmount(State.NY));
+            Assert.AreEqual(0, engine.GetSupportAmount(State.PA));
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void WorldSeriesEnds_60_ValidationStateOutsideEastFails(Player player)
+        {
+            int cardIndex = 60;
+            var engine = GetGameEngine();
+            engine.GainMediaSupport(player, Region.East, 1);
+
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            var oneSupportInRhodeIsland = new SupportChange<Player, State>(Player.Nixon, State.RI, 1);
+            var oneSupportInWestVirginia = new SupportChange<Player, State>(Player.Nixon, State.WV, 1);
+            var twoSupportInNewYork = new SupportChange<Player, State>(Player.Nixon, State.NY, 2);
+            var oneSupportInFlorida = new SupportChange<Player, State>(Player.Nixon, State.FL, 1);
+
+            playerChoices.StateChanges.Add(oneSupportInRhodeIsland);
+            playerChoices.StateChanges.Add(oneSupportInWestVirginia);
+            playerChoices.StateChanges.Add(twoSupportInNewYork);
+            playerChoices.StateChanges.Add(oneSupportInFlorida);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void WorldSeriesEnds_60_ValidationSupportMoreThanTwoFails(Player player)
+        {
+            int cardIndex = 60;
+            var engine = GetGameEngine();
+            engine.GainMediaSupport(player, Region.East, 1);
+
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            var oneSupportInRhodeIsland = new SupportChange<Player, State>(Player.Nixon, State.RI, 1);
+            var oneSupportInWestVirginia = new SupportChange<Player, State>(Player.Nixon, State.WV, 1);
+            var threeSupportInNewYork = new SupportChange<Player, State>(Player.Nixon, State.NY, 3);
+
+            playerChoices.StateChanges.Add(oneSupportInRhodeIsland);
+            playerChoices.StateChanges.Add(oneSupportInWestVirginia);
+            playerChoices.StateChanges.Add(threeSupportInNewYork);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+
+        #endregion
+
         #region #61 - Fatigue Sets In
         [TestMethod]
         [DataRow(Player.Nixon)]
