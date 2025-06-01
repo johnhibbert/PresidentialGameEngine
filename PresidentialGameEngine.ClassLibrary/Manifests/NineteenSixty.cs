@@ -72,7 +72,29 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
 
             //new Card(1, "Greater Houston Ministerial Ass’n"),
             //new Card(2, "Nixon’s Knee"),
-            //new Card(3, "Gallup Poll"),
+            {3, new Card()
+                {
+                    Index = 3,
+                    Title = "Gallup Poll",
+                    Text =  "Player may alter the order of the issues on the Issue Track as desired.",
+                    CampaignPoints = 3,
+                    EventType = EventType.None,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Both,
+                    State = State.MO,
+                    Event = (engine, player, choices) =>
+                    {
+                        engine.ImplementChanges(choices);
+                    },
+                    AreChangesValid = (choices) =>
+                    {
+                        var issueListCorrectLength = choices.NewIssuesOrder.Count == Enum.GetNames(typeof(Issue)).Length;
+                        var AndOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
+
+                        return issueListCorrectLength && AndOnlyOneTypeOfTest;
+                    },
+                }
+            },
             //new Card(4, "Citizens for Nixon-Lodge"),
             {5, new Card()
                 {
