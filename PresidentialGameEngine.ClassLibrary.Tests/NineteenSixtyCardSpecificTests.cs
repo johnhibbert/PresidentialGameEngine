@@ -715,6 +715,44 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
         #endregion
 
+        #region #36 - Henry Luce
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void HenryLuce_36_EndorsementGained(Player player)
+        {
+            int cardIndex = 36;
+            var engine = GetGameEngine();
+
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            var oneRegionalSupportInWest = new SupportChange<Player, Region>(Player.Kennedy, Region.West, 1);
+
+            playerChoices.EndorsementChanges.Add(oneRegionalSupportInWest);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, playerChoices);
+
+            Assert.AreEqual(Leader.Kennedy, engine.GetEndorsementLeader(Region.West));
+
+        }
+
+        [TestMethod]
+        public void HenryLuce_36_FailsValidationIfNixonGains()
+        {
+            int cardIndex = 36;
+            var engine = GetGameEngine();
+
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            var nixonEndorsement = new SupportChange<Player, Region>(Player.Nixon, Region.West, 1);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+
+
+        #endregion
+
         #region #37 - Lunch Counter Sit-Ins
         [TestMethod]
         [DataRow(Player.Nixon)]

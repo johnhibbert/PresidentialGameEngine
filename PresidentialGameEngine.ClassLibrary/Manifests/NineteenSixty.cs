@@ -301,7 +301,29 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             //new Card(33, "Unpledged Electors"),
             //new Card(34, "“Lazy Shave”"),
             //new Card(35, "Harvard Brain Trust"),
-            //new Card(36, "Henry Luce"),
+            {36, new Card()
+                {
+                    Index = 36,
+                    Title = "Henry Luce",
+                    Text = "The Kennedy player may place 1 endorsement marker in any region.",
+                    CampaignPoints = 2,
+                    EventType = EventType.None,
+                    Issue = Issue.Defense,
+                    Affiliation = Affiliation.Kennedy,
+                    State = State.WV,
+                    Event = (engine, player, choices) => {
+                        engine.ImplementChanges(choices);
+                    },
+                    AreChangesValid = (choices) =>
+                    {
+                        var noValueAboveOne = choices.TotalEndorsementChanges <= 1;
+                        var playerIsOnlyKennedy = choices.EndorsementChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var AndOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
+
+                        return noValueAboveOne && playerIsOnlyKennedy && AndOnlyOneTypeOfTest;
+                    },
+                }
+            },
             {37, new Card()
                 {
                     Index = 37,
