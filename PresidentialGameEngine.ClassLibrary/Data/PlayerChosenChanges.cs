@@ -14,6 +14,8 @@
         public List<SupportChange<PlayersEnum, RegionsEnum>> EndorsementChanges { get; internal set; }
         public List<SupportChange<PlayersEnum, RegionsEnum>> MediaSupportChanges { get; internal set; }
 
+        public List<IssuesEnum> NewIssuesOrder { get; internal set; }
+
 
 
         public PlayerChosenChanges()
@@ -22,6 +24,7 @@
             StateChanges = [];
             EndorsementChanges = [];
             MediaSupportChanges = [];
+            NewIssuesOrder = [];
         }
 
         public int TotalIssueChanges
@@ -83,6 +86,10 @@
                 counter++;
             }
             if (TotalMediaChanges >0)
+            {
+                counter++;
+            }
+            if (NewIssuesOrder.Count() > 0)
             {
                 counter++;
             }
