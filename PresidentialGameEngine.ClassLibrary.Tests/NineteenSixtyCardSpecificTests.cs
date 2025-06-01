@@ -2539,6 +2539,78 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
         #endregion
 
+        #region #80 - Herblock
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void Herblock_80_NixonSupportLost(Player player)
+        {
+            int cardIndex = 80;
+            var engine = GetGameEngine();
+
+            engine.GainMediaSupportWithoutSupportCheck(Player.Nixon, Region.South, 1);
+            engine.GainMediaSupportWithoutSupportCheck(Player.Nixon, Region.West, 1);
+
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            var oneMediaSupportLostInSouth = new SupportChange<Player, Region>(Player.Nixon, Region.South, -1);
+            var oneMediaSupportLostInWest = new SupportChange<Player, Region>(Player.Nixon, Region.West, -1);
+
+            playerChoices.MediaSupportChanges.Add(oneMediaSupportLostInSouth);
+            playerChoices.MediaSupportChanges.Add(oneMediaSupportLostInWest);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, playerChoices);
+
+            Assert.AreEqual(Leader.None, engine.GetMediaSupportLeader(Region.South));
+            Assert.AreEqual(Leader.None, engine.GetMediaSupportLeader(Region.West));
+            Assert.AreEqual(0, engine.GetMediaSupportAmount(Region.South));
+            Assert.AreEqual(0, engine.GetMediaSupportAmount(Region.West));
+        }
+
+        [TestMethod]
+        public void Herblock_80_ValidationFailsIfMoreThanTwoLost()
+        {
+            int cardIndex = 80;
+            var engine = GetGameEngine();
+
+            engine.GainMediaSupportWithoutSupportCheck(Player.Nixon, Region.South, 1);
+            engine.GainMediaSupportWithoutSupportCheck(Player.Nixon, Region.West, 1);
+
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            var oneMediaSupportLostInSouth = new SupportChange<Player, Region>(Player.Nixon, Region.South, -1);
+            var twoMediaSupportLostInWest = new SupportChange<Player, Region>(Player.Nixon, Region.West, -2);
+
+            playerChoices.MediaSupportChanges.Add(oneMediaSupportLostInSouth);
+            playerChoices.MediaSupportChanges.Add(twoMediaSupportLostInWest);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void Herblock_80_ValidationFailsIfKennedyLosesSupport()
+        {
+            int cardIndex = 80;
+            var engine = GetGameEngine();
+
+            engine.GainMediaSupportWithoutSupportCheck(Player.Nixon, Region.South, 1);
+            engine.GainMediaSupportWithoutSupportCheck(Player.Nixon, Region.West, 1);
+
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            var oneMediaSupportLostInSouth = new SupportChange<Player, Region>(Player.Nixon, Region.South, -1);
+            var oneMediaSupportLostInWest = new SupportChange<Player, Region>(Player.Kennedy, Region.West, -1);
+
+            playerChoices.MediaSupportChanges.Add(oneMediaSupportLostInSouth);
+            playerChoices.MediaSupportChanges.Add(oneMediaSupportLostInWest);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+
+        #endregion
+
         #region #82 - Fidel Castro
 
         [TestMethod]

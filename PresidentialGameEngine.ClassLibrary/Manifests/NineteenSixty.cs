@@ -808,7 +808,29 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                 }
             },
             //new Card(79, "Advance Men"),
-            //new Card(80, "Herblock"),
+            {80, new Card()
+                {
+                    Index = 80,
+                    Title = "Herblock",
+                    Text = "The Kennedy player may remove 2 Nixon media support cubes from the board.",
+                    CampaignPoints = 2,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Kennedy,
+                    State = State.MS,
+                    Event = (engine, player, choices) => {
+                        engine.ImplementChanges(choices);
+                    },
+                    AreChangesValid = (choices) => {
+                        var upToNegativeTwoPointsOfLostMediaSupport = choices.TotalMediaChanges >= -2 
+                        && choices.TotalMediaChanges >= 0;
+                        var affectedPlayerIsNixon = choices.MediaSupportChanges.Select(x => x.Player).All(y => y == Player.Nixon);
+                        var AndOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
+
+                        return upToNegativeTwoPointsOfLostMediaSupport && affectedPlayerIsNixon && AndOnlyOneTypeOfTest;
+                    },
+                }
+            },
             //new Card(81, "Kennedy’s Peace Corps"),
             {82, new Card()
                 {                    
