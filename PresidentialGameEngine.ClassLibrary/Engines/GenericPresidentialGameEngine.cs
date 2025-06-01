@@ -178,6 +178,31 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
         }
 
 
+        public void NEWImplementChanges(NewMasterPlayerChosenChanges<PlayersEnum, IssuesEnum, StatesEnum, RegionsEnum> changes)
+        {
+            foreach (SupportChange<PlayersEnum, IssuesEnum> issueChange in changes.IssueChanges)
+            {
+                GainSupport(issueChange.Player, issueChange.Target, issueChange.Change);
+            }
+
+            foreach (SupportChange<PlayersEnum, StatesEnum> stateChange in changes.StateChanges)
+            {
+                GainSupport(stateChange.Player, stateChange.Target, stateChange.Change);
+            }
+
+            foreach (SupportChange<PlayersEnum, RegionsEnum> mediaChange in changes.MediaSupportChanges)
+            {
+                GainMediaSupport(mediaChange.Player, mediaChange.Target, mediaChange.Change);
+            }
+
+            foreach (SupportChange<PlayersEnum, RegionsEnum> endorsementChange in changes.EndorsementChanges)
+            {
+                //FIXME: endorsements currently only change one at a time.
+                GainEndorsement(endorsementChange.Player, endorsementChange.Target);
+            }
+
+        }
+
         public void ImplementChanges(PlayerChosenChanges<PlayersEnum, IssuesEnum, StatesEnum> changes)
         {
             foreach (SupportChange<PlayersEnum, IssuesEnum> issueChange in changes.IssueChanges)
