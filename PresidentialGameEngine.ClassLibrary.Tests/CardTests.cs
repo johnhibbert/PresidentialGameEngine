@@ -14,11 +14,11 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
                 Index = 1,
                 Title = "Test",
                 Text = "Test",
-                Event = (engine, player, choices) =>
+                NEWEvent = (engine, player, choices) =>
                 {
                     //Nothing
                 },
-                AreChangesValid = (choices) =>
+                NEWAreChangesValid = (choices) =>
                 {
                     return true;
                 },
@@ -36,11 +36,11 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
                 Index = 1,
                 Title = "Test",
                 Text = "This is a sentence",
-                Event = (engine, player, choices) =>
+                NEWEvent = (engine, player, choices) =>
                 {
                     //Nothing
                 },
-                AreChangesValid = (choices) =>
+                NEWAreChangesValid = (choices) =>
                 {
                     return true;
                 },
@@ -59,11 +59,11 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
                 Index = 1,
                 Title = "Test",
                 Text = "Test",
-                Event = (engine, player, choices) =>
+                NEWEvent = (engine, player, choices) =>
                 {
                     //Nothing
                 },
-                AreChangesValid = (choices) =>
+                NEWAreChangesValid = (choices) =>
                 {
                     return true;
                 },

@@ -32,9 +32,9 @@ namespace PresidentialGameEngine.ClassLibrary.Data
         public Action<NineteenSixtyGameEngine, Player, NewMasterPlayerChosenChanges<Player, Issue, State, Region>> NEWEvent { get; init; }
 
 
-        public required Predicate<PlayerChosenChanges<Player, Issue, State>> AreChangesValid { get; init; }
+        //public Predicate<PlayerChosenChanges<Player, Issue, State>> AreChangesValid { get; init; }
 
-        public required Action<NineteenSixtyGameEngine, Player, PlayerChosenChanges<Player, Issue, State>> Event { get; init; }
+        //public Action<NineteenSixtyGameEngine, Player, PlayerChosenChanges<Player, Issue, State>> Event { get; init; }
 
         public override string ToString()
         {
