@@ -182,17 +182,38 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
         {
             foreach (SupportChange<PlayersEnum, IssuesEnum> issueChange in changes.IssueChanges)
             {
-                GainSupport(issueChange.Player, issueChange.Target, issueChange.Change);
+                if (issueChange.Change > 0)
+                {
+                    GainSupport(issueChange.Player, issueChange.Target, issueChange.Change);
+                }
+                else 
+                {
+                    LoseSupport(issueChange.Player, issueChange.Target, Math.Abs(issueChange.Change));
+                }
             }
 
             foreach (SupportChange<PlayersEnum, StatesEnum> stateChange in changes.StateChanges)
             {
-                GainSupport(stateChange.Player, stateChange.Target, stateChange.Change);
+                if (stateChange.Change > 0)
+                {
+                    GainSupport(stateChange.Player, stateChange.Target, stateChange.Change);
+                }
+                else
+                {
+                    LoseSupport(stateChange.Player, stateChange.Target, Math.Abs(stateChange.Change));
+                }
             }
 
             foreach (SupportChange<PlayersEnum, RegionsEnum> mediaChange in changes.MediaSupportChanges)
             {
-                GainMediaSupport(mediaChange.Player, mediaChange.Target, mediaChange.Change);
+                if (mediaChange.Change > 0)
+                {
+                    GainMediaSupportWithoutSupportCheck(mediaChange.Player, mediaChange.Target, mediaChange.Change);
+                }
+                else
+                {
+                    LoseMediaSupport(mediaChange.Player, mediaChange.Target, Math.Abs(mediaChange.Change));
+                }               
             }
 
             foreach (SupportChange<PlayersEnum, RegionsEnum> endorsementChange in changes.EndorsementChanges)
@@ -233,6 +254,11 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
             var result = SupportCheck(player, amount);
             MediaSupportComponent.GainSupport(player, region, result.Successes);
             return result;
+        }
+
+        public void GainMediaSupportWithoutSupportCheck(PlayersEnum player, RegionsEnum region, int amount)
+        {
+            MediaSupportComponent.GainSupport(player, region, amount);
         }
 
         public void LoseMediaSupport(PlayersEnum player, RegionsEnum region, int amount)

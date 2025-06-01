@@ -399,6 +399,28 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             //new Card(43, "Catholic Support"),
             //new Card(44, "Puerto Rican Bishops"),
             //new Card(45, "Compact Of 5th Avenue"),
+            {45, new Card()
+                {
+                    Index = 45,
+                    Title = "Compact Of 5th Avenue",
+                    Text = "Immediately move the Nixon candidate token to New York without paying the normal travel costs.  Nixon gains 1 issue support in Civil Rights, 2 state support in New York, and 1 media support cube in the East.",
+                    CampaignPoints = 3,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.MI,
+                    Event = (engine, player, choices) => {
+                        engine.MovePlayerToState(Player.Nixon, State.NY);
+                        engine.GainSupport(Player.Nixon, State.NY, 2);
+                        engine.GainSupport(Player.Nixon, Issue.CivilRights, 1);
+                        engine.GainMediaSupportWithoutSupportCheck(Player.Nixon, Region.East, 1);
+                    },
+                    AreChangesValid = (choices) => {
+						//This has no player choices.
+                        return true;
+                    },
+                }
+            },
             //new Card(46, "Prime-Time Television"),
             //new Card(47, "The Cold War"),
             {48, new Card()
@@ -469,7 +491,36 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             //new Card(57, "“A New Frontier”"),
             //new Card(58, "Tricky Dick"),
             //new Card(59, "Mid-Atlantic"),
-            //new Card(60, "World Series Ends"),
+            {60, new Card()
+                {
+                    Index = 60,
+                    Title = "World Series Ends",
+                    Text = "The player with media support cubes in the East (if any) may add a total of 5 state support in the East, no more than 2 per state.",
+                    CampaignPoints = 3,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Both,
+                    State = State.UT,
+                    Event = (engine, player, choices) => {
+                        if(engine.GetMediaSupportLeader(Region.East) != Leader.None)
+                        {
+                            engine.ImplementChanges(choices);
+                        }
+                    },
+                    AreChangesValid = (choices) => {
+                        var easternStates = StateData.Where(y => y.Value.Region == Region.East).Select(z => z.Key);
+
+                        var onlyEasternStatesIncluded = choices.StateChanges.Select(s => s.Target).All(x => easternStates.Contains(x));
+                        var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
+                        var noValueAboveTwo = choices.HighestStateChange <= 2;
+                        var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
+                        var AndOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
+
+                        return onlyEasternStatesIncluded && fiveOrFewerPointsOfStateChanges
+                            && statePlayerIsOnlyNixon && noValueAboveTwo && AndOnlyOneTypeOfTest;
+                    },
+                }
+            },
             {61, new Card()
                 {
                     Index = 61,
@@ -678,7 +729,28 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
             },
             //new Card(73, "Norman Vincent Peale"),
             //new Card(74, "Eisenhower’s Silence"),
-            //new Card(75, "Republican TV Spots"),
+            {75, new Card()
+                {
+                    Index = 75,
+                    Title = "Republican TV Spots",
+                    Text = "Immediately move the Nixon candidate token to New York, but do no pay the normal travel costs for doing so.  The Nixon player may place 3 media support cubes.",
+                    CampaignPoints = 4,
+                    EventType = EventType.None,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.CA,
+                    Event = (engine, player, choices) => {
+                        engine.MovePlayerToState(Player.Nixon, State.NY);
+                        engine.ImplementChanges(choices);
+                    },
+                    AreChangesValid = (choices) => {
+                        var threeOrFewerMediaSupportChanges = choices.TotalMediaChanges <= 3;
+                        var AndOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
+
+                        return threeOrFewerMediaSupportChanges && AndOnlyOneTypeOfTest;
+                    },
+                }
+            },
             //new Card(76, "Nixon’s Pledge"),
             //new Card(77, "Suburban Voters"),
             {77, new Card()
@@ -736,7 +808,29 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                 }
             },
             //new Card(79, "Advance Men"),
-            //new Card(80, "Herblock"),
+            {80, new Card()
+                {
+                    Index = 80,
+                    Title = "Herblock",
+                    Text = "The Kennedy player may remove 2 Nixon media support cubes from the board.",
+                    CampaignPoints = 2,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Kennedy,
+                    State = State.MS,
+                    Event = (engine, player, choices) => {
+                        engine.ImplementChanges(choices);
+                    },
+                    AreChangesValid = (choices) => {
+                        var upToNegativeTwoPointsOfLostMediaSupport = choices.TotalMediaChanges >= -2 
+                        && choices.TotalMediaChanges >= 0;
+                        var affectedPlayerIsNixon = choices.MediaSupportChanges.Select(x => x.Player).All(y => y == Player.Nixon);
+                        var AndOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
+
+                        return upToNegativeTwoPointsOfLostMediaSupport && affectedPlayerIsNixon && AndOnlyOneTypeOfTest;
+                    },
+                }
+            },
             //new Card(81, "Kennedy’s Peace Corps"),
             {82, new Card()
                 {                    
