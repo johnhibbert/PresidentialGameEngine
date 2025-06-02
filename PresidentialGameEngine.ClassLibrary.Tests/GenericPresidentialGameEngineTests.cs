@@ -22,7 +22,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             {
                 MomentumComponent = Substitute.For<IAccumulatingComponent<FakePlayer>>(),
                 IssueSupportComponent = Substitute.For<ISupportComponent<FakePlayer, FakeLeader, FakeIssue>>(),
-                StateSupportComponent = Substitute.For<ISupportComponent<FakePlayer, FakeLeader, FakeState>>(),
+                StateSupportComponent = Substitute.For<ICarriableSupportComponent<FakePlayer, FakeLeader, FakeState>>(),
                 IssuePositioningComponent = Substitute.For<IPositioningComponent<FakeIssue>>(),
                 PoliticalCapitalComponent = Substitute.For<IPoliticalCapitalComponent<FakePlayer>>(),
                 RestComponent = Substitute.For<IAccumulatingComponent<FakePlayer>>(),
@@ -41,7 +41,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             {
                 MomentumComponent = new AccumulatingComponent<FakePlayer>(),
                 IssueSupportComponent = new SupportComponent<FakePlayer, FakeLeader, FakeIssue>(),
-                StateSupportComponent = new SupportComponent<FakePlayer, FakeLeader, FakeState>(),
+                StateSupportComponent = new CarriableSupportComponent<FakePlayer, FakeLeader, FakeState>(),
                 IssuePositioningComponent = new PositioningComponent<FakeIssue>(),
                 PoliticalCapitalComponent = Substitute.For<IPoliticalCapitalComponent<FakePlayer>>(),
                 RestComponent = new AccumulatingComponent<FakePlayer>(),

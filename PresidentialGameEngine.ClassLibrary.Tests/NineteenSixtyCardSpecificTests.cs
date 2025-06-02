@@ -50,7 +50,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             {
                 MomentumComponent = new AccumulatingComponent<Player>(),
                 IssueSupportComponent = new SupportComponent<Player, Leader, Issue>(),
-                StateSupportComponent = new SupportComponent<Player, Leader, State>(),
+                StateSupportComponent = new CarriableSupportComponent<Player, Leader, State>(),
                 IssuePositioningComponent = new PositioningComponent<Issue>(),
                 PoliticalCapitalComponent = new PoliticalCapitalComponent<Player>(seed, 12),
                 PlayerLocationComponent = new PlayerLocationComponent<Player, State>(NineteenSixty.PlayerStartingPositions),

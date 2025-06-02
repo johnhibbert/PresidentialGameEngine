@@ -162,7 +162,7 @@ namespace PresidentialGameEngine.ConsoleRunner
 
             var momentumComp = new AccumulatingComponent<Player>();
             var issueSupportComp = new SupportComponent<Player, Leader, Issue>();
-            var stateSupportComp = new SupportComponent<Player, Leader, State>();
+            var stateSupportComp = new CarriableSupportComponent<Player, Leader, State>();
             var issuePositioningComp = new PositioningComponent<Issue>();
             var politicalCapitalComp = new PoliticalCapitalComponent<Player>(random, 12);
             var restComp = new AccumulatingComponent<Player>();
@@ -216,7 +216,7 @@ namespace PresidentialGameEngine.ConsoleRunner
 
             var momentumComp = new AccumulatingComponent<Player>();
             var issueSupportComp = new SupportComponent<Player, Leader, Issue>();
-            var stateSupportComp = new SupportComponent<Player, Leader, State>();
+            var stateSupportComp = new CarriableSupportComponent<Player, Leader, State>();
             var issuePositioningComp = new PositioningComponent<Issue>();
             var politicalCapitalComp = new PoliticalCapitalComponent<Player>(random, 12);
             var restComp = new AccumulatingComponent<Player>();
