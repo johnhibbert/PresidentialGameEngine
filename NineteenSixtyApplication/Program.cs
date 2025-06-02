@@ -112,7 +112,8 @@ namespace NineteenSixtyApplication
             //hand.First().Event(engine, playerWithInitiative,new PlayerChosenChanges<Player, Issue, State>());
 
 
-            int o = 1;
+
+            Console.WriteLine("Game Over?");
 
 
         }

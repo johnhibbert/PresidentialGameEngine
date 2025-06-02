@@ -222,7 +222,7 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
                 GainEndorsement(endorsementChange.Player, endorsementChange.Target);
             }
 
-            if (changes.NewIssuesOrder.Any())
+            if (changes.NewIssuesOrder.Count > 0)
             {
                 IssuePositioningComponent.SetSubjectOrder(changes.NewIssuesOrder);
             }
