@@ -14,7 +14,7 @@ namespace PresidentialGameEngine.ClassLibrary.Components
     {
         public IAccumulatingComponent<PlayersEnum>? MomentumComponent { get; set; }
         public ISupportComponent<PlayersEnum, LeadersEnum, IssuesEnum>? IssueSupportComponent { get; set; }
-        public ISupportComponent<PlayersEnum, LeadersEnum, StatesEnum>? StateSupportComponent { get; set; }
+        public ICarriableSupportComponent<PlayersEnum, LeadersEnum, StatesEnum>? StateSupportComponent { get; set; }
         public IPositioningComponent<IssuesEnum>? IssuePositioningComponent { get; set; }
         public IPoliticalCapitalComponent<PlayersEnum>? PoliticalCapitalComponent { get; set; }
         public IPlayerLocationComponent<PlayersEnum, StatesEnum>? PlayerLocationComponent { get; set; }

@@ -1,4 +1,6 @@
-﻿namespace PresidentialGameEngine.ClassLibrary.Interfaces
+﻿using PresidentialGameEngine.ClassLibrary.Components;
+
+namespace PresidentialGameEngine.ClassLibrary.Interfaces
 {
     public interface IComponentCollection<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum, CardClass>
         where PlayersEnum : Enum
@@ -16,7 +18,7 @@
         IPoliticalCapitalComponent<PlayersEnum>? PoliticalCapitalComponent { get; set; }
         IPlayerLocationComponent<PlayersEnum, StatesEnum>? PlayerLocationComponent { get; set; }
         IAccumulatingComponent<PlayersEnum>? RestComponent { get; set; }
-        ISupportComponent<PlayersEnum, LeadersEnum, StatesEnum>? StateSupportComponent { get; set; }
+        ICarriableSupportComponent<PlayersEnum, LeadersEnum, StatesEnum>? StateSupportComponent { get; set; }
         ICardComponent<PlayersEnum, CardClass>? CardComponent { get; set; }
         IStaticDataComponent<StatesEnum, PlayersEnum, RegionsEnum>? StaticDataComponent { get; set; }
 
