@@ -75,8 +75,21 @@ namespace NineteenSixtyApplication
 
                     var card = GetCardFromPlayer(hand);
 
-                    //Placeholder, just discarding it.
-                    engine.DiscardCardFromHand(currentPlayer, card);
+                    if(card.RequiresPlayerInput == false) 
+                    {
+                        card.Event(engine, currentPlayer, null);
+                    }
+                    else
+                    {
+                        //Placeholder, just discarding it.
+                        engine.DiscardCardFromHand(currentPlayer, card);
+                    }
+                    //if(currentPlayer.ToOpponent().ToAffiliation() == card.Affiliation) 
+                    //{
+                    //    Console.WriteLine("You sure, bro?");
+                    //}
+
+
 
                     if (currentPlayer != firstPlayer)
                     {
@@ -117,6 +130,14 @@ namespace NineteenSixtyApplication
 
 
         }
+
+
+
+        //private void GetActionTypeFromPlayer() 
+        //{
+            
+        //}
+
 
         private static void ShowCards(IEnumerable<Card> cards) 
         {
