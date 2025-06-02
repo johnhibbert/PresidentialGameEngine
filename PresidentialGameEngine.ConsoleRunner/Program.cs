@@ -311,8 +311,27 @@ namespace PresidentialGameEngine.ConsoleRunner
         {
             Console.WriteLine($"Cards implemented: {NineteenSixty.GMTCards.Values.Count}");
             Console.WriteLine();
+
+            int i = 1;
+
+            while (i <= 97)
+            {
+                if (NineteenSixty.GMTCards.TryGetValue(i, out Card? value))
+                {
+                    var card = value;
+                    Console.WriteLine($"[{card.Index,2}] {card.Title}");
+                }
+                else 
+                {
+                    Console.WriteLine($"[{i,2}] - - -");
+                }
+                i++;
+            }
+
+            Console.WriteLine();
             Console.WriteLine("Press Enter to continue.");
             Console.ReadLine();
+            Console.Clear();
 
             foreach (Card card in NineteenSixty.GMTCards.Values)
             {
