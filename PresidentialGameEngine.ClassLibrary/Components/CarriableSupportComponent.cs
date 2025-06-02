@@ -13,6 +13,7 @@ namespace PresidentialGameEngine.ClassLibrary.Components
 
         public CarriableSupportComponent(int threshold = 4)
         {
+            if (threshold < 1) { throw new ArgumentException("Threshold must be greater than 1"); };
             Threshold = threshold;
         }
 
@@ -28,5 +29,7 @@ namespace PresidentialGameEngine.ClassLibrary.Components
         where SubjectEnum : Enum
     {
         public int Threshold { get; init; }
+
+        bool IsCarried(SubjectEnum subject);
     }
 }

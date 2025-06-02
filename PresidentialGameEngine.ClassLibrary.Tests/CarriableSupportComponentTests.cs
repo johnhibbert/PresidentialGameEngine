@@ -20,6 +20,15 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
         }
 
+        [TestMethod]
+        [DataRow(0)]
+        [DataRow(-1)]
+        [ExpectedException(typeof(ArgumentException))]
+        public void Constructor_ZeroOrNegativeThresholdFails(int threshold)
+        {
+            new CarriableSupportComponent<FakePlayer, FakeLeader, FakeSubject>(threshold);
+        }
+
         #endregion
 
         #region IsRegionCarried Tests
