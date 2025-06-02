@@ -89,7 +89,7 @@
             {
                 counter++;
             }
-            if (NewIssuesOrder.Count() > 0)
+            if (NewIssuesOrder.Count > 0)
             {
                 counter++;
             }
