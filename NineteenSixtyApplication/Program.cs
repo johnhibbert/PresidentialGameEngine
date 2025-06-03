@@ -71,12 +71,29 @@ namespace NineteenSixtyApplication
 
                     var hand = engine.GetPlayerHand(currentPlayer);
 
+                    DisplayGameState(engine.GetGameState(), false);
+
                     ShowCards(hand);
 
                     var card = GetCardFromPlayer(hand);
 
-                    //Placeholder, just discarding it.
-                    engine.DiscardCardFromHand(currentPlayer, card);
+                    if(card.RequiresPlayerInput == false) 
+                    {
+                        card.Event(engine, currentPlayer, null);
+                        //DisplayGameState(engine.GetGameState(), false);
+                        engine.MoveCardFromHandToRemovedPile(currentPlayer, card);
+                    }
+                    else
+                    {
+                        //Placeholder, just discarding it.
+                        engine.DiscardCardFromHand(currentPlayer, card);
+                    }
+                    //if(currentPlayer.ToOpponent().ToAffiliation() == card.Affiliation) 
+                    //{
+                    //    Console.WriteLine("You sure, bro?");
+                    //}
+
+
 
                     if (currentPlayer != firstPlayer)
                     {
@@ -117,6 +134,14 @@ namespace NineteenSixtyApplication
 
 
         }
+
+
+
+        //private void GetActionTypeFromPlayer() 
+        //{
+            
+        //}
+
 
         private static void ShowCards(IEnumerable<Card> cards) 
         {
@@ -196,10 +221,10 @@ namespace NineteenSixtyApplication
         }
 
 
-        private static void DisplayGameState(GameState<Player, Leader, Issue, State, Region> gameState) 
+        private static void DisplayGameState(GameState<Player, Leader, Issue, State, Region> gameState, bool pressEnterToContinue)
         {
             Console.WriteLine("Momentum Levels:");
-            foreach (Player player in gameState.Momentum.Keys) 
+            foreach (Player player in gameState.Momentum.Keys)
             {
                 Console.WriteLine($"{player} Momentum: {gameState.Momentum[player]}");
             }
@@ -221,7 +246,7 @@ namespace NineteenSixtyApplication
             {
                 var leader = gameState.StateContests[state].Leader;
                 string shortLeader = "_";
-                switch (leader) 
+                switch (leader)
                 {
                     case Leader.Kennedy:
                         shortLeader = "K";
@@ -233,7 +258,7 @@ namespace NineteenSixtyApplication
 
                 Console.Write($"{state}:{shortLeader}{gameState.StateContests[state].Amount}  ");
                 counter++;
-                if(counter % 10 == 0) 
+                if (counter % 10 == 0)
                 {
                     Console.WriteLine();
                 }
@@ -244,12 +269,14 @@ namespace NineteenSixtyApplication
             }
 
 
+            if (pressEnterToContinue)
+            {
 
-            Console.WriteLine();
-            Console.WriteLine("Press Enter to continue.");
-            Console.ReadLine();
-        
-        
+                Console.WriteLine();
+                Console.WriteLine("Press Enter to continue.");
+                Console.ReadLine();
+
+            }
         
         }
 

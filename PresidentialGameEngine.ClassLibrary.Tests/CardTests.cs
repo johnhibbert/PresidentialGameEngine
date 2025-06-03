@@ -18,6 +18,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
                 {
                     //Nothing
                 },
+                RequiresPlayerInput = false,
                 AreChangesValid = (choices) =>
                 {
                     return true;
@@ -40,6 +41,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
                 {
                     //Nothing
                 },
+                RequiresPlayerInput = false,
                 AreChangesValid = (choices) =>
                 {
                     return true;
@@ -63,6 +65,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
                 {
                     //Nothing
                 },
+                RequiresPlayerInput = false,
                 AreChangesValid = (choices) =>
                 {
                     return true;

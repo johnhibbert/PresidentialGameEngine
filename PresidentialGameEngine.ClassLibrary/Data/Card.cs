@@ -26,6 +26,8 @@ namespace PresidentialGameEngine.ClassLibrary.Data
 
         public EventType EventType { get; init; }
 
+        public required bool RequiresPlayerInput { get; init; }
+
         public required Predicate<PlayerChosenChanges<Player, Issue, State, Region>> AreChangesValid { get; init; }
 
         public required Action<NineteenSixtyGameEngine, Player, PlayerChosenChanges<Player, Issue, State, Region>> Event { get; init; }
