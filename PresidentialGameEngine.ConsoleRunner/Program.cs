@@ -388,7 +388,7 @@ namespace PresidentialGameEngine.ConsoleRunner
             generic.EmptyRest(Player.Nixon);
 
 
-            generic.GainEndorsement(Player.Nixon, Region.West);
+            //generic.GainEndorsement(Player.Nixon, Region.West);
             var endorsementInTheWest = generic.GetEndorsementLeader(Region.West);
             var endorsementCount = generic.GetNumberOfEndorsements(Region.West);
             var endorsementInTheMidwest = generic.GetEndorsementLeader(Region.Midwest);

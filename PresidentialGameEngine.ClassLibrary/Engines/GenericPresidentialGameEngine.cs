@@ -218,8 +218,7 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
 
             foreach (SupportChange<PlayersEnum, RegionsEnum> endorsementChange in changes.EndorsementChanges)
             {
-                //FIXME: endorsements currently only change one at a time.
-                GainEndorsement(endorsementChange.Player, endorsementChange.Target);
+                GainEndorsement(endorsementChange.Player, endorsementChange.Target, endorsementChange.Change);
             }
 
             if (changes.NewIssuesOrder.Count > 0)
@@ -239,9 +238,14 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
             PlayerLocationComponent.MovePlayerToState(player, states);
         }
 
-        public void GainEndorsement(PlayersEnum player, RegionsEnum region)
+        public void GainEndorsement(PlayersEnum player, RegionsEnum region, int amount)
         {
-            EndorsementComponent.GainSupport(player, region, 1);
+            EndorsementComponent.GainSupport(player, region, amount);
+        }
+
+        public void LoseEndorsement(PlayersEnum player, RegionsEnum region, int amount)
+        {
+            EndorsementComponent.LoseSupport(player, region, amount);
         }
 
         public LeadersEnum GetEndorsementLeader(RegionsEnum region) 
