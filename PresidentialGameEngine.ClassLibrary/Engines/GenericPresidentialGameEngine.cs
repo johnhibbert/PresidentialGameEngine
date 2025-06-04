@@ -154,12 +154,12 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
 
         public int GetSupportAmount(IssuesEnum issue)
         {
-            return IssueSupportComponent.GetSupportAmount(issue);
+            return IssueSupportComponent.GetSupportStatus(issue).Support;
         }
 
         public int GetSupportAmount(StatesEnum state)
         {
-            return StateSupportComponent.GetSupportAmount(state);
+            return StateSupportComponent.GetSupportStatus(state).Support;
         }
 
         public PlayersEnum InitiativeCheck()
@@ -255,7 +255,7 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
 
         public int GetNumberOfEndorsements(RegionsEnum region)
         {
-            return EndorsementComponent.GetSupportAmount(region);
+            return EndorsementComponent.GetSupportStatus(region).Support;
         }
 
         public SupportCheckResult GainMediaSupport(PlayersEnum player, RegionsEnum region, int amount)
@@ -282,7 +282,7 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
 
         public int GetMediaSupportAmount(RegionsEnum region)
         {
-            return MediaSupportComponent.GetSupportAmount(region);
+            return MediaSupportComponent.GetSupportStatus(region).Support;
         }
 
         public void ExhaustPlayer(PlayersEnum player) 
@@ -384,15 +384,15 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
 
         public required IDictionary<PlayersEnum, int> RestCubes { get; init; }
 
-        public required IDictionary<IssuesEnum, SupportStatus<LeadersEnum>> IssueContests { get; init; }
+        public required IDictionary<IssuesEnum, SupportContest<LeadersEnum>> IssueContests { get; init; }
 
-        public required IDictionary<StatesEnum, SupportStatus<LeadersEnum>> StateContests { get; init; }
+        public required IDictionary<StatesEnum, SupportContest<LeadersEnum>> StateContests { get; init; }
 
         public required IList<IssuesEnum> IssueOrder { get; init; }
 
-        public required IDictionary<RegionsEnum, SupportStatus<LeadersEnum>> Endorsements { get; init; }
+        public required IDictionary<RegionsEnum, SupportContest<LeadersEnum>> Endorsements { get; init; }
 
-        public required IDictionary<RegionsEnum, SupportStatus<LeadersEnum>> MediaSupportLevels { get; init; }
+        public required IDictionary<RegionsEnum, SupportContest<LeadersEnum>> MediaSupportLevels { get; init; }
 
         public required IDictionary<PlayersEnum, StatesEnum> PlayerLocations { get; init; }
 

@@ -1,4 +1,5 @@
-﻿using PresidentialGameEngine.ClassLibrary.Components;
+﻿using NSubstitute;
+using PresidentialGameEngine.ClassLibrary.Components;
 using static PresidentialGameEngine.ClassLibrary.Tests.TestStubsFakesAndMocks;
 
 namespace PresidentialGameEngine.ClassLibrary.Tests
@@ -14,11 +15,11 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         {
             SupportComponent<FakePlayer, FakeLeader, FakeSubject> sut = new();
 
-            Assert.AreEqual(0, sut.GetSupportAmount(FakeSubject.SubjectOne));
-            Assert.AreEqual(0, sut.GetSupportAmount(FakeSubject.SubjectTwo));
-            Assert.AreEqual(0, sut.GetSupportAmount(FakeSubject.SubjectThree));
-            Assert.AreEqual(0, sut.GetSupportAmount(FakeSubject.SubjectFour));
-            Assert.AreEqual(0, sut.GetSupportAmount(FakeSubject.SubjectFive));
+            Assert.AreEqual(0, sut.GetSupportStatus(FakeSubject.SubjectOne).Support);
+            Assert.AreEqual(0, sut.GetSupportStatus(FakeSubject.SubjectTwo).Support);
+            Assert.AreEqual(0, sut.GetSupportStatus(FakeSubject.SubjectThree).Support);
+            Assert.AreEqual(0, sut.GetSupportStatus(FakeSubject.SubjectFour).Support);
+            Assert.AreEqual(0, sut.GetSupportStatus(FakeSubject.SubjectFive).Support);
         }
 
         [TestMethod]
@@ -27,7 +28,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         {
             SupportComponent<FakePlayer, FakeLeader, FakeSubject> sut = new();
 
-            Assert.AreEqual(0, sut.GetSupportAmount(FakeSubject.NoSubject));
+            Assert.AreEqual(0, sut.GetSupportStatus(FakeSubject.NoSubject).Support);
         }
 
         #endregion
@@ -63,7 +64,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             SupportComponent<FakePlayer, FakeLeader, FakeSubject> sut = new();
             sut.GainSupport(player, subject, amount);
 
-            var result = sut.GetSupportAmount(subject);
+            var result = sut.GetSupportStatus(subject).Support;
 
             Assert.AreEqual(amount, result);
         }
@@ -81,7 +82,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             SupportComponent<FakePlayer, FakeLeader, FakeSubject> sut = new();
             sut.GainSupport(player, subject, amount);
 
-            var result = sut.GetSupportAmount(subject);
+            var result = sut.GetSupportStatus(subject).Support;
 
             Assert.AreEqual(amount, result);
         }
@@ -99,7 +100,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             sut.GainSupport(player, subject, startingAmount);
             sut.LoseSupport(player, subject, subtracted);
 
-            var result = sut.GetSupportAmount(subject);
+            var result = sut.GetSupportStatus(subject).Support;
 
             Assert.AreEqual(startingAmount - subtracted, result);
         }
@@ -111,7 +112,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             sut.GainSupport(FakePlayer.PlayerOne, FakeSubject.SubjectOne, 5);
             sut.LoseSupport(FakePlayer.PlayerOne, FakeSubject.SubjectOne, 6);
 
-            var result = sut.GetSupportAmount(FakeSubject.SubjectOne);
+            var result = sut.GetSupportStatus(FakeSubject.SubjectOne).Support;
 
             Assert.AreEqual(0, result);
         }

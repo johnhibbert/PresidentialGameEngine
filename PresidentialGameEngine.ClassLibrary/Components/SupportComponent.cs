@@ -12,13 +12,13 @@ namespace PresidentialGameEngine.ClassLibrary.Components
     {
         private readonly LeadersEnum defaultLeader = (LeadersEnum) Enum.ToObject(typeof(LeadersEnum), 0);
 
-        public IDictionary<SubjectEnum, SupportStatus<LeadersEnum>> SubjectContests { get; init; }
+        public IDictionary<SubjectEnum, SupportContest<LeadersEnum>> SubjectContests { get; init; }
 
-        public IDictionary<SubjectEnum, SupportStatus<LeadersEnum>> GetRawData() { return SubjectContests; }
+        public IDictionary<SubjectEnum, SupportContest<LeadersEnum>> GetRawData() { return SubjectContests; }
 
         public SupportComponent()
         {
-            SubjectContests = new Dictionary<SubjectEnum, SupportStatus<LeadersEnum>>();
+            SubjectContests = new Dictionary<SubjectEnum, SupportContest<LeadersEnum>>();
 
             var subjectValues = Enum.GetValues(typeof(SubjectEnum)).OfType<SubjectEnum>().ToList();
             var valueOfNone = (SubjectEnum)Enum.ToObject(typeof(SubjectEnum), 0);
@@ -26,19 +26,25 @@ namespace PresidentialGameEngine.ClassLibrary.Components
 
             foreach (SubjectEnum subject in subjectValues)
             {
-                SubjectContests.Add(subject, new SupportStatus<LeadersEnum>());
+                SubjectContests.Add(subject, new SupportContest<LeadersEnum>());
             }
         }
 
+        //It's an open question if we should just make people go through the GetSupportStatus method.
         public LeadersEnum GetLeader(SubjectEnum subject) 
         {
             return SubjectContests[subject].Leader;
         }
 
-        public int GetSupportAmount(SubjectEnum subject) 
+        public SupportStatus<LeadersEnum> GetSupportStatus(SubjectEnum subject)
         {
-            return SubjectContests[subject].Amount;
+            return new SupportStatus<LeadersEnum>(SubjectContests[subject].Leader, SubjectContests[subject].Amount);
         }
+
+        //public int GetSupportAmount(SubjectEnum subject) 
+        //{
+        //    return SubjectContests[subject].Amount;
+        //}
 
         public void GainSupport(PlayersEnum player, SubjectEnum subject, int amount)
         {
@@ -87,6 +93,8 @@ namespace PresidentialGameEngine.ClassLibrary.Components
                 }
             }
         }
+
+
     }
 
 }
