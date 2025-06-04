@@ -5,6 +5,7 @@ using PresidentialGameEngine.ClassLibrary.Enums;
 using PresidentialGameEngine.ClassLibrary.Interfaces;
 using PresidentialGameEngine.ClassLibrary.Manifests;
 using PresidentialGameEngine.ClassLibrary.Randomness;
+using System.Linq;
 
 namespace PresidentialGameEngine.ConsoleRunner
 {
@@ -55,7 +56,118 @@ namespace PresidentialGameEngine.ConsoleRunner
         {
 
 
-            var fff = new StaticDataComponent<State, Player, Region>(NineteenSixty.StateData);
+
+            string threeStateSupportInMA = "MA+3";
+
+            /*
+            //How to encode actions?
+            //State abbrev = state support followed by 1 digit number (with optional/mandatory sign?)
+
+            MA+2RI+1
+
+            Issues:  IC, ID, IE - Nope, conflicts with idaho
+            CR, DF, EC?  Or maybe XC, XD, XE?  OR CI, DI, EI? CivilIssue, Defense Issue, Econ Issue?
+
+            Regions:  Media support and Advertising
+                East, Midwest, South and West for EMWS.  EM for east media support and EE for East endorsements
+
+            would be EM, EE, MM, ME (-nope-)
+
+            Maybe if X for endorsements instead of E?
+
+            EM, EX, MM, MX, SE, SX, WE, WX
+
+            So:
+            State support: State abbreve:
+            Issue support: first letter and I
+            mediau support: region first letter and M.
+            endorsement: region first letter and X.
+
+            */
+
+            //string currentString = threeStateSupportInMA;
+
+            string[] issueKeys = ["CI", "DI", "EI"];
+            string[] mediaKeys = ["EM", "MM", "SM", "WM"];
+            string[] endorsementKeys = ["EX", "MX", "SX", "WX"];
+
+            Dictionary<string, Issue> issueDict = new Dictionary<string, Issue>()
+            {
+                {"CI", Issue.CivilRights },
+                {"DI", Issue.Defense },
+                {"EI", Issue.Economy },
+            };
+
+            Dictionary<string, Region> mediaDict = new Dictionary<string, Region>()
+            {
+                {"EM", Region.East},
+                {"MM", Region.Midwest },
+                {"SM", Region.South },
+                {"WM", Region.West },
+            };
+
+            Dictionary<string, Region> endorsementDict = new Dictionary<string, Region>()
+            {
+                {"EX", Region.East},
+                {"MX", Region.Midwest },
+                {"SX", Region.South },
+                {"WX", Region.West },
+            };
+
+
+            Player currentPlayer = Player.Nixon;
+
+            string currentString = "MA+3EX+1DI-1MM+1";
+
+            PlayerChosenChanges<Player, Issue, State, Region> changes = new();
+
+            while(string.IsNullOrWhiteSpace(currentString) == false) 
+            {
+                var chunk = currentString.Substring(0, 4);
+                currentString = currentString.Substring(4);
+
+
+                var target = chunk[..2];
+                var digit = chunk.Substring(2, 2);
+
+
+                var parsedDigit = int.Parse(digit);
+
+                //Check if state
+                if(Enum.TryParse<State>(target, out var result)) 
+                {
+                    var stateChange = new SupportChange<Player, State>(currentPlayer, result, parsedDigit);
+                    changes.StateChanges.Add(stateChange);
+                }
+                else if (issueDict.TryGetValue(target, out Issue issueVal)) 
+                {
+                    var issueChange = new SupportChange<Player, Issue>(currentPlayer, issueVal, parsedDigit);
+                    changes.IssueChanges.Add(issueChange);
+
+                }
+                else if (mediaDict.TryGetValue(target, out Region mediaVal))
+                {
+                    var mediaChange = new SupportChange<Player, Region>(currentPlayer, mediaVal, parsedDigit);
+                    changes.MediaSupportChanges.Add(mediaChange);
+
+                }
+                else if (endorsementDict.TryGetValue(target, out Region endorsementVal))
+                {
+                    var endorsementChange = new SupportChange<Player, Region>(currentPlayer, endorsementVal, parsedDigit);
+                    changes.EndorsementChanges.Add(endorsementChange);
+                }
+                else 
+                {
+                    throw new Exception();
+                }
+
+
+            }
+
+           
+
+
+            ///var fff = new StaticDataComponent<State, Player, Region>(NineteenSixty.StateData);
 
 
             //var holder = NineteenSixty.stateLocationData;

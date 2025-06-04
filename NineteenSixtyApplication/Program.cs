@@ -6,6 +6,7 @@ using PresidentialGameEngine.ClassLibrary.Interfaces;
 using PresidentialGameEngine.ClassLibrary.Manifests;
 using PresidentialGameEngine.ClassLibrary.Randomness;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Channels;
 
 namespace NineteenSixtyApplication
 {
@@ -85,8 +86,18 @@ namespace NineteenSixtyApplication
                     }
                     else
                     {
+                        
+                        var changes = GetChangesFromUser(currentPlayer);
+
+                        if (card.AreChangesValid(changes))
+                        {
+                            card.Event(engine, currentPlayer, changes);
+                            engine.MoveCardFromHandToRemovedPile(currentPlayer, card);
+                        }
                         //Placeholder, just discarding it.
-                        engine.DiscardCardFromHand(currentPlayer, card);
+                        //engine.DiscardCardFromHand(currentPlayer, card);
+
+
                     }
                     //if(currentPlayer.ToOpponent().ToAffiliation() == card.Affiliation) 
                     //{
@@ -139,8 +150,96 @@ namespace NineteenSixtyApplication
 
         //private void GetActionTypeFromPlayer() 
         //{
-            
+
         //}
+
+
+        //string[] issueKeys = ["CI", "DI", "EI"];
+        //string[] mediaKeys = ["EM", "MM", "SM", "WM"];
+        //string[] endorsementKeys = ["EX", "MX", "SX", "WX"];
+
+        static readonly Dictionary<string, Issue> issueDict = new Dictionary<string, Issue>()
+            {
+                {"CI", Issue.CivilRights },
+                {"DI", Issue.Defense },
+                {"EI", Issue.Economy },
+            };
+
+        static readonly Dictionary<string, Region> mediaDict = new Dictionary<string, Region>()
+            {
+                {"EM", Region.East},
+                {"MM", Region.Midwest },
+                {"SM", Region.South },
+                {"WM", Region.West },
+            };
+
+        static readonly Dictionary<string, Region> endorsementDict = new Dictionary<string, Region>()
+            {
+                {"EX", Region.East},
+                {"MX", Region.Midwest },
+                {"SX", Region.South },
+                {"WX", Region.West },
+            };
+
+
+        private static PlayerChosenChanges<Player, Issue, State, Region> GetChangesFromUser(Player currentPlayer) 
+        {
+
+            PlayerChosenChanges<Player, Issue, State, Region> changes = new();
+
+            var input = Console.ReadLine();
+
+            var currentString = input;
+
+            while (string.IsNullOrWhiteSpace(currentString) == false)
+            {
+                var chunk = currentString.Substring(0, 4);
+                currentString = currentString.Substring(4);
+
+
+                var target = chunk[..2];
+                var digit = chunk.Substring(2, 2);
+
+
+                var parsedDigit = int.Parse(digit);
+
+                //Check if state
+                if (Enum.TryParse<State>(target, out var result))
+                {
+                    var stateChange = new SupportChange<Player, State>(currentPlayer, result, parsedDigit);
+                    changes.StateChanges.Add(stateChange);
+                }
+                else if (issueDict.TryGetValue(target, out Issue issueVal))
+                {
+                    var issueChange = new SupportChange<Player, Issue>(currentPlayer, issueVal, parsedDigit);
+                    changes.IssueChanges.Add(issueChange);
+
+                }
+                else if (mediaDict.TryGetValue(target, out Region mediaVal))
+                {
+                    var mediaChange = new SupportChange<Player, Region>(currentPlayer, mediaVal, parsedDigit);
+                    changes.MediaSupportChanges.Add(mediaChange);
+
+                }
+                else if (endorsementDict.TryGetValue(target, out Region endorsementVal))
+                {
+                    var endorsementChange = new SupportChange<Player, Region>(currentPlayer, endorsementVal, parsedDigit);
+                    changes.EndorsementChanges.Add(endorsementChange);
+                }
+                else
+                {
+                    throw new Exception();
+                }
+
+
+            }
+
+            return changes;
+
+
+        }
+
+        
 
 
         private static void ShowCards(IEnumerable<Card> cards) 
