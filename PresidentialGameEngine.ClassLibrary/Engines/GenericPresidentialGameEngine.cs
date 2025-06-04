@@ -384,15 +384,15 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
 
         public required IDictionary<PlayersEnum, int> RestCubes { get; init; }
 
-        public required IDictionary<IssuesEnum, SupportStatus<LeadersEnum>> IssueContests { get; init; }
+        public required IDictionary<IssuesEnum, SupportContest<LeadersEnum>> IssueContests { get; init; }
 
-        public required IDictionary<StatesEnum, SupportStatus<LeadersEnum>> StateContests { get; init; }
+        public required IDictionary<StatesEnum, SupportContest<LeadersEnum>> StateContests { get; init; }
 
         public required IList<IssuesEnum> IssueOrder { get; init; }
 
-        public required IDictionary<RegionsEnum, SupportStatus<LeadersEnum>> Endorsements { get; init; }
+        public required IDictionary<RegionsEnum, SupportContest<LeadersEnum>> Endorsements { get; init; }
 
-        public required IDictionary<RegionsEnum, SupportStatus<LeadersEnum>> MediaSupportLevels { get; init; }
+        public required IDictionary<RegionsEnum, SupportContest<LeadersEnum>> MediaSupportLevels { get; init; }
 
         public required IDictionary<PlayersEnum, StatesEnum> PlayerLocations { get; init; }
 

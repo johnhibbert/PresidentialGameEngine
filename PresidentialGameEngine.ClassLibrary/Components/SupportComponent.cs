@@ -12,13 +12,13 @@ namespace PresidentialGameEngine.ClassLibrary.Components
     {
         private readonly LeadersEnum defaultLeader = (LeadersEnum) Enum.ToObject(typeof(LeadersEnum), 0);
 
-        public IDictionary<SubjectEnum, SupportStatus<LeadersEnum>> SubjectContests { get; init; }
+        public IDictionary<SubjectEnum, SupportContest<LeadersEnum>> SubjectContests { get; init; }
 
-        public IDictionary<SubjectEnum, SupportStatus<LeadersEnum>> GetRawData() { return SubjectContests; }
+        public IDictionary<SubjectEnum, SupportContest<LeadersEnum>> GetRawData() { return SubjectContests; }
 
         public SupportComponent()
         {
-            SubjectContests = new Dictionary<SubjectEnum, SupportStatus<LeadersEnum>>();
+            SubjectContests = new Dictionary<SubjectEnum, SupportContest<LeadersEnum>>();
 
             var subjectValues = Enum.GetValues(typeof(SubjectEnum)).OfType<SubjectEnum>().ToList();
             var valueOfNone = (SubjectEnum)Enum.ToObject(typeof(SubjectEnum), 0);
@@ -26,7 +26,7 @@ namespace PresidentialGameEngine.ClassLibrary.Components
 
             foreach (SubjectEnum subject in subjectValues)
             {
-                SubjectContests.Add(subject, new SupportStatus<LeadersEnum>());
+                SubjectContests.Add(subject, new SupportContest<LeadersEnum>());
             }
         }
 
@@ -86,6 +86,11 @@ namespace PresidentialGameEngine.ClassLibrary.Components
                     targetContest.Amount = 0;
                 }
             }
+        }
+
+        public SupportStatus<LeadersEnum> GetSupportStatus(SubjectEnum subject)
+        {
+            return new SupportStatus<LeadersEnum>(SubjectContests[subject].Leader, SubjectContests[subject].Amount);
         }
     }
 
