@@ -185,7 +185,21 @@ namespace NineteenSixtyApplication
         private static PlayerChosenChanges<Player, Issue, State, Region> GetChangesFromUser(Player currentPlayer) 
         {
 
+            //WY+1 ID+1 ND+1 IA+1 KY+1 OK+1 NE+1
+            //WY+1ID+1ND+1IA+1KY+1OK+1NE+1
+
             PlayerChosenChanges<Player, Issue, State, Region> changes = new();
+
+
+            Console.WriteLine("This card requires you to make choices.  Type your changes into the console on one line as follows:");
+            Console.WriteLine("XX+A");
+            Console.WriteLine("XX is the state abbreviation. For non-states, use the following:");
+            Console.WriteLine("Issue: first letter then I: Defense would be DI");
+            Console.WriteLine("Media support: first letter of region then M.  Media support in the east would be EM.");
+            Console.WriteLine("Endorsement: first letter of region then X.  An endorsement in the south would be SX.");
+            Console.WriteLine("+A is the sign and single digit change. Adding two support would be +2. Losing two support would be -2.");
+            Console.WriteLine("So, OH+2DI-1MM+1WX+1 represents 2 support in Ohio, losing one support on Defense, gaining one media support in the midwest and one endorsment in the west.");
+
 
             var input = Console.ReadLine();
 
