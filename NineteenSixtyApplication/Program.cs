@@ -6,6 +6,7 @@ using PresidentialGameEngine.ClassLibrary.Interfaces;
 using PresidentialGameEngine.ClassLibrary.Manifests;
 using PresidentialGameEngine.ClassLibrary.Randomness;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Channels;
 
 namespace NineteenSixtyApplication
 {
@@ -85,8 +86,18 @@ namespace NineteenSixtyApplication
                     }
                     else
                     {
+                        
+                        var changes = GetChangesFromUser(currentPlayer);
+
+                        if (card.AreChangesValid(changes))
+                        {
+                            card.Event(engine, currentPlayer, changes);
+                            engine.MoveCardFromHandToRemovedPile(currentPlayer, card);
+                        }
                         //Placeholder, just discarding it.
-                        engine.DiscardCardFromHand(currentPlayer, card);
+                        //engine.DiscardCardFromHand(currentPlayer, card);
+
+
                     }
                     //if(currentPlayer.ToOpponent().ToAffiliation() == card.Affiliation) 
                     //{
@@ -139,8 +150,110 @@ namespace NineteenSixtyApplication
 
         //private void GetActionTypeFromPlayer() 
         //{
-            
+
         //}
+
+
+        //string[] issueKeys = ["CI", "DI", "EI"];
+        //string[] mediaKeys = ["EM", "MM", "SM", "WM"];
+        //string[] endorsementKeys = ["EX", "MX", "SX", "WX"];
+
+        static readonly Dictionary<string, Issue> issueDict = new Dictionary<string, Issue>()
+            {
+                {"CI", Issue.CivilRights },
+                {"DI", Issue.Defense },
+                {"EI", Issue.Economy },
+            };
+
+        static readonly Dictionary<string, Region> mediaDict = new Dictionary<string, Region>()
+            {
+                {"EM", Region.East},
+                {"MM", Region.Midwest },
+                {"SM", Region.South },
+                {"WM", Region.West },
+            };
+
+        static readonly Dictionary<string, Region> endorsementDict = new Dictionary<string, Region>()
+            {
+                {"EX", Region.East},
+                {"MX", Region.Midwest },
+                {"SX", Region.South },
+                {"WX", Region.West },
+            };
+
+
+        private static PlayerChosenChanges<Player, Issue, State, Region> GetChangesFromUser(Player currentPlayer) 
+        {
+
+            //WY+1 ID+1 ND+1 IA+1 KY+1 OK+1 NE+1
+            //WY+1ID+1ND+1IA+1KY+1OK+1NE+1
+
+            PlayerChosenChanges<Player, Issue, State, Region> changes = new();
+
+
+            Console.WriteLine("This card requires you to make choices.  Type your changes into the console on one line as follows:");
+            Console.WriteLine("XX+A");
+            Console.WriteLine("XX is the state abbreviation. For non-states, use the following:");
+            Console.WriteLine("Issue: first letter then I: Defense would be DI");
+            Console.WriteLine("Media support: first letter of region then M.  Media support in the east would be EM.");
+            Console.WriteLine("Endorsement: first letter of region then X.  An endorsement in the south would be SX.");
+            Console.WriteLine("+A is the sign and single digit change. Adding two support would be +2. Losing two support would be -2.");
+            Console.WriteLine("So, OH+2DI-1MM+1WX+1 represents 2 support in Ohio, losing one support on Defense, gaining one media support in the midwest and one endorsment in the west.");
+
+
+            var input = Console.ReadLine();
+
+            var currentString = input;
+
+            while (string.IsNullOrWhiteSpace(currentString) == false)
+            {
+                var chunk = currentString.Substring(0, 4);
+                currentString = currentString.Substring(4);
+
+
+                var target = chunk[..2];
+                var digit = chunk.Substring(2, 2);
+
+
+                var parsedDigit = int.Parse(digit);
+
+                //Check if state
+                if (Enum.TryParse<State>(target, out var result))
+                {
+                    var stateChange = new SupportChange<Player, State>(currentPlayer, result, parsedDigit);
+                    changes.StateChanges.Add(stateChange);
+                }
+                else if (issueDict.TryGetValue(target, out Issue issueVal))
+                {
+                    var issueChange = new SupportChange<Player, Issue>(currentPlayer, issueVal, parsedDigit);
+                    changes.IssueChanges.Add(issueChange);
+
+                }
+                else if (mediaDict.TryGetValue(target, out Region mediaVal))
+                {
+                    var mediaChange = new SupportChange<Player, Region>(currentPlayer, mediaVal, parsedDigit);
+                    changes.MediaSupportChanges.Add(mediaChange);
+
+                }
+                else if (endorsementDict.TryGetValue(target, out Region endorsementVal))
+                {
+                    var endorsementChange = new SupportChange<Player, Region>(currentPlayer, endorsementVal, parsedDigit);
+                    changes.EndorsementChanges.Add(endorsementChange);
+                }
+                else
+                {
+                    throw new Exception();
+                }
+
+
+            }
+
+            return changes;
+
+
+        }
+
+        
 
 
         private static void ShowCards(IEnumerable<Card> cards) 
