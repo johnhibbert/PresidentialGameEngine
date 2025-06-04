@@ -16,7 +16,7 @@ namespace PresidentialGameEngine.ClassLibrary.Interfaces
 
         public LeadersEnum GetLeader(SubjectEnum subject);
 
-        public int GetSupportAmount(SubjectEnum subject);
+        //public int GetSupportAmount(SubjectEnum subject);
 
         public SupportStatus<LeadersEnum> GetSupportStatus(SubjectEnum subject);
 

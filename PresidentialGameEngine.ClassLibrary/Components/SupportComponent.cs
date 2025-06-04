@@ -30,15 +30,21 @@ namespace PresidentialGameEngine.ClassLibrary.Components
             }
         }
 
+        //It's an open question if we should just make people go through the GetSupportStatus method.
         public LeadersEnum GetLeader(SubjectEnum subject) 
         {
             return SubjectContests[subject].Leader;
         }
 
-        public int GetSupportAmount(SubjectEnum subject) 
+        public SupportStatus<LeadersEnum> GetSupportStatus(SubjectEnum subject)
         {
-            return SubjectContests[subject].Amount;
+            return new SupportStatus<LeadersEnum>(SubjectContests[subject].Leader, SubjectContests[subject].Amount);
         }
+
+        //public int GetSupportAmount(SubjectEnum subject) 
+        //{
+        //    return SubjectContests[subject].Amount;
+        //}
 
         public void GainSupport(PlayersEnum player, SubjectEnum subject, int amount)
         {
@@ -88,10 +94,7 @@ namespace PresidentialGameEngine.ClassLibrary.Components
             }
         }
 
-        public SupportStatus<LeadersEnum> GetSupportStatus(SubjectEnum subject)
-        {
-            return new SupportStatus<LeadersEnum>(SubjectContests[subject].Leader, SubjectContests[subject].Amount);
-        }
+
     }
 
 }
