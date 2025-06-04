@@ -44,5 +44,134 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Assert.IsFalse(result);
         }
 
+
+        [TestMethod]
+        public void TotalStateChanges_ReturnsZeroIfUnassigned()
+        {
+            var sut = new PlayerChosenChanges<FakePlayer, FakeIssue, FakeState, FakeRegion>();
+
+            SupportChange<FakePlayer, FakeIssue> issueChange = new(FakePlayer.PlayerOne, FakeIssue.KetchupOnHotDogs, 1);
+            SupportChange<FakePlayer, FakeRegion> mediaChange = new(FakePlayer.PlayerOne, FakeRegion.North, 1);
+            SupportChange<FakePlayer, FakeRegion> endorsementChange = new(FakePlayer.PlayerOne, FakeRegion.SouthEast, 1);
+
+            sut.IssueChanges.Add(issueChange);
+            sut.MediaSupportChanges.Add(mediaChange);
+            sut.EndorsementChanges.Add(endorsementChange);
+
+            Assert.AreEqual(0, sut.TotalStateChanges);
+        }
+        [TestMethod]
+        public void HighestStateChange_ReturnsZeroIfUnassigned()
+        {
+            var sut = new PlayerChosenChanges<FakePlayer, FakeIssue, FakeState, FakeRegion>();
+
+            SupportChange<FakePlayer, FakeIssue> issueChange = new(FakePlayer.PlayerOne, FakeIssue.KetchupOnHotDogs, 1);
+            SupportChange<FakePlayer, FakeRegion> mediaChange = new(FakePlayer.PlayerOne, FakeRegion.North, 1);
+            SupportChange<FakePlayer, FakeRegion> endorsementChange = new(FakePlayer.PlayerOne, FakeRegion.SouthEast, 1);
+
+            sut.IssueChanges.Add(issueChange);
+            sut.MediaSupportChanges.Add(mediaChange);
+            sut.EndorsementChanges.Add(endorsementChange);
+
+            Assert.AreEqual(0, sut.HighestStateChange);
+        }
+
+
+        [TestMethod]
+        public void TotalIssueChanges_ReturnsZeroIfUnassigned()
+        {
+            var sut = new PlayerChosenChanges<FakePlayer, FakeIssue, FakeState, FakeRegion>();
+
+            SupportChange<FakePlayer, FakeState> stateChange = new(FakePlayer.PlayerOne, FakeState.Being, 2);
+            SupportChange<FakePlayer, FakeRegion> mediaChange = new(FakePlayer.PlayerOne, FakeRegion.North, 1);
+            SupportChange<FakePlayer, FakeRegion> endorsementChange = new(FakePlayer.PlayerOne, FakeRegion.SouthEast, 1);
+
+            sut.StateChanges.Add(stateChange);
+            sut.MediaSupportChanges.Add(mediaChange);
+            sut.EndorsementChanges.Add(endorsementChange);
+
+            Assert.AreEqual(0, sut.TotalIssueChanges);
+        }
+        [TestMethod]
+        public void HighestIssueChange_ReturnsZeroIfUnassigned()
+        {
+            var sut = new PlayerChosenChanges<FakePlayer, FakeIssue, FakeState, FakeRegion>();
+
+            SupportChange<FakePlayer, FakeState> stateChange = new(FakePlayer.PlayerOne, FakeState.Being, 2);
+            SupportChange<FakePlayer, FakeRegion> mediaChange = new(FakePlayer.PlayerOne, FakeRegion.North, 1);
+            SupportChange<FakePlayer, FakeRegion> endorsementChange = new(FakePlayer.PlayerOne, FakeRegion.SouthEast, 1);
+
+            sut.StateChanges.Add(stateChange);
+            sut.MediaSupportChanges.Add(mediaChange);
+            sut.EndorsementChanges.Add(endorsementChange);
+
+            Assert.AreEqual(0, sut.HighestIssueChange);
+        }
+
+
+        [TestMethod]
+        public void TotalMediaChanges_ReturnsZeroIfUnassigned()
+        {
+            var sut = new PlayerChosenChanges<FakePlayer, FakeIssue, FakeState, FakeRegion>();
+
+            SupportChange<FakePlayer, FakeIssue> issueChange = new(FakePlayer.PlayerOne, FakeIssue.KetchupOnHotDogs, 1);
+            SupportChange<FakePlayer, FakeState> stateChange = new(FakePlayer.PlayerOne, FakeState.Being, 2);
+            SupportChange<FakePlayer, FakeRegion> endorsementChange = new(FakePlayer.PlayerOne, FakeRegion.SouthEast, 1);
+
+            sut.IssueChanges.Add(issueChange);
+            sut.StateChanges.Add(stateChange);
+            sut.EndorsementChanges.Add(endorsementChange);
+
+            Assert.AreEqual(0, sut.TotalMediaChanges);
+        }
+        [TestMethod]
+        public void HighestMediaChange_ReturnsZeroIfUnassigned()
+        {
+            var sut = new PlayerChosenChanges<FakePlayer, FakeIssue, FakeState, FakeRegion>();
+
+            SupportChange<FakePlayer, FakeIssue> issueChange = new(FakePlayer.PlayerOne, FakeIssue.KetchupOnHotDogs, 1);
+            SupportChange<FakePlayer, FakeState> stateChange = new(FakePlayer.PlayerOne, FakeState.Being, 2);
+            SupportChange<FakePlayer, FakeRegion> endorsementChange = new(FakePlayer.PlayerOne, FakeRegion.SouthEast, 1);
+
+            sut.IssueChanges.Add(issueChange);
+            sut.StateChanges.Add(stateChange);
+            sut.EndorsementChanges.Add(endorsementChange);
+
+            Assert.AreEqual(0, sut.HighestMediaChange);
+        }
+
+
+        [TestMethod]
+        public void TotalEndorsementChanges_ReturnsZeroIfUnassigned()
+        {
+            var sut = new PlayerChosenChanges<FakePlayer, FakeIssue, FakeState, FakeRegion>();
+
+            SupportChange<FakePlayer, FakeIssue> issueChange = new(FakePlayer.PlayerOne, FakeIssue.KetchupOnHotDogs, 1);
+            SupportChange<FakePlayer, FakeState> stateChange = new(FakePlayer.PlayerOne, FakeState.Being, 2);
+            SupportChange<FakePlayer, FakeRegion> mediaChange = new(FakePlayer.PlayerOne, FakeRegion.North, 1);
+
+            sut.IssueChanges.Add(issueChange);
+            sut.StateChanges.Add(stateChange);
+            sut.MediaSupportChanges.Add(mediaChange);
+
+            Assert.AreEqual(0, sut.TotalEndorsementChanges);
+        }
+        [TestMethod]
+        public void HighestEndorsementChange_ReturnsZeroIfUnassigned()
+        {
+            var sut = new PlayerChosenChanges<FakePlayer, FakeIssue, FakeState, FakeRegion>();
+
+            SupportChange<FakePlayer, FakeIssue> issueChange = new(FakePlayer.PlayerOne, FakeIssue.KetchupOnHotDogs, 1);
+            SupportChange<FakePlayer, FakeState> stateChange = new(FakePlayer.PlayerOne, FakeState.Being, 2);
+            SupportChange<FakePlayer, FakeRegion> mediaChange = new(FakePlayer.PlayerOne, FakeRegion.North, 1);
+           
+
+            sut.IssueChanges.Add(issueChange);
+            sut.StateChanges.Add(stateChange);
+            sut.MediaSupportChanges.Add(mediaChange);
+
+            Assert.AreEqual(0, sut.HighestEndorsementChange);
+        }
+
     }
 }

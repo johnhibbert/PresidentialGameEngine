@@ -34,7 +34,14 @@
         }
         public int HighestIssueChange
         {
-            get { return IssueChanges.Max(x => x.Change); }
+            get 
+            { 
+                if(IssueChanges.Count == 0) 
+                {
+                    return 0;
+                }
+                else return IssueChanges.Max(x => x.Change);
+            }
         }
 
         public int TotalStateChanges
@@ -44,7 +51,14 @@
         }
         public int HighestStateChange
         {
-            get { return StateChanges.Max(x => x.Change); }
+            get 
+            {
+                if (StateChanges.Count == 0)
+                {
+                    return 0;
+                }
+                else return StateChanges.Max(x => x.Change);
+            }
         }
 
         public int TotalEndorsementChanges
@@ -54,7 +68,14 @@
         }
         public int HighestEndorsementChange
         {
-            get { return EndorsementChanges.Max(x => x.Change); }
+            get 
+            {
+                if (EndorsementChanges.Count == 0)
+                {
+                    return 0;
+                }
+                else return EndorsementChanges.Max(x => x.Change);
+            }
         }
 
         public int TotalMediaChanges
@@ -64,7 +85,14 @@
         }
         public int HighestMediaChange
         {
-            get { return MediaSupportChanges.Max(x => x.Change); }
+            get 
+            {
+                if (MediaSupportChanges.Count == 0)
+                {
+                    return 0;
+                }
+                else return MediaSupportChanges.Max(x => x.Change);
+            }
         }
 
         //The existing game does not appear to ever require
