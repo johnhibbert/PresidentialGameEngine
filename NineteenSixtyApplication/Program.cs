@@ -25,7 +25,7 @@ namespace NineteenSixtyApplication
             var engine = GetGameEngine(12);
 
 
-
+            var change = 0;
 
 
             engine.DoInitialSetup();
