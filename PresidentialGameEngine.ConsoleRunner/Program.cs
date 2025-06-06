@@ -55,6 +55,7 @@ namespace PresidentialGameEngine.ConsoleRunner
         private static void SimplePlayground() 
         {
 
+            
 
 
             string threeStateSupportInMA = "MA+3";
@@ -280,6 +281,10 @@ namespace PresidentialGameEngine.ConsoleRunner
             var restComp = new AccumulatingComponent<Player>();
             var regionalComp = new PlayerLocationComponent<Player, State>(playerStartingLocations);
             var endorsementComp = new SupportComponent<Player, Leader, Region>();
+            var staticDataComp = new StaticDataComponent<State, Player, Region>(NineteenSixty.StateData);
+            var mediaSupportComponent = new SupportComponent<Player, Leader, Region>();
+            var exhaustionComponent = new ExhaustionComponent<Player>();
+            var cardComponent = new CardComponent<Player, Card>(random, NineteenSixty.GMTCards);
 
             ComponentCollection<Player, Leader, Issue, State, Region, Card> componentCollection = new();
 
@@ -292,10 +297,30 @@ namespace PresidentialGameEngine.ConsoleRunner
             componentCollection.RestComponent = restComp;
             componentCollection.PlayerLocationComponent = regionalComp;
             componentCollection.EndorsementComponent = endorsementComp;
+            componentCollection.StaticDataComponent = staticDataComp;
+            componentCollection.MediaSupportComponent = mediaSupportComponent;
+            componentCollection.ExhaustionComponent = exhaustionComponent;
+            componentCollection.CardComponent = cardComponent;
+
             isReady = componentCollection.IsReady();
 
 
-            
+
+            var newEngine = new NineteenSixtyGameEngine(componentCollection);
+
+            GameController<Player, Leader, Issue, State, Region, Card> controller
+                = new(newEngine);
+
+            var card = NineteenSixty.GMTCards[3];
+
+            GameAction<Player, Leader, Issue, State, Region, Card> action = new()
+            {
+                Player = Player.Kennedy,
+                Card = card,
+                changes = new PlayerChosenChanges<Player, Issue, State, Region>()
+            };
+
+            controller.PlayCardAsEvent(action);
 
 
         }
