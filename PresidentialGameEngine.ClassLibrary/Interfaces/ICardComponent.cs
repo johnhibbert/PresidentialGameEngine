@@ -4,7 +4,7 @@ namespace PresidentialGameEngine.ClassLibrary.Interfaces
 {
     public interface ICardComponent<PlayersEnum, CardClass>
         where PlayersEnum : Enum
-        where CardClass : class
+        where CardClass : ICard
     {
         int CountCardsLeftInDeck();
 

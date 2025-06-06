@@ -8,7 +8,7 @@ namespace PresidentialGameEngine.ClassLibrary.Interfaces
         where IssuesEnum : Enum
         where StatesEnum : Enum
         where RegionsEnum : Enum
-        where CardClass : class
+        where CardClass : ICard
     {
         ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum>? EndorsementComponent { get; set; }
         IPositioningComponent<IssuesEnum>? IssuePositioningComponent { get; set; }

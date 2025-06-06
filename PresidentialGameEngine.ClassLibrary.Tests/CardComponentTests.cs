@@ -1,5 +1,6 @@
 ﻿using PresidentialGameEngine.ClassLibrary.Components;
 using PresidentialGameEngine.ClassLibrary.Enums;
+using PresidentialGameEngine.ClassLibrary.Interfaces;
 using static PresidentialGameEngine.ClassLibrary.Tests.TestStubsFakesAndMocks;
 
 namespace PresidentialGameEngine.ClassLibrary.Tests
@@ -14,7 +15,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         {
             SeededRandomnessProviderForTesting seed = new();
 
-            CardComponent<FakeEnumWithTwo, FakeCardClass> sut
+            CardComponent<FakeEnumWithTwo, ICard> sut
                 = new(seed, FakeManifest);
 
             Assert.AreEqual(0, sut.ViewCardsInZone(CardZone.Hand, FakeEnumWithTwo.ElementOne).Count());
@@ -26,7 +27,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         {
             SeededRandomnessProviderForTesting seed = new();
 
-            CardComponent<FakeEnumWithThree, FakeCardClass> sut
+            CardComponent<FakeEnumWithThree, ICard> sut
                 = new(seed, FakeManifest);
 
             Assert.AreEqual(0, sut.ViewCardsInZone(CardZone.Hand, FakeEnumWithThree.ElementOne).Count());
@@ -39,7 +40,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         {
             SeededRandomnessProviderForTesting seed = new();
 
-            CardComponent<FakeEnumWithFive, FakeCardClass> sut
+            CardComponent<FakeEnumWithFive, ICard> sut
                 = new(seed, FakeManifest);
 
             Assert.AreEqual(0, sut.ViewCardsInZone(CardZone.Hand, FakeEnumWithFive.ElementOne).Count());
@@ -54,7 +55,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         {
             SeededRandomnessProviderForTesting seed = new();
 
-            CardComponent<FakeEnumWithTwo, FakeCardClass> sut
+            CardComponent<FakeEnumWithTwo, ICard> sut
                 = new(seed, FakeManifest);
 
             var result = sut.CountCardsLeftInDeck();
@@ -71,7 +72,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         {
             SeededRandomnessProviderForTesting seed = new();
 
-            CardComponent<FakeEnumWithTwo, FakeCardClass> sut
+            CardComponent<FakeEnumWithTwo, ICard> sut
                 = new(seed, FakeManifest);
 
             var result = sut.CountCardsLeftInDeck();
@@ -84,7 +85,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         {
             SeededRandomnessProviderForTesting seed = new();
 
-            CardComponent<FakeEnumWithTwo, FakeCardClass> sut
+            CardComponent<FakeEnumWithTwo, ICard> sut
                 = new(seed, FakeManifest);
 
             sut.DrawCards(FakeEnumWithTwo.ElementOne, 1);
@@ -103,7 +104,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         {
             SeededRandomnessProviderForTesting seed = new();
 
-            CardComponent<FakePlayer, FakeCardClass> sut
+            CardComponent<FakePlayer, ICard> sut
                 = new(seed, FakeManifest);
 
             sut.DrawCards(FakePlayer.PlayerOne, 1);
@@ -124,7 +125,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         {
             SeededRandomnessProviderForTesting seed = new();
 
-            CardComponent<FakePlayer, FakeCardClass> sut
+            CardComponent<FakePlayer, ICard> sut
                 = new(seed, FakeManifest);
 
             sut.DrawCards(FakePlayer.PlayerOne, 1);
@@ -151,7 +152,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             CardZone sourceZone = CardZone.Deck;
             SeededRandomnessProviderForTesting seed = new();
 
-            CardComponent<FakePlayer, FakeCardClass> sut
+            CardComponent<FakePlayer, ICard> sut
                 = new(seed, FakeManifest);
 
             var card = FakeManifest[1];
@@ -173,7 +174,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             CardZone sourceZone = CardZone.Hand;
             SeededRandomnessProviderForTesting seed = new();
 
-            CardComponent<FakePlayer, FakeCardClass> sut
+            CardComponent<FakePlayer, ICard> sut
                 = new(seed, FakeManifest);
 
             var card = FakeManifest[1];
@@ -196,7 +197,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             CardZone sourceZone = CardZone.Discard;
             SeededRandomnessProviderForTesting seed = new();
 
-            CardComponent<FakePlayer, FakeCardClass> sut
+            CardComponent<FakePlayer, ICard> sut
                 = new(seed, FakeManifest);
 
             var card = FakeManifest[1];
@@ -219,7 +220,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             CardZone sourceZone = CardZone.CampaignStrategy;
             SeededRandomnessProviderForTesting seed = new();
 
-            CardComponent<FakePlayer, FakeCardClass> sut
+            CardComponent<FakePlayer, ICard> sut
                 = new(seed, FakeManifest);
 
             var card = FakeManifest[1];
@@ -243,7 +244,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             CardZone destinationZone = CardZone.Deck;
             SeededRandomnessProviderForTesting seed = new();
 
-            CardComponent<FakePlayer, FakeCardClass> sut
+            CardComponent<FakePlayer, ICard> sut
                 = new(seed, FakeManifest);
 
             var card = FakeManifest[1];
@@ -267,7 +268,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             CardZone destinationZone = sourceZone;
             SeededRandomnessProviderForTesting seed = new();
 
-            CardComponent<FakePlayer, FakeCardClass> sut
+            CardComponent<FakePlayer, ICard> sut
                 = new(seed, FakeManifest);
 
             var card = FakeManifest[1];
@@ -287,7 +288,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         {
             SeededRandomnessProviderForTesting seed = new();
 
-            CardComponent<FakePlayer, FakeCardClass> sut
+            CardComponent<FakePlayer, ICard> sut
                 = new(seed, FakeManifest);
 
             var card = FakeManifest[1];
@@ -304,7 +305,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         {
             SeededRandomnessProviderForTesting seed = new();
 
-            CardComponent<FakePlayer, FakeCardClass> sut
+            CardComponent<FakePlayer, ICard> sut
                 = new(seed, FakeManifest);
 
             var card = FakeManifest[1];
@@ -321,7 +322,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         {
             SeededRandomnessProviderForTesting seed = new();
 
-            CardComponent<FakePlayer, FakeCardClass> sut
+            CardComponent<FakePlayer, ICard> sut
                 = new(seed, FakeManifest);
 
             var card = FakeManifest[2];
@@ -337,7 +338,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         {
             SeededRandomnessProviderForTesting seed = new();
 
-            CardComponent<FakePlayer, FakeCardClass> sut
+            CardComponent<FakePlayer, ICard> sut
                 = new(seed, FakeManifest);
 
             var card = FakeManifest[3];
@@ -354,7 +355,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         {
             SeededRandomnessProviderForTesting seed = new();
 
-            CardComponent<FakePlayer, FakeCardClass> sut
+            CardComponent<FakePlayer, ICard> sut
                 = new(seed, FakeManifest);
 
             sut.ViewCardsInZone(CardZone.Deck, FakePlayer.PlayerOne);

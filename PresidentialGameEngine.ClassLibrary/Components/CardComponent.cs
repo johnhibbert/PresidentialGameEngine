@@ -5,7 +5,7 @@ using PresidentialGameEngine.ClassLibrary.Interfaces;
 namespace PresidentialGameEngine.ClassLibrary.Components
 {
     public class CardComponent<PlayersEnum, CardClass> : ICardComponent<PlayersEnum, CardClass> where PlayersEnum : Enum
-        where CardClass : class
+        where CardClass : ICard
     {
         private IRandomnessProvider Random { get; init; }
 
