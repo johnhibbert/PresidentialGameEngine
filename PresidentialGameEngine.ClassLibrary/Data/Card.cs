@@ -1,9 +1,10 @@
 ﻿using PresidentialGameEngine.ClassLibrary.Engines;
 using PresidentialGameEngine.ClassLibrary.Enums;
+using PresidentialGameEngine.ClassLibrary.Interfaces;
 
 namespace PresidentialGameEngine.ClassLibrary.Data
 {
-    public class Card
+    public class Card : ICard
     {
         public int Index { get; init; }
 
@@ -37,7 +38,7 @@ namespace PresidentialGameEngine.ClassLibrary.Data
             return $"{Title} [{Index}]";
         }
 
-        public string ToLongString() 
+        public string ToLongString()
         {
             return $"{ToString()}: {Text}";
         }

@@ -1,4 +1,7 @@
-﻿using PresidentialGameEngine.ClassLibrary.Interfaces;
+﻿using PresidentialGameEngine.ClassLibrary.Data;
+using PresidentialGameEngine.ClassLibrary.Engines;
+using PresidentialGameEngine.ClassLibrary.Enums;
+using PresidentialGameEngine.ClassLibrary.Interfaces;
 
 namespace PresidentialGameEngine.ClassLibrary.Tests
 {
@@ -73,18 +76,53 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             PepsiOrCoke = 2
         }
 
-        public class FakeCardClass
+        public class FakeCardClass : ICard
         {
-            public int index;
+            public int Index { get; init; }
+
+            public string Title { get; init; }
+
+            public string Text { get; init; }
+
+            public int CampaignPoints { get; init; }
+
+            public int RestCubes
+            {
+                get { return 4 - CampaignPoints; }
+            }
+
+            public Issue Issue { get; init; }
+
+            public Affiliation Affiliation { get; init; }
+
+            public State State { get; init; }
+
+            public EventType EventType { get; init; }
+
+            public bool RequiresPlayerInput { get; init; }
+
+            public Predicate<PlayerChosenChanges<Player, Issue, State, Region>> AreChangesValid { get; init; }
+
+            public Action<NineteenSixtyGameEngine, Player, PlayerChosenChanges<Player, Issue, State, Region>> Event { get; init; }
+
+            public override string ToString()
+            {
+                return $"{Title} [{Index}]";
+            }
+
+            public string ToLongString()
+            {
+                return $"{ToString()}: {Text}";
+            }
         };
 
-        public static readonly Dictionary<int, FakeCardClass> FakeManifest = new Dictionary<int, FakeCardClass>()
+        public static readonly Dictionary<int, ICard> FakeManifest = new Dictionary<int, ICard>()
         {
-            {1, new FakeCardClass() { index = 1 } },
-            {2, new FakeCardClass() { index = 2 } },
-            {3, new FakeCardClass() { index = 3 } },
-            {4, new FakeCardClass() { index = 4 } },
-            {5, new FakeCardClass() { index = 5 } },
+            {1, new FakeCardClass() { Index = 1 } },
+            {2, new FakeCardClass() { Index = 2 } },
+            {3, new FakeCardClass() { Index = 3 } },
+            {4, new FakeCardClass() { Index = 4 } },
+            {5, new FakeCardClass() { Index = 5 } },
         };
 
 

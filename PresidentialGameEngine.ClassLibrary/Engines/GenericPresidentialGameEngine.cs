@@ -12,7 +12,7 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
         where IssuesEnum : Enum
         where StatesEnum : Enum
         where RegionsEnum : Enum
-        where CardClass : class
+        where CardClass : ICard
     {
         IAccumulatingComponent<PlayersEnum> MomentumComponent { get; init; }
         ISupportComponent<PlayersEnum, LeadersEnum, IssuesEnum> IssueSupportComponent { get; init; }

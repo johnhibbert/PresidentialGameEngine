@@ -1,4 +1,5 @@
 ﻿using PresidentialGameEngine.ClassLibrary.Data;
+using PresidentialGameEngine.ClassLibrary.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
         where IssuesEnum : Enum
         where StatesEnum : Enum
         where RegionsEnum : Enum
-        where CardClass : class
+        where CardClass : ICard
     {
 
         readonly GenericPresidentialGameEngine<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum, CardClass> Engine;
@@ -28,7 +29,7 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
             throw new NotImplementedException();
 
             //This is why we need an interface and not just a generic class
-            //gameAction.Card.
+            //var ff = gameAction.Card.Index;
         }
 
         public void PlayCandidateCard(GameAction<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum, CardClass> gameAction)
@@ -51,7 +52,7 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
         where IssuesEnum : Enum
         where StatesEnum : Enum
         where RegionsEnum : Enum
-        where CardClass : class
+        where CardClass : ICard
     {
         public PlayersEnum Player;
         public CardClass Card;
