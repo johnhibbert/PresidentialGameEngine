@@ -326,7 +326,11 @@ namespace PresidentialGameEngine.ConsoleRunner
             var NEWchanges = new NEWChangeBattery<Player,Issue,State,Region>();
 
             NEWchanges.StateChanges.Add(new NEWSupportChange<Player, State>(Player.Kennedy, State.RI, NEWChangeDirection.Gain, 1));
-
+            NEWchanges.IssueChanges.Add(new NEWSupportChange<Player, Issue>(Player.Kennedy, Issue.Economy, NEWChangeDirection.Gain, 1));
+            NEWchanges.MediaSupportChanges.Add(new NEWSupportChange<Player, Region>(Player.Kennedy, Region.East, NEWChangeDirection.Gain, 1));
+            NEWchanges.EndorsementChanges.Add(new NEWSupportChange<Player, Region>(Player.Kennedy, Region.East, NEWChangeDirection.Gain, 1));
+            NEWchanges.RestChanges.Add(new NEWAccumulationChange<Player>(Player.Kennedy, NEWChangeDirection.Gain, 1));
+            NEWchanges.PlayerLocationChanges.Add(new NEWPlayerLocationChange<Player, State>(Player.Kennedy, State.WY));
 
             newEngine.NEWImplementChanges(NEWchanges);
 
