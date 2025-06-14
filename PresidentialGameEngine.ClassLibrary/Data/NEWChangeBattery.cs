@@ -23,16 +23,6 @@ namespace PresidentialGameEngine.ClassLibrary.Data
 
         public List<NEWPlayerLocationChange<PlayersEnum, StatesEnum>> PlayerLocationChanges { get; set; }
 
-        //Can these all be SupportChanges?  Hmm Might need a name change
-        //Some concepts don't need a target.
-        //Non support components are
-        //Accumlations (momentum)--------
-        //Cards (player, cardclass)
-        //Ehxaustion (Player)
-        //Player Location (Player State)-------
-        //IssuePositioning. (issue)
-        //Rest-------
-
         public List<IssuesEnum> NewIssuesOrder { get; set; }
 
         public NEWChangeBattery()
@@ -44,6 +34,7 @@ namespace PresidentialGameEngine.ClassLibrary.Data
             NewIssuesOrder = [];
             MomentumChanges = [];
             RestChanges = [];
+            PlayerLocationChanges = [];
         }
 
     }
