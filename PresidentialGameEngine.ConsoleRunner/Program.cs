@@ -308,19 +308,27 @@ namespace PresidentialGameEngine.ConsoleRunner
 
             var newEngine = new NineteenSixtyGameEngine(componentCollection);
 
-            GameController<Player, Leader, Issue, State, Region, Card> controller
-                = new(newEngine);
+            //GameController<Player, Leader, Issue, State, Region, Card> controller
+            //    = new(newEngine);
 
-            var card = NineteenSixty.GMTCards[3];
+            //var card = NineteenSixty.GMTCards[3];
 
-            GameAction<Player, Leader, Issue, State, Region, Card> action = new()
-            {
-                Player = Player.Kennedy,
-                Card = card,
-                changes = new PlayerChosenChanges<Player, Issue, State, Region>()
-            };
+            //GameAction<Player, Leader, Issue, State, Region, Card> action = new()
+            //{
+            //    Player = Player.Kennedy,
+            //    Card = card,
+            //    changes = new PlayerChosenChanges<Player, Issue, State, Region>()
+            //};
 
-            controller.PlayCardAsEvent(action);
+            //controller.PlayCardAsEvent(action);
+
+
+            var NEWchanges = new NEWChangeBattery<Player,Issue,State,Region>();
+
+            NEWchanges.StateChanges.Add(new NEWSupportChange<Player, State>(Player.Kennedy, State.RI, NEWChangeDirection.Gain, 1));
+
+
+            newEngine.NEWImplementChanges(NEWchanges);
 
 
         }
