@@ -178,87 +178,87 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
         }
 
 
-        public void NEWImplementChanges(NEWChangeBattery<PlayersEnum, IssuesEnum, StatesEnum, RegionsEnum> changeBattery) 
+        public void NEWImplementChanges(NEW_ChangeBattery<PlayersEnum, IssuesEnum, StatesEnum, RegionsEnum> changeBattery) 
         {
-            foreach (NEWSupportChange<PlayersEnum, StatesEnum> stateChange in changeBattery.StateChanges)
+            foreach (NEW_SupportChange<PlayersEnum, StatesEnum> stateChange in changeBattery.StateChanges)
             {
                 switch (stateChange.GainOrLoss) 
                 {
-                    case NEWChangeDirection.Gain:
+                    case NEW_ChangeDirection.Gain:
                         GainSupport(stateChange.Player, stateChange.Target, stateChange.Change);
                         break;
-                    case NEWChangeDirection.Loss:
+                    case NEW_ChangeDirection.Loss:
                         LoseSupport(stateChange.Player, stateChange.Target, stateChange.Change);
                         break;
                 }
             }
 
-            foreach (NEWSupportChange<PlayersEnum, IssuesEnum> issueChange in changeBattery.IssueChanges)
+            foreach (NEW_SupportChange<PlayersEnum, IssuesEnum> issueChange in changeBattery.IssueChanges)
             {
                 switch (issueChange.GainOrLoss)
                 {
-                    case NEWChangeDirection.Gain:
+                    case NEW_ChangeDirection.Gain:
                         GainSupport(issueChange.Player, issueChange.Target, issueChange.Change);
                         break;
-                    case NEWChangeDirection.Loss:
+                    case NEW_ChangeDirection.Loss:
                         LoseSupport(issueChange.Player, issueChange.Target, issueChange.Change);
                         break;
                 }
             }
 
-            foreach (NEWSupportChange<PlayersEnum, RegionsEnum> endorsementChange in changeBattery.EndorsementChanges)
+            foreach (NEW_SupportChange<PlayersEnum, RegionsEnum> endorsementChange in changeBattery.EndorsementChanges)
             {
                 switch (endorsementChange.GainOrLoss)
                 {
-                    case NEWChangeDirection.Gain:
+                    case NEW_ChangeDirection.Gain:
                         EndorsementComponent.GainSupport(endorsementChange.Player, endorsementChange.Target, endorsementChange.Change);
                         break;
-                    case NEWChangeDirection.Loss:
+                    case NEW_ChangeDirection.Loss:
                         EndorsementComponent.LoseSupport(endorsementChange.Player, endorsementChange.Target, endorsementChange.Change);
                         break;
                 }
             }
 
-            foreach (NEWSupportChange<PlayersEnum, RegionsEnum> mediaChange in changeBattery.MediaSupportChanges)
+            foreach (NEW_SupportChange<PlayersEnum, RegionsEnum> mediaChange in changeBattery.MediaSupportChanges)
             {
                 switch (mediaChange.GainOrLoss)
                 {
-                    case NEWChangeDirection.Gain:
+                    case NEW_ChangeDirection.Gain:
                         MediaSupportComponent.GainSupport(mediaChange.Player, mediaChange.Target, mediaChange.Change);
                         break;
-                    case NEWChangeDirection.Loss:
+                    case NEW_ChangeDirection.Loss:
                         MediaSupportComponent.LoseSupport(mediaChange.Player, mediaChange.Target, mediaChange.Change);
                         break;
                 }
             }
 
-            foreach (NEWAccumulationChange<PlayersEnum> momentumChange in changeBattery.MomentumChanges)
+            foreach (NEW_AccumulationChange<PlayersEnum> momentumChange in changeBattery.MomentumChanges)
             {
                 switch (momentumChange.GainOrLoss)
                 {
-                    case NEWChangeDirection.Gain:
+                    case NEW_ChangeDirection.Gain:
                         MomentumComponent.GainAmount(momentumChange.Player, momentumChange.Change);
                         break;
-                    case NEWChangeDirection.Loss:
+                    case NEW_ChangeDirection.Loss:
                         MomentumComponent.LoseAmount(momentumChange.Player, momentumChange.Change);
                         break;
                 }
             }
 
-            foreach (NEWAccumulationChange<PlayersEnum> restChange in changeBattery.RestChanges)
+            foreach (NEW_AccumulationChange<PlayersEnum> restChange in changeBattery.RestChanges)
             {
                 switch (restChange.GainOrLoss)
                 {
-                    case NEWChangeDirection.Gain:
+                    case NEW_ChangeDirection.Gain:
                         RestComponent.GainAmount(restChange.Player, restChange.Change);
                         break;
-                    case NEWChangeDirection.Loss:
+                    case NEW_ChangeDirection.Loss:
                         RestComponent.LoseAmount(restChange.Player, restChange.Change);
                         break;
                 }
             }
 
-            foreach (NEWPlayerLocationChange<PlayersEnum, StatesEnum> playerLocationChange in changeBattery.PlayerLocationChanges)
+            foreach (NEW_PlayerLocationChange<PlayersEnum, StatesEnum> playerLocationChange in changeBattery.PlayerLocationChanges)
             {
                 PlayerLocationComponent.MovePlayerToState(playerLocationChange.Player, playerLocationChange.State);
             }

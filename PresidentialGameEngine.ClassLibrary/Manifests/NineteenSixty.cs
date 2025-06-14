@@ -110,8 +110,8 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     Event = (engine, player, choices) =>
                     {
                         //Consuming the new path.
-                        var changes = new NEWChangeBattery<Player,Issue,State,Region>();
-                        changes.MomentumChanges.Add(new NEWAccumulationChange<Player>(player, NEWChangeDirection.Gain, 1));
+                        var changes = new NEW_ChangeBattery<Player,Issue,State,Region>();
+                        changes.MomentumChanges.Add(new NEW_AccumulationChange<Player>(player, NEW_ChangeDirection.Gain, 1));
                         engine.NEWImplementChanges(changes);
 
                         //Original method.
