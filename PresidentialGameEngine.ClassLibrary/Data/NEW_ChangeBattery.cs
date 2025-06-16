@@ -25,6 +25,8 @@ namespace PresidentialGameEngine.ClassLibrary.Data
 
         public List<IssuesEnum> NewIssuesOrder { get; set; }
 
+        public IssuesEnum IssueToElevate { get; set; }
+
         public NEW_ChangeBattery()
         {
             IssueChanges = [];
@@ -35,6 +37,7 @@ namespace PresidentialGameEngine.ClassLibrary.Data
             MomentumChanges = [];
             RestChanges = [];
             PlayerLocationChanges = [];
+            IssueToElevate = (IssuesEnum)Enum.ToObject(typeof(IssuesEnum), 0);
         }
 
     }

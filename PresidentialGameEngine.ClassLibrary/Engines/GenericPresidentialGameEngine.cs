@@ -263,6 +263,20 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
                 PlayerLocationComponent.MovePlayerToState(playerLocationChange.Player, playerLocationChange.State);
             }
 
+            IssuesEnum defaultIssue = (IssuesEnum)Enum.ToObject(typeof(IssuesEnum), 0);
+            bool issueToElevateIsNotDefault = EqualityComparer<IssuesEnum>.Default.Equals(changeBattery.IssueToElevate, defaultIssue) == false;
+
+            bool hasNewIssueOrder = changeBattery.NewIssuesOrder.Count == (Enum.GetValues(typeof(IssuesEnum)).Length - 1);
+
+            if (issueToElevateIsNotDefault)
+            {
+                IssuePositioningComponent.MoveSubjectUp(changeBattery.IssueToElevate);
+            }
+            else if(hasNewIssueOrder)
+            {
+                IssuePositioningComponent.SetSubjectOrder(changeBattery.NewIssuesOrder);
+            }
+
         }
 
 

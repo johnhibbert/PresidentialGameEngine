@@ -332,6 +332,13 @@ namespace PresidentialGameEngine.ConsoleRunner
             NEWchanges.RestChanges.Add(new NEW_AccumulationChange<Player>(Player.Kennedy, NEW_ChangeDirection.Gain, 1));
             NEWchanges.PlayerLocationChanges.Add(new NEW_PlayerLocationChange<Player, State>(Player.Kennedy, State.WY));
 
+            //NEWchanges.IssueToElevate = Issue.Economy;
+
+            NEWchanges.NewIssuesOrder =
+            [
+                Issue.CivilRights, Issue.Defense, Issue.Economy
+            ];
+
             newEngine.NEWImplementChanges(NEWchanges);
 
 
