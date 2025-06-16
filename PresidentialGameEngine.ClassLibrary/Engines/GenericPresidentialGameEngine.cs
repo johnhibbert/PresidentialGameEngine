@@ -178,6 +178,108 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
         }
 
 
+        public void NEWImplementChanges(NEW_ChangeBattery<PlayersEnum, IssuesEnum, StatesEnum, RegionsEnum> changeBattery) 
+        {
+            foreach (NEW_SupportChange<PlayersEnum, StatesEnum> stateChange in changeBattery.StateChanges)
+            {
+                switch (stateChange.GainOrLoss) 
+                {
+                    case NEW_ChangeDirection.Gain:
+                        GainSupport(stateChange.Player, stateChange.Target, stateChange.Change);
+                        break;
+                    case NEW_ChangeDirection.Loss:
+                        LoseSupport(stateChange.Player, stateChange.Target, stateChange.Change);
+                        break;
+                }
+            }
+
+            foreach (NEW_SupportChange<PlayersEnum, IssuesEnum> issueChange in changeBattery.IssueChanges)
+            {
+                switch (issueChange.GainOrLoss)
+                {
+                    case NEW_ChangeDirection.Gain:
+                        GainSupport(issueChange.Player, issueChange.Target, issueChange.Change);
+                        break;
+                    case NEW_ChangeDirection.Loss:
+                        LoseSupport(issueChange.Player, issueChange.Target, issueChange.Change);
+                        break;
+                }
+            }
+
+            foreach (NEW_SupportChange<PlayersEnum, RegionsEnum> endorsementChange in changeBattery.EndorsementChanges)
+            {
+                switch (endorsementChange.GainOrLoss)
+                {
+                    case NEW_ChangeDirection.Gain:
+                        EndorsementComponent.GainSupport(endorsementChange.Player, endorsementChange.Target, endorsementChange.Change);
+                        break;
+                    case NEW_ChangeDirection.Loss:
+                        EndorsementComponent.LoseSupport(endorsementChange.Player, endorsementChange.Target, endorsementChange.Change);
+                        break;
+                }
+            }
+
+            foreach (NEW_SupportChange<PlayersEnum, RegionsEnum> mediaChange in changeBattery.MediaSupportChanges)
+            {
+                switch (mediaChange.GainOrLoss)
+                {
+                    case NEW_ChangeDirection.Gain:
+                        MediaSupportComponent.GainSupport(mediaChange.Player, mediaChange.Target, mediaChange.Change);
+                        break;
+                    case NEW_ChangeDirection.Loss:
+                        MediaSupportComponent.LoseSupport(mediaChange.Player, mediaChange.Target, mediaChange.Change);
+                        break;
+                }
+            }
+
+            foreach (NEW_AccumulationChange<PlayersEnum> momentumChange in changeBattery.MomentumChanges)
+            {
+                switch (momentumChange.GainOrLoss)
+                {
+                    case NEW_ChangeDirection.Gain:
+                        MomentumComponent.GainAmount(momentumChange.Player, momentumChange.Change);
+                        break;
+                    case NEW_ChangeDirection.Loss:
+                        MomentumComponent.LoseAmount(momentumChange.Player, momentumChange.Change);
+                        break;
+                }
+            }
+
+            foreach (NEW_AccumulationChange<PlayersEnum> restChange in changeBattery.RestChanges)
+            {
+                switch (restChange.GainOrLoss)
+                {
+                    case NEW_ChangeDirection.Gain:
+                        RestComponent.GainAmount(restChange.Player, restChange.Change);
+                        break;
+                    case NEW_ChangeDirection.Loss:
+                        RestComponent.LoseAmount(restChange.Player, restChange.Change);
+                        break;
+                }
+            }
+
+            foreach (NEW_PlayerLocationChange<PlayersEnum, StatesEnum> playerLocationChange in changeBattery.PlayerLocationChanges)
+            {
+                PlayerLocationComponent.MovePlayerToState(playerLocationChange.Player, playerLocationChange.State);
+            }
+
+            IssuesEnum defaultIssue = (IssuesEnum)Enum.ToObject(typeof(IssuesEnum), 0);
+            bool issueToElevateIsNotDefault = EqualityComparer<IssuesEnum>.Default.Equals(changeBattery.IssueToElevate, defaultIssue) == false;
+
+            bool hasNewIssueOrder = changeBattery.NewIssuesOrder.Count == (Enum.GetValues(typeof(IssuesEnum)).Length - 1);
+
+            if (issueToElevateIsNotDefault)
+            {
+                IssuePositioningComponent.MoveSubjectUp(changeBattery.IssueToElevate);
+            }
+            else if(hasNewIssueOrder)
+            {
+                IssuePositioningComponent.SetSubjectOrder(changeBattery.NewIssuesOrder);
+            }
+
+        }
+
+
         public void ImplementChanges(PlayerChosenChanges<PlayersEnum, IssuesEnum, StatesEnum, RegionsEnum> changes)
         {
             foreach (SupportChange<PlayersEnum, IssuesEnum> issueChange in changes.IssueChanges)

@@ -308,19 +308,38 @@ namespace PresidentialGameEngine.ConsoleRunner
 
             var newEngine = new NineteenSixtyGameEngine(componentCollection);
 
-            GameController<Player, Leader, Issue, State, Region, Card> controller
-                = new(newEngine);
+            //GameController<Player, Leader, Issue, State, Region, Card> controller
+            //    = new(newEngine);
 
-            var card = NineteenSixty.GMTCards[3];
+            //var card = NineteenSixty.GMTCards[3];
 
-            GameAction<Player, Leader, Issue, State, Region, Card> action = new()
-            {
-                Player = Player.Kennedy,
-                Card = card,
-                changes = new PlayerChosenChanges<Player, Issue, State, Region>()
-            };
+            //GameAction<Player, Leader, Issue, State, Region, Card> action = new()
+            //{
+            //    Player = Player.Kennedy,
+            //    Card = card,
+            //    changes = new PlayerChosenChanges<Player, Issue, State, Region>()
+            //};
 
-            controller.PlayCardAsEvent(action);
+            //controller.PlayCardAsEvent(action);
+
+
+            var NEWchanges = new NEW_ChangeBattery<Player,Issue,State,Region>();
+
+            NEWchanges.StateChanges.Add(new NEW_SupportChange<Player, State>(Player.Kennedy, State.RI, NEW_ChangeDirection.Gain, 1));
+            NEWchanges.IssueChanges.Add(new NEW_SupportChange<Player, Issue>(Player.Kennedy, Issue.Economy, NEW_ChangeDirection.Gain, 1));
+            NEWchanges.MediaSupportChanges.Add(new NEW_SupportChange<Player, Region>(Player.Kennedy, Region.East, NEW_ChangeDirection.Gain, 1));
+            NEWchanges.EndorsementChanges.Add(new NEW_SupportChange<Player, Region>(Player.Kennedy, Region.East, NEW_ChangeDirection.Gain, 1));
+            NEWchanges.RestChanges.Add(new NEW_AccumulationChange<Player>(Player.Kennedy, NEW_ChangeDirection.Gain, 1));
+            NEWchanges.PlayerLocationChanges.Add(new NEW_PlayerLocationChange<Player, State>(Player.Kennedy, State.WY));
+
+            //NEWchanges.IssueToElevate = Issue.Economy;
+
+            NEWchanges.NewIssuesOrder =
+            [
+                Issue.CivilRights, Issue.Defense, Issue.Economy
+            ];
+
+            newEngine.NEWImplementChanges(NEWchanges);
 
 
         }
