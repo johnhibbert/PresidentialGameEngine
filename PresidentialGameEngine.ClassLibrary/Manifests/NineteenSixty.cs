@@ -188,12 +188,28 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     Affiliation = Affiliation.Both,
                     State = State.NH,
                     Event = (engine, player, choices) => {
+
+                        var status = engine.GetGameState();
+
+                        var changes = new NEW_ChangeBattery<Player,Issue,State,Region> { IssueToElevate = Issue.Economy };
+
+                        var econLeader = status.IssueContests[Issue.Economy].Leader;
+                        if(econLeader != Leader.None)
+                        {
+                            var nyGain = new NEW_SupportChange<Player, State>(econLeader.ToPlayer(), State.NY, NEW_ChangeDirection.Gain, 1);
+                            changes.StateChanges.Add(nyGain);
+                        }
+
+                        engine.NEWImplementChanges(changes);
+
+                        /*
                         engine.MoveIssueUp(Issue.Economy);
                         var econLeader = engine .GetLeader(Issue.Economy);
                         if(econLeader != Leader.None)
                         {
                             engine.GainSupport(econLeader.ToPlayer(), State.NY, 1);
                         }
+                        */
                     },
                     RequiresPlayerInput = false,
                     AreChangesValid = (choices) => {
