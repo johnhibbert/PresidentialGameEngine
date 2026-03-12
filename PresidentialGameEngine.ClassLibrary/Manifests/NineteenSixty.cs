@@ -1049,11 +1049,11 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         }
                         if(civilRightsLeader != Leader.None)
                         {
-                        engine.LoseSupport(civilRightsLeader.ToPlayer(), Issue.CivilRights, 1);
+                            engine.LoseSupport(civilRightsLeader.ToPlayer(), Issue.CivilRights, 1);
                         }
                         if(econLeader != Leader.None)
                         {
-                        engine.LoseSupport(econLeader.ToPlayer(), Issue.Economy, 1);
+                            engine.LoseSupport(econLeader.ToPlayer(), Issue.Economy, 1);
                         }
                     },
                     RequiresPlayerInput = false,
