@@ -118,11 +118,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         //engine.GainMomentum(player, 1);
                     },
                     RequiresPlayerInput = false,
-                    AreChangesValid = (choices) =>
-                    {
-						//This has no player choices.
-						return true;
-                    },
+                    AreChangesValid = (choices) => true,
                 }
             },
             {6, new Card()
@@ -170,11 +166,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         engine.GainSupport(Player.Kennedy, State.IL, supportCheckResult.Successes);
                     },
                     RequiresPlayerInput = false,
-                    AreChangesValid = (choices) =>
-                    {
-						//This has no player choices.
-						return true;
-                    },
+                    AreChangesValid = (choices) => true,
                 }
             },
             {8, new Card()
@@ -212,10 +204,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         */
                     },
                     RequiresPlayerInput = false,
-                    AreChangesValid = (choices) => {
-						//This has no player choices.
-						return true;
-                    },
+                    AreChangesValid = (choices) => true,
                 }
             },
             //new Card(9, "Baptist Ministers"),
@@ -248,10 +237,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         engine.LoseSupport(opponent, opponentLocation, 3);
                     },
                     RequiresPlayerInput = false,
-                    AreChangesValid = (choices) => {
-						//This has no player choices.
-						return true;
-                    },
+                    AreChangesValid = (choices) => true,
                 }
             },
             {23, new Card()
@@ -269,10 +255,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         engine.GainSupport(player, Issue.CivilRights, 3);
                     },
                     RequiresPlayerInput = false,
-                    AreChangesValid = (choices) => {
-						//This has no player choices.
-						return true;
-                    },
+                    AreChangesValid = (choices) => true,
                 }
             },
             //new Card(24, "East Harlem Pledge"),
@@ -291,10 +274,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         engine.GainSupport(Player.Nixon, Issue.CivilRights, 1);
                     },
                     RequiresPlayerInput = false,
-                    AreChangesValid = (choices) => {
-						//This has no player choices.
-						return true;
-                    },
+                    AreChangesValid = (choices) => true,
                 }
             },
             //new Card(26, "Ken-Air"),
@@ -319,11 +299,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
 
                     },
                     RequiresPlayerInput = false,
-                    AreChangesValid = (choices) =>
-                    {
- 						//This has no player choices.
-						return true;
-                    },
+                    AreChangesValid = (choices) => true,
                 }
             },
             //new Card(30, "Johnson Jeered In Dallas"),
@@ -469,11 +445,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         engine.UnexhaustPlayer(Player.Nixon);
                     },
                     RequiresPlayerInput = false,
-                    AreChangesValid = (choices) =>{
-                        //This has no player choices.
-						return true;
-
-                    },
+                    AreChangesValid = (choices) => true,
                 }
             },
             //new Card(43, "Catholic Support"),
@@ -496,10 +468,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         engine.GainMediaSupportWithoutSupportCheck(Player.Nixon, Region.East, 1);
                     },
                     RequiresPlayerInput = false,
-                    AreChangesValid = (choices) => {
-						//This has no player choices.
-                        return true;
-                    },
+                    AreChangesValid = (choices) => true,
                 }
             },
             //new Card(46, "Prime-Time Television"),
@@ -519,10 +488,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         engine.GainSupport(Player.Nixon, Issue.Economy, 2);
                     },
                     RequiresPlayerInput = false,
-                    AreChangesValid = (choices) => {
-						//This has no player choices.
-						return true;
-                    },
+                    AreChangesValid = (choices) => true,
                 }
             },
             //new Card(49, "Eleanor Roosevelt’s Speaking Tour"),
@@ -541,10 +507,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         engine.GainSupport(Player.Kennedy, Issue.Defense, 3);
                     },
                     RequiresPlayerInput = false,
-                    AreChangesValid = (choices) => {
-						//This has no player choices.
-						return true;
-                    },
+                    AreChangesValid = (choices) => true,
                 }
             },
             {52, new Card()
@@ -562,10 +525,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         engine.GainSupport(player, State.FL, 1);
                     },
                     RequiresPlayerInput = false,
-                    AreChangesValid = (choices) => {
-						//This has no player choices.
-						return true;
-                    },
+                    AreChangesValid = (choices) => true,
                 }
             },
             //new Card(53, "Campaign Headquarters"),
@@ -620,10 +580,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         engine.ExhaustPlayer(player.ToOpponent());
                     },
                     RequiresPlayerInput = false,
-                    AreChangesValid = (choices) => {
-						//This has no player choices.
-						return true;
-                    },
+                    AreChangesValid = (choices) => true,
                 }
             },
             {62, new Card()
@@ -646,10 +603,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         }
                     },
                     RequiresPlayerInput = false,
-                    AreChangesValid = (choices) => {
-						//This has no player choices.
-						return true;
-                    },
+                    AreChangesValid = (choices) => true,
                 }
             },
 
@@ -670,10 +624,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         engine.LoseSupport(Player.Nixon, Issue.CivilRights, 1);
                     },
                     RequiresPlayerInput = false,
-                    AreChangesValid = (choices) => {
-						//This has no player choices.
-						return true;
-                    },
+                    AreChangesValid = (choices) => true,
                 }
             },
             {64, new Card()
@@ -696,10 +647,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         }
                     },
                     RequiresPlayerInput = false,
-                    AreChangesValid = (choices) => {
-						//This has no player choices.
-						return true;
-                    },
+                    AreChangesValid = (choices) => true,
                 }
             },
             //new Card(65, "Joe Kennedy"),
@@ -720,10 +668,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         engine.GainSupport(Player.Nixon, Issue.Defense, 1);
                     },
                     RequiresPlayerInput = false,
-                    AreChangesValid = (choices) => {
-						//This has no player choices.
-						return true;
-                    },
+                    AreChangesValid = (choices) => true,
                 }
             },
             //new Card(69, "Congressional Summer Session"),
@@ -742,10 +687,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         engine.LoseMomentum(Player.Kennedy, 3);
                     },
                     RequiresPlayerInput = false,
-                    AreChangesValid = (choices) => {
-						//This has no player choices.
-						return true;
-                    },
+                    AreChangesValid = (choices) => true,
                 }
             },
 
@@ -897,10 +839,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         }
                     },
                     RequiresPlayerInput = false,
-                    AreChangesValid = (choices) => {
-						//This has no player choices.
-						return true;
-                    },
+                    AreChangesValid = (choices) => true,
                 }
             },
             //new Card(79, "Advance Men"),
@@ -949,10 +888,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         }
                     },
                     RequiresPlayerInput = false,
-                    AreChangesValid = (choices) => {
-						//This has no player choices.
-						return true;
-                    },
+                    AreChangesValid = (choices) => true,
                 }
             },
             //new Card(83, "Whistlestop"),
@@ -999,10 +935,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         engine.GainMomentum(Player.Nixon, 1);
                     },
                     RequiresPlayerInput = false,
-                    AreChangesValid = (choices) => {
-						//This has no player choices.
-						return true;
-                    },
+                    AreChangesValid = (choices) => true,
                 }
             },
             {90, new Card()
@@ -1062,10 +995,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         engine.GainMomentum(Player.Nixon, 1);
                     },
                     RequiresPlayerInput = false,
-                    AreChangesValid = (choices) => {
-						//This has no player choices.
-						return true;
-                    },
+                    AreChangesValid = (choices) => true,
                 }
             },
             //new Card(94, "A Low Blow"),
@@ -1127,10 +1057,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         }
                     },
                     RequiresPlayerInput = false,
-                    AreChangesValid = (choices) => {
-						//This has no player choices.
-						return true;
-                    },
+                    AreChangesValid = (choices) => true,
                 }
             },
             {97, new Card()
@@ -1162,10 +1089,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         }
                     },
                     RequiresPlayerInput = false,
-                    AreChangesValid = (choices) => {
-						//This has no player choices.
-						return true;
-                    },
+                    AreChangesValid = (choices) => true,
                 }
             },
         };
