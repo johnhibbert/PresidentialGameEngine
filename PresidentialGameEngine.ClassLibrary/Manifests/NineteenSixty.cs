@@ -1034,7 +1034,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         var onlyOneState = choices.StateChanges.Select(x => x.Target).Count() == 1;
                         var AndOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
 
-                        return threePointsOfStateChanges && statePlayerIsOnlyNixon && AndOnlyOneTypeOfTest;
+                        return threePointsOfStateChanges && statePlayerIsOnlyNixon && onlyOneState && AndOnlyOneTypeOfTest;
                     },
                 }
             },
