@@ -2887,7 +2887,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        public void Recount_90_FailsValidationIfNixonGains()
+        public void Recount_90_FailsValidationIfKennedyGains()
         {
             int cardIndex = 90;
 
@@ -2904,14 +2904,33 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
+        public void Recount_90_FailsValidationIfGainsAcrossMultipleStates()
+        {
+            int cardIndex = 90;
+
+            var engine = GetGameEngine();
+
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            var twoSupportInKentucky = new SupportChange<Player, State>(Player.Nixon, State.KY, 2);
+            var oneSupportInAlaska = new SupportChange<Player, State>(Player.Nixon, State.AK, 1);
+            
+            playerChoices.StateChanges.Add(twoSupportInKentucky);
+            playerChoices.StateChanges.Add(oneSupportInAlaska);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+        
+        [TestMethod]
         public void Recount_90_FailsValidationIfIssueGains()
         {
             int cardIndex = 90;
             var engine = GetGameEngine();
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
-            var threeSupportInKentucky = new SupportChange<Player, State>(Player.Kennedy, State.KY, 3);
-            var issueSupport = new SupportChange<Player, Issue>(Player.Kennedy, Issue.Defense, 1);
+            var threeSupportInKentucky = new SupportChange<Player, State>(Player.Nixon, State.KY, 3);
+            var issueSupport = new SupportChange<Player, Issue>(Player.Nixon, Issue.Defense, 1);
 
             playerChoices.StateChanges.Add(threeSupportInKentucky);
             playerChoices.IssueChanges.Add(issueSupport);
@@ -2928,7 +2947,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var engine = GetGameEngine();
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
-            var threeSupportInKentucky = new SupportChange<Player, State>(Player.Kennedy, State.KY, 4);
+            var threeSupportInKentucky = new SupportChange<Player, State>(Player.Nixon, State.KY, 4);
 
             playerChoices.StateChanges.Add(threeSupportInKentucky);
 
