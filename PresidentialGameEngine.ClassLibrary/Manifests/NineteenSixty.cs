@@ -858,8 +858,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     },
                     RequiresPlayerInput = true,
                     AreChangesValid = (choices) => {
-                        var upToNegativeTwoPointsOfLostMediaSupport = choices.TotalMediaChanges >= -2 
-                        && choices.TotalMediaChanges >= 0;
+                        var upToNegativeTwoPointsOfLostMediaSupport = choices.TotalMediaChanges is >= -2 and >= 0;
                         var affectedPlayerIsNixon = choices.MediaSupportChanges.Select(x => x.Player).All(y => y == Player.Nixon);
                         var andOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
 
