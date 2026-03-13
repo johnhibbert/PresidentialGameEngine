@@ -3,27 +3,27 @@ using System.Reflection;
 
 namespace PresidentialGameEngine.ClassLibrary.Components
 {
-    public class ComponentCollection<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum, CardClass>()
-        : IComponentCollection<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum, CardClass>
-        where PlayersEnum : Enum
-        where LeadersEnum : Enum
-        where IssuesEnum : Enum
-        where StatesEnum : Enum
-        where RegionsEnum : Enum
-        where CardClass : ICard
+    public class ComponentCollection<TPlayer, TLeader, TIssue, TState, TRegion, TCard>()
+        : IComponentCollection<TPlayer, TLeader, TIssue, TState, TRegion, TCard>
+        where TPlayer : Enum
+        where TLeader : Enum
+        where TIssue : Enum
+        where TState : Enum
+        where TRegion : Enum
+        where TCard : ICard
     {
-        public IAccumulatingComponent<PlayersEnum>? MomentumComponent { get; set; }
-        public ISupportComponent<PlayersEnum, LeadersEnum, IssuesEnum>? IssueSupportComponent { get; set; }
-        public ICarriableSupportComponent<PlayersEnum, LeadersEnum, StatesEnum>? StateSupportComponent { get; set; }
-        public IPositioningComponent<IssuesEnum>? IssuePositioningComponent { get; set; }
-        public IPoliticalCapitalComponent<PlayersEnum>? PoliticalCapitalComponent { get; set; }
-        public IPlayerLocationComponent<PlayersEnum, StatesEnum>? PlayerLocationComponent { get; set; }
-        public IAccumulatingComponent<PlayersEnum>? RestComponent { get; set; }
-        public ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum>? EndorsementComponent { get; set; }
-        public ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum>? MediaSupportComponent { get; set; }
-        public IExhaustionComponent<PlayersEnum>? ExhaustionComponent { get; set; }
-        public ICardComponent<PlayersEnum, CardClass>? CardComponent { get; set; }
-        public IStaticDataComponent<StatesEnum, PlayersEnum, RegionsEnum>? StaticDataComponent { get; set; }
+        public IAccumulatingComponent<TPlayer>? MomentumComponent { get; set; }
+        public ISupportComponent<TPlayer, TLeader, TIssue>? IssueSupportComponent { get; set; }
+        public ICarriableSupportComponent<TPlayer, TLeader, TState>? StateSupportComponent { get; set; }
+        public IPositioningComponent<TIssue>? IssuePositioningComponent { get; set; }
+        public IPoliticalCapitalComponent<TPlayer>? PoliticalCapitalComponent { get; set; }
+        public IPlayerLocationComponent<TPlayer, TState>? PlayerLocationComponent { get; set; }
+        public IAccumulatingComponent<TPlayer>? RestComponent { get; set; }
+        public ISupportComponent<TPlayer, TLeader, TRegion>? EndorsementComponent { get; set; }
+        public ISupportComponent<TPlayer, TLeader, TRegion>? MediaSupportComponent { get; set; }
+        public IExhaustionComponent<TPlayer>? ExhaustionComponent { get; set; }
+        public ICardComponent<TPlayer, TCard>? CardComponent { get; set; }
+        public IStaticDataComponent<TState, TPlayer, TRegion>? StaticDataComponent { get; set; }
 
         public bool IsReady()
         {
