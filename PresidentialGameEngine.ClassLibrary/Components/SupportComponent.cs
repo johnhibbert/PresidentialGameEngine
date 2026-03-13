@@ -3,42 +3,42 @@ using PresidentialGameEngine.ClassLibrary.Interfaces;
 
 namespace PresidentialGameEngine.ClassLibrary.Components
 {
-    public class SupportComponent<PlayersEnum, LeadersEnum, SubjectEnum> :
-        ISupportComponent<PlayersEnum, LeadersEnum, SubjectEnum>
-        where PlayersEnum : Enum
-        where LeadersEnum : Enum
-        where SubjectEnum : Enum
+    public class SupportComponent<TPlayer, TLeader, TSubject> :
+        ISupportComponent<TPlayer, TLeader, TSubject>
+        where TPlayer : Enum
+        where TLeader : Enum
+        where TSubject : Enum
          
     {
-        private readonly LeadersEnum defaultLeader = (LeadersEnum) Enum.ToObject(typeof(LeadersEnum), 0);
+        private readonly TLeader defaultLeader = (TLeader) Enum.ToObject(typeof(TLeader), 0);
 
-        public IDictionary<SubjectEnum, SupportContest<LeadersEnum>> SubjectContests { get; init; }
+        public IDictionary<TSubject, SupportContest<TLeader>> SubjectContests { get; init; }
 
-        public IDictionary<SubjectEnum, SupportContest<LeadersEnum>> GetRawData() { return SubjectContests; }
+        public IDictionary<TSubject, SupportContest<TLeader>> GetRawData() { return SubjectContests; }
 
         public SupportComponent()
         {
-            SubjectContests = new Dictionary<SubjectEnum, SupportContest<LeadersEnum>>();
+            SubjectContests = new Dictionary<TSubject, SupportContest<TLeader>>();
 
-            var subjectValues = Enum.GetValues(typeof(SubjectEnum)).OfType<SubjectEnum>().ToList();
-            var valueOfNone = (SubjectEnum)Enum.ToObject(typeof(SubjectEnum), 0);
+            var subjectValues = Enum.GetValues(typeof(TSubject)).OfType<TSubject>().ToList();
+            var valueOfNone = (TSubject)Enum.ToObject(typeof(TSubject), 0);
             subjectValues.Remove(valueOfNone);
 
-            foreach (SubjectEnum subject in subjectValues)
+            foreach (TSubject subject in subjectValues)
             {
-                SubjectContests.Add(subject, new SupportContest<LeadersEnum>());
+                SubjectContests.Add(subject, new SupportContest<TLeader>());
             }
         }
 
         //It's an open question if we should just make people go through the GetSupportStatus method.
-        public LeadersEnum GetLeader(SubjectEnum subject) 
+        public TLeader GetLeader(TSubject subject) 
         {
             return SubjectContests[subject].Leader;
         }
 
-        public SupportStatus<LeadersEnum> GetSupportStatus(SubjectEnum subject)
+        public SupportStatus<TLeader> GetSupportStatus(TSubject subject)
         {
-            return new SupportStatus<LeadersEnum>(SubjectContests[subject].Leader, SubjectContests[subject].Amount);
+            return new SupportStatus<TLeader>(SubjectContests[subject].Leader, SubjectContests[subject].Amount);
         }
 
         //public int GetSupportAmount(SubjectEnum subject) 
@@ -46,7 +46,7 @@ namespace PresidentialGameEngine.ClassLibrary.Components
         //    return SubjectContests[subject].Amount;
         //}
 
-        public void GainSupport(PlayersEnum player, SubjectEnum subject, int amount)
+        public void GainSupport(TPlayer player, TSubject subject, int amount)
         {
             var contest = SubjectContests[subject];
 
@@ -71,12 +71,12 @@ namespace PresidentialGameEngine.ClassLibrary.Components
                 else 
                 {
                     contest.Amount = amount - contest.Amount;
-                    contest.Leader = (LeadersEnum)Enum.ToObject(typeof(LeadersEnum), playerAsInt);
+                    contest.Leader = (TLeader)Enum.ToObject(typeof(TLeader), playerAsInt);
                 }
             }
         }
 
-        public void LoseSupport(PlayersEnum player, SubjectEnum subject, int amount)
+        public void LoseSupport(TPlayer player, TSubject subject, int amount)
         {
             var targetContest = SubjectContests[subject];
 
