@@ -2,35 +2,35 @@
 
 namespace PresidentialGameEngine.ClassLibrary.Components
 {
-    public class AccumulatingComponent<PlayersEnum> : IAccumulatingComponent<PlayersEnum>
-        where PlayersEnum : Enum
+    public class AccumulatingComponent<TPlayer> : IAccumulatingComponent<TPlayer>
+        where TPlayer : Enum
     {
-        private Dictionary<PlayersEnum, int> PlayerAmounts { get; init; }
+        private Dictionary<TPlayer, int> PlayerAmounts { get; init; }
 
-        public IDictionary<PlayersEnum, int> GetRawData() { return PlayerAmounts; }
+        public IDictionary<TPlayer, int> GetRawData() { return PlayerAmounts; }
 
 
         public AccumulatingComponent()
         {
             PlayerAmounts = [];
 
-            foreach (PlayersEnum player in (PlayersEnum[])Enum.GetValues(typeof(PlayersEnum)))
+            foreach (TPlayer player in (TPlayer[])Enum.GetValues(typeof(TPlayer)))
             {
                 PlayerAmounts.Add(player, 0);
             }
         }
 
-        public int GetPlayerAmount(PlayersEnum player)
+        public int GetPlayerAmount(TPlayer player)
         {
             return PlayerAmounts[player];
         }
 
-        public void GainAmount(PlayersEnum player, int amount)
+        public void GainAmount(TPlayer player, int amount)
         {
             PlayerAmounts[player] += amount;
         }
 
-        public void LoseAmount(PlayersEnum player, int amount)
+        public void LoseAmount(TPlayer player, int amount)
         {
             PlayerAmounts[player] -= amount;
             if (PlayerAmounts[player] < 0)
