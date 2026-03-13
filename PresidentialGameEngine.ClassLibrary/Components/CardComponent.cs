@@ -4,19 +4,19 @@ using PresidentialGameEngine.ClassLibrary.Interfaces;
 
 namespace PresidentialGameEngine.ClassLibrary.Components
 {
-    public class CardComponent<PlayersEnum, CardClass> : ICardComponent<PlayersEnum, CardClass> where PlayersEnum : Enum
-        where CardClass : ICard
+    public class CardComponent<TPlayer, TCard> : ICardComponent<TPlayer, TCard> where TPlayer : Enum
+        where TCard : ICard
     {
         private IRandomnessProvider Random { get; init; }
 
-        private Dictionary<PlayersEnum, List<CardClass>> PlayerHands { get; init; }
-        private Dictionary<PlayersEnum, List<CardClass>> PlayerCampaignStrategyPiles { get; init; }
-        private Dictionary<int, CardClass> CardManifest { get; init; }
-        private List<CardClass> Deck { get; init; }
-        private List<CardClass> DiscardPile { get; init; }
-        private List<CardClass> RemovedFromGame { get; init; }
+        private Dictionary<TPlayer, List<TCard>> PlayerHands { get; init; }
+        private Dictionary<TPlayer, List<TCard>> PlayerCampaignStrategyPiles { get; init; }
+        private Dictionary<int, TCard> CardManifest { get; init; }
+        private List<TCard> Deck { get; init; }
+        private List<TCard> DiscardPile { get; init; }
+        private List<TCard> RemovedFromGame { get; init; }
 
-        public CardComponent(IRandomnessProvider random, Dictionary<int, CardClass> cardManifest)
+        public CardComponent(IRandomnessProvider random, Dictionary<int, TCard> cardManifest)
         {
             Random = random;
             CardManifest = cardManifest;
@@ -24,7 +24,7 @@ namespace PresidentialGameEngine.ClassLibrary.Components
             PlayerHands = [];
             PlayerCampaignStrategyPiles = [];
 
-            foreach (PlayersEnum player in (PlayersEnum[])Enum.GetValues(typeof(PlayersEnum)))
+            foreach (TPlayer player in (TPlayer[])Enum.GetValues(typeof(TPlayer)))
             {
                 PlayerHands.Add(player, []);
                 PlayerCampaignStrategyPiles.Add(player, []);
@@ -32,7 +32,7 @@ namespace PresidentialGameEngine.ClassLibrary.Components
 
             Deck = [];
 
-            List<CardClass> cards = [.. CardManifest.Values];
+            List<TCard> cards = [.. CardManifest.Values];
             Deck = cards.Shuffle(Random).ToList();
 
             DiscardPile = [];
@@ -44,7 +44,7 @@ namespace PresidentialGameEngine.ClassLibrary.Components
             return Deck.Count;
         }
 
-        public void DrawCards(PlayersEnum player, int numberToDraw)
+        public void DrawCards(TPlayer player, int numberToDraw)
         {
             int counter = 1;
             while (counter <= numberToDraw)
@@ -57,12 +57,12 @@ namespace PresidentialGameEngine.ClassLibrary.Components
         }
 
         //Redirect through main method?  This is the only specific one I want to keep.
-        public IEnumerable<CardClass> GetPlayerHand(PlayersEnum player)
+        public IEnumerable<TCard> GetPlayerHand(TPlayer player)
         {
             return PlayerHands[player];
         }
 
-        public void MoveCardFromOneZoneToAnother(PlayersEnum player, CardClass cardToMove, 
+        public void MoveCardFromOneZoneToAnother(TPlayer player, TCard cardToMove, 
             CardZone source, CardZone destination) 
         {
             if(source == destination) 
@@ -81,7 +81,7 @@ namespace PresidentialGameEngine.ClassLibrary.Components
             };
             bool isCardInSource = originList.Contains(cardToMove);
 
-            List<CardClass> targetList = destination switch
+            List<TCard> targetList = destination switch
             {
                 CardZone.Deck => throw new ArgumentException("Cards can never be returned to the Deck."),
                 CardZone.Removed => RemovedFromGame,
@@ -102,7 +102,7 @@ namespace PresidentialGameEngine.ClassLibrary.Components
             }
         }
 
-        public IEnumerable<CardClass> ViewCardsInZone(CardZone zone, PlayersEnum player)
+        public IEnumerable<TCard> ViewCardsInZone(CardZone zone, TPlayer player)
         {
             return zone switch
             {
