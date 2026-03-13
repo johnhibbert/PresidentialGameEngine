@@ -2,12 +2,12 @@
 
 namespace PresidentialGameEngine.ClassLibrary.Components
 {
-    public class CarriableSupportComponent<PlayersEnum, LeadersEnum, SubjectEnum> 
-        : SupportComponent<PlayersEnum, LeadersEnum, SubjectEnum>,
-        ICarriableSupportComponent<PlayersEnum, LeadersEnum, SubjectEnum>
-        where PlayersEnum : Enum
-        where LeadersEnum : Enum
-        where SubjectEnum : Enum
+    public class CarriableSupportComponent<TPlayer, TLeader, TSubject> 
+        : SupportComponent<TPlayer, TLeader, TSubject>,
+        ICarriableSupportComponent<TPlayer, TLeader, TSubject>
+        where TPlayer : Enum
+        where TLeader : Enum
+        where TSubject : Enum
     {
         public int Threshold { get; init; }
 
@@ -17,19 +17,19 @@ namespace PresidentialGameEngine.ClassLibrary.Components
             Threshold = threshold;
         }
 
-        public bool IsCarried(SubjectEnum subject) 
+        public bool IsCarried(TSubject subject) 
         {
             return SubjectContests[subject].Amount >= Threshold;
         }
     }
 
-    public interface ICarriableSupportComponent<PlayersEnum, LeadersEnum, SubjectEnum> : ISupportComponent<PlayersEnum, LeadersEnum, SubjectEnum>
-        where PlayersEnum : Enum
-        where LeadersEnum : Enum
-        where SubjectEnum : Enum
+    public interface ICarriableSupportComponent<TPlayer, TLeader, TSubject> : ISupportComponent<TPlayer, TLeader, TSubject>
+        where TPlayer : Enum
+        where TLeader : Enum
+        where TSubject : Enum
     {
         public int Threshold { get; init; }
 
-        bool IsCarried(SubjectEnum subject);
+        bool IsCarried(TSubject subject);
     }
 }
