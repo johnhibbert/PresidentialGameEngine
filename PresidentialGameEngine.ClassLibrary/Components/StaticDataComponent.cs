@@ -2,18 +2,18 @@
 
 namespace PresidentialGameEngine.ClassLibrary.Components
 {
-    public class StaticDataComponent<StatesEnum, PlayersEnum, RegionsEnum> : IStaticDataComponent<StatesEnum, PlayersEnum, RegionsEnum> where StatesEnum : Enum
-        where PlayersEnum : Enum
-        where RegionsEnum : Enum
+    public class StaticDataComponent<TState, TPlayer, TRegion> : IStaticDataComponent<TState, TPlayer, TRegion> where TState : Enum
+        where TPlayer : Enum
+        where TRegion : Enum
     {
-        readonly IDictionary<StatesEnum, ILocationData<StatesEnum, PlayersEnum, RegionsEnum>> stateLocationData;
-        readonly IDictionary<RegionsEnum, IList<StatesEnum>> stateByRegion;
+        readonly IDictionary<TState, ILocationData<TState, TPlayer, TRegion>> stateLocationData;
+        readonly IDictionary<TRegion, IList<TState>> stateByRegion;
 
-        readonly IDictionary<StatesEnum, PlayersEnum> stateTilts;
-        readonly IDictionary<StatesEnum, int> stateStartingSupport;
-        readonly IDictionary<StatesEnum, int> stateElectoralVotes;
+        readonly IDictionary<TState, TPlayer> stateTilts;
+        readonly IDictionary<TState, int> stateStartingSupport;
+        readonly IDictionary<TState, int> stateElectoralVotes;
 
-        public StaticDataComponent(IDictionary<StatesEnum, ILocationData<StatesEnum, PlayersEnum, RegionsEnum>> locationData)
+        public StaticDataComponent(IDictionary<TState, ILocationData<TState, TPlayer, TRegion>> locationData)
         {
             stateLocationData = locationData;
 
@@ -25,18 +25,18 @@ namespace PresidentialGameEngine.ClassLibrary.Components
             stateTilts = ExtractStateTilts();
         }
 
-        private Dictionary<RegionsEnum, IList<StatesEnum>> ExtractStatesByRegion()
+        private Dictionary<TRegion, IList<TState>> ExtractStatesByRegion()
         {
             var oldDict = stateLocationData;
 
-            Dictionary<RegionsEnum, IList<StatesEnum>> newDict = [];
+            Dictionary<TRegion, IList<TState>> newDict = [];
 
-            foreach (RegionsEnum region in Enum.GetValues(typeof(RegionsEnum)))
+            foreach (TRegion region in Enum.GetValues(typeof(TRegion)))
             {
                 newDict.Add(region, []);
             }
 
-            foreach (StatesEnum state in oldDict.Keys)
+            foreach (TState state in oldDict.Keys)
             {
                 newDict[oldDict[state].Region].Add(state);
             }
@@ -44,13 +44,13 @@ namespace PresidentialGameEngine.ClassLibrary.Components
             return newDict;
         }
 
-        private IDictionary<StatesEnum, int> ExtractElectoralVotes()
+        private IDictionary<TState, int> ExtractElectoralVotes()
         {
             var oldDict = stateLocationData;
 
-            Dictionary<StatesEnum, int> newDict = [];
+            Dictionary<TState, int> newDict = [];
 
-            foreach (StatesEnum state in oldDict.Keys)
+            foreach (TState state in oldDict.Keys)
             {
                 newDict.Add(state, oldDict[state].ElectoralVotes);
             }
@@ -58,13 +58,13 @@ namespace PresidentialGameEngine.ClassLibrary.Components
             return newDict;
         }
 
-        private IDictionary<StatesEnum, PlayersEnum> ExtractStateTilts()
+        private IDictionary<TState, TPlayer> ExtractStateTilts()
         {
             var oldDict = stateLocationData;
 
-            Dictionary<StatesEnum, PlayersEnum> newDict = [];
+            Dictionary<TState, TPlayer> newDict = [];
 
-            foreach (StatesEnum state in oldDict.Keys)
+            foreach (TState state in oldDict.Keys)
             {
                 newDict.Add(state, oldDict[state].Tilt);
             }
@@ -72,13 +72,13 @@ namespace PresidentialGameEngine.ClassLibrary.Components
             return newDict;
         }
 
-        private IDictionary<StatesEnum, int> ExtractStartingSupportLevels()
+        private IDictionary<TState, int> ExtractStartingSupportLevels()
         {
             var oldDict = stateLocationData;
 
-            Dictionary<StatesEnum, int> newDict = [];
+            Dictionary<TState, int> newDict = [];
 
-            foreach (StatesEnum state in oldDict.Keys)
+            foreach (TState state in oldDict.Keys)
             {
                 newDict.Add(state, oldDict[state].StartingSupport);
             }
@@ -86,32 +86,32 @@ namespace PresidentialGameEngine.ClassLibrary.Components
             return newDict;
         }
 
-        public IDictionary<StatesEnum, ILocationData<StatesEnum, PlayersEnum, RegionsEnum>> GetRawData()
+        public IDictionary<TState, ILocationData<TState, TPlayer, TRegion>> GetRawData()
         {
             return stateLocationData;
         }
 
-        public ILocationData<StatesEnum, PlayersEnum, RegionsEnum> GetStateData(StatesEnum state)
+        public ILocationData<TState, TPlayer, TRegion> GetStateData(TState state)
         {
             return stateLocationData[state];
         }
 
-        public IList<StatesEnum> GetStatesInRegion(RegionsEnum region)
+        public IList<TState> GetStatesInRegion(TRegion region)
         {
             return stateByRegion[region];
         }
 
-        public int GetStateElectoralCollegeVotes(StatesEnum state)
+        public int GetStateElectoralCollegeVotes(TState state)
         {
             return stateElectoralVotes[state];
         }
 
-        public int GetStateStartingSupportLevel(StatesEnum state)
+        public int GetStateStartingSupportLevel(TState state)
         {
             return stateStartingSupport[state];
         }
 
-        public PlayersEnum GetStateTilt(StatesEnum state)
+        public TPlayer GetStateTilt(TState state)
         {
             return stateTilts[state];
         }
