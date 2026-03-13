@@ -2,25 +2,25 @@
 
 namespace PresidentialGameEngine.ClassLibrary.Interfaces
 {
-    public interface IComponentCollection<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum, CardClass>
-        where PlayersEnum : Enum
-        where LeadersEnum : Enum
-        where IssuesEnum : Enum
-        where StatesEnum : Enum
-        where RegionsEnum : Enum
-        where CardClass : ICard
+    public interface IComponentCollection<TPlayer, TLeader, TIssue, TState, TRegion, TCard>
+        where TPlayer : Enum
+        where TLeader : Enum
+        where TIssue : Enum
+        where TState : Enum
+        where TRegion : Enum
+        where TCard : ICard
     {
-        ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum>? EndorsementComponent { get; set; }
-        IPositioningComponent<IssuesEnum>? IssuePositioningComponent { get; set; }
-        ISupportComponent<PlayersEnum, LeadersEnum, IssuesEnum>? IssueSupportComponent { get; set; }
-        ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum>? MediaSupportComponent { get; set; }
-        IAccumulatingComponent<PlayersEnum>? MomentumComponent { get; set; }
-        IPoliticalCapitalComponent<PlayersEnum>? PoliticalCapitalComponent { get; set; }
-        IPlayerLocationComponent<PlayersEnum, StatesEnum>? PlayerLocationComponent { get; set; }
-        IAccumulatingComponent<PlayersEnum>? RestComponent { get; set; }
-        ICarriableSupportComponent<PlayersEnum, LeadersEnum, StatesEnum>? StateSupportComponent { get; set; }
-        ICardComponent<PlayersEnum, CardClass>? CardComponent { get; set; }
-        IStaticDataComponent<StatesEnum, PlayersEnum, RegionsEnum>? StaticDataComponent { get; set; }
+        ISupportComponent<TPlayer, TLeader, TRegion>? EndorsementComponent { get; set; }
+        IPositioningComponent<TIssue>? IssuePositioningComponent { get; set; }
+        ISupportComponent<TPlayer, TLeader, TIssue>? IssueSupportComponent { get; set; }
+        ISupportComponent<TPlayer, TLeader, TRegion>? MediaSupportComponent { get; set; }
+        IAccumulatingComponent<TPlayer>? MomentumComponent { get; set; }
+        IPoliticalCapitalComponent<TPlayer>? PoliticalCapitalComponent { get; set; }
+        IPlayerLocationComponent<TPlayer, TState>? PlayerLocationComponent { get; set; }
+        IAccumulatingComponent<TPlayer>? RestComponent { get; set; }
+        ICarriableSupportComponent<TPlayer, TLeader, TState>? StateSupportComponent { get; set; }
+        ICardComponent<TPlayer, TCard>? CardComponent { get; set; }
+        IStaticDataComponent<TState, TPlayer, TRegion>? StaticDataComponent { get; set; }
 
         bool IsReady();
     }

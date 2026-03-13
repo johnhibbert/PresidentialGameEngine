@@ -1,11 +1,11 @@
 ﻿namespace PresidentialGameEngine.ClassLibrary.Interfaces
 {
-    public interface IExhaustionComponent<PlayersEnum> where PlayersEnum : Enum
+    public interface IExhaustionComponent<TPlayer> where TPlayer : Enum
     {
-        public IDictionary<PlayersEnum, bool> GetRawData();
+        public IDictionary<TPlayer, bool> GetRawData();
 
-        void ExhaustPlayer(PlayersEnum player);
-        bool IsPlayerReady(PlayersEnum player);
-        void UnexhaustPlayer(PlayersEnum player);
+        void ExhaustPlayer(TPlayer player);
+        bool IsPlayerReady(TPlayer player);
+        void UnexhaustPlayer(TPlayer player);
     }
 }

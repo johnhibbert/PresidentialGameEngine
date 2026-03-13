@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace PresidentialGameEngine.ClassLibrary.Interfaces
 {
-    public interface IPoliticalCapitalComponent<PlayersEnum>
-        where PlayersEnum : Enum
+    public interface IPoliticalCapitalComponent<TPlayer>
+        where TPlayer : Enum
     {
-        IDictionary<PlayersEnum, int> Peek();
+        IDictionary<TPlayer, int> Peek();
 
-        PlayersEnum InitiativeCheck();
+        TPlayer InitiativeCheck();
 
-        SupportCheckResult SupportCheck(PlayersEnum player, int checkAmount);
+        SupportCheckResult SupportCheck(TPlayer player, int checkAmount);
 
-        void AddCubes(PlayersEnum player, int amount);
+        void AddCubes(TPlayer player, int amount);
     }
 }

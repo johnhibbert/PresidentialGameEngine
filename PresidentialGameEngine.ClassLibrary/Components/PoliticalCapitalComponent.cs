@@ -3,10 +3,10 @@ using PresidentialGameEngine.ClassLibrary.Interfaces;
 
 namespace PresidentialGameEngine.ClassLibrary.Components
 {
-    public class PoliticalCapitalComponent<PlayersEnum> : IPoliticalCapitalComponent<PlayersEnum>
-        where PlayersEnum : Enum
+    public class PoliticalCapitalComponent<TPlayer> : IPoliticalCapitalComponent<TPlayer>
+        where TPlayer : Enum
     {
-        readonly Dictionary<PlayersEnum, int> cubes;
+        readonly Dictionary<TPlayer, int> cubes;
 
         readonly IRandomnessProvider rng;
 
@@ -29,21 +29,21 @@ namespace PresidentialGameEngine.ClassLibrary.Components
             }
         }
 
-        public IDictionary<PlayersEnum, int> Peek() { return cubes; }
+        public IDictionary<TPlayer, int> Peek() { return cubes; }
 
-        public PlayersEnum InitiativeCheck()
+        public TPlayer InitiativeCheck()
         {
-            PlayersEnum firstDraw = DrawCube();
-            PlayersEnum secondDraw = DrawCube();
+            TPlayer firstDraw = DrawCube();
+            TPlayer secondDraw = DrawCube();
 
-            if (EqualityComparer<PlayersEnum>.Default.Equals(firstDraw, secondDraw))
+            if (EqualityComparer<TPlayer>.Default.Equals(firstDraw, secondDraw))
             {
                 return firstDraw;
             }
             else { return DrawCube(); }
         }
 
-        public SupportCheckResult SupportCheck(PlayersEnum player, int checkAmount)
+        public SupportCheckResult SupportCheck(TPlayer player, int checkAmount)
         {
             int successes = 0;
 
@@ -51,7 +51,7 @@ namespace PresidentialGameEngine.ClassLibrary.Components
 
             while (index < checkAmount)
             {
-                if (EqualityComparer<PlayersEnum>.Default.Equals(DrawCube(), player))
+                if (EqualityComparer<TPlayer>.Default.Equals(DrawCube(), player))
                 {
                     successes++;
                 }
@@ -62,19 +62,19 @@ namespace PresidentialGameEngine.ClassLibrary.Components
 
         }
 
-        public void AddCubes(PlayersEnum player, int amount)
+        public void AddCubes(TPlayer player, int amount)
         {
             cubes[player] += amount;
         }
 
-        private PlayersEnum DrawCube()
+        private TPlayer DrawCube()
         {
             int fullSum = TotalNumberOfCubesInBag;
 
             var num = rng.GetRandomNumber(fullSum);
             var valueFound = false;
 
-            foreach (PlayersEnum val in (PlayersEnum[])Enum.GetValues(typeof(PlayersEnum)))
+            foreach (TPlayer val in (TPlayer[])Enum.GetValues(typeof(TPlayer)))
             {
                 num -= cubes[val];
                 if (valueFound == false && num <= 0)
@@ -96,7 +96,7 @@ namespace PresidentialGameEngine.ClassLibrary.Components
 
         private void RefillBag()
         {
-            foreach (PlayersEnum val in (PlayersEnum[])Enum.GetValues(typeof(PlayersEnum)))
+            foreach (TPlayer val in (TPlayer[])Enum.GetValues(typeof(TPlayer)))
             {
                 cubes[val] = InitialCubePopulation;
             }

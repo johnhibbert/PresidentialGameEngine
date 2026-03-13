@@ -2,25 +2,25 @@
 
 namespace PresidentialGameEngine.ClassLibrary.Components
 {
-    public class PositioningComponent<SubjectEnum> : IPositioningComponent<SubjectEnum>
-        where SubjectEnum : Enum
+    public class PositioningComponent<TSubject> : IPositioningComponent<TSubject>
+        where TSubject : Enum
     {
-        private List<SubjectEnum> SubjectOrder { get; set; }
+        private List<TSubject> SubjectOrder { get; set; }
 
-        public SubjectEnum[] GetSubjectOrder => [.. SubjectOrder];
+        public TSubject[] GetSubjectOrder => [.. SubjectOrder];
 
         public PositioningComponent()
         {
             SubjectOrder = [];
 
-            var subjectValues = Enum.GetValues(typeof(SubjectEnum)).OfType<SubjectEnum>().ToList();
-            var valueOfNone = (SubjectEnum)Enum.ToObject(typeof(SubjectEnum), 0);
+            var subjectValues = Enum.GetValues(typeof(TSubject)).OfType<TSubject>().ToList();
+            var valueOfNone = (TSubject)Enum.ToObject(typeof(TSubject), 0);
             subjectValues.Remove(valueOfNone);
 
             SubjectOrder = subjectValues;
         }
 
-        public void SetSubjectOrder(IEnumerable<SubjectEnum> orderedSubjectValues) 
+        public void SetSubjectOrder(IEnumerable<TSubject> orderedSubjectValues) 
         {
             if(orderedSubjectValues.Count() != SubjectOrder.Count) 
             {
@@ -35,7 +35,7 @@ namespace PresidentialGameEngine.ClassLibrary.Components
             SubjectOrder = orderedSubjectValues.ToList();
         }
 
-        public void MoveSubjectUp(SubjectEnum subjectEnum) 
+        public void MoveSubjectUp(TSubject subjectEnum) 
         {
             if (SubjectOrder.Contains(subjectEnum) == false)
             {

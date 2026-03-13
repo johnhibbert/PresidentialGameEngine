@@ -2,34 +2,34 @@
 
 namespace PresidentialGameEngine.ClassLibrary.Components
 {
-    public class ExhaustionComponent<PlayersEnum> : IExhaustionComponent<PlayersEnum>
-        where PlayersEnum : Enum
+    public class ExhaustionComponent<TPlayer> : IExhaustionComponent<TPlayer>
+        where TPlayer : Enum
     {
-        private IDictionary<PlayersEnum, bool> PlayerStatuses { get; init; }
+        private IDictionary<TPlayer, bool> PlayerStatuses { get; init; }
 
-        public IDictionary<PlayersEnum, bool> GetRawData() { return PlayerStatuses; }
+        public IDictionary<TPlayer, bool> GetRawData() { return PlayerStatuses; }
 
         public ExhaustionComponent()
         {
-            PlayerStatuses = new Dictionary<PlayersEnum, bool>();
+            PlayerStatuses = new Dictionary<TPlayer, bool>();
 
-            foreach (PlayersEnum player in (PlayersEnum[])Enum.GetValues(typeof(PlayersEnum)))
+            foreach (TPlayer player in (TPlayer[])Enum.GetValues(typeof(TPlayer)))
             {
                 PlayerStatuses.Add(player, true);
             }
         }
 
-        public bool IsPlayerReady(PlayersEnum player)
+        public bool IsPlayerReady(TPlayer player)
         {
             return PlayerStatuses[player];
         }
 
-        public void ExhaustPlayer(PlayersEnum player)
+        public void ExhaustPlayer(TPlayer player)
         {
             PlayerStatuses[player] = false;
         }
 
-        public void UnexhaustPlayer(PlayersEnum player)
+        public void UnexhaustPlayer(TPlayer player)
         {
             PlayerStatuses[player] = true;
         }

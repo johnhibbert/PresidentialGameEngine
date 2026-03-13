@@ -7,22 +7,22 @@ using System.Threading.Tasks;
 
 namespace PresidentialGameEngine.ClassLibrary.Interfaces
 {
-    public interface ISupportComponent<PlayersEnum, LeadersEnum, SubjectEnum>
-        where PlayersEnum : Enum
-        where LeadersEnum : Enum
-        where SubjectEnum : Enum
+    public interface ISupportComponent<TPlayer, TLeader, TSubject>
+        where TPlayer : Enum
+        where TLeader : Enum
+        where TSubject : Enum
     {
-        public IDictionary<SubjectEnum, SupportContest<LeadersEnum>> GetRawData();
+        public IDictionary<TSubject, SupportContest<TLeader>> GetRawData();
 
-        public LeadersEnum GetLeader(SubjectEnum subject);
+        public TLeader GetLeader(TSubject subject);
 
         //public int GetSupportAmount(SubjectEnum subject);
 
-        public SupportStatus<LeadersEnum> GetSupportStatus(SubjectEnum subject);
+        public SupportStatus<TLeader> GetSupportStatus(TSubject subject);
 
-        public void GainSupport(PlayersEnum player, SubjectEnum state, int amount);
+        public void GainSupport(TPlayer player, TSubject state, int amount);
 
-        public void LoseSupport(PlayersEnum player, SubjectEnum state, int amount);
+        public void LoseSupport(TPlayer player, TSubject state, int amount);
 
         
 

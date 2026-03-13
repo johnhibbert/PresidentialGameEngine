@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace PresidentialGameEngine.ClassLibrary.Interfaces
 {
-    public interface IPositioningComponent<SubjectEnum>
-        where SubjectEnum : Enum
+    public interface IPositioningComponent<TSubject>
+        where TSubject : Enum
     {
-        public SubjectEnum[] GetSubjectOrder { get; }
+        public TSubject[] GetSubjectOrder { get; }
 
-        public void SetSubjectOrder(IEnumerable<SubjectEnum> orderedSubjectValues);
+        public void SetSubjectOrder(IEnumerable<TSubject> orderedSubjectValues);
 
-        public void MoveSubjectUp(SubjectEnum subjectEnum);
+        public void MoveSubjectUp(TSubject subjectEnum);
 
     }
 }

@@ -6,26 +6,26 @@ using PresidentialGameEngine.ClassLibrary.Interfaces;
 
 namespace PresidentialGameEngine.ClassLibrary.Engines
 {
-    public class GenericPresidentialGameEngine<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum, CardClass>
-       where PlayersEnum : Enum
-        where LeadersEnum : Enum
-        where IssuesEnum : Enum
-        where StatesEnum : Enum
-        where RegionsEnum : Enum
-        where CardClass : ICard
+    public class GenericPresidentialGameEngine<TPlayer, TLeader, TIssue, TState, TRegion, TCard>
+       where TPlayer : Enum
+        where TLeader : Enum
+        where TIssue : Enum
+        where TState : Enum
+        where TRegion : Enum
+        where TCard : ICard
     {
-        IAccumulatingComponent<PlayersEnum> MomentumComponent { get; init; }
-        ISupportComponent<PlayersEnum, LeadersEnum, IssuesEnum> IssueSupportComponent { get; init; }
-        ICarriableSupportComponent<PlayersEnum, LeadersEnum, StatesEnum> StateSupportComponent { get; init; }
-        IPositioningComponent<IssuesEnum> IssuePositioningComponent { get; init; }
-        IPoliticalCapitalComponent<PlayersEnum> PoliticalCapitalComponent { get; init; }
-        IPlayerLocationComponent<PlayersEnum, StatesEnum> PlayerLocationComponent { get; init; }
-        IAccumulatingComponent<PlayersEnum> RestComponent { get; init; }
-        ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum> EndorsementComponent { get; init; }
-        ISupportComponent<PlayersEnum, LeadersEnum, RegionsEnum> MediaSupportComponent { get; init; }
-        IExhaustionComponent<PlayersEnum> ExhaustionComponent { get; init; }
-        ICardComponent<PlayersEnum, CardClass> CardComponent { get; init; }
-        IStaticDataComponent<StatesEnum, PlayersEnum, RegionsEnum> StaticDataComponent { get; init; }
+        IAccumulatingComponent<TPlayer> MomentumComponent { get; init; }
+        ISupportComponent<TPlayer, TLeader, TIssue> IssueSupportComponent { get; init; }
+        ICarriableSupportComponent<TPlayer, TLeader, TState> StateSupportComponent { get; init; }
+        IPositioningComponent<TIssue> IssuePositioningComponent { get; init; }
+        IPoliticalCapitalComponent<TPlayer> PoliticalCapitalComponent { get; init; }
+        IPlayerLocationComponent<TPlayer, TState> PlayerLocationComponent { get; init; }
+        IAccumulatingComponent<TPlayer> RestComponent { get; init; }
+        ISupportComponent<TPlayer, TLeader, TRegion> EndorsementComponent { get; init; }
+        ISupportComponent<TPlayer, TLeader, TRegion> MediaSupportComponent { get; init; }
+        IExhaustionComponent<TPlayer> ExhaustionComponent { get; init; }
+        ICardComponent<TPlayer, TCard> CardComponent { get; init; }
+        IStaticDataComponent<TState, TPlayer, TRegion> StaticDataComponent { get; init; }
 
         //Not sure I really want to be supressing warnings like this
         //but the object is intentionally nullable to use methods instead of a huge constructor
@@ -33,8 +33,8 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
         //So it should be fine?
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
         public GenericPresidentialGameEngine
-            (ComponentCollection<PlayersEnum, LeadersEnum, IssuesEnum,
-                StatesEnum, RegionsEnum, CardClass> collection)
+            (ComponentCollection<TPlayer, TLeader, TIssue,
+                TState, TRegion, TCard> collection)
         {
             if (collection.IsReady())
             {
@@ -66,7 +66,7 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
                 StateSupportComponent.GainSupport(item.Tilt, item.State, item.StartingSupport);
             }
 
-            foreach (PlayersEnum player in (PlayersEnum[])Enum.GetValues(typeof(PlayersEnum)))
+            foreach (TPlayer player in (TPlayer[])Enum.GetValues(typeof(TPlayer)))
             {
                 MomentumComponent.GainAmount(player, 2);
                 //CardComponent.DrawCards(player, 6);
@@ -78,109 +78,109 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
 
         
 
-        public IssuesEnum[] GetIssueOrder
+        public TIssue[] GetIssueOrder
         {
             get { return IssuePositioningComponent.GetSubjectOrder; }
         }
 
-        public void GainMomentum(PlayersEnum player, int amount)
+        public void GainMomentum(TPlayer player, int amount)
         {
             MomentumComponent.GainAmount(player, amount);
         }
 
-        public int GetPlayerMomentum(PlayersEnum player)
+        public int GetPlayerMomentum(TPlayer player)
         {
             return MomentumComponent.GetPlayerAmount(player);
         }
 
-        public void LoseMomentum(PlayersEnum player, int amount)
+        public void LoseMomentum(TPlayer player, int amount)
         {
             MomentumComponent.LoseAmount(player, amount);
         }
 
-        public void GainRest(PlayersEnum player, int amount)
+        public void GainRest(TPlayer player, int amount)
         {
             RestComponent.GainAmount(player, amount);
         }
 
-        public int GetPlayerRest(PlayersEnum player)
+        public int GetPlayerRest(TPlayer player)
         {
             return RestComponent.GetPlayerAmount(player);
         }
 
-        public void EmptyRest(PlayersEnum player)
+        public void EmptyRest(TPlayer player)
         {
             RestComponent.LoseAmount(player, RestComponent.GetPlayerAmount(player));
         }
 
-        public void GainSupport(PlayersEnum player, IssuesEnum issue, int amount)
+        public void GainSupport(TPlayer player, TIssue issue, int amount)
         {
             IssueSupportComponent.GainSupport(player, issue, amount);
         }
 
-        public void LoseSupport(PlayersEnum player, IssuesEnum issue, int amount)
+        public void LoseSupport(TPlayer player, TIssue issue, int amount)
         {
             IssueSupportComponent.LoseSupport(player, issue, amount);
         }
 
-        public void GainSupport(PlayersEnum player, StatesEnum state, int amount)
+        public void GainSupport(TPlayer player, TState state, int amount)
         {
             StateSupportComponent.GainSupport(player, state, amount);
         }
 
-        public void LoseSupport(PlayersEnum player, StatesEnum state, int amount)
+        public void LoseSupport(TPlayer player, TState state, int amount)
         {
             StateSupportComponent.LoseSupport(player, state, amount);
         }
 
-        public void SetIssueOrder(IEnumerable<IssuesEnum> orderedIssues)
+        public void SetIssueOrder(IEnumerable<TIssue> orderedIssues)
         {
             IssuePositioningComponent.SetSubjectOrder(orderedIssues);
         }
-        public void MoveIssueUp(IssuesEnum issue)
+        public void MoveIssueUp(TIssue issue)
         {
             IssuePositioningComponent.MoveSubjectUp(issue);
         }
 
-        public LeadersEnum GetLeader(IssuesEnum issue)
+        public TLeader GetLeader(TIssue issue)
         {
             return IssueSupportComponent.GetLeader(issue);
         }
 
-        public LeadersEnum GetLeader(StatesEnum state)
+        public TLeader GetLeader(TState state)
         {
             return StateSupportComponent.GetLeader(state);
         }
 
-        public int GetSupportAmount(IssuesEnum issue)
+        public int GetSupportAmount(TIssue issue)
         {
             return IssueSupportComponent.GetSupportStatus(issue).Support;
         }
 
-        public int GetSupportAmount(StatesEnum state)
+        public int GetSupportAmount(TState state)
         {
             return StateSupportComponent.GetSupportStatus(state).Support;
         }
 
-        public PlayersEnum InitiativeCheck()
+        public TPlayer InitiativeCheck()
         {
             return PoliticalCapitalComponent.InitiativeCheck();
         }
 
-        public SupportCheckResult SupportCheck(PlayersEnum player, int checkAmount)
+        public SupportCheckResult SupportCheck(TPlayer player, int checkAmount)
         {
             return PoliticalCapitalComponent.SupportCheck(player, checkAmount);
         }
 
-        public void AddCubesToBag(PlayersEnum player, int amount)
+        public void AddCubesToBag(TPlayer player, int amount)
         {
             PoliticalCapitalComponent.AddCubes(player, amount);
         }
 
 
-        public void NEWImplementChanges(NEW_ChangeBattery<PlayersEnum, IssuesEnum, StatesEnum, RegionsEnum> changeBattery) 
+        public void NEWImplementChanges(NEW_ChangeBattery<TPlayer, TIssue, TState, TRegion> changeBattery) 
         {
-            foreach (NEW_SupportChange<PlayersEnum, StatesEnum> stateChange in changeBattery.StateChanges)
+            foreach (NEW_SupportChange<TPlayer, TState> stateChange in changeBattery.StateChanges)
             {
                 switch (stateChange.GainOrLoss) 
                 {
@@ -193,7 +193,7 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
                 }
             }
 
-            foreach (NEW_SupportChange<PlayersEnum, IssuesEnum> issueChange in changeBattery.IssueChanges)
+            foreach (NEW_SupportChange<TPlayer, TIssue> issueChange in changeBattery.IssueChanges)
             {
                 switch (issueChange.GainOrLoss)
                 {
@@ -206,7 +206,7 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
                 }
             }
 
-            foreach (NEW_SupportChange<PlayersEnum, RegionsEnum> endorsementChange in changeBattery.EndorsementChanges)
+            foreach (NEW_SupportChange<TPlayer, TRegion> endorsementChange in changeBattery.EndorsementChanges)
             {
                 switch (endorsementChange.GainOrLoss)
                 {
@@ -219,7 +219,7 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
                 }
             }
 
-            foreach (NEW_SupportChange<PlayersEnum, RegionsEnum> mediaChange in changeBattery.MediaSupportChanges)
+            foreach (NEW_SupportChange<TPlayer, TRegion> mediaChange in changeBattery.MediaSupportChanges)
             {
                 switch (mediaChange.GainOrLoss)
                 {
@@ -232,7 +232,7 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
                 }
             }
 
-            foreach (NEW_AccumulationChange<PlayersEnum> momentumChange in changeBattery.MomentumChanges)
+            foreach (NEW_AccumulationChange<TPlayer> momentumChange in changeBattery.MomentumChanges)
             {
                 switch (momentumChange.GainOrLoss)
                 {
@@ -245,7 +245,7 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
                 }
             }
 
-            foreach (NEW_AccumulationChange<PlayersEnum> restChange in changeBattery.RestChanges)
+            foreach (NEW_AccumulationChange<TPlayer> restChange in changeBattery.RestChanges)
             {
                 switch (restChange.GainOrLoss)
                 {
@@ -258,15 +258,15 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
                 }
             }
 
-            foreach (NEW_PlayerLocationChange<PlayersEnum, StatesEnum> playerLocationChange in changeBattery.PlayerLocationChanges)
+            foreach (NEW_PlayerLocationChange<TPlayer, TState> playerLocationChange in changeBattery.PlayerLocationChanges)
             {
                 PlayerLocationComponent.MovePlayerToState(playerLocationChange.Player, playerLocationChange.State);
             }
 
-            IssuesEnum defaultIssue = (IssuesEnum)Enum.ToObject(typeof(IssuesEnum), 0);
-            bool issueToElevateIsNotDefault = EqualityComparer<IssuesEnum>.Default.Equals(changeBattery.IssueToElevate, defaultIssue) == false;
+            TIssue defaultIssue = (TIssue)Enum.ToObject(typeof(TIssue), 0);
+            bool issueToElevateIsNotDefault = EqualityComparer<TIssue>.Default.Equals(changeBattery.IssueToElevate, defaultIssue) == false;
 
-            bool hasNewIssueOrder = changeBattery.NewIssuesOrder.Count == (Enum.GetValues(typeof(IssuesEnum)).Length - 1);
+            bool hasNewIssueOrder = changeBattery.NewIssuesOrder.Count == (Enum.GetValues(typeof(TIssue)).Length - 1);
 
             if (issueToElevateIsNotDefault)
             {
@@ -280,9 +280,9 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
         }
 
 
-        public void ImplementChanges(PlayerChosenChanges<PlayersEnum, IssuesEnum, StatesEnum, RegionsEnum> changes)
+        public void ImplementChanges(PlayerChosenChanges<TPlayer, TIssue, TState, TRegion> changes)
         {
-            foreach (SupportChange<PlayersEnum, IssuesEnum> issueChange in changes.IssueChanges)
+            foreach (SupportChange<TPlayer, TIssue> issueChange in changes.IssueChanges)
             {
                 if (issueChange.Change > 0)
                 {
@@ -294,7 +294,7 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
                 }
             }
 
-            foreach (SupportChange<PlayersEnum, StatesEnum> stateChange in changes.StateChanges)
+            foreach (SupportChange<TPlayer, TState> stateChange in changes.StateChanges)
             {
                 if (stateChange.Change > 0)
                 {
@@ -306,7 +306,7 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
                 }
             }
 
-            foreach (SupportChange<PlayersEnum, RegionsEnum> mediaChange in changes.MediaSupportChanges)
+            foreach (SupportChange<TPlayer, TRegion> mediaChange in changes.MediaSupportChanges)
             {
                 if (mediaChange.Change > 0)
                 {
@@ -318,7 +318,7 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
                 }               
             }
 
-            foreach (SupportChange<PlayersEnum, RegionsEnum> endorsementChange in changes.EndorsementChanges)
+            foreach (SupportChange<TPlayer, TRegion> endorsementChange in changes.EndorsementChanges)
             {
                 GainEndorsement(endorsementChange.Player, endorsementChange.Target, endorsementChange.Change);
             }
@@ -330,80 +330,80 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
 
         }
 
-        public StatesEnum GetPlayerState(PlayersEnum player)
+        public TState GetPlayerState(TPlayer player)
         {
             return PlayerLocationComponent.GetPlayerState(player);
         }
 
-        public void MovePlayerToState(PlayersEnum player, StatesEnum states)
+        public void MovePlayerToState(TPlayer player, TState states)
         {
             PlayerLocationComponent.MovePlayerToState(player, states);
         }
 
-        public void GainEndorsement(PlayersEnum player, RegionsEnum region, int amount)
+        public void GainEndorsement(TPlayer player, TRegion region, int amount)
         {
             EndorsementComponent.GainSupport(player, region, amount);
         }
 
-        public void LoseEndorsement(PlayersEnum player, RegionsEnum region, int amount)
+        public void LoseEndorsement(TPlayer player, TRegion region, int amount)
         {
             EndorsementComponent.LoseSupport(player, region, amount);
         }
 
-        public LeadersEnum GetEndorsementLeader(RegionsEnum region) 
+        public TLeader GetEndorsementLeader(TRegion region) 
         {
             return EndorsementComponent.GetLeader(region);
         }
 
-        public int GetNumberOfEndorsements(RegionsEnum region)
+        public int GetNumberOfEndorsements(TRegion region)
         {
             return EndorsementComponent.GetSupportStatus(region).Support;
         }
 
-        public SupportCheckResult GainMediaSupport(PlayersEnum player, RegionsEnum region, int amount)
+        public SupportCheckResult GainMediaSupport(TPlayer player, TRegion region, int amount)
         {
             var result = SupportCheck(player, amount);
             MediaSupportComponent.GainSupport(player, region, result.Successes);
             return result;
         }
 
-        public void GainMediaSupportWithoutSupportCheck(PlayersEnum player, RegionsEnum region, int amount)
+        public void GainMediaSupportWithoutSupportCheck(TPlayer player, TRegion region, int amount)
         {
             MediaSupportComponent.GainSupport(player, region, amount);
         }
 
-        public void LoseMediaSupport(PlayersEnum player, RegionsEnum region, int amount)
+        public void LoseMediaSupport(TPlayer player, TRegion region, int amount)
         {
             MediaSupportComponent.LoseSupport(player, region, amount);
         }
 
-        public LeadersEnum GetMediaSupportLeader(RegionsEnum region)
+        public TLeader GetMediaSupportLeader(TRegion region)
         {
             return MediaSupportComponent.GetLeader(region);
         }
 
-        public int GetMediaSupportAmount(RegionsEnum region)
+        public int GetMediaSupportAmount(TRegion region)
         {
             return MediaSupportComponent.GetSupportStatus(region).Support;
         }
 
-        public void ExhaustPlayer(PlayersEnum player) 
+        public void ExhaustPlayer(TPlayer player) 
         {
             ExhaustionComponent.ExhaustPlayer(player);
         }
 
-        public void UnexhaustPlayer(PlayersEnum player)
+        public void UnexhaustPlayer(TPlayer player)
         {
             ExhaustionComponent.UnexhaustPlayer(player);
         }
 
-        public bool IsPlayerReady(PlayersEnum player)
+        public bool IsPlayerReady(TPlayer player)
         {
             return ExhaustionComponent.IsPlayerReady(player);
         }
 
 
-        public IEnumerable<CardClass> GetPlayerHand(PlayersEnum player)
+        public IEnumerable<TCard> GetPlayerHand(TPlayer player)
         {
             return CardComponent.GetPlayerHand(player);
         }
@@ -414,27 +414,27 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
             return CardComponent.CountCardsLeftInDeck();
         }
 
-        public void DiscardCardFromHand(PlayersEnum player, CardClass card)
+        public void DiscardCardFromHand(TPlayer player, TCard card)
         {
             CardComponent.MoveCardFromOneZoneToAnother(player, card, CardZone.Hand, CardZone.Discard);
         }
 
-        public void DrawCards(PlayersEnum player, int numberToDraw)
+        public void DrawCards(TPlayer player, int numberToDraw)
         {
             CardComponent.DrawCards(player, numberToDraw);
         }
 
-        public void MoveCardFromHandToCampaignStrategyPile(PlayersEnum player, CardClass card)
+        public void MoveCardFromHandToCampaignStrategyPile(TPlayer player, TCard card)
         {
             CardComponent.MoveCardFromOneZoneToAnother(player, card, CardZone.Hand, CardZone.CampaignStrategy);
         }
 
-        public void MoveCardFromHandToRemovedPile(PlayersEnum player, CardClass card)
+        public void MoveCardFromHandToRemovedPile(TPlayer player, TCard card)
         {
             CardComponent.MoveCardFromOneZoneToAnother(player, card, CardZone.Hand, CardZone.Removed);
         }
 
-        public void RetrieveCardFromDiscardPile(PlayersEnum player, CardClass card, bool okayIfCardNotFound = false)
+        public void RetrieveCardFromDiscardPile(TPlayer player, TCard card, bool okayIfCardNotFound = false)
         {
             try
             {
@@ -450,16 +450,16 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
             }
         }
 
-        public void MoveCardFromOneZoneToAnother(PlayersEnum player, CardClass cardToMove,
+        public void MoveCardFromOneZoneToAnother(TPlayer player, TCard cardToMove,
             CardZone source, CardZone destination)
         {
             CardComponent.MoveCardFromOneZoneToAnother(player, cardToMove, source, destination);
         }
 
 
-        public GameState<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum> GetGameState() 
+        public GameState<TPlayer, TLeader, TIssue, TState, TRegion> GetGameState() 
         {
-            return new GameState<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum>()
+            return new GameState<TPlayer, TLeader, TIssue, TState, TRegion>()
             {
                 Momentum = MomentumComponent.GetRawData(),
                 RestCubes = RestComponent.GetRawData(),
@@ -475,30 +475,30 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
     }
 
 
-    public class GameState<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum>
-       where PlayersEnum : Enum
-        where LeadersEnum : Enum
-        where IssuesEnum : Enum
-        where StatesEnum : Enum
-        where RegionsEnum : Enum
+    public class GameState<TPlayer, TLeader, TIssue, TState, TRegion>
+       where TPlayer : Enum
+        where TLeader : Enum
+        where TIssue : Enum
+        where TState : Enum
+        where TRegion : Enum
     {
-        public required IDictionary<PlayersEnum, int> Momentum { get; init; }
+        public required IDictionary<TPlayer, int> Momentum { get; init; }
 
-        public required IDictionary<PlayersEnum, int> RestCubes { get; init; }
+        public required IDictionary<TPlayer, int> RestCubes { get; init; }
 
-        public required IDictionary<IssuesEnum, SupportContest<LeadersEnum>> IssueContests { get; init; }
+        public required IDictionary<TIssue, SupportContest<TLeader>> IssueContests { get; init; }
 
-        public required IDictionary<StatesEnum, SupportContest<LeadersEnum>> StateContests { get; init; }
+        public required IDictionary<TState, SupportContest<TLeader>> StateContests { get; init; }
 
-        public required IList<IssuesEnum> IssueOrder { get; init; }
+        public required IList<TIssue> IssueOrder { get; init; }
 
-        public required IDictionary<RegionsEnum, SupportContest<LeadersEnum>> Endorsements { get; init; }
+        public required IDictionary<TRegion, SupportContest<TLeader>> Endorsements { get; init; }
 
-        public required IDictionary<RegionsEnum, SupportContest<LeadersEnum>> MediaSupportLevels { get; init; }
+        public required IDictionary<TRegion, SupportContest<TLeader>> MediaSupportLevels { get; init; }
 
-        public required IDictionary<PlayersEnum, StatesEnum> PlayerLocations { get; init; }
+        public required IDictionary<TPlayer, TState> PlayerLocations { get; init; }
 
-        public required IDictionary<PlayersEnum, bool> Exhaustion { get; init; }
+        public required IDictionary<TPlayer, bool> Exhaustion { get; init; }
 
     }
 }
