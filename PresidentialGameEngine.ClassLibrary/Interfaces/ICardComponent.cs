@@ -2,18 +2,18 @@
 
 namespace PresidentialGameEngine.ClassLibrary.Interfaces
 {
-    public interface ICardComponent<PlayersEnum, CardClass>
-        where PlayersEnum : Enum
-        where CardClass : ICard
+    public interface ICardComponent<TPlayer, TCard>
+        where TPlayer : Enum
+        where TCard : ICard
     {
         int CountCardsLeftInDeck();
 
-        void DrawCards(PlayersEnum player, int numberToDraw);
-        IEnumerable<CardClass> GetPlayerHand(PlayersEnum player);
+        void DrawCards(TPlayer player, int numberToDraw);
+        IEnumerable<TCard> GetPlayerHand(TPlayer player);
 
-        public IEnumerable<CardClass> ViewCardsInZone(CardZone zone, PlayersEnum player);
+        public IEnumerable<TCard> ViewCardsInZone(CardZone zone, TPlayer player);
 
-        void MoveCardFromOneZoneToAnother(PlayersEnum player, CardClass cardToMove,
+        void MoveCardFromOneZoneToAnother(TPlayer player, TCard cardToMove,
             CardZone source, CardZone destination);
     }
 }

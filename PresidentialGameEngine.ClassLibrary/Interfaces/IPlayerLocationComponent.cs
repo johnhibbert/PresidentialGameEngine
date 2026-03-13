@@ -1,9 +1,9 @@
 ﻿namespace PresidentialGameEngine.ClassLibrary.Interfaces
 {
-    public interface IPlayerLocationComponent<PlayersEnum, StatesEnum>
+    public interface IPlayerLocationComponent<TPlayer, TState>
     {
-        IDictionary<PlayersEnum, StatesEnum> GetRawData();
-        StatesEnum GetPlayerState(PlayersEnum player);
-        void MovePlayerToState(PlayersEnum player, StatesEnum states);
+        IDictionary<TPlayer, TState> GetRawData();
+        TState GetPlayerState(TPlayer player);
+        void MovePlayerToState(TPlayer player, TState states);
     }
 }

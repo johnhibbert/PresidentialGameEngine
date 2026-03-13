@@ -1,14 +1,14 @@
 ﻿namespace PresidentialGameEngine.ClassLibrary.Interfaces
 {
-    public interface IAccumulatingComponent<PlayersEnum>
-        where PlayersEnum : Enum
+    public interface IAccumulatingComponent<TPlayer>
+        where TPlayer : Enum
     {
-        public IDictionary<PlayersEnum, int> GetRawData();
+        public IDictionary<TPlayer, int> GetRawData();
 
-        public int GetPlayerAmount(PlayersEnum player);
+        public int GetPlayerAmount(TPlayer player);
 
-        public void GainAmount(PlayersEnum player, int amount);
+        public void GainAmount(TPlayer player, int amount);
 
-        public void LoseAmount(PlayersEnum player, int amount);
+        public void LoseAmount(TPlayer player, int amount);
     }
 }
