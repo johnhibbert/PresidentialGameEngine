@@ -67,7 +67,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
 
         #region #3 - Gallup Poll
-
+        //"Player may alter the order of the issues on the Issue Track as desired."
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -110,6 +110,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #5 - Volunteers
+        //"Player gains 1 momentum marker."
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -140,6 +141,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #6 - New England
+        //"The Kennedy player may add a total of 5 state support in Connecticut, Massachusetts, Maine, New York, Rhode Island, and Vermont, no more than 2 per state."
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -254,6 +256,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region 7 - Late Returns From Cook County
+        //"ELECTION DAY EVENT!  On Election Day, the Kennedy player gains 5 support checks in Illinois.",
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -277,6 +280,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #8 - Soviet Economic Growth
+        //"Economy moves up one space on the Issue Track.  The leader in Economy gains 1 state support in New York."
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -355,7 +359,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #22 - Gaffe
-
+        //"Opponent loses 1 momentum marker and 3 state support in the state currently occupied by their candidate token."
         [TestMethod]
         [DataRow(Player.Nixon, State.MI)]
         [DataRow(Player.Kennedy, State.AZ)]
@@ -427,6 +431,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #23 - Martin Luther King Arrested
+        //"Civil Rights moves up one space on the Issue Track.  Player gains 3 issue support in Civil Rights."
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -508,6 +513,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #25 - 1960 Civil Rights Act
+        //"Civil Rights moves up one space on the Issue Track and Nixon gains 1 issue support in Civil Rights."
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -589,7 +595,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #29 - The Great Seal Bug
-
+        //"Nixon gains 1 issue support in Defense and may retrieve the Henry Cabot Lodge card from the discard pile if it is there."
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -712,6 +718,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #36 - Henry Luce
+        //"The Kennedy player may place 1 endorsement marker in any region."
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -749,6 +756,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #37 - Lunch Counter Sit-Ins
+        //"Civil Rights moves up one space on the Issue Track.  The leader in Civil Rights may add a total of 3 state support anywhere, no more than 1 per state."
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -897,7 +905,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #39 - Lyndon Johnson
-
+        //"The Kennedy player may add 2 state support in Texas and a total of 3 additional state support anywhere in the South, no more than 2 per state.  If the Kennedy candidate card is currently flipped to its Exhausted side, the Kennedy player may reclaim it face up."
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -1042,7 +1050,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #41 - Pierre Salinger
-
+        //"The Kennedy player may add 3 issue support in any one issue."
         [TestMethod]
         [DataRow(Issue.CivilRights)]
         [DataRow(Issue.Defense)]
@@ -1144,6 +1152,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #42 Henry Cabot Lodge
+        //"Nixon gains 2 state support in Massachusetts and 2 issue support in Defense.  If the Nixon candidate card is currently flipped to its Exhausted side, the Nixon player may reclaim it face-up.
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -1198,7 +1207,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #45 Compact of 5th Avenue
-
+        //"Immediately move the Nixon candidate token to New York without paying the normal travel costs.  Nixon gains 1 issue support in Civil Rights, 2 state support in New York, and 1 media support cube in the East."
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -1280,6 +1289,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #48 - Rising Food Prices
+        //"Economy moves up one space on the Issue Track and Nixon gains 2 issue support in Economy."
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -1345,6 +1355,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #51 - Missile Gap
+        //"Kennedy gains 3 issue support in Defense."
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -1409,7 +1420,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #51 - Hurricane Donna
-
+        //"Move player's candidate token to Florida.  Player gains 1 momentum marker and 1 state support in Florida."
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -1453,7 +1464,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #60 World Series Ends
-
+        //"The player with media support cubes in the East (if any) may add a total of 5 state support in the East, no more than 2 per state."
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -1593,6 +1604,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #61 - Fatigue Sets In
+        //"If opponent's candidate card is currently available for play, flip it over to its Exhausted side."
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -1624,6 +1636,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #62 - The Trial of Gary Powers
+        //"Defense moves up two spaces on the Issue Track.  The leader in Defense gains 1 momentum marker."
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -1700,6 +1713,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #63 - “Give Me A Week”
+        //"The Nixon player loses 2 momentum markers and must subtract 1 issue support in each issue."
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -1757,6 +1771,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #64 - Stump Speech
+        //"If opponent has more momentum markers, player gains enough to have the same number."
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -1817,6 +1832,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #68 - "Peace Without Surrender"
+        //"Defense moves up one space on the Issue Track and Nixon gains 1 issue support in Defense."
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -1882,6 +1898,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #70 - The Old Nixon
+        //"The Nixon player loses 1 momentum marker.  The Kennedy player loses 3 momentum markers."
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -1937,6 +1954,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #71 - Heartland of America
+        //"The Kennedy player may add a total of 5 state support in states having 20 or more electoral votes, no more than 2 per state."
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -2115,7 +2133,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region 72 - Southern Revolt
-
+        //"If Kennedy is leading in Civil Rights, the Nixon player may add a total of 5 state support in the South, no more than 2 per state."
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -2344,7 +2362,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #75 Republican TV Spots
-
+        //"Immediately move the Nixon candidate token to New York, but do not pay the normal travel costs for doing so.  The Nixon player may place 3 media support cubes."
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -2404,6 +2422,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #77 - Suburban Voters
+        //"The Kennedy player may add a total of 5 state support in states having 20 or more electoral votes, no more than 2 per state."
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -2520,7 +2539,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #78 - Stock Market In Decline
-
+        //"Economy moves up two spaces on the Issue Track. The leader in Economy gains 2 state support in New York."
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -2599,6 +2618,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #80 - Herblock
+        //"The Kennedy player may remove 2 Nixon media support cubes from the board."
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -2671,7 +2691,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #82 - Fidel Castro
-
+        //"The leader in Defense gains 1 momentum marker and 1 state support in Florida.",
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -2717,7 +2737,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #86 - Herb Klein
-
+        //"The Nixon player may add a total of 3 issue support in any issues."
         [TestMethod]
         [DataRow(Issue.CivilRights)]
         [DataRow(Issue.Defense)]
@@ -2806,6 +2826,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #89 - The New Nixon
+        //"The Nixon player gains 1 momentum marker.",
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -2838,6 +2859,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #90 - Recount
+        //"ELECTION DAY EVENT!  On Election Day, the Nixon player gains 3 support checks in any one state.",
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -2930,6 +2952,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #93 - Experience Counts
+        //"Kennedy loses 1 issue support in each issue.  The Nixon player gains one momentum marker."
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -2985,6 +3008,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #95 - A Time For Greatness
+        //"Nixon loses 1 issue support on each issue.  The Kennedy player may add 3 state support anywhere, no more than 1 per state."
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -3143,6 +3167,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #96 - Medal Count
+        //"The leaders in Civil Rights and Economy lose 1 issue support in those issues.  If the same player leads both, they also lose 1 momentum marker."
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -3254,6 +3279,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #97 - Cassius Clay Wins Gold
+        //"The leaders in Defense and Economy lose 1 issue support in those issues.  If the same player leads both, they also lose 1 momentum marker."
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
