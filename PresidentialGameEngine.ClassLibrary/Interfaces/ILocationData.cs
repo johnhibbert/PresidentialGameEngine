@@ -1,17 +1,17 @@
 ﻿namespace PresidentialGameEngine.ClassLibrary.Interfaces
 {
-    public interface ILocationData<StatesEnum, PlayersEnum, RegionsEnum>
-        where StatesEnum : Enum
-        where PlayersEnum : Enum
-        where RegionsEnum : Enum
+    public interface ILocationData<TState, TPlayer, TRegion>
+        where TState : Enum
+        where TPlayer : Enum
+        where TRegion : Enum
     {
-        StatesEnum State { get; init; }
+        TState State { get; init; }
 
         int ElectoralVotes { get; init; }
 
-        PlayersEnum Tilt { get; init; }
+        TPlayer Tilt { get; init; }
 
-        RegionsEnum Region { get; init; }
+        TRegion Region { get; init; }
 
         int StartingSupport { get; init; }
     }

@@ -1,6 +1,6 @@
 ﻿namespace PresidentialGameEngine.ClassLibrary.Data
 {
-    public record SupportStatus<LeadersEnum>(LeadersEnum Leader, int Support)
-        where LeadersEnum : Enum
+    public record SupportStatus<TLeader>(TLeader Leader, int Support)
+        where TLeader : Enum
     { }
 }

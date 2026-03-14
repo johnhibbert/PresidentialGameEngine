@@ -1,12 +1,12 @@
 ﻿namespace PresidentialGameEngine.ClassLibrary.Data
 {
-    public class SupportChange<PlayersEnum, TargetEnum>(PlayersEnum player, TargetEnum target, int change)
-        where PlayersEnum : Enum
-        where TargetEnum : Enum
+    public class SupportChange<TPlayer, TTarget>(TPlayer player, TTarget target, int change)
+        where TPlayer : Enum
+        where TTarget : Enum
     {
-        public PlayersEnum Player { get; init; } = player;
+        public TPlayer Player { get; init; } = player;
 
-        public TargetEnum Target { get; init; } = target;
+        public TTarget Target { get; init; } = target;
 
         //This is not init because we will want to deduct these after support checks.
         public int Change { get; set; } = change;

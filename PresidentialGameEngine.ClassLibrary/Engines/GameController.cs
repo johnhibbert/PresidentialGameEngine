@@ -8,23 +8,23 @@ using System.Threading.Tasks;
 
 namespace PresidentialGameEngine.ClassLibrary.Engines
 {
-    public class GameController<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum, CardClass>
-        where PlayersEnum : Enum
-        where LeadersEnum : Enum
-        where IssuesEnum : Enum
-        where StatesEnum : Enum
-        where RegionsEnum : Enum
-        where CardClass : ICard
+    public class GameController<TPlayer, TLeader, TIssue, TState, TRegion, TCard>
+        where TPlayer : Enum
+        where TLeader : Enum
+        where TIssue : Enum
+        where TState : Enum
+        where TRegion : Enum
+        where TCard : ICard
     {
 
-        readonly GenericPresidentialGameEngine<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum, CardClass> Engine;
+        readonly GenericPresidentialGameEngine<TPlayer, TLeader, TIssue, TState, TRegion, TCard> Engine;
 
-        public GameController(GenericPresidentialGameEngine<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum, CardClass> engine)
+        public GameController(GenericPresidentialGameEngine<TPlayer, TLeader, TIssue, TState, TRegion, TCard> engine)
         {
             Engine = engine;
         }
 
-        public void PlayCardAsEvent(GameAction<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum, CardClass> gameAction) 
+        public void PlayCardAsEvent(GameAction<TPlayer, TLeader, TIssue, TState, TRegion, TCard> gameAction) 
         {
             throw new NotImplementedException();
 
@@ -32,12 +32,12 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
             //var ff = gameAction.Card.Index;
         }
 
-        public void PlayCandidateCard(GameAction<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum, CardClass> gameAction)
+        public void PlayCandidateCard(GameAction<TPlayer, TLeader, TIssue, TState, TRegion, TCard> gameAction)
         {
             throw new NotImplementedException();
         }
 
-        public void PlayCardForCampaignPoints(GameAction<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum, CardClass> gameAction)
+        public void PlayCardForCampaignPoints(GameAction<TPlayer, TLeader, TIssue, TState, TRegion, TCard> gameAction)
         {
             throw new NotImplementedException();
         }
@@ -46,17 +46,17 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
         //encapsulated in a game action class?
     }
 
-    public class GameAction<PlayersEnum, LeadersEnum, IssuesEnum, StatesEnum, RegionsEnum, CardClass>
-        where PlayersEnum : Enum
-        where LeadersEnum : Enum
-        where IssuesEnum : Enum
-        where StatesEnum : Enum
-        where RegionsEnum : Enum
-        where CardClass : ICard
+    public class GameAction<TPlayer, TLeader, TIssue, TState, TRegion, TCard>
+        where TPlayer : Enum
+        where TLeader : Enum
+        where TIssue : Enum
+        where TState : Enum
+        where TRegion : Enum
+        where TCard : ICard
     {
-        public PlayersEnum Player;
-        public CardClass Card;
-        public PlayerChosenChanges<PlayersEnum, IssuesEnum, StatesEnum, RegionsEnum> changes;
+        public TPlayer Player;
+        public TCard Card;
+        public PlayerChosenChanges<TPlayer, TIssue, TState, TRegion> changes;
 
         //Should the game action include the action type?
         //Or just do it by method?

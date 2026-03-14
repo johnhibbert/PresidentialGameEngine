@@ -6,26 +6,26 @@ using System.Threading.Tasks;
 
 namespace PresidentialGameEngine.ClassLibrary.Data
 {
-    public class NEW_ChangeBattery<PlayersEnum, IssuesEnum, StatesEnum, RegionsEnum>
-     where PlayersEnum : Enum
-     where IssuesEnum : Enum
-     where StatesEnum : Enum
-     where RegionsEnum : Enum
+    public class NEW_ChangeBattery<TPlayer, TIssue, TState, TRegion>
+     where TPlayer : Enum
+     where TIssue : Enum
+     where TState : Enum
+     where TRegion : Enum
     {
 
-        public List<NEW_SupportChange<PlayersEnum, IssuesEnum>> IssueChanges { get; set; }
-        public List<NEW_SupportChange<PlayersEnum, StatesEnum>> StateChanges { get; set; }
-        public List<NEW_SupportChange<PlayersEnum, RegionsEnum>> EndorsementChanges { get; set; }
-        public List<NEW_SupportChange<PlayersEnum, RegionsEnum>> MediaSupportChanges { get; set; }
+        public List<NEW_SupportChange<TPlayer, TIssue>> IssueChanges { get; set; }
+        public List<NEW_SupportChange<TPlayer, TState>> StateChanges { get; set; }
+        public List<NEW_SupportChange<TPlayer, TRegion>> EndorsementChanges { get; set; }
+        public List<NEW_SupportChange<TPlayer, TRegion>> MediaSupportChanges { get; set; }
 
-        public List<NEW_AccumulationChange<PlayersEnum>> MomentumChanges { get; set; }
-        public List<NEW_AccumulationChange<PlayersEnum>> RestChanges { get; set; }
+        public List<NEW_AccumulationChange<TPlayer>> MomentumChanges { get; set; }
+        public List<NEW_AccumulationChange<TPlayer>> RestChanges { get; set; }
 
-        public List<NEW_PlayerLocationChange<PlayersEnum, StatesEnum>> PlayerLocationChanges { get; set; }
+        public List<NEW_PlayerLocationChange<TPlayer, TState>> PlayerLocationChanges { get; set; }
 
-        public List<IssuesEnum> NewIssuesOrder { get; set; }
+        public List<TIssue> NewIssuesOrder { get; set; }
 
-        public IssuesEnum IssueToElevate { get; set; }
+        public TIssue IssueToElevate { get; set; }
 
         public NEW_ChangeBattery()
         {
@@ -37,7 +37,7 @@ namespace PresidentialGameEngine.ClassLibrary.Data
             MomentumChanges = [];
             RestChanges = [];
             PlayerLocationChanges = [];
-            IssueToElevate = (IssuesEnum)Enum.ToObject(typeof(IssuesEnum), 0);
+            IssueToElevate = (TIssue)Enum.ToObject(typeof(TIssue), 0);
         }
 
     }
@@ -45,14 +45,14 @@ namespace PresidentialGameEngine.ClassLibrary.Data
 
 
 
-    public class NEW_SupportChange<PlayersEnum, TargetEnum>
-        (PlayersEnum player, TargetEnum target, NEW_ChangeDirection gainOrLoss, int change)
-        where PlayersEnum : Enum
-        where TargetEnum : Enum
+    public class NEW_SupportChange<TPlayer, TTarget>
+        (TPlayer player, TTarget target, NEW_ChangeDirection gainOrLoss, int change)
+        where TPlayer : Enum
+        where TTarget : Enum
     {
-        public PlayersEnum Player { get; init; } = player;
+        public TPlayer Player { get; init; } = player;
 
-        public TargetEnum Target { get; init; } = target;
+        public TTarget Target { get; init; } = target;
 
         public NEW_ChangeDirection GainOrLoss { get; init; } = gainOrLoss;
 
@@ -60,11 +60,11 @@ namespace PresidentialGameEngine.ClassLibrary.Data
         public int Change { get; set; } = change;
     }
 
-    public class NEW_AccumulationChange<PlayersEnum>
-        (PlayersEnum player, NEW_ChangeDirection gainOrLoss, int change)
-        where PlayersEnum : Enum
+    public class NEW_AccumulationChange<TPlayer>
+        (TPlayer player, NEW_ChangeDirection gainOrLoss, int change)
+        where TPlayer : Enum
     {
-        public PlayersEnum Player { get; init; } = player;
+        public TPlayer Player { get; init; } = player;
 
         public NEW_ChangeDirection GainOrLoss { get; init; } = gainOrLoss;
 
@@ -73,17 +73,17 @@ namespace PresidentialGameEngine.ClassLibrary.Data
     }
 
 
-    public class NEW_PlayerLocationChange<PlayersEnum, StatesEnum>(PlayersEnum player, StatesEnum state) 
+    public class NEW_PlayerLocationChange<TPlayer, TState>(TPlayer player, TState state) 
     {
-        public PlayersEnum Player { get; init; } = player;
+        public TPlayer Player { get; init; } = player;
 
-        public StatesEnum State { get; init; } = state;
+        public TState State { get; init; } = state;
 
     }
 
-    public class NEW_ExhaustionStateChange<PlayersEnum>(PlayersEnum player, NEW_ExhaustionMode mode) 
+    public class NEW_ExhaustionStateChange<TPlayer>(TPlayer player, NEW_ExhaustionMode mode) 
     {
-        public PlayersEnum Player { get; init; } = player;
+        public TPlayer Player { get; init; } = player;
 
         public NEW_ExhaustionMode State { get; init; } = mode;
     }
