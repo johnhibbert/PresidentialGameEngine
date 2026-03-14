@@ -624,27 +624,23 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(1, engine.GetSupportAmount(Issue.Defense));
-            
         }
 
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void TheGreatSealBug_29_HenryCabotLodgeRecoveredFromDiscard(Player player)
+        public void TheGreatSealBug_29_HenryCabotLodgeRecoveredFromDiscardPile(Player player)
         {
             int cardIndex = 29;
             var engine = GetGameEngine();
 
-            var cardToRetrieve = NineteenSixty.GMTCards[42];
-
+            var henryCabotLodgeCard = NineteenSixty.GMTCards[42];
             engine.MoveCardFromOneZoneToAnother(Player.Nixon, NineteenSixty.GMTCards[42], CardZone.Deck, CardZone.Discard);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            
-
             sut.Event(engine, player, EmptyChanges);
 
-            Assert.AreEqual(cardToRetrieve, engine.GetPlayerHand(Player.Nixon).First());
+            Assert.AreEqual(henryCabotLodgeCard, engine.GetPlayerHand(Player.Nixon).First());
         }
 
         [TestMethod]
@@ -655,12 +651,10 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 29;
             var engine = GetGameEngine();
 
-            var cardToRetrieve = NineteenSixty.GMTCards[42];
-
-            engine.MoveCardFromOneZoneToAnother(Player.Nixon, NineteenSixty.GMTCards[42], CardZone.Deck, CardZone.Removed);
+            var henryCabotLodgeCard = NineteenSixty.GMTCards[42];
+            engine.MoveCardFromOneZoneToAnother(Player.Nixon, henryCabotLodgeCard, CardZone.Deck, CardZone.Removed);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-
             sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(0, engine.GetPlayerHand(Player.Nixon).Count());
@@ -674,12 +668,10 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 29;
             var engine = GetGameEngine();
 
-            var cardToRetrieve = NineteenSixty.GMTCards[42];
-
-            engine.MoveCardFromOneZoneToAnother(player, NineteenSixty.GMTCards[42], CardZone.Deck, CardZone.CampaignStrategy);
+            var henryCabotLodgeCard = NineteenSixty.GMTCards[42];
+            engine.MoveCardFromOneZoneToAnother(player, henryCabotLodgeCard, CardZone.Deck, CardZone.CampaignStrategy);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-
             sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(0, engine.GetPlayerHand(Player.Nixon).Count());
@@ -693,12 +685,10 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 29;
             var engine = GetGameEngine();
 
-            var cardToRetrieve = NineteenSixty.GMTCards[42];
-
-            engine.MoveCardFromOneZoneToAnother(Player.Kennedy, NineteenSixty.GMTCards[42], CardZone.Deck, CardZone.Hand);
+            var henryCabotLodgeCard = NineteenSixty.GMTCards[42];
+            engine.MoveCardFromOneZoneToAnother(Player.Kennedy, henryCabotLodgeCard, CardZone.Deck, CardZone.Hand);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-
             sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(0, engine.GetPlayerHand(Player.Nixon).Count());
@@ -712,9 +702,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 29;
             var engine = GetGameEngine();
 
-            var cardToRetrieve = NineteenSixty.GMTCards[42];
             var sut = NineteenSixty.GMTCards[cardIndex];
-
             sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(0, engine.GetPlayerHand(Player.Nixon).Count());
