@@ -173,7 +173,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void NewEngland_6_FailsValidationIfNixonGains()
         {
             int cardIndex = 6;
-            var engine = GetGameEngine();
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInRhodeIsland = new SupportChange<Player, State>(Player.Kennedy, State.RI, 1);
@@ -195,7 +194,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void NewEngland_6_FailsValidationIfIssueGains()
         {
             int cardIndex = 6;
-            var engine = GetGameEngine();
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInRhodeIsland = new SupportChange<Player, State>(Player.Kennedy, State.RI, 1);
@@ -219,7 +217,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void NewEngland_6_FailsValidationIfGreaterThanTwo()
         {
             int cardIndex = 6;
-            var engine = GetGameEngine();
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInRhodeIsland = new SupportChange<Player, State>(Player.Kennedy, State.RI, 1);
@@ -239,7 +236,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void NewEngland_6_FailsValidationIfExcludedState()
         {
             int cardIndex = 6;
-            var engine = GetGameEngine();
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInRhodeIsland = new SupportChange<Player, State>(Player.Kennedy, State.RI, 1);
@@ -740,7 +736,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void HenryLuce_36_FailsValidationIfNixonGains()
         {
             int cardIndex = 36;
-            var engine = GetGameEngine();
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var nixonEndorsement = new SupportChange<Player, Region>(Player.Nixon, Region.West, 1);
@@ -866,7 +861,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void LunchCounterSitIns_37_FailsValidationIfGreaterThanOne(Player player)
         {
             int cardIndex = 37;
-            var engine = GetGameEngine();
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInHawaii = new SupportChange<Player, State>(player, State.HI, 1);
@@ -885,7 +879,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void LunchCounterSitIns_37_FailsValidationIfSumGreaterThanThree(Player player)
         {
             int cardIndex = 37;
-            var engine = GetGameEngine();
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInHawaii = new SupportChange<Player, State>(player, State.HI, 1);
@@ -967,7 +960,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void LyndonJohnson_39_FailsValidationIfNixonGains()
         {
             int cardIndex = 39;
-            var engine = GetGameEngine();
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var twoSupportInTexas = new SupportChange<Player, State>(Player.Kennedy, State.TX, 2);
@@ -989,7 +981,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void LyndonJohnson_39_FailsValidationIfIssueGains()
         {
             int cardIndex = 39;
-            var engine = GetGameEngine();
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
 
@@ -1014,7 +1005,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void LyndonJohnson_39_FailsValidationIfGreaterThanOne()
         {
             int cardIndex = 39;
-            var engine = GetGameEngine();
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var twoSupportInTexas = new SupportChange<Player, State>(Player.Kennedy, State.TX, 2);
@@ -1032,7 +1022,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void LyndonJohnson_39_FailsValidationIfStateNotInCorrectRegion()
         {
             int cardIndex = 39;
-            var engine = GetGameEngine();
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var twoSupportInTexas = new SupportChange<Player, State>(Player.Kennedy, State.TX, 2);
@@ -1990,7 +1979,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void HeartlandOfAmerica_71_FailsValidationIfKennedyGains()
         {
             int cardIndex = 71;
-            var engine = GetGameEngine();
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInWyoming = new SupportChange<Player, State>(Player.Kennedy, State.WY, 1);
@@ -2018,7 +2006,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void HeartlandOfAmerica_71_FailsValidationIfIssueGains()
         {
             int cardIndex = 71;
-            var engine = GetGameEngine();
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
 
@@ -2049,7 +2036,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void HeartlandOfAmerica_71_FailsValidationIfGreaterThanOne()
         {
             int cardIndex = 71;
-            var engine = GetGameEngine();
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInWyoming = new SupportChange<Player, State>(Player.Nixon, State.WY, 1);
@@ -2076,7 +2062,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void HeartlandOfAmerica_71_FailsValidationIfStateNotInCorrectRegion()
         {
             int cardIndex = 71;
-            var engine = GetGameEngine();
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInWyoming = new SupportChange<Player, State>(Player.Nixon, State.WY, 1);
@@ -2104,7 +2089,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void HeartlandOfAmerica_71_FailsValidationIfStateHasTooManyVotes()
         {
             int cardIndex = 71;
-            var engine = GetGameEngine();
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInWyoming = new SupportChange<Player, State>(Player.Nixon, State.WY, 1);
@@ -2248,7 +2232,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void SouthernRevolt_72_PassedValidationEvenIfNoLeaderInCivilRights()
         {
             int cardIndex = 72;
-            var engine = GetGameEngine();
   
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInFlorida = new SupportChange<Player, State>(Player.Nixon, State.FL, 1);
@@ -2454,7 +2437,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void SuburbanVoters_77_FailsValidationIfNixonGains()
         {
             int cardIndex = 77;
-            var engine = GetGameEngine();
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInMichigan = new SupportChange<Player, State>(Player.Kennedy, State.MI, 1);
@@ -2476,7 +2458,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void SuburbanVoters_77_FailsValidationIfIssueGains()
         {
             int cardIndex = 77;
-            var engine = GetGameEngine();
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInMichigan = new SupportChange<Player, State>(Player.Kennedy, State.MI, 1);
@@ -2500,7 +2481,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void SuburbanVoters_77_FailsValidationIfGreaterThanTwo()
         {
             int cardIndex = 77;
-            var engine = GetGameEngine();
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInMichigan = new SupportChange<Player, State>(Player.Kennedy, State.MI, 1);
@@ -2520,7 +2500,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void SuburbanVoters_77_FailsValidationIfExcludedState()
         {
             int cardIndex = 77;
-            var engine = GetGameEngine();
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInMichigan = new SupportChange<Player, State>(Player.Kennedy, State.MI, 1);
@@ -2788,7 +2767,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void HerbKlein_86_FailsValidationIfKennedyGainsSupport()
         {
             int cardIndex = 86;
-            var engine = GetGameEngine();
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInCivilRights = new SupportChange<Player, Issue>(Player.Nixon, Issue.CivilRights, 1);
@@ -2808,7 +2786,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void HerbKlein_86_FailsValidationIfStateSupportGained()
         {
             int cardIndex = 86;
-            var engine = GetGameEngine();
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInCivilRights = new SupportChange<Player, Issue>(Player.Nixon, Issue.CivilRights, 1);
@@ -2891,8 +2868,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         {
             int cardIndex = 90;
 
-            var engine = GetGameEngine();
-
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var threeSupportInKentucky = new SupportChange<Player, State>(Player.Kennedy, State.KY, 3);
 
@@ -2907,8 +2882,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void Recount_90_FailsValidationIfGainsAcrossMultipleStates()
         {
             int cardIndex = 90;
-
-            var engine = GetGameEngine();
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var twoSupportInKentucky = new SupportChange<Player, State>(Player.Nixon, State.KY, 2);
@@ -2926,7 +2899,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void Recount_90_FailsValidationIfIssueGains()
         {
             int cardIndex = 90;
-            var engine = GetGameEngine();
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var threeSupportInKentucky = new SupportChange<Player, State>(Player.Nixon, State.KY, 3);
@@ -2944,7 +2916,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void Recount_90_FailsValidationIfGreaterThanThree()
         {
             int cardIndex = 90;
-            var engine = GetGameEngine();
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var threeSupportInKentucky = new SupportChange<Player, State>(Player.Nixon, State.KY, 4);
@@ -3087,7 +3058,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void ATimeForGreatness_95_FailsValidationIfNixonGains(Player player)
         {
             int cardIndex = 95;
-            var engine = GetGameEngine();
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInNewYork = new SupportChange<Player, State>(Player.Nixon, State.NY, 1);
@@ -3136,7 +3106,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void ATimeForGreatness_95_FailsValidationIfGreaterThanOne(Player player)
         {
             int cardIndex = 95;
-            var engine = GetGameEngine();
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInNewYork = new SupportChange<Player, State>(Player.Kennedy, State.NY, 1);
@@ -3156,7 +3125,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void ATimeForGreatness_95_FailsValidationIfSumGreaterThanThree(Player player)
         {
             int cardIndex = 95;
-            var engine = GetGameEngine();
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInHawaii = new SupportChange<Player, State>(Player.Kennedy, State.HI, 1);
