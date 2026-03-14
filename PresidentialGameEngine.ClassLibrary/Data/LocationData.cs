@@ -2,20 +2,20 @@
 
 namespace PresidentialGameEngine.ClassLibrary.Data
 {
-    public class LocationData<StatesEnum, PlayersEnum, RegionsEnum>
-        (StatesEnum state, RegionsEnum region, int electoralVotes, PlayersEnum tilt, int startingSupport)
-        : ILocationData<StatesEnum, PlayersEnum, RegionsEnum>
-        where StatesEnum : Enum
-        where PlayersEnum : Enum
-        where RegionsEnum : Enum
+    public class LocationData<TState, TPlayer, TRegion>
+        (TState state, TRegion region, int electoralVotes, TPlayer tilt, int startingSupport)
+        : ILocationData<TState, TPlayer, TRegion>
+        where TState : Enum
+        where TPlayer : Enum
+        where TRegion : Enum
     {
-        public StatesEnum State { get; init; } = state;
+        public TState State { get; init; } = state;
 
         public int ElectoralVotes { get; init; } = electoralVotes;
 
-        public PlayersEnum Tilt { get; init; } = tilt;
+        public TPlayer Tilt { get; init; } = tilt;
 
-        public RegionsEnum Region { get; init; } = region;
+        public TRegion Region { get; init; } = region;
 
         public int StartingSupport { get; init; } = startingSupport;
 

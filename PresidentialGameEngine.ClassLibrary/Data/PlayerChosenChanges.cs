@@ -1,20 +1,20 @@
 ﻿namespace PresidentialGameEngine.ClassLibrary.Data
 {
     //We could change this to be just Game State Changes or something, unsure if that's more clear
-    public class PlayerChosenChanges<PlayersEnum, IssuesEnum, StatesEnum, RegionsEnum>
-     where PlayersEnum : Enum
-     where IssuesEnum : Enum
-     where StatesEnum : Enum
-     where RegionsEnum : Enum
+    public class PlayerChosenChanges<TPlayer, TIssue, TState, TRegion>
+     where TPlayer : Enum
+     where TIssue : Enum
+     where TState : Enum
+     where TRegion : Enum
     {
 
         //This is going to be a mess.
-        public List<SupportChange<PlayersEnum, IssuesEnum>> IssueChanges { get; internal set; }
-        public List<SupportChange<PlayersEnum, StatesEnum>> StateChanges { get; internal set; }
-        public List<SupportChange<PlayersEnum, RegionsEnum>> EndorsementChanges { get; internal set; }
-        public List<SupportChange<PlayersEnum, RegionsEnum>> MediaSupportChanges { get; internal set; }
+        public List<SupportChange<TPlayer, TIssue>> IssueChanges { get; internal set; }
+        public List<SupportChange<TPlayer, TState>> StateChanges { get; internal set; }
+        public List<SupportChange<TPlayer, TRegion>> EndorsementChanges { get; internal set; }
+        public List<SupportChange<TPlayer, TRegion>> MediaSupportChanges { get; internal set; }
 
-        public List<IssuesEnum> NewIssuesOrder { get; internal set; }
+        public List<TIssue> NewIssuesOrder { get; internal set; }
 
 
 
