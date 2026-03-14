@@ -3012,12 +3012,12 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void ATimeForGreatness_95_NixonLosesOnIssues(Player player)
+        public void ATimeForGreatness_95_NixonLosesOneSupportOnEachIssue(Player player)
         {
             int cardIndex = 95;
             var engine = GetGameEngine();
 
-            engine.GainSupport(Player.Nixon, Issue.CivilRights, 2);
+            engine.GainSupport(Player.Nixon, Issue.CivilRights, 1);
             engine.GainSupport(Player.Nixon, Issue.Defense, 3);
             engine.GainSupport(Player.Nixon, Issue.Economy, 4);
 
@@ -3033,11 +3033,11 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var sut = NineteenSixty.GMTCards[cardIndex];
 
             sut.Event(engine, player, playerChoices);
-            Assert.AreEqual(Leader.Nixon, engine.GetLeader(Issue.CivilRights));
-            Assert.AreEqual(Leader.Nixon, engine.GetLeader(Issue.CivilRights));
-            Assert.AreEqual(Leader.Nixon, engine.GetLeader(Issue.CivilRights));
+            Assert.AreEqual(Leader.None, engine.GetLeader(Issue.CivilRights));
+            Assert.AreEqual(Leader.Nixon, engine.GetLeader(Issue.Defense));
+            Assert.AreEqual(Leader.Nixon, engine.GetLeader(Issue.Economy));
 
-            Assert.AreEqual(1, engine.GetSupportAmount(Issue.CivilRights));
+            Assert.AreEqual(0, engine.GetSupportAmount(Issue.CivilRights));
             Assert.AreEqual(2, engine.GetSupportAmount(Issue.Defense));
             Assert.AreEqual(3, engine.GetSupportAmount(Issue.Economy));
         }
@@ -3045,7 +3045,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void ATimeForGreatness_95_SupportAddedToStates(Player player)
+        public void ATimeForGreatness_95_KennedySupportAddedToStates(Player player)
         {
             int cardIndex = 95;
             var engine = GetGameEngine();
@@ -3079,7 +3079,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void ATimeForGreatness_95_FailsValidationIfNixonGains(Player player)
+        public void ATimeForGreatness_95_FailsValidationIfNixonGainsStateSupport(Player player)
         {
             int cardIndex = 95;
 
@@ -3100,7 +3100,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void ATimeForGreatness_95_FailsValidationIfIssueGains(Player player)
+        public void ATimeForGreatness_95_FailsValidationIfAnyIssueGains(Player player)
         {
             int cardIndex = 95;
             var engine = GetGameEngine();
@@ -3127,7 +3127,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void ATimeForGreatness_95_FailsValidationIfGreaterThanOne(Player player)
+        public void ATimeForGreatness_95_FailsValidationIfStateSupportGainsGreaterThanOne(Player player)
         {
             int cardIndex = 95;
 
@@ -3146,7 +3146,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void ATimeForGreatness_95_FailsValidationIfSumGreaterThanThree(Player player)
+        public void ATimeForGreatness_95_FailsValidationIfTotalStateSupportGainedIsGreaterThanThree(Player player)
         {
             int cardIndex = 95;
 
