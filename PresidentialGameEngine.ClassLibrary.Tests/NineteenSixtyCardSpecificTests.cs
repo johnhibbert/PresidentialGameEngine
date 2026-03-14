@@ -100,13 +100,29 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.SetIssueOrder([Issue.CivilRights, Issue.Defense, Issue.Economy]);
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
-            playerChoices.NewIssuesOrder.AddRange([Issue.Defense, Issue.Economy, Issue.CivilRights]);
+            playerChoices.NewIssuesOrder.AddRange([Issue.Defense, Issue.Economy]);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
             var result = sut.AreChangesValid(playerChoices);
             Assert.IsFalse(result);
         }
 
+        [TestMethod]
+        public void GallupPoll_3_ValidationFailsIfListContainsDuplicates()
+        {
+            int cardIndex = 3;
+            var engine = GetGameEngine();
+
+            engine.SetIssueOrder([Issue.CivilRights, Issue.Defense, Issue.Economy]);
+
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            playerChoices.NewIssuesOrder.AddRange([Issue.Defense, Issue.Defense, Issue.Economy]);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+        
         #endregion
 
         #region #5 - Volunteers

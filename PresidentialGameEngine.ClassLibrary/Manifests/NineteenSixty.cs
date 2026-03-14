@@ -89,10 +89,14 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     RequiresPlayerInput = true,
                     AreChangesValid = (choices) =>
                     {
-                        var issueListCorrectLength = choices.NewIssuesOrder.Count == Enum.GetNames(typeof(Issue)).Length;
+                        //This to hard coded because the Issue enum also has a 'none'
+                        //Because some cards have no issue (the Gathering Momentum cards).
+                        var issueListCorrectLength = choices.NewIssuesOrder.Count == 3;
+                        var issueListContainsNoDuplicates =
+                            choices.NewIssuesOrder.Distinct().Count() == choices.NewIssuesOrder.Count;
                         var andOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
 
-                        return issueListCorrectLength && andOnlyOneTypeOfTest;
+                        return issueListCorrectLength && issueListContainsNoDuplicates && andOnlyOneTypeOfTest;
                     },
                 }
             },
