@@ -255,7 +255,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
         #endregion
 
-        #region 7 - Late Returns From Cook County
+        #region #7 - Late Returns From Cook County
         //"ELECTION DAY EVENT!  On Election Day, the Kennedy player gains 5 support checks in Illinois.",
         [TestMethod]
         [DataRow(Player.Nixon)]
@@ -2132,7 +2132,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
         #endregion
 
-        #region 72 - Southern Revolt
+        #region #72 - Southern Revolt
         //"If Kennedy is leading in Civil Rights, the Nixon player may add a total of 5 state support in the South, no more than 2 per state."
         [TestMethod]
         [DataRow(Player.Nixon)]
