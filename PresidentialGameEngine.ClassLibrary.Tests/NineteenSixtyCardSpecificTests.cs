@@ -726,7 +726,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void HenryLuce_36_EndorsementGained(Player player)
+        public void HenryLuce_36_KennedyEndorsementGained(Player player)
         {
             int cardIndex = 36;
             var engine = GetGameEngine();
@@ -744,7 +744,27 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        public void HenryLuce_36_FailsValidationIfNixonGains()
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void HenryLuce_36_FailsValidationMoreThanOneEndorsementGained(Player player)
+        {
+            int cardIndex = 36;
+            var engine = GetGameEngine();
+
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            var oneRegionalSupportInWest = new SupportChange<Player, Region>(Player.Kennedy, Region.West, 1);
+            var oneRegionalSupportTooMany = new SupportChange<Player, Region>(Player.Kennedy, Region.East, 1);
+            
+            playerChoices.EndorsementChanges.Add(oneRegionalSupportInWest);
+            playerChoices.EndorsementChanges.Add(oneRegionalSupportTooMany);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+        
+        [TestMethod]
+        public void HenryLuce_36_FailsValidationIfNixonGainsEndorsement()
         {
             int cardIndex = 36;
 
@@ -755,7 +775,30 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var result = sut.AreChangesValid(playerChoices);
             Assert.IsFalse(result);
         }
+        
+        [TestMethod]
+        public void HenryLuce_36_FailsValidationIfIssueSupportGained()
+        {
+            int cardIndex = 36;
 
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            var anInvalidIssueSupportGain = new SupportChange<Player, Issue>(Player.Nixon, Issue.CivilRights, 1);
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void HenryLuce_36_FailsValidationIfStateSupportGained()
+        {
+            int cardIndex = 36;
+
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            var anInvalidSateSupportGain = new SupportChange<Player, State>(Player.Nixon, State.MA, 1);
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
 
         #endregion
 
