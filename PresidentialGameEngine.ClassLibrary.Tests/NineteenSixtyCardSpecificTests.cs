@@ -1151,7 +1151,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
         #endregion
 
-        #region #42 Henry Cabot Lodge
+        #region #42 - Henry Cabot Lodge
         //"Nixon gains 2 state support in Massachusetts and 2 issue support in Defense.  If the Nixon candidate card is currently flipped to its Exhausted side, the Nixon player may reclaim it face-up.
         [TestMethod]
         [DataRow(Player.Nixon)]
@@ -1206,7 +1206,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
         #endregion
 
-        #region #45 Compact of 5th Avenue
+        #region #45 - Compact of 5th Avenue
         //"Immediately move the Nixon candidate token to New York without paying the normal travel costs.  Nixon gains 1 issue support in Civil Rights, 2 state support in New York, and 1 media support cube in the East."
         [TestMethod]
         [DataRow(Player.Nixon)]
@@ -1463,7 +1463,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
         #endregion
 
-        #region #60 World Series Ends
+        #region #60 - World Series Ends
         //"The player with media support cubes in the East (if any) may add a total of 5 state support in the East, no more than 2 per state."
         [TestMethod]
         [DataRow(Player.Nixon)]
@@ -2361,7 +2361,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
         #endregion
 
-        #region #75 Republican TV Spots
+        #region #75 - Republican TV Spots
         //"Immediately move the Nixon candidate token to New York, but do not pay the normal travel costs for doing so.  The Nixon player may place 3 media support cubes."
         [TestMethod]
         [DataRow(Player.Nixon)]
