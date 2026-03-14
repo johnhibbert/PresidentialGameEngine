@@ -1680,6 +1680,17 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             Assert.IsFalse(engine.IsPlayerReady(player.ToOpponent()));
         }
+        
+        [TestMethod]
+        public void FatigueSetsIn_61_ValidationAlwaysTrue()
+        {
+            int cardIndex = 61;
+            var sut = NineteenSixty.GMTCards[cardIndex];
+
+            var result = sut.AreChangesValid(InvalidChanges);
+
+            Assert.IsTrue(result);
+        }
         #endregion
 
         #region #62 - The Trial of Gary Powers
