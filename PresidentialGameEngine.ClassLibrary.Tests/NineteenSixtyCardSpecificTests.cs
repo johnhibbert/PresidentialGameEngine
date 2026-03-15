@@ -2781,7 +2781,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void FidelCastro_82_LeaderGainsStateSupportAndMomentum(Player player)
+        public void FidelCastro_82_LeaderGainsStateSupport(Player player)
         {
             int cardIndex = 82;
             var engine = GetGameEngine();
@@ -2792,17 +2792,35 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(1, engine.GetSupportAmount(State.FL));
+        }
+        
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void FidelCastro_82_LeaderGainsMomentum(Player player)
+        {
+            int cardIndex = 82;
+            var engine = GetGameEngine();
+
+            engine.GainSupport(player, Issue.Defense, 1);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, EmptyChanges);
+
             Assert.AreEqual(1, engine.GetPlayerMomentum(player));
         }
 
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void FidelCastro_82_TieAwardsNothing(Player player)
+        public void FidelCastro_82_NoLeaderInDefenseAwardsNothing(Player player)
         {
             int cardIndex = 82;
             var engine = GetGameEngine();
 
+            engine.LoseSupport(Player.Kennedy, Issue.Defense, int.MaxValue);
+            engine.LoseSupport(Player.Nixon, Issue.Defense, int.MaxValue);
+            
             var sut = NineteenSixty.GMTCards[cardIndex];
             sut.Event(engine, player, EmptyChanges);
 
