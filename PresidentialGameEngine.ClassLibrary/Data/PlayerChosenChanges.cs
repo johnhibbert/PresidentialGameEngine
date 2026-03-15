@@ -96,36 +96,6 @@
                 else return MediaSupportChanges.Max(x => x.Change);
             }
         }
-
-        //The existing game does not appear to ever require
-        //More than one type of change from players.
-        public bool ContainsExactlyOneTypeOfChange() 
-        {
-            var counter = 0;
-
-            if(TotalIssueChanges > 0) 
-            {
-                counter++;
-            }
-            if (TotalStateChanges > 0)
-            {
-                counter++;
-            }
-            if (TotalEndorsementChanges > 0)
-            {
-                counter++;
-            }
-            if (TotalMediaChanges >0)
-            {
-                counter++;
-            }
-            if (NewIssuesOrder.Count > 0)
-            {
-                counter++;
-            }
-
-            return counter == 1;
-        }
         
         public bool ContainsOnlyExactlyTheseChangeTypes(IEnumerable<ChangeType> changeTypes)
         {
