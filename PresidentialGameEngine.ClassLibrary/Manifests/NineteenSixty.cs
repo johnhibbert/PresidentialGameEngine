@@ -329,9 +329,9 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     {
                         var noValueAboveOne = choices.TotalEndorsementChanges <= 1;
                         var playerIsOnlyKennedy = choices.EndorsementChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
-                        var andOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
-
-                        return noValueAboveOne && playerIsOnlyKennedy && andOnlyOneTypeOfTest;
+                        var containsOnlyEndorsements =
+                            choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.Endorsement]);
+                        return noValueAboveOne && playerIsOnlyKennedy && containsOnlyEndorsements;
                     },
                 }
             },
