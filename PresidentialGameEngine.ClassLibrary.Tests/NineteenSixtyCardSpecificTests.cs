@@ -1960,25 +1960,39 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void TheOldNixon_70_ExpectedAmountOfMomentumLost(Player player)
+        public void TheOldNixon_70_NixonLosesOneMomentum(Player player)
         {
             int cardIndex = 70;
             var engine = GetGameEngine();
 
             engine.GainMomentum(Player.Nixon, 5);
-            engine.GainMomentum(Player.Kennedy, 5);
 
-            var nixonStartingMomentum = engine.GetPlayerMomentum(Player.Kennedy);
-            var kennedyStartingMomentum = engine.GetPlayerMomentum(Player.Nixon);
+            var nixonStartingMomentum = engine.GetPlayerMomentum(Player.Nixon);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-
             sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(engine.GetPlayerMomentum(Player.Nixon), nixonStartingMomentum - 1);
-            Assert.AreEqual(engine.GetPlayerMomentum(Player.Kennedy), kennedyStartingMomentum - 3);
         }
 
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void TheOldNixon_70_KennedyLosesThreeMomentum(Player player)
+        {
+            int cardIndex = 70;
+            var engine = GetGameEngine();
+            
+            engine.GainMomentum(Player.Kennedy, 5);
+
+            var kennedyStartingMomentum = engine.GetPlayerMomentum(Player.Kennedy);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, EmptyChanges);
+
+            Assert.AreEqual(engine.GetPlayerMomentum(Player.Kennedy), kennedyStartingMomentum - 3);
+        }
+        
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -1987,7 +2001,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 70;
             var engine = GetGameEngine();
 
-            engine.GainMomentum(Player.Nixon, 0);
+            engine.GainMomentum(Player.Nixon, 1);
             engine.GainMomentum(Player.Kennedy, 2);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
@@ -1998,6 +2012,22 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Assert.AreEqual(engine.GetPlayerMomentum(Player.Kennedy), 0);
         }
 
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void TheOldNixon_70_PlayableEvenWithZeroMomentum(Player player)
+        {
+            int cardIndex = 70;
+            var engine = GetGameEngine();
+
+            engine.GainMomentum(player, 0);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, EmptyChanges);
+
+            Assert.AreEqual(engine.GetPlayerMomentum(player), 0);
+        }
+        
         [TestMethod]
         public void TheOldNixon_70_ValidationAlwaysTrue()
         {
