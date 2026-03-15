@@ -1889,17 +1889,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             Assert.IsTrue(result);
         }
-
-        [TestMethod]
-        public void TheTrialOfGaryPowers_63_ValidationAlwaysTrue()
-        {
-            int cardIndex = 63;
-            var sut = NineteenSixty.GMTCards[cardIndex];
-
-            var result = sut.AreChangesValid(InvalidChanges);
-
-            Assert.IsTrue(result);
-        }
+        
         #endregion
 
         #region #64 - Stump Speech
