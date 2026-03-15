@@ -173,5 +173,89 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Assert.AreEqual(0, sut.HighestEndorsementChange);
         }
 
+        //We could theoretically go over every combination with a data-driven unit test like DynamicData
+        //https://learn.microsoft.com/en-us/visualstudio/test/how-to-create-a-data-driven-unit-test?view=visualstudio
+        //But I think that is actually overcomplicating it.
+        
+        [TestMethod]
+        [DataRow(ChangeType.IssueSupport, true)]
+        [DataRow(ChangeType.StateSupport, false)]
+        [DataRow(ChangeType.MediaSupport, false)]
+        [DataRow(ChangeType.Endorsement, false)]
+        [DataRow(ChangeType.NewIssueOrder, false)]
+        public void ContainsOnlyExactlyTheseChangeTypes_OnlyExpectingIssueSupport(ChangeType changeType, bool expectedResult)
+        {
+            var sut = new PlayerChosenChanges<FakePlayer, FakeIssue, FakeState, FakeRegion>();
+            SupportChange<FakePlayer, FakeIssue> issueChange = new(FakePlayer.PlayerOne, FakeIssue.KetchupOnHotDogs, 1);
+            sut.IssueChanges.Add(issueChange);
+
+            var result = sut.ContainsOnlyExactlyTheseChangeTypes([changeType]);
+            Assert.AreEqual(expectedResult, result);
+        }
+        
+        [TestMethod]
+        [DataRow(ChangeType.IssueSupport, false)]
+        [DataRow(ChangeType.StateSupport, true)]
+        [DataRow(ChangeType.MediaSupport, false)]
+        [DataRow(ChangeType.Endorsement, false)]
+        [DataRow(ChangeType.NewIssueOrder, false)]
+        public void ContainsOnlyExactlyTheseChangeTypes_OnlyExpectingStateSupport(ChangeType changeType, bool expectedResult)
+        {
+            var sut = new PlayerChosenChanges<FakePlayer, FakeIssue, FakeState, FakeRegion>();
+            SupportChange<FakePlayer, FakeState> stateChange = new(FakePlayer.PlayerOne, FakeState.Denial, 1);
+            sut.StateChanges.Add(stateChange);
+
+            var result = sut.ContainsOnlyExactlyTheseChangeTypes([changeType]);
+            Assert.AreEqual(expectedResult, result);
+        }
+        
+        [TestMethod]
+        [DataRow(ChangeType.IssueSupport, false)]
+        [DataRow(ChangeType.StateSupport, false)]
+        [DataRow(ChangeType.MediaSupport, true)]
+        [DataRow(ChangeType.Endorsement, false)]
+        [DataRow(ChangeType.NewIssueOrder, false)]
+        public void ContainsOnlyExactlyTheseChangeTypes_OnlyExpectingMediaSupport(ChangeType changeType, bool expectedResult)
+        {
+            var sut = new PlayerChosenChanges<FakePlayer, FakeIssue, FakeState, FakeRegion>();
+            SupportChange<FakePlayer, FakeRegion> mediaChanges = new(FakePlayer.PlayerOne, FakeRegion.North, 1);
+            sut.MediaSupportChanges.Add(mediaChanges);
+
+            var result = sut.ContainsOnlyExactlyTheseChangeTypes([changeType]);
+            Assert.AreEqual(expectedResult, result);
+        }
+        
+        [TestMethod]
+        [DataRow(ChangeType.IssueSupport, false)]
+        [DataRow(ChangeType.StateSupport, false)]
+        [DataRow(ChangeType.MediaSupport, false)]
+        [DataRow(ChangeType.Endorsement, true)]
+        [DataRow(ChangeType.NewIssueOrder, false)]
+        public void ContainsOnlyExactlyTheseChangeTypes_OnlyExpectingEndorsement(ChangeType changeType, bool expectedResult)
+        {
+            var sut = new PlayerChosenChanges<FakePlayer, FakeIssue, FakeState, FakeRegion>();
+            SupportChange<FakePlayer, FakeRegion> endorsementChange = new(FakePlayer.PlayerOne, FakeRegion.North, 1);
+            sut.EndorsementChanges.Add(endorsementChange);
+
+            var result = sut.ContainsOnlyExactlyTheseChangeTypes([changeType]);
+            Assert.AreEqual(expectedResult, result);
+        }
+        
+        [TestMethod]
+        [DataRow(ChangeType.IssueSupport, false)]
+        [DataRow(ChangeType.StateSupport, false)]
+        [DataRow(ChangeType.MediaSupport, false)]
+        [DataRow(ChangeType.Endorsement, false)]
+        [DataRow(ChangeType.NewIssueOrder, true)]
+        public void ContainsOnlyExactlyTheseChangeTypes_OnlyExpectingIssueOrderChange(ChangeType changeType, bool expectedResult)
+        {
+            var sut = new PlayerChosenChanges<FakePlayer, FakeIssue, FakeState, FakeRegion>();
+            List<FakeIssue> newIssueOrder = [FakeIssue.PepsiOrCoke, FakeIssue.KetchupOnHotDogs];
+            sut.NewIssuesOrder = newIssueOrder;
+
+            var result = sut.ContainsOnlyExactlyTheseChangeTypes([changeType]);
+            Assert.AreEqual(expectedResult, result);
+        }
+        
     }
 }
