@@ -146,10 +146,10 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         var onlyNewEnglandStatesIncluded = choices.StateChanges.Select(s => s.Target).All(x => newEnglandStates.Contains(x));
                         var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
                         var noValueAboveTwo = choices.HighestStateChange <= 2;
-                        var andOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
+                        var containsOnlyStateSupport = choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
 
                         return fiveOrFewerPointsOfStateChanges && onlyNewEnglandStatesIncluded && noValueAboveTwo
-                                && statePlayerIsOnlyKennedy && andOnlyOneTypeOfTest;
+                                && statePlayerIsOnlyKennedy && containsOnlyStateSupport;
                     },
                 }
             },
