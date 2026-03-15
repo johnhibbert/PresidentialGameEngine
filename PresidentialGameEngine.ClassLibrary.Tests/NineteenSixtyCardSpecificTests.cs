@@ -2497,9 +2497,43 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainSupport(Player.Kennedy, Issue.CivilRights, 2);
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
-            var mediaSupportGained = new SupportChange<Player, Region>(Player.Nixon, Region.West, 4);
+            var invalidMediaSupportGainedGreaterThanThree = new SupportChange<Player, Region>(Player.Nixon, Region.West, 4);
 
-            playerChoices.MediaSupportChanges.Add(mediaSupportGained);
+            playerChoices.MediaSupportChanges.Add(invalidMediaSupportGainedGreaterThanThree);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+        
+        [TestMethod]
+        public void RepublicanTVSpots_75_ValidationFailsIfStateSupportChanged()
+        {
+            int cardIndex = 75;
+            var engine = GetGameEngine();
+            engine.GainSupport(Player.Kennedy, Issue.CivilRights, 2);
+
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            var invalidStateSupport = new SupportChange<Player, State>(Player.Nixon, State.CT, 1);
+
+            playerChoices.StateChanges.Add(invalidStateSupport);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+        
+        [TestMethod]
+        public void RepublicanTVSpots_75_ValidationFailsIfIssueSupportChanged()
+        {
+            int cardIndex = 75;
+            var engine = GetGameEngine();
+            engine.GainSupport(Player.Kennedy, Issue.CivilRights, 2);
+
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            var invalidIssueSupport = new SupportChange<Player, Issue>(Player.Nixon, Issue.Defense, 1);
+
+            playerChoices.IssueChanges.Add(invalidIssueSupport);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
             var result = sut.AreChangesValid(playerChoices);
