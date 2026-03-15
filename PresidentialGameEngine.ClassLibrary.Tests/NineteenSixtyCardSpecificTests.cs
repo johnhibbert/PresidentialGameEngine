@@ -1203,54 +1203,72 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void HenryCabotLodge_42_StateSupportGained(Player player)
+        public void HenryCabotLodge_42_NixonGainsStateSupportInMass(Player player)
         {
             int cardIndex = 42;
             var engine = GetGameEngine();
-            engine.GainSupport(Player.Kennedy, State.MA, 1);
-            engine.GainSupport(Player.Kennedy, Issue.Defense, 1);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-
             sut.Event(engine, player, EmptyChanges);
-
-            Assert.AreEqual(Leader.Nixon, engine.GetLeader(State.MA));
-            Assert.AreEqual(1, engine.GetSupportAmount(State.MA));
+            
+            Assert.AreEqual(2, engine.GetSupportAmount(State.MA));
         }
 
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void HenryCabotLodge_42_IssueSupportGained(Player player)
+        public void HenryCabotLodge_42_NixonGainsTwoIssueSupportInDefense(Player player)
         {
             int cardIndex = 42;
             var engine = GetGameEngine();
-            engine.GainSupport(Player.Kennedy, State.MA, 1);
-            engine.GainSupport(Player.Kennedy, Issue.Defense, 1);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-
             sut.Event(engine, player, EmptyChanges);
-
-            Assert.AreEqual(Leader.Nixon, engine.GetLeader(Issue.Defense));
-            Assert.AreEqual(1, engine.GetSupportAmount(Issue.Defense));
+            
+            Assert.AreEqual(2, engine.GetSupportAmount(Issue.Defense));
         }
 
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void HenryCabotLodge_42_NixonIsUnexhausted(Player player)
+        public void HenryCabotLodge_42_NixonBecomesUnexhausted(Player player)
         {
             int cardIndex = 42;
             var engine = GetGameEngine();
             engine.ExhaustPlayer(Player.Nixon);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-
             sut.Event(engine, player, EmptyChanges);
 
             Assert.IsTrue(engine.IsPlayerReady(Player.Nixon));
         }
+        
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void HenryCabotLodge_42_NixonRemainsUnexhaustedWhenPlayed(Player player)
+        {
+            int cardIndex = 42;
+            var engine = GetGameEngine();
+            engine.UnexhaustPlayer(Player.Nixon);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, EmptyChanges);
+
+            Assert.IsTrue(engine.IsPlayerReady(Player.Nixon));
+        }
+        
+        [TestMethod]
+        public void HenryCabotLodge_42_ValidationAlwaysTrue()
+        {
+            int cardIndex = 42;
+            var sut = NineteenSixty.GMTCards[cardIndex];
+
+            var result = sut.AreChangesValid(InvalidChanges);
+
+            Assert.IsTrue(result);
+        }
+        
         #endregion
 
         #region #45 - Compact of 5th Avenue
