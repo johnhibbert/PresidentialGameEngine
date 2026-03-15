@@ -14,7 +14,9 @@
         public List<SupportChange<TPlayer, TRegion>> EndorsementChanges { get; internal set; }
         public List<SupportChange<TPlayer, TRegion>> MediaSupportChanges { get; internal set; }
 
-        public List<TIssue> NewIssuesOrder { get; internal set; }
+        //not internal set because we are not adding to a list, but providing a list.
+        //This should probably change.
+        public List<TIssue> NewIssuesOrder { get; set; }
 
 
 
@@ -124,9 +126,47 @@
 
             return counter == 1;
         }
+        
+        public bool ContainsOnlyExactlyTheseChangeTypes(IEnumerable<ChangeType> changeTypes)
+        {
+            var givenTypesAsArray = changeTypes as ChangeType[] ?? changeTypes.ToArray();
+            
+            var issueChangeTypeExpected = givenTypesAsArray.Any(x => x == ChangeType.IssueSupport);
+            var stateChangeTypeExpected = givenTypesAsArray.Any(x => x == ChangeType.StateSupport);
+            var endorsementTypeExpected = givenTypesAsArray.Any(x => x == ChangeType.Endorsement);
+            var mediaSupportTypeExpected = givenTypesAsArray.Any(x => x == ChangeType.MediaSupport);
+            var newIssueOrderTypeExpected = givenTypesAsArray.Any(x => x == ChangeType.NewIssueOrder);
+            
+            var hasIssueChanges = TotalIssueChanges > 0;
+            var hasStateChanges = TotalStateChanges > 0;
+            var hasEndorsementChanges = TotalEndorsementChanges > 0;
+            var hasMediaChanges = TotalMediaChanges > 0;
+            var hasNewIssuesOrder = NewIssuesOrder.Count > 0;
+
+            var issueChangeMatch = !(hasIssueChanges ^ issueChangeTypeExpected);
+            var stateChangeMatch = !(hasStateChanges ^ stateChangeTypeExpected);
+            var endorsementChangeMatch = !(hasEndorsementChanges ^ endorsementTypeExpected);
+            var mediaSupportChangeMatch = !(hasMediaChanges ^ mediaSupportTypeExpected);
+            var newIssueOrderMatch = !(hasNewIssuesOrder ^ newIssueOrderTypeExpected);
+
+            return issueChangeMatch && stateChangeMatch && endorsementChangeMatch && mediaSupportChangeMatch &&
+                   newIssueOrderMatch;
+            
+        }
     }
+
 
 
 }
 
+public enum ChangeType
+{
+        
+    StateSupport,
+    IssueSupport,
+    MediaSupport,
+    Endorsement,
+    NewIssueOrder,
+        
+}
 
