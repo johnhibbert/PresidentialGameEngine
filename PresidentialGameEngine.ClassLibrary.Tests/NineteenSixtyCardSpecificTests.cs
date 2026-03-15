@@ -1824,25 +1824,39 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void GiveMeAWeek_63_ExpectedSupportAndMomentumLost(Player player)
+        public void GiveMeAWeek_63_NixonLosesTwoMomentum(Player player)
         {
             int cardIndex = 63;
             var engine = GetGameEngine();
 
             engine.GainMomentum(Player.Nixon, 5);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, EmptyChanges);
+
+            Assert.AreEqual(3, engine.GetPlayerMomentum(Player.Nixon));
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void GiveMeAWeek_63_NixonLosesOneSupportInEachIssue(Player player)
+        {
+            int cardIndex = 63;
+            var engine = GetGameEngine();
+
             engine.GainSupport(Player.Nixon, Issue.Defense, 4);
             engine.GainSupport(Player.Nixon, Issue.Economy, 3);
             engine.GainSupport(Player.Nixon, Issue.CivilRights, 2);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
             sut.Event(engine, player, EmptyChanges);
-
-            Assert.AreEqual(3, engine.GetPlayerMomentum(Player.Nixon));
+            
             Assert.AreEqual(3, engine.GetSupportAmount(Issue.Defense));
             Assert.AreEqual(2, engine.GetSupportAmount(Issue.Economy));
             Assert.AreEqual(1, engine.GetSupportAmount(Issue.CivilRights));
         }
-
+        
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -1863,6 +1877,17 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Assert.AreEqual(0, engine.GetSupportAmount(Issue.Defense));
             Assert.AreEqual(0, engine.GetSupportAmount(Issue.Economy));
             Assert.AreEqual(0, engine.GetSupportAmount(Issue.CivilRights));
+        }
+        
+        [TestMethod]
+        public void GiveMeAWeek_63_ValidationAlwaysTrue()
+        {
+            int cardIndex = 63;
+            var sut = NineteenSixty.GMTCards[cardIndex];
+
+            var result = sut.AreChangesValid(InvalidChanges);
+
+            Assert.IsTrue(result);
         }
 
         [TestMethod]
