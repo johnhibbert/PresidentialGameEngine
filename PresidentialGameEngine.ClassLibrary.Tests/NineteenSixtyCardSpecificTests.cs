@@ -1833,7 +1833,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void StumpSpeech_64_LowerMomentumIsGained(Player player)
+        public void StumpSpeech_64_MomentumGainedIfOpponentHasMore(Player player)
         {
             int cardIndex = 64;
             var engine = GetGameEngine();
@@ -1849,7 +1849,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void StumpSpeech_64_HigherMomentumNoChange(Player player)
+        public void StumpSpeech_64_NoMomentumGainedIfPlayedByPlayerWithMore(Player player)
         {
             int cardIndex = 64;
             var engine = GetGameEngine();
@@ -1866,15 +1866,19 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void StumpSpeech_64_TiedMomentumNoChange(Player player)
+        public void StumpSpeech_64_NoMomentumGainedIfPlayersHaveSameAmount(Player player)
         {
             int cardIndex = 64;
             var engine = GetGameEngine();
+            
+            engine.GainMomentum(Player.Kennedy, 2);
+            engine.GainMomentum(Player.Nixon, 2);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
             sut.Event(engine, player, EmptyChanges);
 
-            Assert.AreEqual(engine.GetPlayerMomentum(player), engine.GetPlayerMomentum(player.ToOpponent()));
+            Assert.AreEqual(2, engine.GetPlayerMomentum(Player.Nixon));
+            Assert.AreEqual(2, engine.GetPlayerMomentum(Player.Kennedy));
         }
 
         [TestMethod]
@@ -1882,7 +1886,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         {
             int cardIndex = 64;
             var sut = NineteenSixty.GMTCards[cardIndex];
-
             var result = sut.AreChangesValid(InvalidChanges);
 
             Assert.IsTrue(result);
