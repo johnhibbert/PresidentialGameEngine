@@ -809,10 +809,11 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
                         var noValueAboveTwo = choices.HighestStateChange <= 2;
                         var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
-                        var andOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
-
+                        var containsOnlyStateSupportChanges =
+                            choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
+                        
                         return onlySuburbanStates && fiveOrFewerPointsOfStateChanges
-                            && statePlayerIsOnlyKennedy && noValueAboveTwo && andOnlyOneTypeOfTest;
+                            && statePlayerIsOnlyKennedy && noValueAboveTwo && containsOnlyStateSupportChanges;
                     },
                 }
             },
