@@ -360,10 +360,11 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         var threePointsOfIssueChanges = choices.TotalIssueChanges <= 3;
                         var noValueAboveOne = choices.HighestStateChange <= 1;
                         var issuePlayerAreAllSame = choices.IssueChanges.Select(x => x.Player).Distinct().Count() == 1;
-                        var andOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
-
+                        var containsOnlyStateSupport =
+                            choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
+                        
                         return threePointsOfIssueChanges && noValueAboveOne
-                                && issuePlayerAreAllSame && andOnlyOneTypeOfTest;
+                                && issuePlayerAreAllSame && containsOnlyStateSupport;
                     },
                 }
             },
@@ -386,7 +387,6 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     },
                     RequiresPlayerInput = true,
                     AreChangesValid = (choices) =>{
-                        //throw new NotImplementedException();
                         var fivePointsOfIssueChanges = choices.TotalStateChanges <= 5;
                         var twoPointsForTexas = choices.StateChanges.Single(x => x.Target == State.TX).Change >= 2;
                         var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
@@ -394,12 +394,11 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
 
                         var southernStates = StateData.Where(y => y.Value.Region == Region.South).Select(z => z.Key);
                         var onlySouthernStates = choices.StateChanges.Select(s => s.Target).All(x => southernStates.Contains(x));
-
-                        //var onlySouthernStates = choices.StateChanges.Select(s => s.Target).All(x => StatesByRegion[Region.South].Contains(x));
-                        var andOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
-
+                        var containsOnlyStateSupport =
+                            choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
+                        
                         return fivePointsOfIssueChanges && noStateAboveTwo && twoPointsForTexas
-                              && onlySouthernStates && statePlayerIsOnlyKennedy && andOnlyOneTypeOfTest;
+                              && onlySouthernStates && statePlayerIsOnlyKennedy && containsOnlyStateSupport;
                     },
                 }
             },
