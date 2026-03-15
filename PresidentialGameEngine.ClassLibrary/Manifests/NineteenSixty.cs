@@ -89,10 +89,14 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     RequiresPlayerInput = true,
                     AreChangesValid = (choices) =>
                     {
-                        var issueListCorrectLength = choices.NewIssuesOrder.Count == Enum.GetNames(typeof(Issue)).Length;
+                        //This to hard coded because the Issue enum also has a 'none'
+                        //Because some cards have no issue (the Gathering Momentum cards).
+                        var issueListCorrectLength = choices.NewIssuesOrder.Count == 3;
+                        var issueListContainsNoDuplicates =
+                            choices.NewIssuesOrder.Distinct().Count() == choices.NewIssuesOrder.Count;
                         var andOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
 
-                        return issueListCorrectLength && andOnlyOneTypeOfTest;
+                        return issueListCorrectLength && issueListContainsNoDuplicates && andOnlyOneTypeOfTest;
                     },
                 }
             },
@@ -695,7 +699,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                 {
                     Index = 71,
                     Title = "Heartland of America",
-                    Text = "The Kennedy player may add a total of 5 state support in states having 20 or more electoral votes, no more than 2 per state.",
+                    Text = "The Nixon player may add a total of 7 state support in states in the West or Midwest having 10 or fewer electoral votes, no more than 1 per state.",
                     CampaignPoints = 3,
                     EventType = EventType.None,
                     Issue = Issue.Defense,
@@ -708,14 +712,7 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     AreChangesValid = (choices) => {
 
                         var heartlandStates = StateData.Where(x => x.Value.ElectoralVotes <=10)
-                        .Where(y => y.Value.Region == Region.Midwest || y.Value.Region == Region.West).Select(z => z.Key);
-                        
-                        //var lowVoteStates = ElectoralVotes.Where(x => x.Value <= 10).Select(y=>y.Key).ToList();
-
-
-                        //var westOrMidWestStates = StatesByRegion[Region.Midwest];
-                        //westOrMidWestStates.AddRange(StatesByRegion[Region.West]);
-                        //var heartlandStates = lowVoteStates.Intersect(westOrMidWestStates);
+                        .Where(y => y.Value.Region is Region.Midwest or Region.West).Select(z => z.Key);
 
                         var onlyHeartlandStates = choices.StateChanges.Select(s => s.Target).All(x => heartlandStates.Contains(x));
                         var sevenOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 7;
@@ -726,7 +723,6 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         return onlyHeartlandStates && sevenOrFewerPointsOfStateChanges
                             && statePlayerIsOnlyNixon && noValueAboveOne && andOnlyOneTypeOfTest;
                     },
-                
                 }
             },
             {72, new Card()
@@ -781,9 +777,15 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     RequiresPlayerInput = true,
                     AreChangesValid = (choices) => {
                         var threeOrFewerMediaSupportChanges = choices.TotalMediaChanges <= 3;
+                        
+                        //Will probably replace this with a method on the playerChosenChangesClass eventually
+                        var hasNoStateChanges = choices.TotalStateChanges == 0;
+                        var hasNoIssueChanges = choices.TotalIssueChanges == 0;
+                        
                         var andOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
 
-                        return threeOrFewerMediaSupportChanges && andOnlyOneTypeOfTest;
+                        return threeOrFewerMediaSupportChanges && hasNoStateChanges 
+                               && hasNoIssueChanges && andOnlyOneTypeOfTest;
                     },
                 }
             },
@@ -860,9 +862,15 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     AreChangesValid = (choices) => {
                         var upToNegativeTwoPointsOfLostMediaSupport = choices.TotalMediaChanges is >= -2 and >= 0;
                         var affectedPlayerIsNixon = choices.MediaSupportChanges.Select(x => x.Player).All(y => y == Player.Nixon);
+                        
+                        //Will probably replace this with a method on the playerChosenChangesClass eventually
+                        var hasNoStateChanges = choices.TotalStateChanges == 0;
+                        var hasNoIssueChanges = choices.TotalIssueChanges == 0;
+                        
                         var andOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
 
-                        return upToNegativeTwoPointsOfLostMediaSupport && affectedPlayerIsNixon && andOnlyOneTypeOfTest;
+                        return upToNegativeTwoPointsOfLostMediaSupport && affectedPlayerIsNixon &&
+                               hasNoStateChanges && hasNoIssueChanges && andOnlyOneTypeOfTest;
                     },
                 }
             },

@@ -100,13 +100,29 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.SetIssueOrder([Issue.CivilRights, Issue.Defense, Issue.Economy]);
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
-            playerChoices.NewIssuesOrder.AddRange([Issue.Defense, Issue.Economy, Issue.CivilRights]);
+            playerChoices.NewIssuesOrder.AddRange([Issue.Defense, Issue.Economy]);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
             var result = sut.AreChangesValid(playerChoices);
             Assert.IsFalse(result);
         }
 
+        [TestMethod]
+        public void GallupPoll_3_ValidationFailsIfListContainsDuplicates()
+        {
+            int cardIndex = 3;
+            var engine = GetGameEngine();
+
+            engine.SetIssueOrder([Issue.CivilRights, Issue.Defense, Issue.Economy]);
+
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            playerChoices.NewIssuesOrder.AddRange([Issue.Defense, Issue.Defense, Issue.Economy]);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+        
         #endregion
 
         #region #5 - Volunteers
@@ -255,7 +271,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
         #endregion
 
-        #region 7 - Late Returns From Cook County
+        #region #7 - Late Returns From Cook County
         //"ELECTION DAY EVENT!  On Election Day, the Kennedy player gains 5 support checks in Illinois.",
         [TestMethod]
         [DataRow(Player.Nixon)]
@@ -608,27 +624,23 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(1, engine.GetSupportAmount(Issue.Defense));
-            
         }
 
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void TheGreatSealBug_29_HenryCabotLodgeRecoveredFromDiscard(Player player)
+        public void TheGreatSealBug_29_HenryCabotLodgeRecoveredFromDiscardPile(Player player)
         {
             int cardIndex = 29;
             var engine = GetGameEngine();
 
-            var cardToRetrieve = NineteenSixty.GMTCards[42];
-
+            var henryCabotLodgeCard = NineteenSixty.GMTCards[42];
             engine.MoveCardFromOneZoneToAnother(Player.Nixon, NineteenSixty.GMTCards[42], CardZone.Deck, CardZone.Discard);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-            
-
             sut.Event(engine, player, EmptyChanges);
 
-            Assert.AreEqual(cardToRetrieve, engine.GetPlayerHand(Player.Nixon).First());
+            Assert.AreEqual(henryCabotLodgeCard, engine.GetPlayerHand(Player.Nixon).First());
         }
 
         [TestMethod]
@@ -639,12 +651,10 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 29;
             var engine = GetGameEngine();
 
-            var cardToRetrieve = NineteenSixty.GMTCards[42];
-
-            engine.MoveCardFromOneZoneToAnother(Player.Nixon, NineteenSixty.GMTCards[42], CardZone.Deck, CardZone.Removed);
+            var henryCabotLodgeCard = NineteenSixty.GMTCards[42];
+            engine.MoveCardFromOneZoneToAnother(Player.Nixon, henryCabotLodgeCard, CardZone.Deck, CardZone.Removed);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-
             sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(0, engine.GetPlayerHand(Player.Nixon).Count());
@@ -658,12 +668,10 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 29;
             var engine = GetGameEngine();
 
-            var cardToRetrieve = NineteenSixty.GMTCards[42];
-
-            engine.MoveCardFromOneZoneToAnother(player, NineteenSixty.GMTCards[42], CardZone.Deck, CardZone.CampaignStrategy);
+            var henryCabotLodgeCard = NineteenSixty.GMTCards[42];
+            engine.MoveCardFromOneZoneToAnother(player, henryCabotLodgeCard, CardZone.Deck, CardZone.CampaignStrategy);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-
             sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(0, engine.GetPlayerHand(Player.Nixon).Count());
@@ -677,12 +685,10 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 29;
             var engine = GetGameEngine();
 
-            var cardToRetrieve = NineteenSixty.GMTCards[42];
-
-            engine.MoveCardFromOneZoneToAnother(Player.Kennedy, NineteenSixty.GMTCards[42], CardZone.Deck, CardZone.Hand);
+            var henryCabotLodgeCard = NineteenSixty.GMTCards[42];
+            engine.MoveCardFromOneZoneToAnother(Player.Kennedy, henryCabotLodgeCard, CardZone.Deck, CardZone.Hand);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-
             sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(0, engine.GetPlayerHand(Player.Nixon).Count());
@@ -696,9 +702,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 29;
             var engine = GetGameEngine();
 
-            var cardToRetrieve = NineteenSixty.GMTCards[42];
             var sut = NineteenSixty.GMTCards[cardIndex];
-
             sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(0, engine.GetPlayerHand(Player.Nixon).Count());
@@ -722,7 +726,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void HenryLuce_36_EndorsementGained(Player player)
+        public void HenryLuce_36_KennedyEndorsementGained(Player player)
         {
             int cardIndex = 36;
             var engine = GetGameEngine();
@@ -740,7 +744,27 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        public void HenryLuce_36_FailsValidationIfNixonGains()
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void HenryLuce_36_FailsValidationMoreThanOneEndorsementGained(Player player)
+        {
+            int cardIndex = 36;
+            var engine = GetGameEngine();
+
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            var oneRegionalSupportInWest = new SupportChange<Player, Region>(Player.Kennedy, Region.West, 1);
+            var oneRegionalSupportTooMany = new SupportChange<Player, Region>(Player.Kennedy, Region.East, 1);
+            
+            playerChoices.EndorsementChanges.Add(oneRegionalSupportInWest);
+            playerChoices.EndorsementChanges.Add(oneRegionalSupportTooMany);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+        
+        [TestMethod]
+        public void HenryLuce_36_FailsValidationIfNixonGainsEndorsement()
         {
             int cardIndex = 36;
 
@@ -751,7 +775,30 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var result = sut.AreChangesValid(playerChoices);
             Assert.IsFalse(result);
         }
+        
+        [TestMethod]
+        public void HenryLuce_36_FailsValidationIfIssueSupportGained()
+        {
+            int cardIndex = 36;
 
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            var anInvalidIssueSupportGain = new SupportChange<Player, Issue>(Player.Nixon, Issue.CivilRights, 1);
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void HenryLuce_36_FailsValidationIfStateSupportGained()
+        {
+            int cardIndex = 36;
+
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            var anInvalidSateSupportGain = new SupportChange<Player, State>(Player.Nixon, State.MA, 1);
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
 
         #endregion
 
@@ -1151,62 +1198,80 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
         #endregion
 
-        #region #42 Henry Cabot Lodge
+        #region #42 - Henry Cabot Lodge
         //"Nixon gains 2 state support in Massachusetts and 2 issue support in Defense.  If the Nixon candidate card is currently flipped to its Exhausted side, the Nixon player may reclaim it face-up.
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void HenryCabotLodge_42_StateSupportGained(Player player)
+        public void HenryCabotLodge_42_NixonGainsStateSupportInMass(Player player)
         {
             int cardIndex = 42;
             var engine = GetGameEngine();
-            engine.GainSupport(Player.Kennedy, State.MA, 1);
-            engine.GainSupport(Player.Kennedy, Issue.Defense, 1);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-
             sut.Event(engine, player, EmptyChanges);
-
-            Assert.AreEqual(Leader.Nixon, engine.GetLeader(State.MA));
-            Assert.AreEqual(1, engine.GetSupportAmount(State.MA));
+            
+            Assert.AreEqual(2, engine.GetSupportAmount(State.MA));
         }
 
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void HenryCabotLodge_42_IssueSupportGained(Player player)
+        public void HenryCabotLodge_42_NixonGainsTwoIssueSupportInDefense(Player player)
         {
             int cardIndex = 42;
             var engine = GetGameEngine();
-            engine.GainSupport(Player.Kennedy, State.MA, 1);
-            engine.GainSupport(Player.Kennedy, Issue.Defense, 1);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-
             sut.Event(engine, player, EmptyChanges);
-
-            Assert.AreEqual(Leader.Nixon, engine.GetLeader(Issue.Defense));
-            Assert.AreEqual(1, engine.GetSupportAmount(Issue.Defense));
+            
+            Assert.AreEqual(2, engine.GetSupportAmount(Issue.Defense));
         }
 
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void HenryCabotLodge_42_NixonIsUnexhausted(Player player)
+        public void HenryCabotLodge_42_NixonBecomesUnexhausted(Player player)
         {
             int cardIndex = 42;
             var engine = GetGameEngine();
             engine.ExhaustPlayer(Player.Nixon);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-
             sut.Event(engine, player, EmptyChanges);
 
             Assert.IsTrue(engine.IsPlayerReady(Player.Nixon));
         }
+        
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void HenryCabotLodge_42_NixonRemainsUnexhaustedWhenPlayed(Player player)
+        {
+            int cardIndex = 42;
+            var engine = GetGameEngine();
+            engine.UnexhaustPlayer(Player.Nixon);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, EmptyChanges);
+
+            Assert.IsTrue(engine.IsPlayerReady(Player.Nixon));
+        }
+        
+        [TestMethod]
+        public void HenryCabotLodge_42_ValidationAlwaysTrue()
+        {
+            int cardIndex = 42;
+            var sut = NineteenSixty.GMTCards[cardIndex];
+
+            var result = sut.AreChangesValid(InvalidChanges);
+
+            Assert.IsTrue(result);
+        }
+        
         #endregion
 
-        #region #45 Compact of 5th Avenue
+        #region #45 - Compact of 5th Avenue
         //"Immediately move the Nixon candidate token to New York without paying the normal travel costs.  Nixon gains 1 issue support in Civil Rights, 2 state support in New York, and 1 media support cube in the East."
         [TestMethod]
         [DataRow(Player.Nixon)]
@@ -1463,7 +1528,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
         #endregion
 
-        #region #60 World Series Ends
+        #region #60 - World Series Ends
         //"The player with media support cubes in the East (if any) may add a total of 5 state support in the East, no more than 2 per state."
         [TestMethod]
         [DataRow(Player.Nixon)]
@@ -1525,7 +1590,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void WorldSeriesEnds_60_NoChangeIfNoMediaSupportElsewhere(Player player)
+        public void WorldSeriesEnds_60_NoChangeIfMediaSupportOutsideOfEast(Player player)
         {
             int cardIndex = 60;
             var engine = GetGameEngine();
@@ -1556,7 +1621,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void WorldSeriesEnds_60_ValidationStateOutsideEastFails(Player player)
+        public void WorldSeriesEnds_60_ValidationFailsIfStateOutsideOfEast(Player player)
         {
             int cardIndex = 60;
             var engine = GetGameEngine();
@@ -1566,12 +1631,12 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var oneSupportInRhodeIsland = new SupportChange<Player, State>(Player.Nixon, State.RI, 1);
             var oneSupportInWestVirginia = new SupportChange<Player, State>(Player.Nixon, State.WV, 1);
             var twoSupportInNewYork = new SupportChange<Player, State>(Player.Nixon, State.NY, 2);
-            var oneSupportInFlorida = new SupportChange<Player, State>(Player.Nixon, State.FL, 1);
+            var invalidStateOutsideOfEast = new SupportChange<Player, State>(Player.Nixon, State.FL, 1);
 
             playerChoices.StateChanges.Add(oneSupportInRhodeIsland);
             playerChoices.StateChanges.Add(oneSupportInWestVirginia);
             playerChoices.StateChanges.Add(twoSupportInNewYork);
-            playerChoices.StateChanges.Add(oneSupportInFlorida);
+            playerChoices.StateChanges.Add(invalidStateOutsideOfEast);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
             var result = sut.AreChangesValid(playerChoices);
@@ -1581,26 +1646,57 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void WorldSeriesEnds_60_ValidationSupportMoreThanTwoFails(Player player)
+        public void WorldSeriesEnds_60_ValidationFailsIfMediaSupportChange(Player player)
         {
             int cardIndex = 60;
             var engine = GetGameEngine();
             engine.GainMediaSupport(player, Region.East, 1);
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
-            var oneSupportInRhodeIsland = new SupportChange<Player, State>(Player.Nixon, State.RI, 1);
-            var oneSupportInWestVirginia = new SupportChange<Player, State>(Player.Nixon, State.WV, 1);
-            var threeSupportInNewYork = new SupportChange<Player, State>(Player.Nixon, State.NY, 3);
+            var oneSupportInRhodeIsland = new SupportChange<Player, State>(player, State.RI, 1);
+            var oneSupportInWestVirginia = new SupportChange<Player, State>(player, State.WV, 1);
+            var twoSupportInNewYork = new SupportChange<Player, State>(player, State.NY, 2);
+            var oneSupportInPenn = new SupportChange<Player, State>(player, State.PA, 1);
+            var invalidMediaSupportChange = new SupportChange<Player, Region>(player, Region.South, 1);
 
             playerChoices.StateChanges.Add(oneSupportInRhodeIsland);
             playerChoices.StateChanges.Add(oneSupportInWestVirginia);
-            playerChoices.StateChanges.Add(threeSupportInNewYork);
+            playerChoices.StateChanges.Add(twoSupportInNewYork);
+            playerChoices.StateChanges.Add(oneSupportInPenn);
+            playerChoices.MediaSupportChanges.Add(invalidMediaSupportChange);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
             var result = sut.AreChangesValid(playerChoices);
             Assert.IsFalse(result);
         }
 
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void WorldSeriesEnds_60_ValidationFailsIfInvalidIssueSupportChange(Player player)
+        {
+            int cardIndex = 60;
+            var engine = GetGameEngine();
+            engine.GainMediaSupport(player, Region.East, 1);
+
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            var oneSupportInRhodeIsland = new SupportChange<Player, State>(player, State.RI, 1);
+            var oneSupportInWestVirginia = new SupportChange<Player, State>(player, State.WV, 1);
+            var twoSupportInNewYork = new SupportChange<Player, State>(player, State.NY, 2);
+            var oneSupportInPenn = new SupportChange<Player, State>(player, State.PA, 1);
+            var invalidIssueSupportChange = new SupportChange<Player, Issue>(player, Issue.Defense, 1);
+
+            playerChoices.StateChanges.Add(oneSupportInRhodeIsland);
+            playerChoices.StateChanges.Add(oneSupportInWestVirginia);
+            playerChoices.StateChanges.Add(twoSupportInNewYork);
+            playerChoices.StateChanges.Add(oneSupportInPenn);
+            playerChoices.IssueChanges.Add(invalidIssueSupportChange);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+        
         #endregion
 
         #region #61 - Fatigue Sets In
@@ -1632,6 +1728,17 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             sut.Event(engine, player, EmptyChanges);
 
             Assert.IsFalse(engine.IsPlayerReady(player.ToOpponent()));
+        }
+        
+        [TestMethod]
+        public void FatigueSetsIn_61_ValidationAlwaysTrue()
+        {
+            int cardIndex = 61;
+            var sut = NineteenSixty.GMTCards[cardIndex];
+
+            var result = sut.AreChangesValid(InvalidChanges);
+
+            Assert.IsTrue(result);
         }
         #endregion
 
@@ -1717,25 +1824,39 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void GiveMeAWeek_63_ExpectedSupportAndMomentumLost(Player player)
+        public void GiveMeAWeek_63_NixonLosesTwoMomentum(Player player)
         {
             int cardIndex = 63;
             var engine = GetGameEngine();
 
             engine.GainMomentum(Player.Nixon, 5);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, EmptyChanges);
+
+            Assert.AreEqual(3, engine.GetPlayerMomentum(Player.Nixon));
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void GiveMeAWeek_63_NixonLosesOneSupportInEachIssue(Player player)
+        {
+            int cardIndex = 63;
+            var engine = GetGameEngine();
+
             engine.GainSupport(Player.Nixon, Issue.Defense, 4);
             engine.GainSupport(Player.Nixon, Issue.Economy, 3);
             engine.GainSupport(Player.Nixon, Issue.CivilRights, 2);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
             sut.Event(engine, player, EmptyChanges);
-
-            Assert.AreEqual(3, engine.GetPlayerMomentum(Player.Nixon));
+            
             Assert.AreEqual(3, engine.GetSupportAmount(Issue.Defense));
             Assert.AreEqual(2, engine.GetSupportAmount(Issue.Economy));
             Assert.AreEqual(1, engine.GetSupportAmount(Issue.CivilRights));
         }
-
+        
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -1757,6 +1878,17 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Assert.AreEqual(0, engine.GetSupportAmount(Issue.Economy));
             Assert.AreEqual(0, engine.GetSupportAmount(Issue.CivilRights));
         }
+        
+        [TestMethod]
+        public void GiveMeAWeek_63_ValidationAlwaysTrue()
+        {
+            int cardIndex = 63;
+            var sut = NineteenSixty.GMTCards[cardIndex];
+
+            var result = sut.AreChangesValid(InvalidChanges);
+
+            Assert.IsTrue(result);
+        }
 
         [TestMethod]
         public void TheTrialOfGaryPowers_63_ValidationAlwaysTrue()
@@ -1775,7 +1907,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void StumpSpeech_64_LowerMomentumIsGained(Player player)
+        public void StumpSpeech_64_MomentumGainedIfOpponentHasMore(Player player)
         {
             int cardIndex = 64;
             var engine = GetGameEngine();
@@ -1791,7 +1923,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void StumpSpeech_64_HigherMomentumNoChange(Player player)
+        public void StumpSpeech_64_NoMomentumGainedIfPlayedByPlayerWithMore(Player player)
         {
             int cardIndex = 64;
             var engine = GetGameEngine();
@@ -1808,15 +1940,19 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void StumpSpeech_64_TiedMomentumNoChange(Player player)
+        public void StumpSpeech_64_NoMomentumGainedIfPlayersHaveSameAmount(Player player)
         {
             int cardIndex = 64;
             var engine = GetGameEngine();
+            
+            engine.GainMomentum(Player.Kennedy, 2);
+            engine.GainMomentum(Player.Nixon, 2);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
             sut.Event(engine, player, EmptyChanges);
 
-            Assert.AreEqual(engine.GetPlayerMomentum(player), engine.GetPlayerMomentum(player.ToOpponent()));
+            Assert.AreEqual(2, engine.GetPlayerMomentum(Player.Nixon));
+            Assert.AreEqual(2, engine.GetPlayerMomentum(Player.Kennedy));
         }
 
         [TestMethod]
@@ -1824,7 +1960,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         {
             int cardIndex = 64;
             var sut = NineteenSixty.GMTCards[cardIndex];
-
             var result = sut.AreChangesValid(InvalidChanges);
 
             Assert.IsTrue(result);
@@ -1902,25 +2037,39 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void TheOldNixon_70_ExpectedAmountOfMomentumLost(Player player)
+        public void TheOldNixon_70_NixonLosesOneMomentum(Player player)
         {
             int cardIndex = 70;
             var engine = GetGameEngine();
 
             engine.GainMomentum(Player.Nixon, 5);
-            engine.GainMomentum(Player.Kennedy, 5);
 
-            var nixonStartingMomentum = engine.GetPlayerMomentum(Player.Kennedy);
-            var kennedyStartingMomentum = engine.GetPlayerMomentum(Player.Nixon);
+            var nixonStartingMomentum = engine.GetPlayerMomentum(Player.Nixon);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-
             sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(engine.GetPlayerMomentum(Player.Nixon), nixonStartingMomentum - 1);
-            Assert.AreEqual(engine.GetPlayerMomentum(Player.Kennedy), kennedyStartingMomentum - 3);
         }
 
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void TheOldNixon_70_KennedyLosesThreeMomentum(Player player)
+        {
+            int cardIndex = 70;
+            var engine = GetGameEngine();
+            
+            engine.GainMomentum(Player.Kennedy, 5);
+
+            var kennedyStartingMomentum = engine.GetPlayerMomentum(Player.Kennedy);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, EmptyChanges);
+
+            Assert.AreEqual(engine.GetPlayerMomentum(Player.Kennedy), kennedyStartingMomentum - 3);
+        }
+        
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -1929,7 +2078,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 70;
             var engine = GetGameEngine();
 
-            engine.GainMomentum(Player.Nixon, 0);
+            engine.GainMomentum(Player.Nixon, 1);
             engine.GainMomentum(Player.Kennedy, 2);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
@@ -1940,6 +2089,22 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Assert.AreEqual(engine.GetPlayerMomentum(Player.Kennedy), 0);
         }
 
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void TheOldNixon_70_PlayableEvenWithZeroMomentum(Player player)
+        {
+            int cardIndex = 70;
+            var engine = GetGameEngine();
+
+            engine.GainMomentum(player, 0);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, EmptyChanges);
+
+            Assert.AreEqual(engine.GetPlayerMomentum(player), 0);
+        }
+        
         [TestMethod]
         public void TheOldNixon_70_ValidationAlwaysTrue()
         {
@@ -1954,7 +2119,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         #endregion
 
         #region #71 - Heartland of America
-        //"The Kennedy player may add a total of 5 state support in states having 20 or more electoral votes, no more than 2 per state."
+        //"The Nixon player may add a total of 7 state support in states in the West or Midwest having 10 or fewer electoral votes, no more than 1 per state."
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -1999,22 +2164,22 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 71;
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
-            var oneSupportInWyoming = new SupportChange<Player, State>(Player.Kennedy, State.WY, 1);
             var oneSupportInIdaho = new SupportChange<Player, State>(Player.Nixon, State.ID, 1);
             var oneSupportInNorthDakota = new SupportChange<Player, State>(Player.Nixon, State.ND, 1);
             var oneSupportInIowa = new SupportChange<Player, State>(Player.Nixon, State.IA, 1);
             var oneSupportInKentucky = new SupportChange<Player, State>(Player.Nixon, State.KY, 1);
             var oneSupportInOklahoma = new SupportChange<Player, State>(Player.Nixon, State.OK, 1);
             var oneSupportInNebraska = new SupportChange<Player, State>(Player.Nixon, State.NE, 1);
+            var invalidSupportForKennedy = new SupportChange<Player, State>(Player.Kennedy, State.WY, 1);
 
-            playerChoices.StateChanges.Add(oneSupportInWyoming);
             playerChoices.StateChanges.Add(oneSupportInIdaho);
             playerChoices.StateChanges.Add(oneSupportInNorthDakota);
             playerChoices.StateChanges.Add(oneSupportInIowa);
             playerChoices.StateChanges.Add(oneSupportInKentucky);
             playerChoices.StateChanges.Add(oneSupportInOklahoma);
             playerChoices.StateChanges.Add(oneSupportInNebraska);
-
+            playerChoices.StateChanges.Add(invalidSupportForKennedy);
+            
             var sut = NineteenSixty.GMTCards[cardIndex];
             var result = sut.AreChangesValid(playerChoices);
             Assert.IsFalse(result);
@@ -2026,7 +2191,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 71;
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
-
             var oneSupportInWyoming = new SupportChange<Player, State>(Player.Nixon, State.WY, 1);
             var oneSupportInIdaho = new SupportChange<Player, State>(Player.Nixon, State.ID, 1);
             var oneSupportInNorthDakota = new SupportChange<Player, State>(Player.Nixon, State.ND, 1);
@@ -2034,7 +2198,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var oneSupportInKentucky = new SupportChange<Player, State>(Player.Nixon, State.KY, 1);
             var oneSupportInOklahoma = new SupportChange<Player, State>(Player.Nixon, State.OK, 1);
             var oneSupportInNebraska = new SupportChange<Player, State>(Player.Nixon, State.NE, 1);;
-            var issueSupport = new SupportChange<Player, Issue>(Player.Kennedy, Issue.Defense, 1);
+            var invalidIssueSupport = new SupportChange<Player, Issue>(Player.Kennedy, Issue.Defense, 1);
 
             playerChoices.StateChanges.Add(oneSupportInWyoming);
             playerChoices.StateChanges.Add(oneSupportInIdaho);
@@ -2043,13 +2207,13 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             playerChoices.StateChanges.Add(oneSupportInKentucky);
             playerChoices.StateChanges.Add(oneSupportInOklahoma);
             playerChoices.StateChanges.Add(oneSupportInNebraska);
-            playerChoices.IssueChanges.Add(issueSupport);
+            playerChoices.IssueChanges.Add(invalidIssueSupport);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
             var result = sut.AreChangesValid(playerChoices);
             Assert.IsFalse(result);
         }
-
+        
         [TestMethod]
         public void HeartlandOfAmerica_71_FailsValidationIfGreaterThanOne()
         {
@@ -2061,15 +2225,14 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var oneSupportInNorthDakota = new SupportChange<Player, State>(Player.Nixon, State.ND, 1);
             var oneSupportInIowa = new SupportChange<Player, State>(Player.Nixon, State.IA, 1);
             var oneSupportInKentucky = new SupportChange<Player, State>(Player.Nixon, State.KY, 1);
-            var twoSupportInOklahoma = new SupportChange<Player, State>(Player.Nixon, State.OK, 2);
-            var oneSupportInNebraska = new SupportChange<Player, State>(Player.Nixon, State.NE, 1);
+            var invalidStateSupportGreaterThanOne = new SupportChange<Player, State>(Player.Nixon, State.OK, 2);
 
             playerChoices.StateChanges.Add(oneSupportInWyoming);
             playerChoices.StateChanges.Add(oneSupportInIdaho);
             playerChoices.StateChanges.Add(oneSupportInNorthDakota);
             playerChoices.StateChanges.Add(oneSupportInIowa);
             playerChoices.StateChanges.Add(oneSupportInKentucky);
-            playerChoices.StateChanges.Add(twoSupportInOklahoma);
+            playerChoices.StateChanges.Add(invalidStateSupportGreaterThanOne);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
             var result = sut.AreChangesValid(playerChoices);
@@ -2077,26 +2240,26 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         }
 
         [TestMethod]
-        public void HeartlandOfAmerica_71_FailsValidationIfStateNotInCorrectRegion()
+        public void HeartlandOfAmerica_71_FailsValidationIfStateOutsideWestOrMidwest()
         {
             int cardIndex = 71;
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
-            var oneSupportInWyoming = new SupportChange<Player, State>(Player.Nixon, State.WY, 1);
             var oneSupportInIdaho = new SupportChange<Player, State>(Player.Nixon, State.ID, 1);
             var oneSupportInNorthDakota = new SupportChange<Player, State>(Player.Nixon, State.ND, 1);
             var oneSupportInIowa = new SupportChange<Player, State>(Player.Nixon, State.IA, 1);
             var oneSupportInKentucky = new SupportChange<Player, State>(Player.Nixon, State.KY, 1);
             var oneSupportInOklahoma = new SupportChange<Player, State>(Player.Nixon, State.OK, 1);
-            var oneSupportInFlorida = new SupportChange<Player, State>(Player.Nixon, State.FL, 1);
+            var oneSupportInWyoming = new SupportChange<Player, State>(Player.Nixon, State.WY, 1);
+            var invalidSupportOutsideWestOrMidwest = new SupportChange<Player, State>(Player.Nixon, State.FL, 1);
 
-            playerChoices.StateChanges.Add(oneSupportInWyoming);
             playerChoices.StateChanges.Add(oneSupportInIdaho);
             playerChoices.StateChanges.Add(oneSupportInNorthDakota);
             playerChoices.StateChanges.Add(oneSupportInIowa);
             playerChoices.StateChanges.Add(oneSupportInKentucky);
             playerChoices.StateChanges.Add(oneSupportInOklahoma);
-            playerChoices.StateChanges.Add(oneSupportInFlorida);
+            playerChoices.StateChanges.Add(oneSupportInWyoming);
+            playerChoices.StateChanges.Add(invalidSupportOutsideWestOrMidwest);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
             var result = sut.AreChangesValid(playerChoices);
@@ -2115,7 +2278,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var oneSupportInIowa = new SupportChange<Player, State>(Player.Nixon, State.IA, 1);
             var oneSupportInKentucky = new SupportChange<Player, State>(Player.Nixon, State.KY, 1);
             var oneSupportInOklahoma = new SupportChange<Player, State>(Player.Nixon, State.OK, 1);
-            var oneSupportInCalifornia = new SupportChange<Player, State>(Player.Nixon, State.CA, 1);
+            var invalidSupportForStateWithTooManyVotes = new SupportChange<Player, State>(Player.Nixon, State.CA, 1);
 
             playerChoices.StateChanges.Add(oneSupportInWyoming);
             playerChoices.StateChanges.Add(oneSupportInIdaho);
@@ -2123,7 +2286,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             playerChoices.StateChanges.Add(oneSupportInIowa);
             playerChoices.StateChanges.Add(oneSupportInKentucky);
             playerChoices.StateChanges.Add(oneSupportInOklahoma);
-            playerChoices.StateChanges.Add(oneSupportInCalifornia);
+            playerChoices.StateChanges.Add(invalidSupportForStateWithTooManyVotes);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
             var result = sut.AreChangesValid(playerChoices);
@@ -2132,7 +2295,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
         #endregion
 
-        #region 72 - Southern Revolt
+        #region #72 - Southern Revolt
         //"If Kennedy is leading in Civil Rights, the Nixon player may add a total of 5 state support in the South, no more than 2 per state."
         [TestMethod]
         [DataRow(Player.Nixon)]
@@ -2361,7 +2524,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
         #endregion
 
-        #region #75 Republican TV Spots
+        #region #75 - Republican TV Spots
         //"Immediately move the Nixon candidate token to New York, but do not pay the normal travel costs for doing so.  The Nixon player may place 3 media support cubes."
         [TestMethod]
         [DataRow(Player.Nixon)]
@@ -2411,9 +2574,43 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainSupport(Player.Kennedy, Issue.CivilRights, 2);
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
-            var mediaSupportGained = new SupportChange<Player, Region>(Player.Nixon, Region.West, 4);
+            var invalidMediaSupportGainedGreaterThanThree = new SupportChange<Player, Region>(Player.Nixon, Region.West, 4);
 
-            playerChoices.MediaSupportChanges.Add(mediaSupportGained);
+            playerChoices.MediaSupportChanges.Add(invalidMediaSupportGainedGreaterThanThree);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+        
+        [TestMethod]
+        public void RepublicanTVSpots_75_ValidationFailsIfStateSupportChanged()
+        {
+            int cardIndex = 75;
+            var engine = GetGameEngine();
+            engine.GainSupport(Player.Kennedy, Issue.CivilRights, 2);
+
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            var invalidStateSupport = new SupportChange<Player, State>(Player.Nixon, State.CT, 1);
+
+            playerChoices.StateChanges.Add(invalidStateSupport);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+        
+        [TestMethod]
+        public void RepublicanTVSpots_75_ValidationFailsIfIssueSupportChanged()
+        {
+            int cardIndex = 75;
+            var engine = GetGameEngine();
+            engine.GainSupport(Player.Kennedy, Issue.CivilRights, 2);
+
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            var invalidIssueSupport = new SupportChange<Player, Issue>(Player.Nixon, Issue.Defense, 1);
+
+            playerChoices.IssueChanges.Add(invalidIssueSupport);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
             var result = sut.AreChangesValid(playerChoices);
@@ -2627,7 +2824,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             int cardIndex = 80;
             var engine = GetGameEngine();
 
-            engine.GainMediaSupportWithoutSupportCheck(Player.Nixon, Region.South, 1);
+            engine.GainMediaSupportWithoutSupportCheck(Player.Nixon, Region.South, 2);
             engine.GainMediaSupportWithoutSupportCheck(Player.Nixon, Region.West, 1);
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
@@ -2639,10 +2836,8 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             var sut = NineteenSixty.GMTCards[cardIndex];
             sut.Event(engine, player, playerChoices);
-
-            Assert.AreEqual(Leader.None, engine.GetMediaSupportLeader(Region.South));
-            Assert.AreEqual(Leader.None, engine.GetMediaSupportLeader(Region.West));
-            Assert.AreEqual(0, engine.GetMediaSupportAmount(Region.South));
+            
+            Assert.AreEqual(1, engine.GetMediaSupportAmount(Region.South));
             Assert.AreEqual(0, engine.GetMediaSupportAmount(Region.West));
         }
 
@@ -2656,11 +2851,9 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             engine.GainMediaSupportWithoutSupportCheck(Player.Nixon, Region.West, 1);
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
-            var oneMediaSupportLostInSouth = new SupportChange<Player, Region>(Player.Nixon, Region.South, -1);
-            var twoMediaSupportLostInWest = new SupportChange<Player, Region>(Player.Nixon, Region.West, -2);
-
-            playerChoices.MediaSupportChanges.Add(oneMediaSupportLostInSouth);
-            playerChoices.MediaSupportChanges.Add(twoMediaSupportLostInWest);
+            var invalidMediaSupportInExcessOfTwo = new SupportChange<Player, Region>(Player.Nixon, Region.West, -3);
+            
+            playerChoices.MediaSupportChanges.Add(invalidMediaSupportInExcessOfTwo);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
             var result = sut.AreChangesValid(playerChoices);
@@ -2678,16 +2871,73 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
 
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneMediaSupportLostInSouth = new SupportChange<Player, Region>(Player.Nixon, Region.South, -1);
-            var oneMediaSupportLostInWest = new SupportChange<Player, Region>(Player.Kennedy, Region.West, -1);
+            var invalidMediaSupportLossForKennedy = new SupportChange<Player, Region>(Player.Kennedy, Region.West, -1);
 
             playerChoices.MediaSupportChanges.Add(oneMediaSupportLostInSouth);
-            playerChoices.MediaSupportChanges.Add(oneMediaSupportLostInWest);
+            playerChoices.MediaSupportChanges.Add(invalidMediaSupportLossForKennedy);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
             var result = sut.AreChangesValid(playerChoices);
             Assert.IsFalse(result);
         }
 
+        [TestMethod]
+        public void Herblock_80_ValidationFailsIfMediaSupportGained()
+        {
+            int cardIndex = 80;
+            var engine = GetGameEngine();
+
+            engine.GainMediaSupportWithoutSupportCheck(Player.Nixon, Region.South, 1);
+            engine.GainMediaSupportWithoutSupportCheck(Player.Nixon, Region.West, 1);
+
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            var invalidMediaSupportGainForKennedy = new SupportChange<Player, Region>(Player.Kennedy, Region.West, 1);
+
+            playerChoices.MediaSupportChanges.Add(invalidMediaSupportGainForKennedy);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+        
+        [TestMethod]
+        public void Herblock_80_ValidationFailsIfStateSupportGained()
+        {
+            int cardIndex = 80;
+            var engine = GetGameEngine();
+
+            engine.GainMediaSupportWithoutSupportCheck(Player.Nixon, Region.South, 1);
+            engine.GainMediaSupportWithoutSupportCheck(Player.Nixon, Region.West, 1);
+
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            var invalidStateSupportGain = new SupportChange<Player, State>(Player.Kennedy, State.GA, 1);
+
+            playerChoices.StateChanges.Add(invalidStateSupportGain);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+        
+        [TestMethod]
+        public void Herblock_80_ValidationFailsIfIssueSupportGained()
+        {
+            int cardIndex = 80;
+            var engine = GetGameEngine();
+
+            engine.GainMediaSupportWithoutSupportCheck(Player.Nixon, Region.South, 1);
+            engine.GainMediaSupportWithoutSupportCheck(Player.Nixon, Region.West, 1);
+
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            var invalidIssueSupportGain = new SupportChange<Player, Issue>(Player.Kennedy, Issue.CivilRights, 1);
+
+            playerChoices.IssueChanges.Add(invalidIssueSupportGain);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+        
         #endregion
 
         #region #82 - Fidel Castro
@@ -2695,7 +2945,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void FidelCastro_82_LeaderGainsStateSupportAndMomentum(Player player)
+        public void FidelCastro_82_LeaderGainsStateSupport(Player player)
         {
             int cardIndex = 82;
             var engine = GetGameEngine();
@@ -2706,17 +2956,35 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(1, engine.GetSupportAmount(State.FL));
+        }
+        
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void FidelCastro_82_LeaderGainsMomentum(Player player)
+        {
+            int cardIndex = 82;
+            var engine = GetGameEngine();
+
+            engine.GainSupport(player, Issue.Defense, 1);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, EmptyChanges);
+
             Assert.AreEqual(1, engine.GetPlayerMomentum(player));
         }
 
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void FidelCastro_82_TieAwardsNothing(Player player)
+        public void FidelCastro_82_NoLeaderInDefenseAwardsNothing(Player player)
         {
             int cardIndex = 82;
             var engine = GetGameEngine();
 
+            engine.LoseSupport(Player.Kennedy, Issue.Defense, int.MaxValue);
+            engine.LoseSupport(Player.Nixon, Issue.Defense, int.MaxValue);
+            
             var sut = NineteenSixty.GMTCards[cardIndex];
             sut.Event(engine, player, EmptyChanges);
 
@@ -2830,19 +3098,32 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void TheNewNixon_89_NixonMomentumIsIncreasedByOne(Player player)
+        public void TheNewNixon_89_NixonGainsOneMomentum(Player player)
         {
             int cardIndex = 89;
             var engine = GetGameEngine();
 
             var nixonStartingMomentum = engine.GetPlayerMomentum(Player.Nixon);
-            var kennedyStartingMomentum = engine.GetPlayerMomentum(Player.Kennedy);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-
             sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(engine.GetPlayerMomentum(Player.Nixon), nixonStartingMomentum + 1);
+        }
+        
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void TheNewNixon_89_KennedyGainsZeroMomentum(Player player)
+        {
+            int cardIndex = 89;
+            var engine = GetGameEngine();
+            
+            var kennedyStartingMomentum = engine.GetPlayerMomentum(Player.Kennedy);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, EmptyChanges);
+
             Assert.AreEqual(engine.GetPlayerMomentum(Player.Kennedy), kennedyStartingMomentum);
         }
 
@@ -2956,7 +3237,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void ExperienceCounts_93_NixonMomentumGainedAndKennedyIssueSupportLost(Player player)
+        public void ExperienceCounts_93_NixonGainsOneMomentum(Player player)
         {
             int cardIndex = 93;
             var engine = GetGameEngine();
@@ -2971,11 +3252,45 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(engine.GetPlayerMomentum(Player.Nixon), 3);
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void ExperienceCounts_93_KennedyLosesOneSupportInEachIssue(Player player)
+        {
+            int cardIndex = 93;
+            var engine = GetGameEngine();
+
+            engine.GainSupport(Player.Kennedy, Issue.CivilRights, 3);
+            engine.GainSupport(Player.Kennedy, Issue.Defense, 2);
+            engine.GainSupport(Player.Kennedy, Issue.Economy, 1);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, EmptyChanges);
+            
             Assert.AreEqual(2, engine.GetSupportAmount(Issue.CivilRights));
             Assert.AreEqual(1, engine.GetSupportAmount(Issue.Defense));
             Assert.AreEqual(0, engine.GetSupportAmount(Issue.Economy));
         }
+        
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void ExperienceCounts_93_KennedySupportDoesNotGoNegative(Player player)
+        {
+            int cardIndex = 93;
+            var engine = GetGameEngine();
+            
+            engine.LoseSupport(Player.Kennedy, Issue.Economy, int.MaxValue);
 
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, EmptyChanges);
+            
+            Assert.AreEqual(0, engine.GetSupportAmount(Issue.Economy));
+            Assert.AreEqual(Leader.None, engine.GetLeader(Issue.Economy));
+        }
+        
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
@@ -3012,12 +3327,12 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void ATimeForGreatness_95_NixonLosesOnIssues(Player player)
+        public void ATimeForGreatness_95_NixonLosesOneSupportOnEachIssue(Player player)
         {
             int cardIndex = 95;
             var engine = GetGameEngine();
 
-            engine.GainSupport(Player.Nixon, Issue.CivilRights, 2);
+            engine.GainSupport(Player.Nixon, Issue.CivilRights, 1);
             engine.GainSupport(Player.Nixon, Issue.Defense, 3);
             engine.GainSupport(Player.Nixon, Issue.Economy, 4);
 
@@ -3033,11 +3348,11 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var sut = NineteenSixty.GMTCards[cardIndex];
 
             sut.Event(engine, player, playerChoices);
-            Assert.AreEqual(Leader.Nixon, engine.GetLeader(Issue.CivilRights));
-            Assert.AreEqual(Leader.Nixon, engine.GetLeader(Issue.CivilRights));
-            Assert.AreEqual(Leader.Nixon, engine.GetLeader(Issue.CivilRights));
+            Assert.AreEqual(Leader.None, engine.GetLeader(Issue.CivilRights));
+            Assert.AreEqual(Leader.Nixon, engine.GetLeader(Issue.Defense));
+            Assert.AreEqual(Leader.Nixon, engine.GetLeader(Issue.Economy));
 
-            Assert.AreEqual(1, engine.GetSupportAmount(Issue.CivilRights));
+            Assert.AreEqual(0, engine.GetSupportAmount(Issue.CivilRights));
             Assert.AreEqual(2, engine.GetSupportAmount(Issue.Defense));
             Assert.AreEqual(3, engine.GetSupportAmount(Issue.Economy));
         }
@@ -3045,7 +3360,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void ATimeForGreatness_95_SupportAddedToStates(Player player)
+        public void ATimeForGreatness_95_KennedySupportAddedToStates(Player player)
         {
             int cardIndex = 95;
             var engine = GetGameEngine();
@@ -3079,7 +3394,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void ATimeForGreatness_95_FailsValidationIfNixonGains(Player player)
+        public void ATimeForGreatness_95_FailsValidationIfNixonGainsStateSupport(Player player)
         {
             int cardIndex = 95;
 
@@ -3100,7 +3415,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void ATimeForGreatness_95_FailsValidationIfIssueGains(Player player)
+        public void ATimeForGreatness_95_FailsValidationIfAnyIssueGains(Player player)
         {
             int cardIndex = 95;
             var engine = GetGameEngine();
@@ -3127,7 +3442,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void ATimeForGreatness_95_FailsValidationIfGreaterThanOne(Player player)
+        public void ATimeForGreatness_95_FailsValidationIfStateSupportGainsGreaterThanOne(Player player)
         {
             int cardIndex = 95;
 
@@ -3146,7 +3461,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void ATimeForGreatness_95_FailsValidationIfSumGreaterThanThree(Player player)
+        public void ATimeForGreatness_95_FailsValidationIfTotalStateSupportGainedIsGreaterThanThree(Player player)
         {
             int cardIndex = 95;
 
@@ -3171,96 +3486,107 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void MedalCount_96_SharedLeaderLosesMomentumAsWell(Player player)
+        public void MedalCount_96_LeaderInCivilRightsLosesOneIssueSupport(Player player)
         {
             int cardIndex = 96;
             var engine = GetGameEngine();
 
             engine.GainSupport(player, Issue.CivilRights, 3);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, EmptyChanges);
+
+            Assert.AreEqual(2, engine.GetSupportAmount(Issue.CivilRights));
+        }
+        
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void MedalCount_96_LeaderInEconomyLosesOneIssueSupport(Player player)
+        {
+            int cardIndex = 96;
+            var engine = GetGameEngine();
+
+            engine.GainSupport(player, Issue.Economy, 2);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, EmptyChanges);
+
+            Assert.AreEqual(1, engine.GetSupportAmount(Issue.Economy));
+        }
+        
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void MedalCount_96_LeaderInBothLosesOneMomentum(Player player)
+        {
+            int cardIndex = 96;
+            var engine = GetGameEngine();
+
+            engine.GainSupport(player, Issue.CivilRights, 3);
+            engine.GainSupport(player, Issue.Economy, 2);
+            engine.GainMomentum(player, 2);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, EmptyChanges);
+
+            Assert.AreEqual(1, engine.GetPlayerMomentum(player));
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void MedalCount_96_LeaderSplitNoMomentumLoss(Player player)
+        {
+            int cardIndex = 96;
+            var engine = GetGameEngine();
+
+            engine.GainSupport(Player.Nixon, Issue.CivilRights, 3);
+            engine.GainSupport(Player.Kennedy, Issue.Economy, 2);
+            engine.GainMomentum(Player.Nixon, 1);
+            engine.GainMomentum(Player.Kennedy, 1);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, EmptyChanges);
+
+            Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Nixon));
+            Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Kennedy));
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void MedalCount_96_NoLeaderInEitherNoMomentumLoss(Player player)
+        {
+            int cardIndex = 96;
+            var engine = GetGameEngine();
+            
+            engine.GainMomentum(Player.Nixon, 1);
+            engine.GainMomentum(Player.Kennedy, 1);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, EmptyChanges);
+            
+            Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Nixon));
+            Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Kennedy));
+        }
+
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void MedalCount_96_LeaderInOnlyOneIssueNoMomentumLoss(Player player)
+        {
+            int cardIndex = 96;
+            var engine = GetGameEngine();
+
             engine.GainSupport(player, Issue.Defense, 2);
-            engine.GainSupport(player, Issue.Economy, 1);
-            engine.GainMomentum(player, 1);
-
-            var sut = NineteenSixty.GMTCards[cardIndex];
-
-            sut.Event(engine, player, EmptyChanges);
-
-            Assert.AreEqual(0, engine.GetPlayerMomentum(player));
-            Assert.AreEqual(2, engine.GetSupportAmount(Issue.CivilRights));
-            Assert.AreEqual(2, engine.GetSupportAmount(Issue.Defense));
-            Assert.AreEqual(0, engine.GetSupportAmount(Issue.Economy));
-        }
-
-        [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void MedalCount_96_SplitLeaderNoMomentumLoss(Player player)
-        {
-            int cardIndex = 96;
-            var engine = GetGameEngine();
-
-            engine.GainSupport(Player.Nixon, Issue.CivilRights, 3);
-            engine.GainSupport(Player.Nixon, Issue.Defense, 2);
-            engine.GainSupport(Player.Kennedy, Issue.Economy, 1);
             engine.GainMomentum(Player.Nixon, 1);
             engine.GainMomentum(Player.Kennedy, 1);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
 
             sut.Event(engine, player, EmptyChanges);
-
-            Assert.AreEqual(2, engine.GetSupportAmount(Issue.CivilRights));
-            Assert.AreEqual(2, engine.GetSupportAmount(Issue.Defense));
-            Assert.AreEqual(0, engine.GetSupportAmount(Issue.Economy));
-            Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Nixon));
-            Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Kennedy));
-        }
-
-        [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void MedalCount_96_NoLeaderInBothNoMomentumLoss(Player player)
-        {
-            int cardIndex = 96;
-            var engine = GetGameEngine();
-
-            engine.GainSupport(Player.Nixon, Issue.CivilRights, 3);
-            engine.GainSupport(Player.Nixon, Issue.Defense, 2);
-            engine.GainSupport(Player.Kennedy, Issue.Economy, 1);
-            engine.GainMomentum(Player.Nixon, 1);
-            engine.GainMomentum(Player.Kennedy, 1);
-
-            var sut = NineteenSixty.GMTCards[cardIndex];
-
-            sut.Event(engine, player, EmptyChanges);
-
-            Assert.AreEqual(2, engine.GetSupportAmount(Issue.CivilRights));
-            Assert.AreEqual(2, engine.GetSupportAmount(Issue.Defense));
-            Assert.AreEqual(0, engine.GetSupportAmount(Issue.Economy));
-            Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Nixon));
-            Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Kennedy));
-        }
-
-        [TestMethod]
-        [DataRow(Player.Nixon)]
-        [DataRow(Player.Kennedy)]
-        public void MedalCount_96_NoLeaderInOneNoMomentumLoss(Player player)
-        {
-            int cardIndex = 96;
-            var engine = GetGameEngine();
-
-            engine.GainSupport(Player.Nixon, Issue.Defense, 2);
-            engine.GainSupport(Player.Kennedy, Issue.Economy, 1);
-            engine.GainMomentum(Player.Nixon, 1);
-            engine.GainMomentum(Player.Kennedy, 1);
-
-            var sut = NineteenSixty.GMTCards[cardIndex];
-
-            sut.Event(engine, player, EmptyChanges);
-
-            Assert.AreEqual(0, engine.GetSupportAmount(Issue.CivilRights));
-            Assert.AreEqual(2, engine.GetSupportAmount(Issue.Defense));
-            Assert.AreEqual(0, engine.GetSupportAmount(Issue.Economy));
+            
             Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Nixon));
             Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Kennedy));
         }
@@ -3283,47 +3609,69 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void CassiusClayWinsGold_97_SharedLeaderLosesMomentumAsWell(Player player)
+        public void CassiusClayWinsGold_97_LeaderInDefenseLosesOneIssueSupport(Player player)
         {
             int cardIndex = 97;
             var engine = GetGameEngine();
 
-            engine.GainSupport(player, Issue.CivilRights, 3);
-            engine.GainSupport(player, Issue.Defense, 2);
+            engine.GainSupport(player, Issue.Defense, 3);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, EmptyChanges);
+            
+            Assert.AreEqual(2, engine.GetSupportAmount(Issue.Defense));
+        }
+        
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void CassiusClayWinsGold_97_LeaderInEconomyLosesOneIssueSupport(Player player)
+        {
+            int cardIndex = 97;
+            var engine = GetGameEngine();
+
+            engine.GainSupport(player, Issue.Economy, 2);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, EmptyChanges);
+            
+            Assert.AreEqual(1, engine.GetSupportAmount(Issue.Economy));
+        }
+        
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void CassiusClayWinsGold_97_LeaderInBothLosesOneMomentum(Player player)
+        {
+            int cardIndex = 97;
+            var engine = GetGameEngine();
+
+            engine.GainSupport(player, Issue.Defense, 3);
             engine.GainSupport(player, Issue.Economy, 1);
-            engine.GainMomentum(player, 1);
+            engine.GainMomentum(player, 3);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-
             sut.Event(engine, player, EmptyChanges);
 
-            Assert.AreEqual(0, engine.GetPlayerMomentum(player));
-            Assert.AreEqual(3, engine.GetSupportAmount(Issue.CivilRights));
-            Assert.AreEqual(1, engine.GetSupportAmount(Issue.Defense));
-            Assert.AreEqual(0, engine.GetSupportAmount(Issue.Economy));
+            Assert.AreEqual(2, engine.GetPlayerMomentum(player));
         }
 
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void CassiusClayWinsGold_97_SplitLeaderNoMomentumLoss(Player player)
+        public void CassiusClayWinsGold_97_LeaderSplitNoMomentumLoss(Player player)
         {
             int cardIndex = 97;
             var engine = GetGameEngine();
-
-            engine.GainSupport(Player.Nixon, Issue.CivilRights, 3);
+            
             engine.GainSupport(Player.Nixon, Issue.Defense, 2);
             engine.GainSupport(Player.Kennedy, Issue.Economy, 1);
             engine.GainMomentum(Player.Nixon, 1);
             engine.GainMomentum(Player.Kennedy, 1);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-
             sut.Event(engine, player, EmptyChanges);
-
-            Assert.AreEqual(3, engine.GetSupportAmount(Issue.CivilRights));
-            Assert.AreEqual(1, engine.GetSupportAmount(Issue.Defense));
-            Assert.AreEqual(0, engine.GetSupportAmount(Issue.Economy));
+            
             Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Nixon));
             Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Kennedy));
         }
@@ -3331,23 +3679,18 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void CassiusClayWinsGold_97_NoLeaderInOneNoMomentumLoss(Player player)
+        public void CassiusClayWinsGold_97_LeaderInOnlyOneIssueNoMomentumLoss(Player player)
         {
             int cardIndex = 97;
             var engine = GetGameEngine();
 
             engine.GainSupport(Player.Nixon, Issue.CivilRights, 3);
-            engine.GainSupport(Player.Kennedy, Issue.Economy, 1);
             engine.GainMomentum(Player.Nixon, 1);
             engine.GainMomentum(Player.Kennedy, 1);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-
             sut.Event(engine, player, EmptyChanges);
 
-            Assert.AreEqual(3, engine.GetSupportAmount(Issue.CivilRights));
-            Assert.AreEqual(0, engine.GetSupportAmount(Issue.Defense));
-            Assert.AreEqual(0, engine.GetSupportAmount(Issue.Economy));
             Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Nixon));
             Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Kennedy));
         }
@@ -3355,24 +3698,17 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void CassiusClayWinsGold_97_NoLeaderInBothNoMomentumLoss(Player player)
+        public void CassiusClayWinsGold_97_NoLeaderInEitherNoMomentumLoss(Player player)
         {
             int cardIndex = 97;
             var engine = GetGameEngine();
-
-            engine.GainSupport(Player.Nixon, Issue.CivilRights, 3);
-            engine.GainSupport(Player.Kennedy, Issue.Economy, 1);
-            engine.GainSupport(Player.Nixon, Issue.Defense, 2);
+            
             engine.GainMomentum(Player.Nixon, 1);
             engine.GainMomentum(Player.Kennedy, 1);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-
             sut.Event(engine, player, EmptyChanges);
-
-            Assert.AreEqual(3, engine.GetSupportAmount(Issue.CivilRights));
-            Assert.AreEqual(1, engine.GetSupportAmount(Issue.Defense));
-            Assert.AreEqual(0, engine.GetSupportAmount(Issue.Economy));
+            
             Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Nixon));
             Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Kennedy));
         }
