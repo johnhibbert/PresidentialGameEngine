@@ -94,9 +94,8 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         var issueListCorrectLength = choices.NewIssuesOrder.Count == 3;
                         var issueListContainsNoDuplicates =
                             choices.NewIssuesOrder.Distinct().Count() == choices.NewIssuesOrder.Count;
-                        var andOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
-
-                        return issueListCorrectLength && issueListContainsNoDuplicates && andOnlyOneTypeOfTest;
+                        var containsOnlyNewIssueOrder = choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.NewIssueOrder]);
+                        return issueListCorrectLength && issueListContainsNoDuplicates && containsOnlyNewIssueOrder;
                     },
                 }
             },
