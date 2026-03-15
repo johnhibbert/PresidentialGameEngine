@@ -3445,47 +3445,69 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void CassiusClayWinsGold_97_SharedLeaderLosesMomentumAsWell(Player player)
+        public void CassiusClayWinsGold_97_LeaderInDefenseLosesOneIssueSupport(Player player)
         {
             int cardIndex = 97;
             var engine = GetGameEngine();
 
-            engine.GainSupport(player, Issue.CivilRights, 3);
-            engine.GainSupport(player, Issue.Defense, 2);
+            engine.GainSupport(player, Issue.Defense, 3);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, EmptyChanges);
+            
+            Assert.AreEqual(2, engine.GetSupportAmount(Issue.Defense));
+        }
+        
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void CassiusClayWinsGold_97_LeaderInEconomyLosesOneIssueSupport(Player player)
+        {
+            int cardIndex = 97;
+            var engine = GetGameEngine();
+
+            engine.GainSupport(player, Issue.Economy, 2);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, EmptyChanges);
+            
+            Assert.AreEqual(1, engine.GetSupportAmount(Issue.Economy));
+        }
+        
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void CassiusClayWinsGold_97_LeaderInBothLosesOneMomentum(Player player)
+        {
+            int cardIndex = 97;
+            var engine = GetGameEngine();
+
+            engine.GainSupport(player, Issue.Defense, 3);
             engine.GainSupport(player, Issue.Economy, 1);
-            engine.GainMomentum(player, 1);
+            engine.GainMomentum(player, 3);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-
             sut.Event(engine, player, EmptyChanges);
 
-            Assert.AreEqual(0, engine.GetPlayerMomentum(player));
-            Assert.AreEqual(3, engine.GetSupportAmount(Issue.CivilRights));
-            Assert.AreEqual(1, engine.GetSupportAmount(Issue.Defense));
-            Assert.AreEqual(0, engine.GetSupportAmount(Issue.Economy));
+            Assert.AreEqual(2, engine.GetPlayerMomentum(player));
         }
 
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void CassiusClayWinsGold_97_SplitLeaderNoMomentumLoss(Player player)
+        public void CassiusClayWinsGold_97_LeaderSplitNoMomentumLoss(Player player)
         {
             int cardIndex = 97;
             var engine = GetGameEngine();
-
-            engine.GainSupport(Player.Nixon, Issue.CivilRights, 3);
+            
             engine.GainSupport(Player.Nixon, Issue.Defense, 2);
             engine.GainSupport(Player.Kennedy, Issue.Economy, 1);
             engine.GainMomentum(Player.Nixon, 1);
             engine.GainMomentum(Player.Kennedy, 1);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-
             sut.Event(engine, player, EmptyChanges);
-
-            Assert.AreEqual(3, engine.GetSupportAmount(Issue.CivilRights));
-            Assert.AreEqual(1, engine.GetSupportAmount(Issue.Defense));
-            Assert.AreEqual(0, engine.GetSupportAmount(Issue.Economy));
+            
             Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Nixon));
             Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Kennedy));
         }
@@ -3493,23 +3515,18 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void CassiusClayWinsGold_97_NoLeaderInOneNoMomentumLoss(Player player)
+        public void CassiusClayWinsGold_97_LeaderInOnlyOneIssueNoMomentumLoss(Player player)
         {
             int cardIndex = 97;
             var engine = GetGameEngine();
 
             engine.GainSupport(Player.Nixon, Issue.CivilRights, 3);
-            engine.GainSupport(Player.Kennedy, Issue.Economy, 1);
             engine.GainMomentum(Player.Nixon, 1);
             engine.GainMomentum(Player.Kennedy, 1);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-
             sut.Event(engine, player, EmptyChanges);
 
-            Assert.AreEqual(3, engine.GetSupportAmount(Issue.CivilRights));
-            Assert.AreEqual(0, engine.GetSupportAmount(Issue.Defense));
-            Assert.AreEqual(0, engine.GetSupportAmount(Issue.Economy));
             Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Nixon));
             Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Kennedy));
         }
@@ -3517,24 +3534,17 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void CassiusClayWinsGold_97_NoLeaderInBothNoMomentumLoss(Player player)
+        public void CassiusClayWinsGold_97_NoLeaderInEitherNoMomentumLoss(Player player)
         {
             int cardIndex = 97;
             var engine = GetGameEngine();
-
-            engine.GainSupport(Player.Nixon, Issue.CivilRights, 3);
-            engine.GainSupport(Player.Kennedy, Issue.Economy, 1);
-            engine.GainSupport(Player.Nixon, Issue.Defense, 2);
+            
             engine.GainMomentum(Player.Nixon, 1);
             engine.GainMomentum(Player.Kennedy, 1);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-
             sut.Event(engine, player, EmptyChanges);
-
-            Assert.AreEqual(3, engine.GetSupportAmount(Issue.CivilRights));
-            Assert.AreEqual(1, engine.GetSupportAmount(Issue.Defense));
-            Assert.AreEqual(0, engine.GetSupportAmount(Issue.Economy));
+            
             Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Nixon));
             Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Kennedy));
         }
