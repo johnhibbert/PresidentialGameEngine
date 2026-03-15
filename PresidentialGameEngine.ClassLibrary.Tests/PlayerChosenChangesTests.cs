@@ -7,45 +7,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
     public class PlayerChosenChangesTests
     {
         [TestMethod]
-        public void ContainsExactlyOneTypeOfChange_MultipleOfOneTypeReturnTrue()
-        {
-            var sut = new PlayerChosenChanges<FakePlayer, FakeIssue, FakeState, FakeRegion>();
-
-            SupportChange<FakePlayer, FakeIssue> issueChangeOne = new(FakePlayer.PlayerOne, FakeIssue.KetchupOnHotDogs, 1);
-            SupportChange<FakePlayer, FakeIssue> issueChangeTwo = new(FakePlayer.PlayerTwo, FakeIssue.PepsiOrCoke, 2);
-            SupportChange<FakePlayer, FakeIssue> issueChangeThree = new(FakePlayer.PlayerThree, FakeIssue.KetchupOnHotDogs, 1);
-
-            sut.IssueChanges.Add(issueChangeOne);
-            sut.IssueChanges.Add(issueChangeTwo);
-            sut.IssueChanges.Add(issueChangeThree);
-
-            var result = sut.ContainsExactlyOneTypeOfChange();
-
-            Assert.IsTrue(result);
-        }
-
-        [TestMethod]
-        public void ContainsExactlyOneTypeOfChange_MultipleTypesReturnFalse()
-        {
-            var sut = new PlayerChosenChanges<FakePlayer, FakeIssue, FakeState, FakeRegion>();
-
-            SupportChange<FakePlayer, FakeIssue> issueChange = new(FakePlayer.PlayerOne, FakeIssue.KetchupOnHotDogs, 1);
-            SupportChange<FakePlayer, FakeState> stateChange = new(FakePlayer.PlayerOne, FakeState.Being, 2);
-            SupportChange<FakePlayer, FakeRegion> mediaChange = new(FakePlayer.PlayerOne, FakeRegion.North, 1);
-            SupportChange<FakePlayer, FakeRegion> endorsementChange = new(FakePlayer.PlayerOne, FakeRegion.SouthEast, 1);
-
-            sut.IssueChanges.Add(issueChange);
-            sut.StateChanges.Add(stateChange);
-            sut.MediaSupportChanges.Add(mediaChange);
-            sut.EndorsementChanges.Add(endorsementChange);
-
-            var result = sut.ContainsExactlyOneTypeOfChange();
-
-            Assert.IsFalse(result);
-        }
-
-
-        [TestMethod]
         public void TotalStateChanges_ReturnsZeroIfUnassigned()
         {
             var sut = new PlayerChosenChanges<FakePlayer, FakeIssue, FakeState, FakeRegion>();
@@ -176,6 +137,8 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         //We could theoretically go over every combination with a data-driven unit test like DynamicData
         //https://learn.microsoft.com/en-us/visualstudio/test/how-to-create-a-data-driven-unit-test?view=visualstudio
         //But I think that is actually overcomplicating it.
+        //Also the existing game does not require more than 1 choice at a time.
+        //A card can effect more than one but only 1 is a choice.
         
         [TestMethod]
         [DataRow(ChangeType.IssueSupport, true)]

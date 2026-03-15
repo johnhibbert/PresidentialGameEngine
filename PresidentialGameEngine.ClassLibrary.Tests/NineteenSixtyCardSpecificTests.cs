@@ -123,6 +123,38 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Assert.IsFalse(result);
         }
         
+        [TestMethod]
+        public void GallupPoll_3_ValidationFailsIfIssueSupportChanges()
+        {
+            int cardIndex = 3;
+
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            var invalidIssueSupportChange = new SupportChange<Player, Issue>(Player.Kennedy, Issue.Defense, 1);
+            
+            playerChoices.NewIssuesOrder.AddRange([Issue.Defense, Issue.Defense, Issue.Economy]);
+            playerChoices.IssueChanges.Add(invalidIssueSupportChange);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+        
+        [TestMethod]
+        public void GallupPoll_3_ValidationFailsIfMediaSupportChanges()
+        {
+            int cardIndex = 3;
+
+            PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+            var invalidmediaSupportChange = new SupportChange<Player, Region>(Player.Kennedy, Region.Midwest, 1);
+            
+            playerChoices.NewIssuesOrder.AddRange([Issue.Defense, Issue.Defense, Issue.Economy]);
+            playerChoices.MediaSupportChanges.Add(invalidmediaSupportChange);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            var result = sut.AreChangesValid(playerChoices);
+            Assert.IsFalse(result);
+        }
+        
         #endregion
 
         #region #5 - Volunteers
@@ -218,13 +250,13 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             var oneSupportInMaine = new SupportChange<Player, State>(Player.Kennedy, State.ME, 1);
             var twoSupportInNewHampshire = new SupportChange<Player, State>(Player.Kennedy, State.NH, 2);
             var oneSupportInVermont = new SupportChange<Player, State>(Player.Kennedy, State.VT, 1);
-            var issueSupport = new SupportChange<Player, Issue>(Player.Kennedy, Issue.Defense, 1);
+            var invalidIssueSupport = new SupportChange<Player, Issue>(Player.Kennedy, Issue.Defense, 1);
 
             playerChoices.StateChanges.Add(oneSupportInRhodeIsland);
             playerChoices.StateChanges.Add(oneSupportInMaine);
             playerChoices.StateChanges.Add(twoSupportInNewHampshire);
             playerChoices.StateChanges.Add(oneSupportInVermont);
-            playerChoices.IssueChanges.Add(issueSupport);
+            playerChoices.IssueChanges.Add(invalidIssueSupport);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
             var result = sut.AreChangesValid(playerChoices);
@@ -258,11 +290,11 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
             var oneSupportInRhodeIsland = new SupportChange<Player, State>(Player.Kennedy, State.RI, 1);
             var twoSupportInMaine = new SupportChange<Player, State>(Player.Kennedy, State.ME, 2);
-            var twoSupportInAlaska = new SupportChange<Player, State>(Player.Kennedy, State.AK, 2); ;
+            var invalidSupportForAlaska = new SupportChange<Player, State>(Player.Kennedy, State.AK, 2); ;
 
             playerChoices.StateChanges.Add(oneSupportInRhodeIsland);
             playerChoices.StateChanges.Add(twoSupportInMaine);
-            playerChoices.StateChanges.Add(twoSupportInAlaska);
+            playerChoices.StateChanges.Add(invalidSupportForAlaska);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
             var result = sut.AreChangesValid(playerChoices);
