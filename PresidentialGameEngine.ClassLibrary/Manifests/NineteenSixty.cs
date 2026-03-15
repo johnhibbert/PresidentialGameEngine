@@ -562,10 +562,11 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
                         var noValueAboveTwo = choices.HighestStateChange <= 2;
                         var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
-                        var andOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
+                        var onlyContainsStateSupport =
+                            choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
 
                         return onlyEasternStatesIncluded && fiveOrFewerPointsOfStateChanges
-                            && statePlayerIsOnlyNixon && noValueAboveTwo && andOnlyOneTypeOfTest;
+                            && statePlayerIsOnlyNixon && noValueAboveTwo && onlyContainsStateSupport;
                     },
                 }
             },
