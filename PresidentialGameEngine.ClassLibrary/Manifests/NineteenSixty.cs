@@ -914,9 +914,9 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     {
                         var threePointsOfIssueChanges = choices.TotalIssueChanges == 3;
                         var issuePlayerIsOnlyNixon = choices.IssueChanges.Select(x => x.Player).All(y => y == Player.Nixon);
-                        var andOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
+                        var onlyIssueChanges = choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.IssueSupport]);
 
-                        return threePointsOfIssueChanges && issuePlayerIsOnlyNixon && andOnlyOneTypeOfTest;
+                        return threePointsOfIssueChanges && issuePlayerIsOnlyNixon && onlyIssueChanges;
                     },
                 }
             },
@@ -962,13 +962,12 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     RequiresPlayerInput = true,
                     AreChangesValid = (choices) =>
                     {
-
                         var threePointsOfStateChanges = choices.TotalStateChanges == 3;
                         var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
                         var onlyOneState = choices.StateChanges.Select(x => x.Target).Count() == 1;
-                        var andOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
+                        var onlyStateChanges = choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
 
-                        return threePointsOfStateChanges && statePlayerIsOnlyNixon && onlyOneState && andOnlyOneTypeOfTest;
+                        return threePointsOfStateChanges && statePlayerIsOnlyNixon && onlyOneState && onlyStateChanges;
                     },
                 }
             },
@@ -1022,10 +1021,10 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         var threePointsOfStateChanges = choices.TotalStateChanges <= 3;
                         var noValueAboveOne = choices.HighestStateChange <= 1;
                         var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
-                        var andOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
+                        var onlyStateChanges = choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
 
                         return threePointsOfStateChanges && noValueAboveOne
-                                && statePlayerIsOnlyKennedy && andOnlyOneTypeOfTest;
+                                && statePlayerIsOnlyKennedy && onlyStateChanges;
                     },
                 }
             },
