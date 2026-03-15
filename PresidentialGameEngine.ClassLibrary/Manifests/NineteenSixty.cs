@@ -779,15 +779,9 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     RequiresPlayerInput = true,
                     AreChangesValid = (choices) => {
                         var threeOrFewerMediaSupportChanges = choices.TotalMediaChanges <= 3;
+                        var onlyMediaSupport = choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.MediaSupport]);
                         
-                        //Will probably replace this with a method on the playerChosenChangesClass eventually
-                        var hasNoStateChanges = choices.TotalStateChanges == 0;
-                        var hasNoIssueChanges = choices.TotalIssueChanges == 0;
-                        
-                        var andOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
-
-                        return threeOrFewerMediaSupportChanges && hasNoStateChanges 
-                               && hasNoIssueChanges && andOnlyOneTypeOfTest;
+                        return threeOrFewerMediaSupportChanges && onlyMediaSupport;
                     },
                 }
             },
