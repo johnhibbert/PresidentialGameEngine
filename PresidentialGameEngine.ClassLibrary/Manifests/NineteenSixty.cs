@@ -421,12 +421,13 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     AreChangesValid = (choices) =>
                     {
                         var threePointsOfIssueChanges = choices.TotalIssueChanges == 3;
-                        var onlyOneIssueIncluded = choices.IssueChanges.Where(x => x.Change > 0).Count() == 2;
+                        var onlyOneIssueIncluded = choices.IssueChanges.Count == 1;
                         var issuePlayerIsOnlyKennedy = choices.IssueChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
-                        var andOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
+                        var containsOnlyIssueSupport =
+                            choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.IssueSupport]);
 
                         return threePointsOfIssueChanges && onlyOneIssueIncluded
-                                && issuePlayerIsOnlyKennedy && andOnlyOneTypeOfTest;
+                                && issuePlayerIsOnlyKennedy && containsOnlyIssueSupport;
                     },
                 }
             },
