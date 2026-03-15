@@ -718,10 +718,11 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                         var sevenOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 7;
                         var noValueAboveOne = choices.HighestStateChange <= 1;
                         var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
-                        var andOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
+                        var containsOnlyStateSupportChanges =
+                            choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
 
                         return onlyHeartlandStates && sevenOrFewerPointsOfStateChanges
-                            && statePlayerIsOnlyNixon && noValueAboveOne && andOnlyOneTypeOfTest;
+                            && statePlayerIsOnlyNixon && noValueAboveOne && containsOnlyStateSupportChanges;
                     },
                 }
             },
