@@ -2934,19 +2934,32 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void TheNewNixon_89_NixonMomentumIsIncreasedByOne(Player player)
+        public void TheNewNixon_89_NixonGainsOneMomentum(Player player)
         {
             int cardIndex = 89;
             var engine = GetGameEngine();
 
             var nixonStartingMomentum = engine.GetPlayerMomentum(Player.Nixon);
-            var kennedyStartingMomentum = engine.GetPlayerMomentum(Player.Kennedy);
 
             var sut = NineteenSixty.GMTCards[cardIndex];
-
             sut.Event(engine, player, EmptyChanges);
 
             Assert.AreEqual(engine.GetPlayerMomentum(Player.Nixon), nixonStartingMomentum + 1);
+        }
+        
+        [TestMethod]
+        [DataRow(Player.Nixon)]
+        [DataRow(Player.Kennedy)]
+        public void TheNewNixon_89_KennedyGainsZeroMomentum(Player player)
+        {
+            int cardIndex = 89;
+            var engine = GetGameEngine();
+            
+            var kennedyStartingMomentum = engine.GetPlayerMomentum(Player.Kennedy);
+
+            var sut = NineteenSixty.GMTCards[cardIndex];
+            sut.Event(engine, player, EmptyChanges);
+
             Assert.AreEqual(engine.GetPlayerMomentum(Player.Kennedy), kennedyStartingMomentum);
         }
 
