@@ -856,9 +856,15 @@ namespace PresidentialGameEngine.ClassLibrary.Manifests
                     AreChangesValid = (choices) => {
                         var upToNegativeTwoPointsOfLostMediaSupport = choices.TotalMediaChanges is >= -2 and >= 0;
                         var affectedPlayerIsNixon = choices.MediaSupportChanges.Select(x => x.Player).All(y => y == Player.Nixon);
+                        
+                        //Will probably replace this with a method on the playerChosenChangesClass eventually
+                        var hasNoStateChanges = choices.TotalStateChanges == 0;
+                        var hasNoIssueChanges = choices.TotalIssueChanges == 0;
+                        
                         var andOnlyOneTypeOfTest = choices.ContainsExactlyOneTypeOfChange();
 
-                        return upToNegativeTwoPointsOfLostMediaSupport && affectedPlayerIsNixon && andOnlyOneTypeOfTest;
+                        return upToNegativeTwoPointsOfLostMediaSupport && affectedPlayerIsNixon &&
+                               hasNoStateChanges && hasNoIssueChanges && andOnlyOneTypeOfTest;
                     },
                 }
             },
