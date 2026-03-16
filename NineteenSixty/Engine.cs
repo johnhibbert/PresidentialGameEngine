@@ -13,26 +13,34 @@ using State = NineteenSixty.Enums.State;
 
 namespace NineteenSixty;
 
-public class Engine :IEngine<Player, Leader, Issue, State, Region>
+public class Engine(
+    IAccumulatingComponent<Player> momentumComponent,
+    ISupportComponent<Player, Leader, Issue> issueSupportComponent,
+    ICarriableSupportComponent<Player, Leader, State> stateSupportComponent,
+    IPositioningComponent<Issue> issuePositioningComponent,
+    IPoliticalCapitalComponent<Player> politicalCapitalComponent,
+    IPlayerLocationComponent<Player, State> playerLocationComponent,
+    IAccumulatingComponent<Player> restComponent,
+    ISupportComponent<Player, Leader, Region> endorsementComponent,
+    ISupportComponent<Player, Leader, Region> mediaSupportComponent,
+    IExhaustionComponent<Player> exhaustionComponent,
+    ICardComponent<Player, Card> cardComponent,
+    IStaticDataComponent<State, Player, Region> staticDataComponent)
+    : IEngine<Player, Leader, Issue, State, Region>
 {
+    private IAccumulatingComponent<Player> MomentumComponent { get; init; } = momentumComponent;
+    private ISupportComponent<Player, Leader, Issue> IssueSupportComponent { get; init; } = issueSupportComponent;
+    private ICarriableSupportComponent<Player, Leader, State> StateSupportComponent { get; init; } = stateSupportComponent;
+    private IPositioningComponent<Issue> IssuePositioningComponent { get; init; } = issuePositioningComponent;
+    private IPoliticalCapitalComponent<Player> PoliticalCapitalComponent { get; init; } = politicalCapitalComponent;
+    private IPlayerLocationComponent<Player, State> PlayerLocationComponent { get; init; } = playerLocationComponent;
+    private IAccumulatingComponent<Player> RestComponent { get; init; } = restComponent;
+    private ISupportComponent<Player, Leader, Region> EndorsementComponent { get; init; } = endorsementComponent;
+    private ISupportComponent<Player, Leader, Region> MediaSupportComponent { get; init; } = mediaSupportComponent;
+    private IExhaustionComponent<Player> ExhaustionComponent { get; init; } = exhaustionComponent;
+    private ICardComponent<Player, Card> CardComponent { get; init; } = cardComponent;
+    private IStaticDataComponent<State, Player, Region> StaticDataComponent { get; init; } = staticDataComponent;
 
-    //GetGameState() 
-    //ImplementChanges(PlayerChosenChanges<TPlayer, TIssue, TState, TRegion> changes)
-    
-    
-    IAccumulatingComponent<Player> MomentumComponent { get; init; }
-   ISupportComponent<Player, Leader, Issue> IssueSupportComponent { get; init; }
-    ICarriableSupportComponent<Player, Leader, State> StateSupportComponent { get; init; }
-    IPositioningComponent<Issue> IssuePositioningComponent { get; init; }
-    IPoliticalCapitalComponent<Player> PoliticalCapitalComponent { get; init; }
-    IPlayerLocationComponent<Player, State> PlayerLocationComponent { get; init; }
-    IAccumulatingComponent<Player> RestComponent { get; init; }
-    ISupportComponent<Player, Leader, Region> EndorsementComponent { get; init; }
-    ISupportComponent<Player, Leader, Region> MediaSupportComponent { get; init; }
-    IExhaustionComponent<Player> ExhaustionComponent { get; init; }
-    ICardComponent<Player, Card> CardComponent { get; init; }
-    IStaticDataComponent<State, Player, Region> StaticDataComponent { get; init; }
-    
     public GameState<Player, Leader, Issue, State, Region> GetGameState()
     {
         return new GameState<Player, Leader, Issue, State, Region>()
