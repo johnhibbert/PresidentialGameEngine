@@ -1,7 +1,4 @@
-using PresidentialGameEngine.ClassLibrary.Data;
-using PresidentialGameEngine.ClassLibrary.Engines;
-
-namespace NineteenSixty;
+namespace NineteenSixty.Interfaces;
 
 public interface IEngine
     /*

@@ -1,4 +1,5 @@
 using PresidentialGameEngine.ClassLibrary.Data;
+using Card = NineteenSixty.Data.Card;
 
 namespace NineteenSixty;
 

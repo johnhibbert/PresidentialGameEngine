@@ -3,7 +3,7 @@ using PresidentialGameEngine.ClassLibrary.Engines;
 using PresidentialGameEngine.ClassLibrary.Enums;
 using PresidentialGameEngine.ClassLibrary.Interfaces;
 
-namespace NineteenSixty;
+namespace NineteenSixty.Data;
 
 public class Card : ITypicalCard<Player,Issue,State,Region,Affiliation,EventType>, ICard
 {

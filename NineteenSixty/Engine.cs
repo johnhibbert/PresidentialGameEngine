@@ -3,6 +3,8 @@ using PresidentialGameEngine.ClassLibrary.Data;
 using PresidentialGameEngine.ClassLibrary.Engines;
 using PresidentialGameEngine.ClassLibrary.Interfaces;
 using NineteenSixty.Enums;
+using NineteenSixty.Interfaces;
+using Card = NineteenSixty.Data.Card;
 
 namespace NineteenSixty;
 

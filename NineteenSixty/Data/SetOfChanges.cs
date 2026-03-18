@@ -1,11 +1,11 @@
 using NineteenSixty.Enums;
 using PresidentialGameEngine.ClassLibrary.Data;
 
-namespace NineteenSixty;
+namespace NineteenSixty.Data;
 
 public class SetOfChanges
 {
-    //I don't think it's necessary to have a generic version of this, since the types will depend
+    //I don't think it's necessary to have a generic version of this, since the types will depend greatly
     public SetOfChanges()
     {
         IssueChanges = [];
