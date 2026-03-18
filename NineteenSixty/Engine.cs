@@ -1,15 +1,8 @@
-using PresidentialGameEngine.ClassLibrary.Enums;
-using PresidentialGameEngine.ClassLibrary.Engines;
-using PresidentialGameEngine.ClassLibrary.Data;
 using PresidentialGameEngine.ClassLibrary.Components;
+using PresidentialGameEngine.ClassLibrary.Data;
+using PresidentialGameEngine.ClassLibrary.Engines;
 using PresidentialGameEngine.ClassLibrary.Interfaces;
-/*
-using Issue = NineteenSixty.Enums.Issue;
-using Leader = NineteenSixty.Enums.Leader;
-using Player = NineteenSixty.Enums.Player;
-using Region = NineteenSixty.Enums.Region;
-using State = NineteenSixty.Enums.State;
-*/
+using NineteenSixty.Enums;
 
 namespace NineteenSixty;
 
@@ -26,11 +19,14 @@ public class Engine(
     IExhaustionComponent<Player> exhaustionComponent,
     ICardComponent<Player, Card> cardComponent,
     IStaticDataComponent<State, Player, Region> staticDataComponent)
-    : IEngine<Player, Leader, Issue, State, Region>
+    : IEngine
 {
     private IAccumulatingComponent<Player> MomentumComponent { get; init; } = momentumComponent;
     private ISupportComponent<Player, Leader, Issue> IssueSupportComponent { get; init; } = issueSupportComponent;
-    private ICarriableSupportComponent<Player, Leader, State> StateSupportComponent { get; init; } = stateSupportComponent;
+
+    private ICarriableSupportComponent<Player, Leader, State> StateSupportComponent { get; init; } =
+        stateSupportComponent;
+
     private IPositioningComponent<Issue> IssuePositioningComponent { get; init; } = issuePositioningComponent;
     private IPoliticalCapitalComponent<Player> PoliticalCapitalComponent { get; init; } = politicalCapitalComponent;
     private IPlayerLocationComponent<Player, State> PlayerLocationComponent { get; init; } = playerLocationComponent;
@@ -41,9 +37,9 @@ public class Engine(
     private ICardComponent<Player, Card> CardComponent { get; init; } = cardComponent;
     private IStaticDataComponent<State, Player, Region> StaticDataComponent { get; init; } = staticDataComponent;
 
-    public GameState<Player, Leader, Issue, State, Region> GetGameState()
+    public GameState GetGameState()
     {
-        return new GameState<Player, Leader, Issue, State, Region>()
+        return new GameState()
         {
             Momentum = MomentumComponent.GetRawData(),
             RestCubes = RestComponent.GetRawData(),
@@ -59,19 +55,19 @@ public class Engine(
 
     public void ImplementChanges(PlayerChosenChanges<Player, Issue, State, Region> changes)
     {
-        foreach (SupportChange<Player, Issue> issueChange in changes.IssueChanges)
+        foreach (var issueChange in changes.IssueChanges)
         {
             if (issueChange.Change > 0)
             {
                 IssueSupportComponent.GainSupport(issueChange.Player, issueChange.Target, issueChange.Change);
             }
-            else 
+            else
             {
                 IssueSupportComponent.LoseSupport(issueChange.Player, issueChange.Target, Math.Abs(issueChange.Change));
             }
         }
 
-        foreach (SupportChange<Player, State> stateChange in changes.StateChanges)
+        foreach (var stateChange in changes.StateChanges)
         {
             if (stateChange.Change > 0)
             {
@@ -83,24 +79,24 @@ public class Engine(
             }
         }
 
-        /*
-        foreach (SupportChange<Player, Region> mediaChange in changes.MediaSupportChanges)
+
+        foreach (var mediaChange in changes.MediaSupportChanges)
         {
             if (mediaChange.Change > 0)
             {
-                MediaSupportComponent. GainMediaSupportWithoutSupportCheck(mediaChange.Player, mediaChange.Target, mediaChange.Change);
+                //MediaSupportComponent.GainMediaSupportWithoutSupportCheck(mediaChange.Player, mediaChange.Target, mediaChange.Change);
             }
             else
             {
-                LoseMediaSupport(mediaChange.Player, mediaChange.Target, Math.Abs(mediaChange.Change));
-            }               
+                //LoseMediaSupport(mediaChange.Player, mediaChange.Target, Math.Abs(mediaChange.Change));
+            }
         }
 
-        foreach (SupportChange<Player, Region> endorsementChange in changes.EndorsementChanges)
+        foreach (var endorsementChange in changes.EndorsementChanges)
         {
-            GainEndorsement(endorsementChange.Player, endorsementChange.Target, endorsementChange.Change);
+            //GainEndorsement(endorsementChange.Player, endorsementChange.Target, endorsementChange.Change);
         }
-*/
+
         if (changes.NewIssuesOrder.Count > 0)
         {
             IssuePositioningComponent.SetSubjectOrder(changes.NewIssuesOrder);
@@ -109,19 +105,28 @@ public class Engine(
 
     }
 
-    //public void ImplementChanges(PlayerChosenChanges<TPlayer, TIssue, TState, TRegion> changes)
-}
-//GenericPresidentialGameEngine<Player, Leader, Issue, State, Region, Card>(componentCollection);
 
-public interface IEngine<TPlayer, TLeader, TIssue, TState, TRegion>
-    where TPlayer : Enum
-    where TLeader : Enum
-    where TIssue : Enum
-    where TState : Enum
-    where TRegion : Enum
-{
-    GameState<TPlayer, TLeader, TIssue, TState, TRegion> GetGameState();
 
-    public void ImplementChanges(PlayerChosenChanges<TPlayer, TIssue, TState, TRegion> changes);
+    public class GameState
+    {
+        public required IDictionary<Player, int> Momentum { get; init; }
+
+        public required IDictionary<Player, int> RestCubes { get; init; }
+
+        public required IDictionary<Issue, SupportContest<Leader>> IssueContests { get; init; }
+
+        public required IDictionary<State, SupportContest<Leader>> StateContests { get; init; }
+
+        public required IList<Issue> IssueOrder { get; init; }
+
+        public required IDictionary<Region, SupportContest<Leader>> Endorsements { get; init; }
+
+        public required IDictionary<Region, SupportContest<Leader>> MediaSupportLevels { get; init; }
+
+        public required IDictionary<Player, State> PlayerLocations { get; init; }
+
+        public required IDictionary<Player, bool> Exhaustion { get; init; }
+
+    }
 
 }
