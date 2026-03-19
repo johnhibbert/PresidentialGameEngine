@@ -173,4 +173,14 @@ public class Engine(
     {
         IssuePositioningComponent.MoveSubjectUp(issue);
     }
+
+    public State GetPlayerState(Player player)
+    {
+        return PlayerLocationComponent.GetPlayerState(player);
+    }
+
+    public void MovePlayerToState(Player player, State state)
+    {
+        PlayerLocationComponent.MovePlayerToState(player, state);
+    }
 }

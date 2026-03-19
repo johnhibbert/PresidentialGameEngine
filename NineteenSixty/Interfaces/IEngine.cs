@@ -3,7 +3,8 @@ using NineteenSixty.Enums;
 
 namespace NineteenSixty.Interfaces;
 
-public interface IEngine: IMomentumEngine, IStateSupportEngine, IIssueSupportEngine, IIssuePositioningEngine
+public interface IEngine: IMomentumEngine, IStateSupportEngine, IIssueSupportEngine, IIssuePositioningEngine,
+    IPlayerPositionEngine
 {
     GameState GetGameState();
 
@@ -41,4 +42,10 @@ public interface IIssuePositioningEngine
 {
     public void SetIssueOrder(IEnumerable<Issue> orderedIssues);
     public void MoveIssueUp(Issue issue);
+}
+
+public interface IPlayerPositionEngine
+{
+    public State GetPlayerState(Player player);
+    public void MovePlayerToState(Player player, State state);
 }
