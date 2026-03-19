@@ -203,4 +203,25 @@ public class Engine(
     {
         return EndorsementComponent.GetSupportStatus(region).Support;
     }
+
+    public void ExhaustPlayer(Player player)
+    {
+        ExhaustionComponent.ExhaustPlayer(player);
+    }
+
+    public void UnexhaustPlayer(Player player)
+    {
+        ExhaustionComponent.UnexhaustPlayer(player);
+    }
+
+
+    public void GainMediaSupport(Player player, Region region, int amount)
+    {
+        MediaSupportComponent.GainSupport(player, region, amount);
+    }
+
+    public void LoseMediaSupport(Player player, Region region, int amount)
+    {
+        MediaSupportComponent.LoseSupport(player, region, amount);
+    }
 }

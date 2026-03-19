@@ -350,131 +350,130 @@ public class Manifest
                 }
             },
             // //new Card(38, "“High Hopes”"),
-            // {39, new Card()
-            //     {
-            //         Index = 39,
-            //         Title = "Lyndon Johnson",
-            //         Text = "The Kennedy player may add 2 state support in Texas and a total of 3 additional state support anywhere in the South, no more than 2 per state.  If the Kennedy candidate card is currently flipped to its Exhausted side, the Kennedy player may reclaim it face up.",
-            //         CampaignPoints = 4,
-            //         EventType = EventType.None,
-            //         Issue = Issue.CivilRights,
-            //         Affiliation = Affiliation.Kennedy,
-            //         State = State.CA,
-            //         Event = (engine, player, choices) => {
-            //             //TODO: It's unclear if you could use this to double-dip on texas.
-            //             //Also, should the 2 points for texas be baked in?  Right now it's assumed to be added.
-            //             engine.ImplementChanges(choices);
-            //             engine.UnexhaustPlayer(Player.Kennedy);
-            //         },
-            //         RequiresPlayerInput = true,
-            //         AreChangesValid = (choices) =>{
-            //             var fivePointsOfIssueChanges = choices.TotalStateChanges <= 5;
-            //             var twoPointsForTexas = choices.StateChanges.Single(x => x.Target == State.TX).Change >= 2;
-            //             var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
-            //             var noStateAboveTwo = choices.HighestStateChange <=2;
-            //
-            //             var southernStates = StateData.Where(y => y.Value.Region == Region.South).Select(z => z.Key);
-            //             var onlySouthernStates = choices.StateChanges.Select(s => s.Target).All(x => southernStates.Contains(x));
-            //             var containsOnlyStateSupport =
-            //                 choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
-            //             
-            //             return fivePointsOfIssueChanges && noStateAboveTwo && twoPointsForTexas
-            //                   && onlySouthernStates && statePlayerIsOnlyKennedy && containsOnlyStateSupport;
-            //         },
-            //     }
-            // },
+            {39, new Card()
+                {
+                    Index = 39,
+                    Title = "Lyndon Johnson",
+                    Text = "The Kennedy player may add 2 state support in Texas and a total of 3 additional state support anywhere in the South, no more than 2 per state.  If the Kennedy candidate card is currently flipped to its Exhausted side, the Kennedy player may reclaim it face up.",
+                    CampaignPoints = 4,
+                    EventType = EventType.None,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Kennedy,
+                    State = State.CA,
+                    Event = (engine, player, choices) => {
+                        //Also, should the 2 points for texas be baked in?  Right now it's assumed to be added.
+                        engine.ImplementChanges(choices);
+                        engine.UnexhaustPlayer(Player.Kennedy);
+                    },
+                    RequiresPlayerInput = true,
+                    AreChangesValid = (choices) =>{
+                        var fivePointsOfIssueChanges = choices.TotalStateChanges <= 5;
+                        var twoPointsForTexas = choices.StateChanges.Single(x => x.Target == State.TX).Change >= 2;
+                        var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var noStateAboveTwo = choices.HighestStateChange <=2;
+            
+                        var southernStates = StateData.Where(y => y.Value.Region == Region.South).Select(z => z.Key);
+                        var onlySouthernStates = choices.StateChanges.Select(s => s.Target).All(x => southernStates.Contains(x));
+                        var containsOnlyStateSupport =
+                            choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
+                        
+                        return fivePointsOfIssueChanges && noStateAboveTwo && twoPointsForTexas
+                              && onlySouthernStates && statePlayerIsOnlyKennedy && containsOnlyStateSupport;
+                    },
+                }
+            },
             // //new Card(40, "Northern Blacks"),
-            // {41, new Card()
-            //     {
-            //         Index = 41,
-            //         Title = "Pierre Salinger",
-            //         Text = "The Kennedy player may add 3 issue support in any one issue.",
-            //         CampaignPoints = 3,
-            //         EventType = EventType.None,
-            //         Issue = Issue.CivilRights,
-            //         Affiliation = Affiliation.Kennedy,
-            //         State = State.AL,
-            //         Event = (engine, player, choices) => {
-            //
-            //             engine.ImplementChanges(choices);
-            //         },
-            //         RequiresPlayerInput = true,
-            //         AreChangesValid = (choices) =>
-            //         {
-            //             var threePointsOfIssueChanges = choices.TotalIssueChanges == 3;
-            //             var onlyOneIssueIncluded = choices.IssueChanges.Count == 1;
-            //             var issuePlayerIsOnlyKennedy = choices.IssueChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
-            //             var containsOnlyIssueSupport =
-            //                 choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.IssueSupport]);
-            //
-            //             return threePointsOfIssueChanges && onlyOneIssueIncluded
-            //                     && issuePlayerIsOnlyKennedy && containsOnlyIssueSupport;
-            //         },
-            //     }
-            // },
-            // //new Card(42, "Henry Cabot Lodge"),
-            // {42, new Card()
-            //     {
-            //         Index = 42,
-            //         Title = "Henry Cabot Lodge",
-            //         Text = "Nixon gains 2 state support in Massachusetts and 2 issue support in Defense.  If the Nixon candidate card is currently flipped to its Exhausted side, the Nixon player may reclaim it face-up.\r\n",
-            //         CampaignPoints = 4,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Economy,
-            //         Affiliation = Affiliation.Nixon,
-            //         State = State.NY,
-            //         Event = (engine, player, choices) => {
-            //             engine.GainSupport(Player.Nixon, Issue.Defense, 2);
-            //             engine.GainSupport(Player.Nixon, State.MA, 2);
-            //             engine.UnexhaustPlayer(Player.Nixon);
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
+            {41, new Card()
+                {
+                    Index = 41,
+                    Title = "Pierre Salinger",
+                    Text = "The Kennedy player may add 3 issue support in any one issue.",
+                    CampaignPoints = 3,
+                    EventType = EventType.None,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Kennedy,
+                    State = State.AL,
+                    Event = (engine, player, choices) => {
+            
+                        engine.ImplementChanges(choices);
+                    },
+                    RequiresPlayerInput = true,
+                    AreChangesValid = (choices) =>
+                    {
+                        var threePointsOfIssueChanges = choices.TotalIssueChanges == 3;
+                        var onlyOneIssueIncluded = choices.IssueChanges.Count == 1;
+                        var issuePlayerIsOnlyKennedy = choices.IssueChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var containsOnlyIssueSupport =
+                            choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.IssueSupport]);
+            
+                        return threePointsOfIssueChanges && onlyOneIssueIncluded
+                                && issuePlayerIsOnlyKennedy && containsOnlyIssueSupport;
+                    },
+                }
+            },
+            //new Card(42, "Henry Cabot Lodge"),
+            {42, new Card()
+                {
+                    Index = 42,
+                    Title = "Henry Cabot Lodge",
+                    Text = "Nixon gains 2 state support in Massachusetts and 2 issue support in Defense.  If the Nixon candidate card is currently flipped to its Exhausted side, the Nixon player may reclaim it face-up.\r\n",
+                    CampaignPoints = 4,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.NY,
+                    Event = (engine, player, choices) => {
+                        engine.GainSupport(Player.Nixon, Issue.Defense, 2);
+                        engine.GainSupport(Player.Nixon, State.MA, 2);
+                        engine.UnexhaustPlayer(Player.Nixon);
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
             // //new Card(43, "Catholic Support"),
             // //new Card(44, "Puerto Rican Bishops"),
             // //new Card(45, "Compact Of 5th Avenue"),
-            // {45, new Card()
-            //     {
-            //         Index = 45,
-            //         Title = "Compact Of 5th Avenue",
-            //         Text = "Immediately move the Nixon candidate token to New York without paying the normal travel costs.  Nixon gains 1 issue support in Civil Rights, 2 state support in New York, and 1 media support cube in the East.",
-            //         CampaignPoints = 3,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Economy,
-            //         Affiliation = Affiliation.Nixon,
-            //         State = State.MI,
-            //         Event = (engine, player, choices) => {
-            //             engine.MovePlayerToState(Player.Nixon, State.NY);
-            //             engine.GainSupport(Player.Nixon, State.NY, 2);
-            //             engine.GainSupport(Player.Nixon, Issue.CivilRights, 1);
-            //             engine.GainMediaSupportWithoutSupportCheck(Player.Nixon, Region.East, 1);
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
+            {45, new Card()
+                {
+                    Index = 45,
+                    Title = "Compact Of 5th Avenue",
+                    Text = "Immediately move the Nixon candidate token to New York without paying the normal travel costs.  Nixon gains 1 issue support in Civil Rights, 2 state support in New York, and 1 media support cube in the East.",
+                    CampaignPoints = 3,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.MI,
+                    Event = (engine, player, choices) => {
+                        engine.MovePlayerToState(Player.Nixon, State.NY);
+                        engine.GainSupport(Player.Nixon, State.NY, 2);
+                        engine.GainSupport(Player.Nixon, Issue.CivilRights, 1);
+                        engine.GainMediaSupport(Player.Nixon, Region.East, 1);
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
             // //new Card(46, "Prime-Time Television"),
             // //new Card(47, "The Cold War"),
-            // {48, new Card()
-            //     {
-            //         Index = 48,
-            //         Title = "Rising Food Prices",
-            //         Text = "Economy moves up one space on the Issue Track and Nixon gains 2 issue support in Economy.",
-            //         CampaignPoints = 3,
-            //         EventType = EventType.None,
-            //         Issue = Issue.CivilRights,
-            //         Affiliation = Affiliation.Nixon,
-            //         State = State.IA,
-            //         Event = (engine, player, choices) => {
-            //             engine.MoveIssueUp(Issue.Economy);
-            //             engine.GainSupport(Player.Nixon, Issue.Economy, 2);
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
+            {48, new Card()
+                {
+                    Index = 48,
+                    Title = "Rising Food Prices",
+                    Text = "Economy moves up one space on the Issue Track and Nixon gains 2 issue support in Economy.",
+                    CampaignPoints = 3,
+                    EventType = EventType.None,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.IA,
+                    Event = (engine, player, choices) => {
+                        engine.MoveIssueUp(Issue.Economy);
+                        engine.GainSupport(Player.Nixon, Issue.Economy, 2);
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
             // //new Card(49, "Eleanor Roosevelt’s Speaking Tour"),
             // //new Card(50, "Industrial Midwest"),
             // {51, new Card()
