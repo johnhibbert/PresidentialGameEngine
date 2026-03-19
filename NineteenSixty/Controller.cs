@@ -7,6 +7,8 @@ public class Controller(Engine engine)
 {
     Engine engine = engine;
 
+    Manifest manifest = new Manifest();
+    
     public void PlayCard(Card card)
     {
         

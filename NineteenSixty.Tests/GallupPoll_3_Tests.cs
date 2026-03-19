@@ -1,4 +1,5 @@
 using NineteenSixty.Enums;
+using NineteenSixty.Data;
 
 namespace NineteenSixty.Tests;
 
@@ -13,11 +14,11 @@ public class GallupPoll_3_Tests
     {
         /*
         int cardIndex = 3;
-        var engine = GetGameEngine();
+        var engine = new Engine();
 
-        engine.SetIssueOrder([Issue.CivilRights, Issue.Defense, Issue.Economy]);
+        //engine.SetIssueOrder([Issue.CivilRights, Issue.Defense, Issue.Economy]);
 
-        PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+        SetOfChanges playerChoices = new();
         playerChoices.NewIssuesOrder.AddRange([Issue.Defense, Issue.Economy, Issue.CivilRights]);
 
         var sut = NineteenSixty.GMTCards[cardIndex];

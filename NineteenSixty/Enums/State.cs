@@ -1,4 +1,5 @@
-﻿namespace NineteenSixty.Enums
+﻿// ReSharper disable InconsistentNaming
+namespace NineteenSixty.Enums
 {
     public enum State
     {

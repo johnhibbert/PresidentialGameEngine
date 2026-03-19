@@ -1,17 +1,11 @@
+using NineteenSixty.Data;
+
 namespace NineteenSixty.Interfaces;
 
 public interface IEngine
-    /*
-    <TPlayer, TLeader, TIssue, TState, TRegion>
-    where TPlayer : Enum
-    where TLeader : Enum
-    where TIssue : Enum
-    where TState : Enum
-    where TRegion : Enum
-    */
 {
-    //GameState GetGameState();
+    GameState GetGameState();
 
-    //public void ImplementChanges(SetOfChanges changes);
+    public void ImplementChanges(SetOfChanges changes);
 
 }
