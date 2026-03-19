@@ -224,24 +224,24 @@ public class Manifest
                     AreChangesValid = (choices) => true,
                 }
             },
-            // {23, new Card()
-            //     {
-            //         Index = 23,
-            //         Title = "Martin Luther King Arrested",
-            //         Text = "Civil Rights moves up one space on the Issue Track.  Player gains 3 issue support in Civil Rights.",
-            //         CampaignPoints = 4,
-            //         EventType = EventType.None,
-            //         Issue = Issue.CivilRights,
-            //         Affiliation = Affiliation.Both,
-            //         State = State.CA,
-            //         Event = (engine, player, choices) => {
-            //             engine.MoveIssueUp(Issue.CivilRights);
-            //             engine.GainSupport(player, Issue.CivilRights, 3);
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
+            {23, new Card()
+                {
+                    Index = 23,
+                    Title = "Martin Luther King Arrested",
+                    Text = "Civil Rights moves up one space on the Issue Track.  Player gains 3 issue support in Civil Rights.",
+                    CampaignPoints = 4,
+                    EventType = EventType.None,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Both,
+                    State = State.CA,
+                    Event = (engine, player, choices) => {
+                        engine.MoveIssueUp(Issue.CivilRights);
+                        engine.GainSupport(player, Issue.CivilRights, 3);
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
             // //new Card(24, "East Harlem Pledge"),
             // {25, new Card()
             //     {
