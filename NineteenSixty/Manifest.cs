@@ -456,24 +456,24 @@ public class Manifest
             },
             // //new Card(46, "Prime-Time Television"),
             // //new Card(47, "The Cold War"),
-            // {48, new Card()
-            //     {
-            //         Index = 48,
-            //         Title = "Rising Food Prices",
-            //         Text = "Economy moves up one space on the Issue Track and Nixon gains 2 issue support in Economy.",
-            //         CampaignPoints = 3,
-            //         EventType = EventType.None,
-            //         Issue = Issue.CivilRights,
-            //         Affiliation = Affiliation.Nixon,
-            //         State = State.IA,
-            //         Event = (engine, player, choices) => {
-            //             engine.MoveIssueUp(Issue.Economy);
-            //             engine.GainSupport(Player.Nixon, Issue.Economy, 2);
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
+            {48, new Card()
+                {
+                    Index = 48,
+                    Title = "Rising Food Prices",
+                    Text = "Economy moves up one space on the Issue Track and Nixon gains 2 issue support in Economy.",
+                    CampaignPoints = 3,
+                    EventType = EventType.None,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.IA,
+                    Event = (engine, player, choices) => {
+                        engine.MoveIssueUp(Issue.Economy);
+                        engine.GainSupport(Player.Nixon, Issue.Economy, 2);
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
             // //new Card(49, "Eleanor Roosevelt’s Speaking Tour"),
             // //new Card(50, "Industrial Midwest"),
             // {51, new Card()
