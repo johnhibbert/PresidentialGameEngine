@@ -224,43 +224,43 @@ public class Manifest
                     AreChangesValid = (choices) => true,
                 }
             },
-            // {23, new Card()
-            //     {
-            //         Index = 23,
-            //         Title = "Martin Luther King Arrested",
-            //         Text = "Civil Rights moves up one space on the Issue Track.  Player gains 3 issue support in Civil Rights.",
-            //         CampaignPoints = 4,
-            //         EventType = EventType.None,
-            //         Issue = Issue.CivilRights,
-            //         Affiliation = Affiliation.Both,
-            //         State = State.CA,
-            //         Event = (engine, player, choices) => {
-            //             engine.MoveIssueUp(Issue.CivilRights);
-            //             engine.GainSupport(player, Issue.CivilRights, 3);
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
+            {23, new Card()
+                {
+                    Index = 23,
+                    Title = "Martin Luther King Arrested",
+                    Text = "Civil Rights moves up one space on the Issue Track.  Player gains 3 issue support in Civil Rights.",
+                    CampaignPoints = 4,
+                    EventType = EventType.None,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Both,
+                    State = State.CA,
+                    Event = (engine, player, choices) => {
+                        engine.MoveIssueUp(Issue.CivilRights);
+                        engine.GainSupport(player, Issue.CivilRights, 3);
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
             // //new Card(24, "East Harlem Pledge"),
-            // {25, new Card()
-            //     {
-            //         Index = 25,
-            //         Title = "1960 Civil Rights Act",
-            //         Text = "Civil Rights moves up one space on the Issue Track and Nixon gains 1 issue support in Civil Rights.",
-            //         CampaignPoints = 2,
-            //         EventType = EventType.None,
-            //         Issue = Issue.CivilRights,
-            //         Affiliation = Affiliation.Nixon,
-            //         State = State.ND,
-            //         Event = (engine, player, choices) => {
-            //             engine.MoveIssueUp(Issue.CivilRights);
-            //             engine.GainSupport(Player.Nixon, Issue.CivilRights, 1);
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
+            {25, new Card()
+                {
+                    Index = 25,
+                    Title = "1960 Civil Rights Act",
+                    Text = "Civil Rights moves up one space on the Issue Track and Nixon gains 1 issue support in Civil Rights.",
+                    CampaignPoints = 2,
+                    EventType = EventType.None,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.ND,
+                    Event = (engine, player, choices) => {
+                        engine.MoveIssueUp(Issue.CivilRights);
+                        engine.GainSupport(Player.Nixon, Issue.CivilRights, 1);
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
             // //new Card(26, "Ken-Air"),
             // //new Card(27, "Nelson Rockefeller"),
             // //new Card(28, "Harry F. Byrd"),
@@ -292,63 +292,63 @@ public class Manifest
             // //new Card(33, "Unpledged Electors"),
             // //new Card(34, "“Lazy Shave”"),
             // //new Card(35, "Harvard Brain Trust"),
-            // {36, new Card()
-            //     {
-            //         Index = 36,
-            //         Title = "Henry Luce",
-            //         Text = "The Kennedy player may place 1 endorsement marker in any region.",
-            //         CampaignPoints = 2,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Defense,
-            //         Affiliation = Affiliation.Kennedy,
-            //         State = State.WV,
-            //         Event = (engine, player, choices) => {
-            //             engine.ImplementChanges(choices);
-            //         },
-            //         RequiresPlayerInput = true,
-            //         AreChangesValid = (choices) =>
-            //         {
-            //             var noValueAboveOne = choices.TotalEndorsementChanges <= 1;
-            //             var playerIsOnlyKennedy = choices.EndorsementChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
-            //             var containsOnlyEndorsements =
-            //                 choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.Endorsement]);
-            //             return noValueAboveOne && playerIsOnlyKennedy && containsOnlyEndorsements;
-            //         },
-            //     }
-            // },
-            // {37, new Card()
-            //     {
-            //         Index = 37,
-            //         Title = "Lunch Counter Sit-Ins",
-            //         Text = "Civil Rights moves up one space on the Issue Track.  The leader in Civil Rights may add a total of 3 state support anywhere, no more than 1 per state.",
-            //         CampaignPoints = 3,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Defense,
-            //         Affiliation = Affiliation.Both,
-            //         State = State.NJ,
-            //         Event = (engine, player, choices) => {
-            //
-            //             engine.MoveIssueUp(Issue.CivilRights);
-            //             var leader = engine.GetLeader(Issue.CivilRights);
-            //             if(leader != Leader.None)
-            //             {
-            //                 engine.ImplementChanges(choices);
-            //             }
-            //         },
-            //         RequiresPlayerInput = true,
-            //         AreChangesValid = (choices) =>
-            //         {
-            //             var threePointsOfIssueChanges = choices.TotalIssueChanges <= 3;
-            //             var noValueAboveOne = choices.HighestStateChange <= 1;
-            //             var issuePlayerAreAllSame = choices.IssueChanges.Select(x => x.Player).Distinct().Count() == 1;
-            //             var containsOnlyStateSupport =
-            //                 choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
-            //             
-            //             return threePointsOfIssueChanges && noValueAboveOne
-            //                     && issuePlayerAreAllSame && containsOnlyStateSupport;
-            //         },
-            //     }
-            // },
+            {36, new Card()
+                {
+                    Index = 36,
+                    Title = "Henry Luce",
+                    Text = "The Kennedy player may place 1 endorsement marker in any region.",
+                    CampaignPoints = 2,
+                    EventType = EventType.None,
+                    Issue = Issue.Defense,
+                    Affiliation = Affiliation.Kennedy,
+                    State = State.WV,
+                    Event = (engine, player, choices) => {
+                        engine.ImplementChanges(choices);
+                    },
+                    RequiresPlayerInput = true,
+                    AreChangesValid = (choices) =>
+                    {
+                        var noValueAboveOne = choices.TotalEndorsementChanges <= 1;
+                        var playerIsOnlyKennedy = choices.EndorsementChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var containsOnlyEndorsements =
+                            choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.Endorsement]);
+                        return noValueAboveOne && playerIsOnlyKennedy && containsOnlyEndorsements;
+                    },
+                }
+            },
+            {37, new Card()
+                {
+                    Index = 37,
+                    Title = "Lunch Counter Sit-Ins",
+                    Text = "Civil Rights moves up one space on the Issue Track.  The leader in Civil Rights may add a total of 3 state support anywhere, no more than 1 per state.",
+                    CampaignPoints = 3,
+                    EventType = EventType.None,
+                    Issue = Issue.Defense,
+                    Affiliation = Affiliation.Both,
+                    State = State.NJ,
+                    Event = (engine, player, choices) => {
+            
+                        engine.MoveIssueUp(Issue.CivilRights);
+                        var leader = engine.GetLeader(Issue.CivilRights);
+                        if(leader != Leader.None)
+                        {
+                            engine.ImplementChanges(choices);
+                        }
+                    },
+                    RequiresPlayerInput = true,
+                    AreChangesValid = (choices) =>
+                    {
+                        var threePointsOfIssueChanges = choices.TotalIssueChanges <= 3;
+                        var noValueAboveOne = choices.HighestStateChange <= 1;
+                        var issuePlayerAreAllSame = choices.IssueChanges.Select(x => x.Player).Distinct().Count() == 1;
+                        var containsOnlyStateSupport =
+                            choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
+                        
+                        return threePointsOfIssueChanges && noValueAboveOne
+                                && issuePlayerAreAllSame && containsOnlyStateSupport;
+                    },
+                }
+            },
             // //new Card(38, "“High Hopes”"),
             // {39, new Card()
             //     {

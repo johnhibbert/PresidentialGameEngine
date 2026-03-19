@@ -98,7 +98,7 @@ public class Engine(
 
         foreach (var endorsementChange in changes.EndorsementChanges)
         {
-            //GainEndorsement(endorsementChange.Player, endorsementChange.Target, endorsementChange.Change);
+            GainEndorsement(endorsementChange.Player, endorsementChange.Target, endorsementChange.Change);
         }
 
         if (changes.NewIssuesOrder.Count > 0)
@@ -182,5 +182,25 @@ public class Engine(
     public void MovePlayerToState(Player player, State state)
     {
         PlayerLocationComponent.MovePlayerToState(player, state);
+    }
+
+    public void GainEndorsement(Player player, Region region, int amount)
+    {
+        EndorsementComponent.GainSupport(player, region, amount);
+    }
+
+    public void LoseEndorsement(Player player, Region region, int amount)
+    {
+        EndorsementComponent.LoseSupport(player, region, amount);
+    }
+
+    public Leader GetEndorsementLeader(Region region)
+    {
+        return EndorsementComponent.GetLeader(region);
+    }
+
+    public int GetNumberOfEndorsements(Region region)
+    {
+        return EndorsementComponent.GetSupportStatus(region).Support;
     }
 }
