@@ -1,0 +1,39 @@
+using NineteenSixty.Enums;
+using NineteenSixty.Data;
+using NineteenSixty.Tests.Fixtures;
+using PresidentialGameEngine.ClassLibrary.Data;
+
+namespace NineteenSixty.Tests;
+
+[TestClass]
+public class Volunteers5Tests
+{
+    //"Player gains 1 momentum marker."
+    private const int CardIndex = 5;
+    
+    [TestMethod]
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
+    public void Volunteers_5_PlayerMomentumIsIncreasedByOne(Player player)
+    {
+        var engine = EngineFixtures.GetGameEngine();
+
+        var playerStartingMomentum = engine.GetPlayerMomentum(player);
+        
+        var sut = Manifest.GMTCards[CardIndex];
+        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+
+        Assert.AreEqual(playerStartingMomentum + 1, engine.GetPlayerMomentum(player));
+    }
+
+    [TestMethod]
+    public void Volunteers_5_ValidationAlwaysTrue()
+    {
+        var sut = Manifest.GMTCards[CardIndex];
+
+        var result = sut.AreChangesValid(EngineFixtures.InvalidChanges);
+
+        Assert.IsTrue(result);
+    }
+    
+}

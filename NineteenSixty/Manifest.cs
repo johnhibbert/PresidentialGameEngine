@@ -103,24 +103,24 @@ public class Manifest
                 }
             },
             // //new Card(4, "Citizens for Nixon-Lodge"),
-            // {5, new Card()
-            //     {
-            //         Index = 5,
-            //         Title = "Volunteers",
-            //         Text =  "Player gains 1 momentum marker.",
-            //         CampaignPoints = 2,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Defense,
-            //         Affiliation = Affiliation.Both,
-            //         State = State.OR,
-            //         Event = (engine, player, choices) =>
-            //         {
-            //             engine.GainMomentum(player, 1);
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
+            {5, new Card()
+                {
+                    Index = 5,
+                    Title = "Volunteers",
+                    Text =  "Player gains 1 momentum marker.",
+                    CampaignPoints = 2,
+                    EventType = EventType.None,
+                    Issue = Issue.Defense,
+                    Affiliation = Affiliation.Both,
+                    State = State.OR,
+                    Event = (engine, player, choices) =>
+                    {
+                        engine.GainMomentum(player, 1);
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
             // {6, new Card()
             //     {
             //         Index = 6,

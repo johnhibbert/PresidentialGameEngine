@@ -108,5 +108,19 @@ public class Engine(
 
 
     }
-    
+
+    public void GainMomentum(Player player, int amount)
+    {
+        MomentumComponent.GainAmount(player, amount);
+    }
+
+    public int GetPlayerMomentum(Player player)
+    {
+        return MomentumComponent.GetPlayerAmount(player);
+    }
+
+    public void LoseMomentum(Player player, int amount)
+    {
+        MomentumComponent.LoseAmount(player, amount);
+    }
 }

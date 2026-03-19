@@ -1,5 +1,7 @@
+using NineteenSixty.Data;
 using PresidentialGameEngine.ClassLibrary.Components;
 using NineteenSixty.Enums;
+using PresidentialGameEngine.ClassLibrary.Data;
 
 namespace NineteenSixty.Tests.Fixtures;
 
@@ -10,26 +12,6 @@ public static class EngineFixtures
     {
         TestStubsFakesAndMocks.SeededRandomnessProviderForTesting seed = new();
         
-        /*
-        ComponentCollection<Player, Leader, Issue, State, Region, Card> compColl = new()
-        {
-            MomentumComponent = new AccumulatingComponent<Player>(),
-            IssueSupportComponent = new SupportComponent<Player, Leader, Issue>(),
-            StateSupportComponent = new CarriableSupportComponent<Player, Leader, State>(),
-            IssuePositioningComponent = new PositioningComponent<Issue>(),
-            PoliticalCapitalComponent = new PoliticalCapitalComponent<Player>(seed, 12),
-            PlayerLocationComponent = new PlayerLocationComponent<Player, State>(NineteenSixty.PlayerStartingPositions),
-            RestComponent = new AccumulatingComponent<Player>(),
-            EndorsementComponent = new SupportComponent<Player, Leader, Region>(),
-            MediaSupportComponent = new SupportComponent<Player, Leader, Region>(),
-            ExhaustionComponent = new ExhaustionComponent<Player>(),
-            CardComponent = new CardComponent<Player, Card>(seed, NineteenSixty.GMTCards),
-            StaticDataComponent = new StaticDataComponent<State, Player, Region>(NineteenSixty.StateData)
-        };
-
-        return new NineteenSixtyGameEngine(compColl);
-        */
-
         var momentumComponent = new AccumulatingComponent<Player>();
         var issueSupportComponent = new SupportComponent<Player, Leader, Issue>();
         var stateSupportComponent = new CarriableSupportComponent<Player, Leader, State>();
@@ -54,6 +36,34 @@ public static class EngineFixtures
             issuePositioningComponent, politicalCapitalComponent, playerLocationComponent,
             restComponent, endorsementComponent, mediaSupportComponent, exhaustionComponent);
 
+    }
+
+    public static SetOfChanges EmptyChanges => GetEmptyChanges();
+
+    private static SetOfChanges GetEmptyChanges() 
+    {
+        return new SetOfChanges();
+    }
+
+    public static SetOfChanges InvalidChanges => GetInvalidChanges();
+    
+    private static SetOfChanges GetInvalidChanges()
+    {
+        //We're sending these changes that are bound to be invalid
+        //but only to the methods we expect to not use them.
+        //This is to get the compiler to stop complaining about sending null
+
+        SetOfChanges implausiblyLargeAndContradictoryChanges = new();
+
+        var hugeKennedySupportInHawaii = new SupportChange<Player, State>(Player.Kennedy, State.HI, int.MaxValue);
+        var nixonIsThereTooSupportInHawaii = new SupportChange<Player, State>(Player.Kennedy, State.HI, int.MaxValue);
+        var changeInNoneIssue = new SupportChange<Player, Issue>(Player.Kennedy, Issue.None, int.MinValue);
+
+        implausiblyLargeAndContradictoryChanges.StateChanges.Add(hugeKennedySupportInHawaii);
+        implausiblyLargeAndContradictoryChanges.StateChanges.Add(nixonIsThereTooSupportInHawaii);
+        implausiblyLargeAndContradictoryChanges.IssueChanges.Add(changeInNoneIssue);
+
+        return implausiblyLargeAndContradictoryChanges;
     }
     
 }
