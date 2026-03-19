@@ -17,12 +17,7 @@ public class GallupPoll3Tests
     public void GallupPoll_3_IssueOrderIsSetAsExpected(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
-
-        var settingInitialIssuePosition = new SetOfChanges()
-        {
-            NewIssuesOrder = [Issue.Economy, Issue.CivilRights, Issue.Defense]
-        };
-        engine.ImplementChanges(settingInitialIssuePosition);
+        engine.SetIssueOrder([Issue.Economy, Issue.CivilRights, Issue.Defense]);
 
         SetOfChanges issueOrderChosenByPlayer = new();
         issueOrderChosenByPlayer.NewIssuesOrder.AddRange([Issue.Defense, Issue.Economy, Issue.CivilRights]);

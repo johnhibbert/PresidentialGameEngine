@@ -169,28 +169,28 @@ public class Manifest
             //         AreChangesValid = (choices) => true,
             //     }
             // },
-            // {8, new Card()
-            //     {
-            //         Index = 8,
-            //         Title = "Soviet Economic Growth",
-            //         Text = "Economy moves up one space on the Issue Track.  The leader in Economy gains 1 state support in New York.",
-            //         CampaignPoints = 2,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Economy,
-            //         Affiliation = Affiliation.Both,
-            //         State = State.NH,
-            //         Event = (engine, player, choices) => {
-            //             engine.MoveIssueUp(Issue.Economy);
-            //             var econLeader = engine .GetLeader(Issue.Economy);
-            //             if(econLeader != Leader.None)
-            //             {
-            //                 engine.GainSupport(econLeader.ToPlayer(), State.NY, 1);
-            //             }
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
+            {8, new Card()
+                {
+                    Index = 8,
+                    Title = "Soviet Economic Growth",
+                    Text = "Economy moves up one space on the Issue Track.  The leader in Economy gains 1 state support in New York.",
+                    CampaignPoints = 2,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Both,
+                    State = State.NH,
+                    Event = (engine, player, choices) => {
+                        engine.MoveIssueUp(Issue.Economy);
+                        var econLeader = engine.GetLeader(Issue.Economy);
+                        if(econLeader != Leader.None)
+                        {
+                            engine.GainSupport(econLeader.ToPlayer(), State.NY, 1);
+                        }
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
             // //new Card(9, "Baptist Ministers"),
             // //new Card(10, "Swing State"),
             // //new Card(11, "Sputnik V"),

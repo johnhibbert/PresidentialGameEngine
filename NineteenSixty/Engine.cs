@@ -124,6 +124,11 @@ public class Engine(
         MomentumComponent.LoseAmount(player, amount);
     }
 
+    public Leader GetLeader(State state)
+    {
+        return StateSupportComponent.GetLeader(state);
+    }
+
     public int GetSupportAmount(State state)
     {
         return StateSupportComponent.GetSupportStatus(state).Support;
@@ -139,6 +144,11 @@ public class Engine(
         StateSupportComponent.LoseSupport(player, state, amount);
     }
 
+    public Leader GetLeader(Issue issue)
+    {
+        return IssueSupportComponent.GetLeader(issue);
+    }
+
     public int GetSupportAmount(Issue issue)
     {
         return IssueSupportComponent.GetSupportStatus(issue).Support;
@@ -152,5 +162,15 @@ public class Engine(
     public void LoseSupport(Player player, Issue issue, int amount)
     {
         IssueSupportComponent.LoseSupport(player, issue, amount);
+    }
+
+    public void SetIssueOrder(IEnumerable<Issue> orderedIssues)
+    {
+        IssuePositioningComponent.SetSubjectOrder(orderedIssues);
+    }
+
+    public void MoveIssueUp(Issue issue)
+    {
+        IssuePositioningComponent.MoveSubjectUp(issue);
     }
 }
