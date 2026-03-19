@@ -203,4 +203,14 @@ public class Engine(
     {
         return EndorsementComponent.GetSupportStatus(region).Support;
     }
+
+    public void ExhaustPlayer(Player player)
+    {
+        ExhaustionComponent.ExhaustPlayer(player);
+    }
+
+    public void UnexhaustPlayer(Player player)
+    {
+        ExhaustionComponent.UnexhaustPlayer(player);
+    }
 }

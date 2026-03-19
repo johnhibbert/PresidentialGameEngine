@@ -350,39 +350,38 @@ public class Manifest
                 }
             },
             // //new Card(38, "“High Hopes”"),
-            // {39, new Card()
-            //     {
-            //         Index = 39,
-            //         Title = "Lyndon Johnson",
-            //         Text = "The Kennedy player may add 2 state support in Texas and a total of 3 additional state support anywhere in the South, no more than 2 per state.  If the Kennedy candidate card is currently flipped to its Exhausted side, the Kennedy player may reclaim it face up.",
-            //         CampaignPoints = 4,
-            //         EventType = EventType.None,
-            //         Issue = Issue.CivilRights,
-            //         Affiliation = Affiliation.Kennedy,
-            //         State = State.CA,
-            //         Event = (engine, player, choices) => {
-            //             //TODO: It's unclear if you could use this to double-dip on texas.
-            //             //Also, should the 2 points for texas be baked in?  Right now it's assumed to be added.
-            //             engine.ImplementChanges(choices);
-            //             engine.UnexhaustPlayer(Player.Kennedy);
-            //         },
-            //         RequiresPlayerInput = true,
-            //         AreChangesValid = (choices) =>{
-            //             var fivePointsOfIssueChanges = choices.TotalStateChanges <= 5;
-            //             var twoPointsForTexas = choices.StateChanges.Single(x => x.Target == State.TX).Change >= 2;
-            //             var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
-            //             var noStateAboveTwo = choices.HighestStateChange <=2;
-            //
-            //             var southernStates = StateData.Where(y => y.Value.Region == Region.South).Select(z => z.Key);
-            //             var onlySouthernStates = choices.StateChanges.Select(s => s.Target).All(x => southernStates.Contains(x));
-            //             var containsOnlyStateSupport =
-            //                 choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
-            //             
-            //             return fivePointsOfIssueChanges && noStateAboveTwo && twoPointsForTexas
-            //                   && onlySouthernStates && statePlayerIsOnlyKennedy && containsOnlyStateSupport;
-            //         },
-            //     }
-            // },
+            {39, new Card()
+                {
+                    Index = 39,
+                    Title = "Lyndon Johnson",
+                    Text = "The Kennedy player may add 2 state support in Texas and a total of 3 additional state support anywhere in the South, no more than 2 per state.  If the Kennedy candidate card is currently flipped to its Exhausted side, the Kennedy player may reclaim it face up.",
+                    CampaignPoints = 4,
+                    EventType = EventType.None,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Kennedy,
+                    State = State.CA,
+                    Event = (engine, player, choices) => {
+                        //Also, should the 2 points for texas be baked in?  Right now it's assumed to be added.
+                        engine.ImplementChanges(choices);
+                        engine.UnexhaustPlayer(Player.Kennedy);
+                    },
+                    RequiresPlayerInput = true,
+                    AreChangesValid = (choices) =>{
+                        var fivePointsOfIssueChanges = choices.TotalStateChanges <= 5;
+                        var twoPointsForTexas = choices.StateChanges.Single(x => x.Target == State.TX).Change >= 2;
+                        var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var noStateAboveTwo = choices.HighestStateChange <=2;
+            
+                        var southernStates = StateData.Where(y => y.Value.Region == Region.South).Select(z => z.Key);
+                        var onlySouthernStates = choices.StateChanges.Select(s => s.Target).All(x => southernStates.Contains(x));
+                        var containsOnlyStateSupport =
+                            choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
+                        
+                        return fivePointsOfIssueChanges && noStateAboveTwo && twoPointsForTexas
+                              && onlySouthernStates && statePlayerIsOnlyKennedy && containsOnlyStateSupport;
+                    },
+                }
+            },
             // //new Card(40, "Northern Blacks"),
             // {41, new Card()
             //     {
