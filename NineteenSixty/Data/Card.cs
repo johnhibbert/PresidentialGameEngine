@@ -12,6 +12,7 @@ namespace NineteenSixty.Data;
 public class Card : 
     ICardWithCoupledCampaignPointsAndRestValues,
     ICardWithEventType<EventType>,
+    //Card with action removed temporarily
     //ICardWithAction<TPlayer, TIssue, TState, TRegion>,
     ICardWithAffiliation<Affiliation>,
     ICardWithState<State>,

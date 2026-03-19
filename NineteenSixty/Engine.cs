@@ -57,7 +57,7 @@ public class Engine(
         };
     }
 
-    public void ImplementChanges(PlayerChosenChanges<Player, Issue, State, Region> changes)
+    public void ImplementChanges(SetOfChanges changes)
     {
         foreach (var issueChange in changes.IssueChanges)
         {
