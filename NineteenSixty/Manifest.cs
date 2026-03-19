@@ -411,26 +411,26 @@ public class Manifest
                     },
                 }
             },
-            // //new Card(42, "Henry Cabot Lodge"),
-            // {42, new Card()
-            //     {
-            //         Index = 42,
-            //         Title = "Henry Cabot Lodge",
-            //         Text = "Nixon gains 2 state support in Massachusetts and 2 issue support in Defense.  If the Nixon candidate card is currently flipped to its Exhausted side, the Nixon player may reclaim it face-up.\r\n",
-            //         CampaignPoints = 4,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Economy,
-            //         Affiliation = Affiliation.Nixon,
-            //         State = State.NY,
-            //         Event = (engine, player, choices) => {
-            //             engine.GainSupport(Player.Nixon, Issue.Defense, 2);
-            //             engine.GainSupport(Player.Nixon, State.MA, 2);
-            //             engine.UnexhaustPlayer(Player.Nixon);
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
+            //new Card(42, "Henry Cabot Lodge"),
+            {42, new Card()
+                {
+                    Index = 42,
+                    Title = "Henry Cabot Lodge",
+                    Text = "Nixon gains 2 state support in Massachusetts and 2 issue support in Defense.  If the Nixon candidate card is currently flipped to its Exhausted side, the Nixon player may reclaim it face-up.\r\n",
+                    CampaignPoints = 4,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.NY,
+                    Event = (engine, player, choices) => {
+                        engine.GainSupport(Player.Nixon, Issue.Defense, 2);
+                        engine.GainSupport(Player.Nixon, State.MA, 2);
+                        engine.UnexhaustPlayer(Player.Nixon);
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
             // //new Card(43, "Catholic Support"),
             // //new Card(44, "Puerto Rican Bishops"),
             // //new Card(45, "Compact Of 5th Avenue"),
