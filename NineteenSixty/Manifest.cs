@@ -292,30 +292,30 @@ public class Manifest
             // //new Card(33, "Unpledged Electors"),
             // //new Card(34, "“Lazy Shave”"),
             // //new Card(35, "Harvard Brain Trust"),
-            // {36, new Card()
-            //     {
-            //         Index = 36,
-            //         Title = "Henry Luce",
-            //         Text = "The Kennedy player may place 1 endorsement marker in any region.",
-            //         CampaignPoints = 2,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Defense,
-            //         Affiliation = Affiliation.Kennedy,
-            //         State = State.WV,
-            //         Event = (engine, player, choices) => {
-            //             engine.ImplementChanges(choices);
-            //         },
-            //         RequiresPlayerInput = true,
-            //         AreChangesValid = (choices) =>
-            //         {
-            //             var noValueAboveOne = choices.TotalEndorsementChanges <= 1;
-            //             var playerIsOnlyKennedy = choices.EndorsementChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
-            //             var containsOnlyEndorsements =
-            //                 choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.Endorsement]);
-            //             return noValueAboveOne && playerIsOnlyKennedy && containsOnlyEndorsements;
-            //         },
-            //     }
-            // },
+            {36, new Card()
+                {
+                    Index = 36,
+                    Title = "Henry Luce",
+                    Text = "The Kennedy player may place 1 endorsement marker in any region.",
+                    CampaignPoints = 2,
+                    EventType = EventType.None,
+                    Issue = Issue.Defense,
+                    Affiliation = Affiliation.Kennedy,
+                    State = State.WV,
+                    Event = (engine, player, choices) => {
+                        engine.ImplementChanges(choices);
+                    },
+                    RequiresPlayerInput = true,
+                    AreChangesValid = (choices) =>
+                    {
+                        var noValueAboveOne = choices.TotalEndorsementChanges <= 1;
+                        var playerIsOnlyKennedy = choices.EndorsementChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var containsOnlyEndorsements =
+                            choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.Endorsement]);
+                        return noValueAboveOne && playerIsOnlyKennedy && containsOnlyEndorsements;
+                    },
+                }
+            },
             // {37, new Card()
             //     {
             //         Index = 37,

@@ -4,7 +4,7 @@ using NineteenSixty.Enums;
 namespace NineteenSixty.Interfaces;
 
 public interface IEngine: IMomentumEngine, IStateSupportEngine, IIssueSupportEngine, IIssuePositioningEngine,
-    IPlayerPositionEngine
+    IPlayerPositionEngine, IEndorsementEngine
 {
     GameState GetGameState();
 
@@ -48,4 +48,12 @@ public interface IPlayerPositionEngine
 {
     public State GetPlayerState(Player player);
     public void MovePlayerToState(Player player, State state);
+}
+
+public interface IEndorsementEngine
+{
+    public void GainEndorsement(Player player, Region region, int amount);
+    public void LoseEndorsement(Player player, Region region, int amount);
+    public Leader GetEndorsementLeader(Region region);
+    public int GetNumberOfEndorsements(Region region);
 }
