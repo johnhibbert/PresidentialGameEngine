@@ -1,11 +1,50 @@
 ﻿namespace NineteenSixty.Enums
 {
-    // I have not made these with generics, since a theoretical 
-    // multiplayer version would not have a singluar opponent.
-    // These work for 1960 only for now.
-    public static class PresidentialEnumerationExtensions
+    ///These three enumerations are related and reflect 'candidates' in different ways
+    ///To keep conversions simple, the enum numbers should be shared across concepts.
+    ///Kennedy is always 1, Nixon is always 2, etc.
+
+    /// <summary>
+    /// Affiliation is the party symbol found on a card
+    /// The donkey, elephant, both symbols
+    /// or none for the Gathering Momentum cards
+    /// </summary>
+    public enum Affiliation
     {
-        public static Player ToOppoent(this Player value)
+        None = 0,
+        Kennedy = 1,
+        Nixon = 2,
+        Both = 3,
+    }
+
+    /// <summary>
+    /// The leader in a specific contest, issue, state, etc.
+    /// This can be none at any given moment but not both.
+    /// </summary>
+    public enum Leader 
+    {
+        None = 0,
+        Kennedy = 1,
+        Nixon = 2,
+    }
+
+    /// <summary>
+    /// Player refers strictly to the two players of the game
+    /// with no option for none or both.
+    /// </summary>
+    public enum Player
+    {
+        Kennedy = 1,
+        Nixon = 2,
+    }
+    
+    /// <summary>
+    /// These are methods used to convert and swap these enums with each other
+    /// Most of the time this is to get a player's opponent or get a player from a leader
+    /// </summary>
+    public static class CandidateEnumerationExtensions
+    {
+        public static Player ToOpponent(this Player value)
         {
             return value switch
             {
@@ -95,4 +134,5 @@
             };
         }
     }
+    
 }
