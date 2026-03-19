@@ -519,38 +519,40 @@ public class Manifest
             // //new Card(57, "“A New Frontier”"),
             // //new Card(58, "Tricky Dick"),
             // //new Card(59, "Mid-Atlantic"),
-            // {60, new Card()
-            //     {
-            //         Index = 60,
-            //         Title = "World Series Ends",
-            //         Text = "The player with media support cubes in the East (if any) may add a total of 5 state support in the East, no more than 2 per state.",
-            //         CampaignPoints = 3,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Economy,
-            //         Affiliation = Affiliation.Both,
-            //         State = State.UT,
-            //         Event = (engine, player, choices) => {
-            //             if(engine.GetMediaSupportLeader(Region.East) != Leader.None)
-            //             {
-            //                 engine.ImplementChanges(choices);
-            //             }
-            //         },
-            //         RequiresPlayerInput = true,
-            //         AreChangesValid = (choices) => {
-            //             var easternStates = StateData.Where(y => y.Value.Region == Region.East).Select(z => z.Key);
-            //
-            //             var onlyEasternStatesIncluded = choices.StateChanges.Select(s => s.Target).All(x => easternStates.Contains(x));
-            //             var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
-            //             var noValueAboveTwo = choices.HighestStateChange <= 2;
-            //             var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
-            //             var onlyContainsStateSupport =
-            //                 choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
-            //
-            //             return onlyEasternStatesIncluded && fiveOrFewerPointsOfStateChanges
-            //                 && statePlayerIsOnlyNixon && noValueAboveTwo && onlyContainsStateSupport;
-            //         },
-            //     }
-            // },
+            {60, new Card()
+                {
+                    Index = 60,
+                    Title = "World Series Ends",
+                    Text = "The player with media support cubes in the East (if any) may add a total of 5 state support in the East, no more than 2 per state.",
+                    CampaignPoints = 3,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Both,
+                    State = State.UT,
+                    Event = (engine, player, choices) =>
+                    {
+                        var gameState = engine.GetGameState();
+                        if(gameState.MediaSupportLevels[Region.East].Leader != Leader.None)
+                        {
+                            engine.ImplementChanges(choices);
+                        }
+                    },
+                    RequiresPlayerInput = true,
+                    AreChangesValid = (choices) => {
+                        var easternStates = StateData.Where(y => y.Value.Region == Region.East).Select(z => z.Key);
+            
+                        var onlyEasternStatesIncluded = choices.StateChanges.Select(s => s.Target).All(x => easternStates.Contains(x));
+                        var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
+                        var noValueAboveTwo = choices.HighestStateChange <= 2;
+                        var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
+                        var onlyContainsStateSupport =
+                            choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
+            
+                        return onlyEasternStatesIncluded && fiveOrFewerPointsOfStateChanges
+                            && statePlayerIsOnlyNixon && noValueAboveTwo && onlyContainsStateSupport;
+                    },
+                }
+            },
             // {61, new Card()
             //     {
             //         Index = 61,
