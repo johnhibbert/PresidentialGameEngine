@@ -1,9 +1,9 @@
 using PresidentialGameEngine.ClassLibrary.Components;
 using PresidentialGameEngine.ClassLibrary.Data;
-using PresidentialGameEngine.ClassLibrary.Engines;
 using PresidentialGameEngine.ClassLibrary.Interfaces;
 using NineteenSixty.Enums;
 using NineteenSixty.Interfaces;
+using NineteenSixty.Data;
 using Card = NineteenSixty.Data.Card;
 
 namespace NineteenSixty;
@@ -19,7 +19,8 @@ public class Engine(
     ISupportComponent<Player, Leader, Region> endorsementComponent,
     ISupportComponent<Player, Leader, Region> mediaSupportComponent,
     IExhaustionComponent<Player> exhaustionComponent,
-    ICardComponent<Player, Card> cardComponent,
+    //CardComponent needs a revision to work now.
+    //ICardComponent<Player, Card> cardComponent,
     IStaticDataComponent<State, Player, Region> staticDataComponent)
     : IEngine
 {
@@ -36,7 +37,8 @@ public class Engine(
     private ISupportComponent<Player, Leader, Region> EndorsementComponent { get; init; } = endorsementComponent;
     private ISupportComponent<Player, Leader, Region> MediaSupportComponent { get; init; } = mediaSupportComponent;
     private IExhaustionComponent<Player> ExhaustionComponent { get; init; } = exhaustionComponent;
-    private ICardComponent<Player, Card> CardComponent { get; init; } = cardComponent;
+    //CardComponent needs a revision to work now.
+    //private ICardComponent<Player, Card> CardComponent { get; init; } = cardComponent;
     private IStaticDataComponent<State, Player, Region> StaticDataComponent { get; init; } = staticDataComponent;
 
     public GameState GetGameState()
@@ -106,29 +108,5 @@ public class Engine(
 
 
     }
-
-
-
-    public class GameState
-    {
-        public required IDictionary<Player, int> Momentum { get; init; }
-
-        public required IDictionary<Player, int> RestCubes { get; init; }
-
-        public required IDictionary<Issue, SupportContest<Leader>> IssueContests { get; init; }
-
-        public required IDictionary<State, SupportContest<Leader>> StateContests { get; init; }
-
-        public required IList<Issue> IssueOrder { get; init; }
-
-        public required IDictionary<Region, SupportContest<Leader>> Endorsements { get; init; }
-
-        public required IDictionary<Region, SupportContest<Leader>> MediaSupportLevels { get; init; }
-
-        public required IDictionary<Player, State> PlayerLocations { get; init; }
-
-        public required IDictionary<Player, bool> Exhaustion { get; init; }
-
-    }
-
+    
 }

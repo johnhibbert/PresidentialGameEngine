@@ -1,13 +1,24 @@
-using PresidentialGameEngine.ClassLibrary.Data;
-using PresidentialGameEngine.ClassLibrary.Engines;
-using PresidentialGameEngine.ClassLibrary.Enums;
+//using PresidentialGameEngine.ClassLibrary.Data;
+//using PresidentialGameEngine.ClassLibrary.Engines;
+//using PresidentialGameEngine.ClassLibrary.Enums;
 using PresidentialGameEngine.ClassLibrary.Interfaces;
+
+using NineteenSixty.Enums;
+using NineteenSixty.Interfaces;
+
 
 namespace NineteenSixty.Data;
 
-public class Card : ITypicalCard<Player,Issue,State,Region,Affiliation,EventType>, ICard
+public class Card : 
+    ICardWithCoupledCampaignPointsAndRestValues,
+    ICardWithEventType<EventType>,
+    //ICardWithAction<TPlayer, TIssue, TState, TRegion>,
+    ICardWithAffiliation<Affiliation>,
+    ICardWithState<State>,
+    ICardWithIssue<Issue>
+
+//ITypicalCard<Player,Issue,State,Region,Affiliation,EventType>, ICard
 {
-    //<TPlayer, TIssue, TState, TRegion, TAffiliation, TEventType>     
     public int Index { get; init; }
     public required string Text { get; init; }
     public required string Title { get; init; }
@@ -16,8 +27,8 @@ public class Card : ITypicalCard<Player,Issue,State,Region,Affiliation,EventType
     public int RestCubes => 4 - CampaignPoints;
     public EventType EventType { get; init; }
     public bool RequiresPlayerInput { get; init; }
-    public required Predicate<PlayerChosenChanges<Player, Issue, State, Region>> AreChangesValid { get; init; }
-    public required Action<NineteenSixtyGameEngine, Player, PlayerChosenChanges<Player, Issue, State, Region>> Event
+    public required Predicate<SetOfChanges> AreChangesValid { get; init; }
+    public required Action<Engine, Player, SetOfChanges> Event
     {
         get;
         init;
