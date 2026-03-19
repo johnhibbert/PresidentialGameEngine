@@ -213,4 +213,15 @@ public class Engine(
     {
         ExhaustionComponent.UnexhaustPlayer(player);
     }
+
+
+    public void GainMediaSupport(Player player, Region region, int amount)
+    {
+        MediaSupportComponent.GainSupport(player, region, amount);
+    }
+
+    public void LoseMediaSupport(Player player, Region region, int amount)
+    {
+        MediaSupportComponent.LoseSupport(player, region, amount);
+    }
 }

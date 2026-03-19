@@ -434,26 +434,26 @@ public class Manifest
             // //new Card(43, "Catholic Support"),
             // //new Card(44, "Puerto Rican Bishops"),
             // //new Card(45, "Compact Of 5th Avenue"),
-            // {45, new Card()
-            //     {
-            //         Index = 45,
-            //         Title = "Compact Of 5th Avenue",
-            //         Text = "Immediately move the Nixon candidate token to New York without paying the normal travel costs.  Nixon gains 1 issue support in Civil Rights, 2 state support in New York, and 1 media support cube in the East.",
-            //         CampaignPoints = 3,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Economy,
-            //         Affiliation = Affiliation.Nixon,
-            //         State = State.MI,
-            //         Event = (engine, player, choices) => {
-            //             engine.MovePlayerToState(Player.Nixon, State.NY);
-            //             engine.GainSupport(Player.Nixon, State.NY, 2);
-            //             engine.GainSupport(Player.Nixon, Issue.CivilRights, 1);
-            //             engine.GainMediaSupportWithoutSupportCheck(Player.Nixon, Region.East, 1);
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
+            {45, new Card()
+                {
+                    Index = 45,
+                    Title = "Compact Of 5th Avenue",
+                    Text = "Immediately move the Nixon candidate token to New York without paying the normal travel costs.  Nixon gains 1 issue support in Civil Rights, 2 state support in New York, and 1 media support cube in the East.",
+                    CampaignPoints = 3,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.MI,
+                    Event = (engine, player, choices) => {
+                        engine.MovePlayerToState(Player.Nixon, State.NY);
+                        engine.GainSupport(Player.Nixon, State.NY, 2);
+                        engine.GainSupport(Player.Nixon, Issue.CivilRights, 1);
+                        engine.GainMediaSupport(Player.Nixon, Region.East, 1);
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
             // //new Card(46, "Prime-Time Television"),
             // //new Card(47, "The Cold War"),
             // {48, new Card()
