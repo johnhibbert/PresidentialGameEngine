@@ -14,7 +14,7 @@ public class GallupPoll3Tests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
-    public void GallupPoll_3_IssueOrderIsSetAsExpected(Player player)
+    public void GallupPoll_3_IssueOrderIsChanged(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
         engine.SetIssueOrder([Issue.Economy, Issue.CivilRights, Issue.Defense]);
@@ -34,7 +34,7 @@ public class GallupPoll3Tests
     }
     
     [TestMethod]
-    public void GallupPoll_3_ValidationFailsIfListLengthIsWrong()
+    public void GallupPoll_3_ValidationFailsIfListWrongLength()
     {
         SetOfChanges invalidIssueOrderWithWrongLength = new();
         invalidIssueOrderWithWrongLength.NewIssuesOrder.AddRange([Issue.Defense, Issue.Economy]);

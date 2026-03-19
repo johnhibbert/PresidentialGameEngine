@@ -12,7 +12,7 @@ public class Volunteers5Tests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
-    public void Volunteers_5_PlayerMomentumIsIncreasedByOne(Player player)
+    public void Volunteers_5_PlayerMomentumIncreasedByOne(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
 

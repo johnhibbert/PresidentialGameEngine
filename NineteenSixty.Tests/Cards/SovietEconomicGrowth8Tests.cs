@@ -40,7 +40,7 @@ public class SovietEconomicGrowth8Tests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
-    public void SovietEconomicGrowth_8_StateSupportGained(Player player)
+    public void SovietEconomicGrowth_8_EconLeaderGainsSupportInNewYork(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
         engine.SetIssueOrder([Issue.Economy, Issue.Defense, Issue.CivilRights]);
@@ -55,7 +55,7 @@ public class SovietEconomicGrowth8Tests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
-    public void SovietEconomicGrowth_8_NoStateSupportGainedIfNoLeader(Player player)
+    public void SovietEconomicGrowth_8_NoStateSupportGainedIfNoEconLeader(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
         engine.SetIssueOrder([Issue.Economy, Issue.Defense, Issue.CivilRights]);
