@@ -18,10 +18,10 @@ public class Engine(
     IAccumulatingComponent<Player> restComponent,
     ISupportComponent<Player, Leader, Region> endorsementComponent,
     ISupportComponent<Player, Leader, Region> mediaSupportComponent,
-    IExhaustionComponent<Player> exhaustionComponent,
+    IExhaustionComponent<Player> exhaustionComponent)
     //CardComponent needs a revision to work now.
     //ICardComponent<Player, Card> cardComponent,
-    IStaticDataComponent<State, Player, Region> staticDataComponent)
+    //IStaticDataComponent<State, Player, Region> staticDataComponent)
     : IEngine
 {
     private IAccumulatingComponent<Player> MomentumComponent { get; init; } = momentumComponent;
@@ -39,7 +39,7 @@ public class Engine(
     private IExhaustionComponent<Player> ExhaustionComponent { get; init; } = exhaustionComponent;
     //CardComponent needs a revision to work now.
     //private ICardComponent<Player, Card> CardComponent { get; init; } = cardComponent;
-    private IStaticDataComponent<State, Player, Region> StaticDataComponent { get; init; } = staticDataComponent;
+    //private IStaticDataComponent<State, Player, Region> StaticDataComponent { get; init; } = staticDataComponent;
 
     public GameState GetGameState()
     {

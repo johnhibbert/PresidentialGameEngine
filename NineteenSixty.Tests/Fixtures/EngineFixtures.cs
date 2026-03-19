@@ -4,9 +4,9 @@ using NineteenSixty.Enums;
 namespace NineteenSixty.Tests.Fixtures;
 
 
-public class EngineFixtures
+public static class EngineFixtures
 {
-    private static Engine GetGameEngine() 
+    public static Engine GetGameEngine() 
     {
         TestStubsFakesAndMocks.SeededRandomnessProviderForTesting seed = new();
         
@@ -48,9 +48,12 @@ public class EngineFixtures
         
         //Dictionary<State, StateData>
         
-        throw new NotImplementedException();
-        
-        //return new Engine
+        //throw new NotImplementedException();
+
+        return new Engine(momentumComponent, issueSupportComponent, stateSupportComponent,
+            issuePositioningComponent, politicalCapitalComponent, playerLocationComponent,
+            restComponent, endorsementComponent, mediaSupportComponent, exhaustionComponent);
 
     }
+    
 }
