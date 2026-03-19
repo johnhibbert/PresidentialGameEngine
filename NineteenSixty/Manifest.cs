@@ -316,39 +316,39 @@ public class Manifest
                     },
                 }
             },
-            // {37, new Card()
-            //     {
-            //         Index = 37,
-            //         Title = "Lunch Counter Sit-Ins",
-            //         Text = "Civil Rights moves up one space on the Issue Track.  The leader in Civil Rights may add a total of 3 state support anywhere, no more than 1 per state.",
-            //         CampaignPoints = 3,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Defense,
-            //         Affiliation = Affiliation.Both,
-            //         State = State.NJ,
-            //         Event = (engine, player, choices) => {
-            //
-            //             engine.MoveIssueUp(Issue.CivilRights);
-            //             var leader = engine.GetLeader(Issue.CivilRights);
-            //             if(leader != Leader.None)
-            //             {
-            //                 engine.ImplementChanges(choices);
-            //             }
-            //         },
-            //         RequiresPlayerInput = true,
-            //         AreChangesValid = (choices) =>
-            //         {
-            //             var threePointsOfIssueChanges = choices.TotalIssueChanges <= 3;
-            //             var noValueAboveOne = choices.HighestStateChange <= 1;
-            //             var issuePlayerAreAllSame = choices.IssueChanges.Select(x => x.Player).Distinct().Count() == 1;
-            //             var containsOnlyStateSupport =
-            //                 choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
-            //             
-            //             return threePointsOfIssueChanges && noValueAboveOne
-            //                     && issuePlayerAreAllSame && containsOnlyStateSupport;
-            //         },
-            //     }
-            // },
+            {37, new Card()
+                {
+                    Index = 37,
+                    Title = "Lunch Counter Sit-Ins",
+                    Text = "Civil Rights moves up one space on the Issue Track.  The leader in Civil Rights may add a total of 3 state support anywhere, no more than 1 per state.",
+                    CampaignPoints = 3,
+                    EventType = EventType.None,
+                    Issue = Issue.Defense,
+                    Affiliation = Affiliation.Both,
+                    State = State.NJ,
+                    Event = (engine, player, choices) => {
+            
+                        engine.MoveIssueUp(Issue.CivilRights);
+                        var leader = engine.GetLeader(Issue.CivilRights);
+                        if(leader != Leader.None)
+                        {
+                            engine.ImplementChanges(choices);
+                        }
+                    },
+                    RequiresPlayerInput = true,
+                    AreChangesValid = (choices) =>
+                    {
+                        var threePointsOfIssueChanges = choices.TotalIssueChanges <= 3;
+                        var noValueAboveOne = choices.HighestStateChange <= 1;
+                        var issuePlayerAreAllSame = choices.IssueChanges.Select(x => x.Player).Distinct().Count() == 1;
+                        var containsOnlyStateSupport =
+                            choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
+                        
+                        return threePointsOfIssueChanges && noValueAboveOne
+                                && issuePlayerAreAllSame && containsOnlyStateSupport;
+                    },
+                }
+            },
             // //new Card(38, "“High Hopes”"),
             // {39, new Card()
             //     {
