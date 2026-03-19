@@ -6,7 +6,7 @@ using PresidentialGameEngine.ClassLibrary.Data;
 namespace NineteenSixty.Tests.Cards;
 
 [TestClass]
-public class PierreSalinger
+public class PierreSalinger41Tests
 {
     //"The Kennedy player may add 3 issue support in any one issue."
     private const int CardIndex = 41;
