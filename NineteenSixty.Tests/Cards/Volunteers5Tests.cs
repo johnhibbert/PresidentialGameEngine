@@ -1,9 +1,7 @@
 using NineteenSixty.Enums;
-using NineteenSixty.Data;
 using NineteenSixty.Tests.Fixtures;
-using PresidentialGameEngine.ClassLibrary.Data;
 
-namespace NineteenSixty.Tests;
+namespace NineteenSixty.Tests.Cards;
 
 [TestClass]
 public class Volunteers5Tests
@@ -14,7 +12,7 @@ public class Volunteers5Tests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
-    public void Volunteers_5_PlayerMomentumIsIncreasedByOne(Player player)
+    public void Volunteers_5_PlayerMomentumIncreasedByOne(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
 

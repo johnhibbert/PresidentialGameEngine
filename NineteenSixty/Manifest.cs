@@ -121,35 +121,35 @@ public class Manifest
                     AreChangesValid = (choices) => true,
                 }
             },
-            // {6, new Card()
-            //     {
-            //         Index = 6,
-            //         Title = "New England",
-            //         Text = "The Kennedy player may add a total of 5 state support in Connecticut, Massachusetts, Maine, New York, Rhode Island, and Vermont, no more than 2 per state.",
-            //         CampaignPoints = 3,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Defense,
-            //         Affiliation = Affiliation.Kennedy,
-            //         State = State.LA,
-            //         Event = (engine, player, choices) => {
-            //             engine.ImplementChanges(choices);
-            //         },
-            //         RequiresPlayerInput = true,
-            //         AreChangesValid = (choices) =>
-            //         {
-            //             State[] newEnglandStates = [State.RI, State.MA, State.CT, State.VT, State.NH, State.ME];
-            //
-            //             var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
-            //             var onlyNewEnglandStatesIncluded = choices.StateChanges.Select(s => s.Target).All(x => newEnglandStates.Contains(x));
-            //             var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
-            //             var noValueAboveTwo = choices.HighestStateChange <= 2;
-            //             var containsOnlyStateSupport = choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
-            //
-            //             return fiveOrFewerPointsOfStateChanges && onlyNewEnglandStatesIncluded && noValueAboveTwo
-            //                     && statePlayerIsOnlyKennedy && containsOnlyStateSupport;
-            //         },
-            //     }
-            // },
+            {6, new Card()
+                {
+                    Index = 6,
+                    Title = "New England",
+                    Text = "The Kennedy player may add a total of 5 state support in Connecticut, Massachusetts, Maine, New York, Rhode Island, and Vermont, no more than 2 per state.",
+                    CampaignPoints = 3,
+                    EventType = EventType.None,
+                    Issue = Issue.Defense,
+                    Affiliation = Affiliation.Kennedy,
+                    State = State.LA,
+                    Event = (engine, player, choices) => {
+                        engine.ImplementChanges(choices);
+                    },
+                    RequiresPlayerInput = true,
+                    AreChangesValid = (choices) =>
+                    {
+                        State[] newEnglandStates = [State.RI, State.MA, State.CT, State.VT, State.NH, State.ME];
+            
+                        var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
+                        var onlyNewEnglandStatesIncluded = choices.StateChanges.Select(s => s.Target).All(x => newEnglandStates.Contains(x));
+                        var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var noValueAboveTwo = choices.HighestStateChange <= 2;
+                        var containsOnlyStateSupport = choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
+            
+                        return fiveOrFewerPointsOfStateChanges && onlyNewEnglandStatesIncluded && noValueAboveTwo
+                                && statePlayerIsOnlyKennedy && containsOnlyStateSupport;
+                    },
+                }
+            },
             // {7, new Card()
             //     {
             //         Index = 7,
@@ -169,28 +169,28 @@ public class Manifest
             //         AreChangesValid = (choices) => true,
             //     }
             // },
-            // {8, new Card()
-            //     {
-            //         Index = 8,
-            //         Title = "Soviet Economic Growth",
-            //         Text = "Economy moves up one space on the Issue Track.  The leader in Economy gains 1 state support in New York.",
-            //         CampaignPoints = 2,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Economy,
-            //         Affiliation = Affiliation.Both,
-            //         State = State.NH,
-            //         Event = (engine, player, choices) => {
-            //             engine.MoveIssueUp(Issue.Economy);
-            //             var econLeader = engine .GetLeader(Issue.Economy);
-            //             if(econLeader != Leader.None)
-            //             {
-            //                 engine.GainSupport(econLeader.ToPlayer(), State.NY, 1);
-            //             }
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
+            {8, new Card()
+                {
+                    Index = 8,
+                    Title = "Soviet Economic Growth",
+                    Text = "Economy moves up one space on the Issue Track.  The leader in Economy gains 1 state support in New York.",
+                    CampaignPoints = 2,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Both,
+                    State = State.NH,
+                    Event = (engine, player, choices) => {
+                        engine.MoveIssueUp(Issue.Economy);
+                        var econLeader = engine.GetLeader(Issue.Economy);
+                        if(econLeader != Leader.None)
+                        {
+                            engine.GainSupport(econLeader.ToPlayer(), State.NY, 1);
+                        }
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
             // //new Card(9, "Baptist Ministers"),
             // //new Card(10, "Swing State"),
             // //new Card(11, "Sputnik V"),
@@ -204,26 +204,26 @@ public class Manifest
             // //new Card(19, "Old South"),
             // //new Card(20, "Nixon Egged In Michigan"),
             // //new Card(21, "Fifty Stars"),
-            // {22, new Card()
-            //     {
-            //         Index = 22,
-            //         Title = "Gaffe",
-            //         Text = "Opponent loses 1 momentum marker and 3 state support in the state currently occupied by their candidate token.",
-            //         CampaignPoints = 4,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Economy,
-            //         Affiliation = Affiliation.Both,
-            //         State = State.TX,
-            //         Event = (engine, player, choices) => {
-            //             var opponent = player.ToOpponent();
-            //             var opponentLocation = engine.GetPlayerState(opponent);
-            //             engine.LoseMomentum(opponent, 1);
-            //             engine.LoseSupport(opponent, opponentLocation, 3);
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
+            {22, new Card()
+                {
+                    Index = 22,
+                    Title = "Gaffe",
+                    Text = "Opponent loses 1 momentum marker and 3 state support in the state currently occupied by their candidate token.",
+                    CampaignPoints = 4,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Both,
+                    State = State.TX,
+                    Event = (engine, player, choices) => {
+                        var opponent = player.ToOpponent();
+                        var opponentLocation = engine.GetPlayerState(opponent);
+                        engine.LoseMomentum(opponent, 1);
+                        engine.LoseSupport(opponent, opponentLocation, 3);
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
             // {23, new Card()
             //     {
             //         Index = 23,

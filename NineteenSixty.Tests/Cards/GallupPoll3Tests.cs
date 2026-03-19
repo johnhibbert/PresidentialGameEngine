@@ -1,9 +1,9 @@
-using NineteenSixty.Enums;
 using NineteenSixty.Data;
+using NineteenSixty.Enums;
 using NineteenSixty.Tests.Fixtures;
 using PresidentialGameEngine.ClassLibrary.Data;
 
-namespace NineteenSixty.Tests;
+namespace NineteenSixty.Tests.Cards;
 
 [TestClass]
 public class GallupPoll3Tests
@@ -14,15 +14,10 @@ public class GallupPoll3Tests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
-    public void GallupPoll_3_IssueOrderIsSetAsExpected(Player player)
+    public void GallupPoll_3_IssueOrderIsChanged(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
-
-        var settingInitialIssuePosition = new SetOfChanges()
-        {
-            NewIssuesOrder = [Issue.Economy, Issue.CivilRights, Issue.Defense]
-        };
-        engine.ImplementChanges(settingInitialIssuePosition);
+        engine.SetIssueOrder([Issue.Economy, Issue.CivilRights, Issue.Defense]);
 
         SetOfChanges issueOrderChosenByPlayer = new();
         issueOrderChosenByPlayer.NewIssuesOrder.AddRange([Issue.Defense, Issue.Economy, Issue.CivilRights]);
@@ -39,7 +34,7 @@ public class GallupPoll3Tests
     }
     
     [TestMethod]
-    public void GallupPoll_3_ValidationFailsIfListLengthIsWrong()
+    public void GallupPoll_3_ValidationFailsIfListWrongLength()
     {
         SetOfChanges invalidIssueOrderWithWrongLength = new();
         invalidIssueOrderWithWrongLength.NewIssuesOrder.AddRange([Issue.Defense, Issue.Economy]);
