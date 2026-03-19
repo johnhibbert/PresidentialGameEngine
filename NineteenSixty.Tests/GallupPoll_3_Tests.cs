@@ -1,13 +1,13 @@
 using NineteenSixty.Enums;
 using NineteenSixty.Data;
 using NineteenSixty.Tests.Fixtures;
+using PresidentialGameEngine.ClassLibrary.Data;
 
 namespace NineteenSixty.Tests;
 
 [TestClass]
 public class GallupPoll3Tests
 {
-
     //"Player may alter the order of the issues on the Issue Track as desired."
     private const int CardIndex = 3;
 
@@ -16,19 +16,19 @@ public class GallupPoll3Tests
     [DataRow(Player.Kennedy)]
     public void GallupPoll_3_IssueOrderIsSetAsExpected(Player player)
     {
-        var engine = EngineFixtures.GetGameEngine(); // . .GetGameEngine();
+        var engine = EngineFixtures.GetGameEngine();
 
-        var initialPosition = new SetOfChanges()
+        var settingInitialIssuePosition = new SetOfChanges()
         {
             NewIssuesOrder = [Issue.Economy, Issue.CivilRights, Issue.Defense]
         };
-        engine.ImplementChanges(initialPosition);
+        engine.ImplementChanges(settingInitialIssuePosition);
 
-        SetOfChanges playerChoices = new();
-        playerChoices.NewIssuesOrder.AddRange([Issue.Defense, Issue.Economy, Issue.CivilRights]);
+        SetOfChanges issueOrderChosenByPlayer = new();
+        issueOrderChosenByPlayer.NewIssuesOrder.AddRange([Issue.Defense, Issue.Economy, Issue.CivilRights]);
 
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, playerChoices);
+        sut.Event(engine, player, issueOrderChosenByPlayer);
 
         var result = engine.GetGameState().IssueOrder;
 
@@ -37,70 +37,68 @@ public class GallupPoll3Tests
         Assert.AreEqual(Issue.CivilRights, result[2]);
 
     }
-
-    /*
+    
     [TestMethod]
     public void GallupPoll_3_ValidationFailsIfListLengthIsWrong()
     {
-        int cardIndex = 3;
-        var engine = GetGameEngine();
+        SetOfChanges invalidIssueOrderWithWrongLength = new();
+        invalidIssueOrderWithWrongLength.NewIssuesOrder.AddRange([Issue.Defense, Issue.Economy]);
 
-        engine.SetIssueOrder([Issue.CivilRights, Issue.Defense, Issue.Economy]);
-
-        PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
-        playerChoices.NewIssuesOrder.AddRange([Issue.Defense, Issue.Economy]);
-
-        var sut = NineteenSixty.GMTCards[cardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var sut = Manifest.GMTCards[CardIndex];
+        var result = sut.AreChangesValid(invalidIssueOrderWithWrongLength);
         Assert.IsFalse(result);
     }
 
     [TestMethod]
     public void GallupPoll_3_ValidationFailsIfListContainsDuplicates()
     {
-        int cardIndex = 3;
-        var engine = GetGameEngine();
+        SetOfChanges invalidIssueOrderWithDuplicates = new();
+        invalidIssueOrderWithDuplicates.NewIssuesOrder.AddRange([Issue.Defense, Issue.Defense, Issue.Economy]);
 
-        engine.SetIssueOrder([Issue.CivilRights, Issue.Defense, Issue.Economy]);
-
-        PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
-        playerChoices.NewIssuesOrder.AddRange([Issue.Defense, Issue.Defense, Issue.Economy]);
-
-        var sut = NineteenSixty.GMTCards[cardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var sut = Manifest.GMTCards[CardIndex];
+        var result = sut.AreChangesValid(invalidIssueOrderWithDuplicates);
         Assert.IsFalse(result);
     }
-
+  
     [TestMethod]
     public void GallupPoll_3_ValidationFailsIfIssueSupportChanges()
     {
-        int cardIndex = 3;
-
-        PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
+        SetOfChanges playerChoices = new();
+        playerChoices.NewIssuesOrder.AddRange([Issue.CivilRights, Issue.Defense, Issue.Economy]);
         var invalidIssueSupportChange = new SupportChange<Player, Issue>(Player.Kennedy, Issue.Defense, 1);
-
-        playerChoices.NewIssuesOrder.AddRange([Issue.Defense, Issue.Defense, Issue.Economy]);
         playerChoices.IssueChanges.Add(invalidIssueSupportChange);
 
-        var sut = NineteenSixty.GMTCards[cardIndex];
+        var sut = Manifest.GMTCards[CardIndex];
         var result = sut.AreChangesValid(playerChoices);
         Assert.IsFalse(result);
     }
 
     [TestMethod]
-    public void GallupPoll_3_ValidationFailsIfMediaSupportChanges()
+    public void GallupPoll_3_ValidationFailsIfStateSupportChanges()
     {
-        int cardIndex = 3;
+        SetOfChanges playerChoices = new();
+        playerChoices.NewIssuesOrder.AddRange([Issue.CivilRights, Issue.Defense, Issue.Economy]);
+        var invalidStateSupportChange = new SupportChange<Player, State>(Player.Kennedy, State.CO, 1);
+        playerChoices.StateChanges.Add(invalidStateSupportChange);
 
-        PlayerChosenChanges<Player, Issue, State, Region> playerChoices = new();
-        var invalidmediaSupportChange = new SupportChange<Player, Region>(Player.Kennedy, Region.Midwest, 1);
-
-        playerChoices.NewIssuesOrder.AddRange([Issue.Defense, Issue.Defense, Issue.Economy]);
-        playerChoices.MediaSupportChanges.Add(invalidmediaSupportChange);
-
-        var sut = NineteenSixty.GMTCards[cardIndex];
+        var sut = Manifest.GMTCards[CardIndex];
         var result = sut.AreChangesValid(playerChoices);
         Assert.IsFalse(result);
-    }*/
+    }
+    
+    [TestMethod]
+    public void GallupPoll_3_ValidationFailsIfMediaSupportChanges()
+    {
+        SetOfChanges playerChoices = new();
+        playerChoices.NewIssuesOrder.AddRange([Issue.CivilRights, Issue.Defense, Issue.Economy]);
+        var invalidMediaSupportChange = new SupportChange<Player, Region>(Player.Kennedy, Region.Midwest, 1);
+
+        playerChoices.NewIssuesOrder.AddRange([Issue.Defense, Issue.Defense, Issue.Economy]);
+        playerChoices.MediaSupportChanges.Add(invalidMediaSupportChange);
+
+        var sut = Manifest.GMTCards[CardIndex];
+        var result = sut.AreChangesValid(playerChoices);
+        Assert.IsFalse(result);
+    }
 
 }
