@@ -476,23 +476,23 @@ public class Manifest
             },
             // //new Card(49, "Eleanor Roosevelt’s Speaking Tour"),
             // //new Card(50, "Industrial Midwest"),
-            // {51, new Card()
-            //     {
-            //         Index = 51,
-            //         Title = "Missile Gap",
-            //         Text = "Kennedy gains 3 issue support in Defense.",
-            //         CampaignPoints = 3,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Economy,
-            //         Affiliation = Affiliation.Kennedy,
-            //         State = State.GA,
-            //         Event = (engine, player, choices) => {
-            //             engine.GainSupport(Player.Kennedy, Issue.Defense, 3);
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
+            {51, new Card()
+                {
+                    Index = 51,
+                    Title = "Missile Gap",
+                    Text = "Kennedy gains 3 issue support in Defense.",
+                    CampaignPoints = 3,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Kennedy,
+                    State = State.GA,
+                    Event = (engine, player, choices) => {
+                        engine.GainSupport(Player.Kennedy, Issue.Defense, 3);
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
             // {52, new Card()
             //     {
             //         Index = 52,
