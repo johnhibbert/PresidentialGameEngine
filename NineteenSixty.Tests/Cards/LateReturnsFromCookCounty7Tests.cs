@@ -1,9 +1,6 @@
 using NineteenSixty.Enums;
-using NineteenSixty.Data;
-using NineteenSixty.Tests.Fixtures;
-using PresidentialGameEngine.ClassLibrary.Data;
 
-namespace NineteenSixty.Tests;
+namespace NineteenSixty.Tests.Cards;
 
 [TestClass]
 public class LateReturnsFromCookCounty7Tests

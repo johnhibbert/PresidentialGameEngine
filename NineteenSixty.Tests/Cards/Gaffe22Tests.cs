@@ -1,7 +1,7 @@
 using NineteenSixty.Enums;
 using NineteenSixty.Tests.Fixtures;
 
-namespace NineteenSixty.Tests;
+namespace NineteenSixty.Tests.Cards;
 
 [TestClass]
 public class Gaffe22Tests
