@@ -383,34 +383,34 @@ public class Manifest
                 }
             },
             // //new Card(40, "Northern Blacks"),
-            // {41, new Card()
-            //     {
-            //         Index = 41,
-            //         Title = "Pierre Salinger",
-            //         Text = "The Kennedy player may add 3 issue support in any one issue.",
-            //         CampaignPoints = 3,
-            //         EventType = EventType.None,
-            //         Issue = Issue.CivilRights,
-            //         Affiliation = Affiliation.Kennedy,
-            //         State = State.AL,
-            //         Event = (engine, player, choices) => {
-            //
-            //             engine.ImplementChanges(choices);
-            //         },
-            //         RequiresPlayerInput = true,
-            //         AreChangesValid = (choices) =>
-            //         {
-            //             var threePointsOfIssueChanges = choices.TotalIssueChanges == 3;
-            //             var onlyOneIssueIncluded = choices.IssueChanges.Count == 1;
-            //             var issuePlayerIsOnlyKennedy = choices.IssueChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
-            //             var containsOnlyIssueSupport =
-            //                 choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.IssueSupport]);
-            //
-            //             return threePointsOfIssueChanges && onlyOneIssueIncluded
-            //                     && issuePlayerIsOnlyKennedy && containsOnlyIssueSupport;
-            //         },
-            //     }
-            // },
+            {41, new Card()
+                {
+                    Index = 41,
+                    Title = "Pierre Salinger",
+                    Text = "The Kennedy player may add 3 issue support in any one issue.",
+                    CampaignPoints = 3,
+                    EventType = EventType.None,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Kennedy,
+                    State = State.AL,
+                    Event = (engine, player, choices) => {
+            
+                        engine.ImplementChanges(choices);
+                    },
+                    RequiresPlayerInput = true,
+                    AreChangesValid = (choices) =>
+                    {
+                        var threePointsOfIssueChanges = choices.TotalIssueChanges == 3;
+                        var onlyOneIssueIncluded = choices.IssueChanges.Count == 1;
+                        var issuePlayerIsOnlyKennedy = choices.IssueChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var containsOnlyIssueSupport =
+                            choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.IssueSupport]);
+            
+                        return threePointsOfIssueChanges && onlyOneIssueIncluded
+                                && issuePlayerIsOnlyKennedy && containsOnlyIssueSupport;
+                    },
+                }
+            },
             // //new Card(42, "Henry Cabot Lodge"),
             // {42, new Card()
             //     {
