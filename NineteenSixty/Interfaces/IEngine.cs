@@ -3,7 +3,7 @@ using NineteenSixty.Enums;
 
 namespace NineteenSixty.Interfaces;
 
-public interface IEngine: IMomentumEngine
+public interface IEngine: IMomentumEngine, IStateSupportEngine, IIssueSupportEngine
 {
     GameState GetGameState();
 
@@ -19,4 +19,18 @@ public interface IMomentumEngine
 
     public void LoseMomentum(Player player, int amount);
     
+}
+
+public interface IStateSupportEngine
+{
+    public int GetSupportAmount(State state);
+    public void GainSupport(Player player, State state, int amount);
+    public void LoseSupport(Player player, State state, int amount);
+}
+
+public interface IIssueSupportEngine
+{
+    public int GetSupportAmount(Issue issue);
+    public void GainSupport(Player player, Issue issue, int amount);
+    public void LoseSupport(Player player, Issue issue, int amount);
 }

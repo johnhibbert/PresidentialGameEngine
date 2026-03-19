@@ -123,4 +123,34 @@ public class Engine(
     {
         MomentumComponent.LoseAmount(player, amount);
     }
+
+    public int GetSupportAmount(State state)
+    {
+        return StateSupportComponent.GetSupportStatus(state).Support;
+    }
+
+    public void GainSupport(Player player, State state, int amount)
+    {
+        StateSupportComponent.GainSupport(player, state, amount);
+    }
+
+    public void LoseSupport(Player player, State state, int amount)
+    {
+        StateSupportComponent.LoseSupport(player, state, amount);
+    }
+
+    public int GetSupportAmount(Issue issue)
+    {
+        return IssueSupportComponent.GetSupportStatus(issue).Support;
+    }
+
+    public void GainSupport(Player player, Issue issue, int amount)
+    {
+        IssueSupportComponent.GainSupport(player, issue, amount);
+    }
+
+    public void LoseSupport(Player player, Issue issue, int amount)
+    {
+        IssueSupportComponent.LoseSupport(player, issue, amount);
+    }
 }
