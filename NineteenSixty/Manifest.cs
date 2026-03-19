@@ -243,24 +243,24 @@ public class Manifest
                 }
             },
             // //new Card(24, "East Harlem Pledge"),
-            // {25, new Card()
-            //     {
-            //         Index = 25,
-            //         Title = "1960 Civil Rights Act",
-            //         Text = "Civil Rights moves up one space on the Issue Track and Nixon gains 1 issue support in Civil Rights.",
-            //         CampaignPoints = 2,
-            //         EventType = EventType.None,
-            //         Issue = Issue.CivilRights,
-            //         Affiliation = Affiliation.Nixon,
-            //         State = State.ND,
-            //         Event = (engine, player, choices) => {
-            //             engine.MoveIssueUp(Issue.CivilRights);
-            //             engine.GainSupport(Player.Nixon, Issue.CivilRights, 1);
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
+            {25, new Card()
+                {
+                    Index = 25,
+                    Title = "1960 Civil Rights Act",
+                    Text = "Civil Rights moves up one space on the Issue Track and Nixon gains 1 issue support in Civil Rights.",
+                    CampaignPoints = 2,
+                    EventType = EventType.None,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.ND,
+                    Event = (engine, player, choices) => {
+                        engine.MoveIssueUp(Issue.CivilRights);
+                        engine.GainSupport(Player.Nixon, Issue.CivilRights, 1);
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
             // //new Card(26, "Ken-Air"),
             // //new Card(27, "Nelson Rockefeller"),
             // //new Card(28, "Harry F. Byrd"),
