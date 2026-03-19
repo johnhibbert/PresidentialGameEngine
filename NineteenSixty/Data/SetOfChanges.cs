@@ -1,34 +1,23 @@
-﻿namespace PresidentialGameEngine.ClassLibrary.Data;
+using NineteenSixty.Enums;
+using PresidentialGameEngine.ClassLibrary.Data;
+using ChangeType = NineteenSixty.Enums.ChangeType;
 
-//We could change this to be just Game State Changes or something, unsure if that's more clear
-public class PlayerChosenChanges<TPlayer, TIssue, TState, TRegion>
-    where TPlayer : Enum
-    where TIssue : Enum
-    where TState : Enum
-    where TRegion : Enum
+namespace NineteenSixty.Data;
+
+public record SetOfChanges
 {
+    //I don't think it's necessary to have a generic version of this, since the types will depend greatly
 
-    //This is going to be a mess.
-    public List<SupportChange<TPlayer, TIssue>> IssueChanges { get; internal set; }
-    public List<SupportChange<TPlayer, TState>> StateChanges { get; internal set; }
-    public List<SupportChange<TPlayer, TRegion>> EndorsementChanges { get; internal set; }
-    public List<SupportChange<TPlayer, TRegion>> MediaSupportChanges { get; internal set; }
+    public List<SupportChange<Player, Issue>> IssueChanges { get; internal set; } = [];
+    public List<SupportChange<Player, State>> StateChanges { get; internal set; } = [];
+    public List<SupportChange<Player, Region>> EndorsementChanges { get; internal set; } = [];
+    public List<SupportChange<Player, Region>> MediaSupportChanges { get; internal set; } = [];
 
     //not internal set because we are not adding to a list, but providing a list.
     //This should probably change.
-    public List<TIssue> NewIssuesOrder { get; set; }
-
-
-
-    public PlayerChosenChanges()
-    {
-        IssueChanges = [];
-        StateChanges = [];
-        EndorsementChanges = [];
-        MediaSupportChanges = [];
-        NewIssuesOrder = [];
-    }
-
+    public List<Issue> NewIssuesOrder { get; set; } = [];
+    
+    
     public int TotalIssueChanges
     {
         get { return IssueChanges.Select(x => x.Change).Sum(); }
@@ -96,7 +85,7 @@ public class PlayerChosenChanges<TPlayer, TIssue, TState, TRegion>
             else return MediaSupportChanges.Max(x => x.Change);
         }
     }
-        
+    
     public bool ContainsOnlyExactlyTheseChangeTypes(IEnumerable<ChangeType> changeTypes)
     {
         var givenTypesAsArray = changeTypes as ChangeType[] ?? changeTypes.ToArray();
@@ -123,15 +112,5 @@ public class PlayerChosenChanges<TPlayer, TIssue, TState, TRegion>
                newIssueOrderMatch;
             
     }
-}
-
-public enum ChangeType
-{
-        
-    StateSupport,
-    IssueSupport,
-    MediaSupport,
-    Endorsement,
-    NewIssueOrder,
-        
+    
 }

@@ -2,6 +2,7 @@
 using PresidentialGameEngine.ClassLibrary.Data;
 using PresidentialGameEngine.ClassLibrary.Enums;
 using PresidentialGameEngine.ClassLibrary.Interfaces;
+using ChangeType = PresidentialGameEngine.ClassLibrary.Data.ChangeType;
 
 namespace PresidentialGameEngine.ClassLibrary.Manifests
 {
