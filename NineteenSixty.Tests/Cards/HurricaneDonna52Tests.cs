@@ -14,7 +14,7 @@ public class HurricaneDonna52Tests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
-    public void HurricaneDonna_52_PlayerMoved(Player player)
+    public void HurricaneDonna_52_PlayerMovedToFlorida(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
 
@@ -27,7 +27,7 @@ public class HurricaneDonna52Tests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
-    public void HurricaneDonna_52_MomentumGained(Player player)
+    public void HurricaneDonna_52_PlayerGainsOneMomentum(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
         
@@ -42,7 +42,7 @@ public class HurricaneDonna52Tests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
-    public void HurricaneDonna_52_SupportGained(Player player)
+    public void HurricaneDonna_52_PlayerGainsOneStateSupportInFlorida(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
 
@@ -52,6 +52,21 @@ public class HurricaneDonna52Tests
         Assert.AreEqual(1, engine.GetSupportAmount(State.FL));
     }
 
+    [TestMethod]
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
+    public void HurricaneDonna_52_WorksEvenIfPlayerWasAlreadyInFlorida(Player player)
+    {
+        var engine = EngineFixtures.GetGameEngine();
+        engine.MovePlayerToState(player, State.FL);
+
+        var sut = Manifest.GMTCards[CardIndex];
+        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+
+        Assert.AreEqual(State.FL, engine.GetPlayerState(player));
+        Assert.AreEqual(1, engine.GetSupportAmount(State.FL));
+        Assert.AreEqual(1, engine.GetPlayerMomentum(player));
+    }
 
     [TestMethod]
     public void HurricaneDonna_52_ValidationAlwaysTrue()
