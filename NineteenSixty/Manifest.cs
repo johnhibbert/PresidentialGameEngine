@@ -920,38 +920,38 @@ public class Manifest
                     AreChangesValid = (choices) => true,
                 }
             },
-            // {90, new Card()
-            //     {
-            //         Index = 90,
-            //         Title = "Recount",
-            //         Text = "ELECTION DAY EVENT!  On Election Day, the Nixon player gains 3 support checks in any one state.",
-            //         CampaignPoints = 4,
-            //         EventType = EventType.None,
-            //         Issue = Issue.CivilRights,
-            //         Affiliation = Affiliation.Nixon,
-            //         State = State.TX,
-            //         Event = (engine, player, choices) => {
-            //             //FIXME
-            //             //throw new NotImplementedException();
-            //             
-            //             var supportCheckResult = engine.SupportCheck(Player.Nixon, 3);
-            //             choices.StateChanges.First().Change = supportCheckResult.Successes;
-            //             engine.ImplementChanges(choices);
-            //
-            //
-            //         },
-            //         RequiresPlayerInput = true,
-            //         AreChangesValid = (choices) =>
-            //         {
-            //             var threePointsOfStateChanges = choices.TotalStateChanges == 3;
-            //             var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
-            //             var onlyOneState = choices.StateChanges.Select(x => x.Target).Count() == 1;
-            //             var onlyStateChanges = choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
-            //
-            //             return threePointsOfStateChanges && statePlayerIsOnlyNixon && onlyOneState && onlyStateChanges;
-            //         },
-            //     }
-            // },
+            {90, new Card()
+                {
+                    Index = 90,
+                    Title = "Recount",
+                    Text = "ELECTION DAY EVENT!  On Election Day, the Nixon player gains 3 support checks in any one state.",
+                    CampaignPoints = 4,
+                    EventType = EventType.None,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.TX,
+                    Event = (engine, player, choices) => {
+                        //FIXME
+                        //throw new NotImplementedException();
+                        
+                        //var supportCheckResult = engine.SupportCheck(Player.Nixon, 3);
+                        //choices.StateChanges.First().Change = supportCheckResult.Successes;
+                        engine.ImplementChanges(choices);
+            
+            
+                    },
+                    RequiresPlayerInput = true,
+                    AreChangesValid = (choices) =>
+                    {
+                        var threePointsOfStateChanges = choices.TotalStateChanges == 3;
+                        var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
+                        var onlyOneState = choices.StateChanges.Select(x => x.Target).Count() == 1;
+                        var onlyStateChanges = choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
+            
+                        return threePointsOfStateChanges && statePlayerIsOnlyNixon && onlyOneState && onlyStateChanges;
+                    },
+                }
+            },
             // //new Card(91, "Political Capital"),
             //
             };
