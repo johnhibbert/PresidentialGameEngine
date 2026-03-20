@@ -593,26 +593,26 @@ public class Manifest
                     AreChangesValid = (choices) => true,
                 }
             },
-            // {63, new Card()
-            //     {
-            //         Index = 63,
-            //         Title = "“Give Me A Week”",
-            //         Text = "The Nixon player loses 2 momentum markers and must subtract 1 issue support in each issue.",
-            //         CampaignPoints = 4,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Economy,
-            //         Affiliation = Affiliation.Kennedy,
-            //         State = State.OH,
-            //         Event = (engine, player, choices) => {
-            //             engine.LoseMomentum(Player.Nixon, 2);
-            //             engine.LoseSupport(Player.Nixon, Issue.Defense, 1);
-            //             engine.LoseSupport(Player.Nixon, Issue.Economy, 1);
-            //             engine.LoseSupport(Player.Nixon, Issue.CivilRights, 1);
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
+            {63, new Card()
+                {
+                    Index = 63,
+                    Title = "“Give Me A Week”",
+                    Text = "The Nixon player loses 2 momentum markers and must subtract 1 issue support in each issue.",
+                    CampaignPoints = 4,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Kennedy,
+                    State = State.OH,
+                    Event = (engine, player, choices) => {
+                        engine.LoseMomentum(Player.Nixon, 2);
+                        engine.LoseSupport(Player.Nixon, Issue.Defense, 1);
+                        engine.LoseSupport(Player.Nixon, Issue.Economy, 1);
+                        engine.LoseSupport(Player.Nixon, Issue.CivilRights, 1);
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
             // {64, new Card()
             //     {
             //         Index = 64,
