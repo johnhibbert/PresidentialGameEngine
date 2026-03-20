@@ -850,108 +850,108 @@ public class Manifest
                 }
             },
             // //new Card(81, "Kennedy’s Peace Corps"),
-            // {82, new Card()
-            //     {                    
-            //         Index = 82,
-            //         Title = "Fidel Castro",
-            //         Text = "The leader in Defense gains 1 momentum marker and 1 state support in Florida.",
-            //         CampaignPoints = 2,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Economy,
-            //         Affiliation = Affiliation.Both,
-            //         State = State.ID,
-            //         Event = (engine, player, choices) => {
-            //             var defenseLeader = engine.GetLeader(Issue.Defense);
-            //
-            //             if(defenseLeader != Leader.None)
-            //             {
-            //                 engine.GainMomentum(defenseLeader.ToPlayer(), 1);
-            //                 engine.GainSupport(defenseLeader.ToPlayer(), State.FL, 1);
-            //             }
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
+            {82, new Card()
+                {                    
+                    Index = 82,
+                    Title = "Fidel Castro",
+                    Text = "The leader in Defense gains 1 momentum marker and 1 state support in Florida.",
+                    CampaignPoints = 2,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Both,
+                    State = State.ID,
+                    Event = (engine, player, choices) => {
+                        var defenseLeader = engine.GetLeader(Issue.Defense);
+            
+                        if(defenseLeader != Leader.None)
+                        {
+                            engine.GainMomentum(defenseLeader.ToPlayer(), 1);
+                            engine.GainSupport(defenseLeader.ToPlayer(), State.FL, 1);
+                        }
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
             // //new Card(83, "Whistlestop"),
             // //new Card(84, "Quemoy and Matsu"),
             // //new Card(85, "Jackie Kennedy"),
-            // {86,  new Card()
-            //     {
-            //         Index = 86,
-            //         Title = "Herb Klein",
-            //         Text = "The Nixon player may add a total of 3 issue support in any issues.",
-            //         CampaignPoints = 3,
-            //         EventType = EventType.None,
-            //         Issue = Issue.CivilRights,
-            //         Affiliation = Affiliation.Nixon,
-            //         State = State.IA,
-            //         Event = (engine, player, choices) => {
-            //
-            //             engine.ImplementChanges(choices);
-            //         },
-            //         RequiresPlayerInput = true,
-            //         AreChangesValid = (choices) =>
-            //         {
-            //             var threePointsOfIssueChanges = choices.TotalIssueChanges == 3;
-            //             var issuePlayerIsOnlyNixon = choices.IssueChanges.Select(x => x.Player).All(y => y == Player.Nixon);
-            //             var onlyIssueChanges = choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.IssueSupport]);
-            //
-            //             return threePointsOfIssueChanges && issuePlayerIsOnlyNixon && onlyIssueChanges;
-            //         },
-            //     }
-            // },
+            {86,  new Card()
+                {
+                    Index = 86,
+                    Title = "Herb Klein",
+                    Text = "The Nixon player may add a total of 3 issue support in any issues.",
+                    CampaignPoints = 3,
+                    EventType = EventType.None,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.IA,
+                    Event = (engine, player, choices) => {
+            
+                        engine.ImplementChanges(choices);
+                    },
+                    RequiresPlayerInput = true,
+                    AreChangesValid = (choices) =>
+                    {
+                        var threePointsOfIssueChanges = choices.TotalIssueChanges == 3;
+                        var issuePlayerIsOnlyNixon = choices.IssueChanges.Select(x => x.Player).All(y => y == Player.Nixon);
+                        var onlyIssueChanges = choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.IssueSupport]);
+            
+                        return threePointsOfIssueChanges && issuePlayerIsOnlyNixon && onlyIssueChanges;
+                    },
+                }
+            },
             // //new Card(87, "Stevenson Loyalists"),
             // //new Card(88, "Stature Gap"),
-            // {89, new Card()
-            //     {
-            //         Index = 89,
-            //         Title = "The New Nixon",
-            //         Text = "The Nixon player gains 1 momentum marker.",
-            //         CampaignPoints = 2,
-            //         EventType = EventType.None,
-            //         Issue = Issue.CivilRights,
-            //         Affiliation = Affiliation.Nixon,
-            //         State = State.KS,
-            //         Event = (engine, player, choices) => {
-            //             engine.GainMomentum(Player.Nixon, 1);
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
-            // {90, new Card()
-            //     {
-            //         Index = 90,
-            //         Title = "Recount",
-            //         Text = "ELECTION DAY EVENT!  On Election Day, the Nixon player gains 3 support checks in any one state.",
-            //         CampaignPoints = 4,
-            //         EventType = EventType.None,
-            //         Issue = Issue.CivilRights,
-            //         Affiliation = Affiliation.Nixon,
-            //         State = State.TX,
-            //         Event = (engine, player, choices) => {
-            //             //FIXME
-            //             //throw new NotImplementedException();
-            //             
-            //             var supportCheckResult = engine.SupportCheck(Player.Nixon, 3);
-            //             choices.StateChanges.First().Change = supportCheckResult.Successes;
-            //             engine.ImplementChanges(choices);
-            //
-            //
-            //         },
-            //         RequiresPlayerInput = true,
-            //         AreChangesValid = (choices) =>
-            //         {
-            //             var threePointsOfStateChanges = choices.TotalStateChanges == 3;
-            //             var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
-            //             var onlyOneState = choices.StateChanges.Select(x => x.Target).Count() == 1;
-            //             var onlyStateChanges = choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
-            //
-            //             return threePointsOfStateChanges && statePlayerIsOnlyNixon && onlyOneState && onlyStateChanges;
-            //         },
-            //     }
-            // },
+            {89, new Card()
+                {
+                    Index = 89,
+                    Title = "The New Nixon",
+                    Text = "The Nixon player gains 1 momentum marker.",
+                    CampaignPoints = 2,
+                    EventType = EventType.None,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.KS,
+                    Event = (engine, player, choices) => {
+                        engine.GainMomentum(Player.Nixon, 1);
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
+            {90, new Card()
+                {
+                    Index = 90,
+                    Title = "Recount",
+                    Text = "ELECTION DAY EVENT!  On Election Day, the Nixon player gains 3 support checks in any one state.",
+                    CampaignPoints = 4,
+                    EventType = EventType.None,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.TX,
+                    Event = (engine, player, choices) => {
+                        //FIXME
+                        //throw new NotImplementedException();
+                        
+                        //var supportCheckResult = engine.SupportCheck(Player.Nixon, 3);
+                        //choices.StateChanges.First().Change = supportCheckResult.Successes;
+                        engine.ImplementChanges(choices);
+            
+            
+                    },
+                    RequiresPlayerInput = true,
+                    AreChangesValid = (choices) =>
+                    {
+                        var threePointsOfStateChanges = choices.TotalStateChanges == 3;
+                        var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
+                        var onlyOneState = choices.StateChanges.Select(x => x.Target).Count() == 1;
+                        var onlyStateChanges = choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
+            
+                        return threePointsOfStateChanges && statePlayerIsOnlyNixon && onlyOneState && onlyStateChanges;
+                    },
+                }
+            },
             // //new Card(91, "Political Capital"),
             //
             };
