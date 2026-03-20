@@ -850,29 +850,29 @@ public class Manifest
                 }
             },
             // //new Card(81, "Kennedy’s Peace Corps"),
-            // {82, new Card()
-            //     {                    
-            //         Index = 82,
-            //         Title = "Fidel Castro",
-            //         Text = "The leader in Defense gains 1 momentum marker and 1 state support in Florida.",
-            //         CampaignPoints = 2,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Economy,
-            //         Affiliation = Affiliation.Both,
-            //         State = State.ID,
-            //         Event = (engine, player, choices) => {
-            //             var defenseLeader = engine.GetLeader(Issue.Defense);
-            //
-            //             if(defenseLeader != Leader.None)
-            //             {
-            //                 engine.GainMomentum(defenseLeader.ToPlayer(), 1);
-            //                 engine.GainSupport(defenseLeader.ToPlayer(), State.FL, 1);
-            //             }
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
+            {82, new Card()
+                {                    
+                    Index = 82,
+                    Title = "Fidel Castro",
+                    Text = "The leader in Defense gains 1 momentum marker and 1 state support in Florida.",
+                    CampaignPoints = 2,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Both,
+                    State = State.ID,
+                    Event = (engine, player, choices) => {
+                        var defenseLeader = engine.GetLeader(Issue.Defense);
+            
+                        if(defenseLeader != Leader.None)
+                        {
+                            engine.GainMomentum(defenseLeader.ToPlayer(), 1);
+                            engine.GainSupport(defenseLeader.ToPlayer(), State.FL, 1);
+                        }
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
             // //new Card(83, "Whistlestop"),
             // //new Card(84, "Quemoy and Matsu"),
             // //new Card(85, "Jackie Kennedy"),
