@@ -66,7 +66,7 @@ public class TheOldNixon70Tests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
-    public void TheOldNixon_70_PlayableEvenWithZeroMomentum(Player player)
+    public void TheOldNixon_70_EventIsPlayableEvenWithZeroMomentum(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
 

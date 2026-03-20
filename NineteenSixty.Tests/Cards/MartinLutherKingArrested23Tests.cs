@@ -14,7 +14,7 @@ public class MartinLutherKingArrested23Tests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
-    public void MartinLutherKingArrested_23_CivilRightsGoesUpOneSpace(Player player)
+    public void MartinLutherKingArrested_23_CivilRightsGoesUpOnePosition(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
 

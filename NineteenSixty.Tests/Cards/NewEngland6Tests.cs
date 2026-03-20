@@ -80,7 +80,7 @@ public class NewEngland6Tests
     }
 
     [TestMethod]
-    public void NewEngland_6_FailsValidationIfGreaterThanTwo()
+    public void NewEngland_6_FailsValidationIfSingleGainGreaterThanTwo()
     {
         SetOfChanges playerChoices = new();
         var oneSupportInRhodeIsland = new SupportChange<Player, State>(Player.Kennedy, State.RI, 1);

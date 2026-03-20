@@ -6,7 +6,7 @@ using PresidentialGameEngine.ClassLibrary.Data;
 namespace NineteenSixty.Tests.Cards;
 
 [TestClass]
-public class NineteenSixtyCivilRightsAct25Tests
+public class CivilRightsAct25Tests
 {
     //"Civil Rights moves up one space on the Issue Track and Nixon gains 1 issue support in Civil Rights."
     private const int CardIndex = 25;
@@ -14,7 +14,7 @@ public class NineteenSixtyCivilRightsAct25Tests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
-    public void CivilRightsAct_25_CivilRightsGoesUpOneSpace(Player player)
+    public void CivilRightsAct_25_CivilRightsGoesUpOnePosition(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
 

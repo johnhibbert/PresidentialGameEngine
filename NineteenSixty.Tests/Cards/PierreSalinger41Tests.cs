@@ -15,7 +15,7 @@ public class PierreSalinger41Tests
     [DataRow(Issue.CivilRights)]
     [DataRow(Issue.Defense)]
     [DataRow(Issue.Economy)]
-    public void PierreSalinger_41_SupportChangesReflectedInIssue(Issue issue)
+    public void PierreSalinger_41_KennedyGainsThreeSupportInOneIssue(Issue issue)
     {
         var engine = EngineFixtures.GetGameEngine();
 
@@ -36,7 +36,7 @@ public class PierreSalinger41Tests
     [DataRow(Issue.CivilRights)]
     [DataRow(Issue.Defense)]
     [DataRow(Issue.Economy)]
-    public void PierreSalinger_41_SupportChangesDeductedFromOpponent(Issue issue)
+    public void PierreSalinger_41_IssueSupportGainedRemovesOpponentSupport(Issue issue)
     {
         var engine = EngineFixtures.GetGameEngine();
 

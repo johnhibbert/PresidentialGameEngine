@@ -23,6 +23,21 @@ public class Volunteers5Tests
 
         Assert.AreEqual(playerStartingMomentum + 1, engine.GetPlayerMomentum(player));
     }
+    
+    [TestMethod]
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
+    public void Volunteers_5_OpponentMomentumIsUnchanged(Player player)
+    {
+        var engine = EngineFixtures.GetGameEngine();
+
+        var opponentStartingMomentum = engine.GetPlayerMomentum(player.ToOpponent());
+        
+        var sut = Manifest.GMTCards[CardIndex];
+        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+
+        Assert.AreEqual(opponentStartingMomentum, engine.GetPlayerMomentum(player.ToOpponent()));
+    }
 
     [TestMethod]
     public void Volunteers_5_ValidationAlwaysTrue()

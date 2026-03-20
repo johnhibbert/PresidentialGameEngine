@@ -14,7 +14,7 @@ public class TrialOfGaryPowers62Tests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
-    public void TheTrialOfGaryPowers_62_DefenseMovesUpTwoSpaces(Player player)
+    public void TheTrialOfGaryPowers_62_DefenseMovesUpTwoPositions(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
 

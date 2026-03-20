@@ -40,7 +40,7 @@ public class HenryCabotLodge42Tests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
-    public void HenryCabotLodge_42_NixonBecomesUnexhausted(Player player)
+    public void HenryCabotLodge_42_ExhaustedNixonBecomesReady(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
         engine.ExhaustPlayer(Player.Nixon);
@@ -54,7 +54,7 @@ public class HenryCabotLodge42Tests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
-    public void HenryCabotLodge_42_NixonRemainsUnexhaustedWhenPlayed(Player player)
+    public void HenryCabotLodge_42_ReadyNixonRemainsReady(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
         engine.UnexhaustPlayer(Player.Nixon);

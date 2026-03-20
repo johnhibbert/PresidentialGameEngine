@@ -332,7 +332,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void SovietEconomicGrowth_8_EconomyGoesUpOneSpace(Player player)
+        public void SovietEconomicGrowth_8_EconomyGoesUpOnePosition(Player player)
         {
             int cardIndex = 8;
             var engine = GetGameEngine();
@@ -483,7 +483,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void MartinLutherKingArrested_23_CivilRightsGoesUpOneSpace(Player player)
+        public void MartinLutherKingArrested_23_CivilRightsGoesUpOnePosition(Player player)
         {
             int cardIndex = 23;
             var engine = GetGameEngine();
@@ -565,7 +565,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void CivilRightsAct_25_CivilRightsGoesUpOneSpace(Player player)
+        public void CivilRightsAct_25_CivilRightsGoesUpOnePosition(Player player)
         {
             int cardIndex = 25;
             var engine = GetGameEngine();
@@ -1390,7 +1390,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void RisingFoodPrices_48_EconomyGoesUpOneSpace(Player player)
+        public void RisingFoodPrices_48_EconomyGoesUpOnePosition(Player player)
         {
             int cardIndex = 48;
             var engine = GetGameEngine();
@@ -1993,7 +1993,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         [TestMethod]
         [DataRow(Player.Nixon)]
         [DataRow(Player.Kennedy)]
-        public void PeaceWithoutSurrender_68_DefenseGoesUpOneSpace(Player player)
+        public void PeaceWithoutSurrender_68_DefenseGoesUpOnePosition(Player player)
         {
             int cardIndex = 68;
             var engine = GetGameEngine();

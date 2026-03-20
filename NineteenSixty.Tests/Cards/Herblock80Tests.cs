@@ -14,7 +14,7 @@ public class Herblock80Tests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
-    public void Herblock_80_NixonSupportLost(Player player)
+    public void Herblock_80_NixonLosesMediaSupport(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
 
@@ -36,13 +36,8 @@ public class Herblock80Tests
     }
 
     [TestMethod]
-    public void Herblock_80_ValidationFailsIfMoreThanTwoLost()
+    public void Herblock_80_ValidationFailsIfMediaSupportLossInExcessOfTwo()
     {
-        var engine = EngineFixtures.GetGameEngine();
-
-        engine.GainMediaSupport(Player.Nixon, Region.South, 1);
-        engine.GainMediaSupport(Player.Nixon, Region.West, 1);
-
         SetOfChanges playerChoices = new();
         var invalidMediaSupportInExcessOfTwo = new SupportChange<Player, Region>(Player.Nixon, Region.West, -3);
 
@@ -54,13 +49,8 @@ public class Herblock80Tests
     }
 
     [TestMethod]
-    public void Herblock_80_ValidationFailsIfKennedyLosesSupport()
+    public void Herblock_80_ValidationFailsIfKennedyLosesMediaSupport()
     {
-        var engine = EngineFixtures.GetGameEngine();
-
-        engine.GainMediaSupport(Player.Nixon, Region.South, 1);
-        engine.GainMediaSupport(Player.Nixon, Region.West, 1);
-
         SetOfChanges playerChoices = new();
         var oneMediaSupportLostInSouth = new SupportChange<Player, Region>(Player.Nixon, Region.South, -1);
         var invalidMediaSupportLossForKennedy = new SupportChange<Player, Region>(Player.Kennedy, Region.West, -1);
@@ -76,11 +66,6 @@ public class Herblock80Tests
     [TestMethod]
     public void Herblock_80_ValidationFailsIfMediaSupportGained()
     {
-        var engine = EngineFixtures.GetGameEngine();
-
-        engine.GainMediaSupport(Player.Nixon, Region.South, 1);
-        engine.GainMediaSupport(Player.Nixon, Region.West, 1);
-
         SetOfChanges playerChoices = new();
         var invalidMediaSupportGainForKennedy = new SupportChange<Player, Region>(Player.Kennedy, Region.West, 1);
 
@@ -94,11 +79,6 @@ public class Herblock80Tests
     [TestMethod]
     public void Herblock_80_ValidationFailsIfStateSupportGained()
     {
-        var engine = EngineFixtures.GetGameEngine();
-
-        engine.GainMediaSupport(Player.Nixon, Region.South, 1);
-        engine.GainMediaSupport(Player.Nixon, Region.West, 1);
-
         SetOfChanges playerChoices = new();
         var invalidStateSupportGain = new SupportChange<Player, State>(Player.Kennedy, State.GA, 1);
 
@@ -112,11 +92,6 @@ public class Herblock80Tests
     [TestMethod]
     public void Herblock_80_ValidationFailsIfIssueSupportGained()
     {
-        var engine = EngineFixtures.GetGameEngine();
-
-        engine.GainMediaSupport(Player.Nixon, Region.South, 1);
-        engine.GainMediaSupport(Player.Nixon, Region.West, 1);
-
         SetOfChanges playerChoices = new();
         var invalidIssueSupportGain = new SupportChange<Player, Issue>(Player.Kennedy, Issue.CivilRights, 1);
 

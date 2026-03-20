@@ -8,7 +8,6 @@ namespace NineteenSixty.Tests.Cards;
 [TestClass]
 public class LyndonJohnson39Tests
 {
-
     //"The Kennedy player may add 2 state support in Texas and a total of 3 additional state support anywhere in the South, no more than 2 per state.  If the Kennedy candidate card is currently flipped to its Exhausted side, the Kennedy player may reclaim it face up."
     private const int CardIndex = 39;
     
@@ -43,7 +42,7 @@ public class LyndonJohnson39Tests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
-    public void LyndonJohnson_39_PlayerCardUnexhausted(Player player)
+    public void LyndonJohnson_39_ExhaustedKennedyBecomesReady(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
 
@@ -59,6 +58,34 @@ public class LyndonJohnson39Tests
         playerChoices.StateChanges.Add(oneSupportInTennessee);
 
         engine.ExhaustPlayer(Player.Kennedy);
+
+        var sut = Manifest.GMTCards[CardIndex];
+
+        sut.Event(engine, player, playerChoices);
+
+        Assert.IsTrue(engine.GetGameState().Exhaustion[Player.Kennedy]);
+
+    }
+    
+    [TestMethod]
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
+    public void LyndonJohnson_39_ReadyKennedyRemainsReady(Player player)
+    {
+        var engine = EngineFixtures.GetGameEngine();
+
+        SetOfChanges playerChoices = new();
+        var twoSupportInTexas = new SupportChange<Player, State>(Player.Kennedy, State.TX, 2);
+        var oneSupportInFlorida = new SupportChange<Player, State>(Player.Kennedy, State.FL, 1);
+        var oneSupportInAlabama = new SupportChange<Player, State>(Player.Kennedy, State.AL, 1);
+        var oneSupportInTennessee = new SupportChange<Player, State>(Player.Kennedy, State.TN, 1);
+
+        playerChoices.StateChanges.Add(twoSupportInTexas);
+        playerChoices.StateChanges.Add(oneSupportInFlorida);
+        playerChoices.StateChanges.Add(oneSupportInAlabama);
+        playerChoices.StateChanges.Add(oneSupportInTennessee);
+
+        engine.UnexhaustPlayer(Player.Kennedy);
 
         var sut = Manifest.GMTCards[CardIndex];
 

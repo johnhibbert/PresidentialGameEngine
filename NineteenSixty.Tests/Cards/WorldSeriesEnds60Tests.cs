@@ -101,9 +101,6 @@ public class WorldSeriesEnds60Tests
     [DataRow(Player.Kennedy)]
     public void WorldSeriesEnds_60_ValidationFailsIfStateOutsideOfEast(Player player)
     {
-        var engine = EngineFixtures.GetGameEngine();
-        engine.GainMediaSupport(player, Region.East, 1);
-
         SetOfChanges playerChoices = new();
         var oneSupportInRhodeIsland = new SupportChange<Player, State>(Player.Nixon, State.RI, 1);
         var oneSupportInWestVirginia = new SupportChange<Player, State>(Player.Nixon, State.WV, 1);
@@ -125,9 +122,6 @@ public class WorldSeriesEnds60Tests
     [DataRow(Player.Kennedy)]
     public void WorldSeriesEnds_60_ValidationFailsIfMediaSupportChange(Player player)
     {
-        var engine = EngineFixtures.GetGameEngine();
-        engine.GainMediaSupport(player, Region.East, 1);
-
         SetOfChanges playerChoices = new();
         var oneSupportInRhodeIsland = new SupportChange<Player, State>(player, State.RI, 1);
         var oneSupportInWestVirginia = new SupportChange<Player, State>(player, State.WV, 1);
@@ -151,9 +145,6 @@ public class WorldSeriesEnds60Tests
     [DataRow(Player.Kennedy)]
     public void WorldSeriesEnds_60_ValidationFailsIfInvalidIssueSupportChange(Player player)
     {
-        var engine = EngineFixtures.GetGameEngine();
-        engine.GainMediaSupport(player, Region.East, 1);
-
         SetOfChanges playerChoices = new();
         var oneSupportInRhodeIsland = new SupportChange<Player, State>(player, State.RI, 1);
         var oneSupportInWestVirginia = new SupportChange<Player, State>(player, State.WV, 1);
