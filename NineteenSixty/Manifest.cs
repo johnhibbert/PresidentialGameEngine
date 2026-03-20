@@ -593,121 +593,120 @@ public class Manifest
                     AreChangesValid = (choices) => true,
                 }
             },
-            // {63, new Card()
-            //     {
-            //         Index = 63,
-            //         Title = "“Give Me A Week”",
-            //         Text = "The Nixon player loses 2 momentum markers and must subtract 1 issue support in each issue.",
-            //         CampaignPoints = 4,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Economy,
-            //         Affiliation = Affiliation.Kennedy,
-            //         State = State.OH,
-            //         Event = (engine, player, choices) => {
-            //             engine.LoseMomentum(Player.Nixon, 2);
-            //             engine.LoseSupport(Player.Nixon, Issue.Defense, 1);
-            //             engine.LoseSupport(Player.Nixon, Issue.Economy, 1);
-            //             engine.LoseSupport(Player.Nixon, Issue.CivilRights, 1);
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
-            // {64, new Card()
-            //     {
-            //         Index = 64,
-            //         Title = "Stump Speech",
-            //         Text = "If opponent has more momentum markers, player gains enough to have the same number.",
-            //         CampaignPoints = 4,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Economy,
-            //         Affiliation = Affiliation.Both,
-            //         State = State.OH,
-            //         Event = (engine, player, choices) => {
-            //             var playerMomentum = engine.GetPlayerMomentum(player);
-            //             var opponentMomentum = engine.GetPlayerMomentum(player.ToOpponent());
-            //
-            //             if(opponentMomentum > playerMomentum)
-            //             {
-            //                 engine.GainMomentum(player, opponentMomentum - playerMomentum);
-            //             }
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
+            {63, new Card()
+                {
+                    Index = 63,
+                    Title = "“Give Me A Week”",
+                    Text = "The Nixon player loses 2 momentum markers and must subtract 1 issue support in each issue.",
+                    CampaignPoints = 4,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Kennedy,
+                    State = State.OH,
+                    Event = (engine, player, choices) => {
+                        engine.LoseMomentum(Player.Nixon, 2);
+                        engine.LoseSupport(Player.Nixon, Issue.Defense, 1);
+                        engine.LoseSupport(Player.Nixon, Issue.Economy, 1);
+                        engine.LoseSupport(Player.Nixon, Issue.CivilRights, 1);
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
+            {64, new Card()
+                {
+                    Index = 64,
+                    Title = "Stump Speech",
+                    Text = "If opponent has more momentum markers, player gains enough to have the same number.",
+                    CampaignPoints = 4,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Both,
+                    State = State.OH,
+                    Event = (engine, player, choices) => {
+                        var playerMomentum = engine.GetPlayerMomentum(player);
+                        var opponentMomentum = engine.GetPlayerMomentum(player.ToOpponent());
+            
+                        if(opponentMomentum > playerMomentum)
+                        {
+                            engine.GainMomentum(player, opponentMomentum - playerMomentum);
+                        }
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
             // //new Card(65, "Joe Kennedy"),
             // //new Card(66, "Adlai Stevenson"),
             // //new Card(67, "Voter Registration Drive"),
-            // {68, new Card()
-            //     {
-            //         Index = 68,
-            //         Title = "“Peace Without Surrender”",
-            //         Text = "Defense moves up one space on the Issue Track and Nixon gains 1 issue support in Defense.",
-            //         CampaignPoints = 2,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Defense,
-            //         Affiliation = Affiliation.Nixon,
-            //         State = State.CO,
-            //         Event = (engine, player, choices) => {
-            //             engine.MoveIssueUp(Issue.Defense);
-            //             engine.GainSupport(Player.Nixon, Issue.Defense, 1);
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
-            // //new Card(69, "Congressional Summer Session"),
-            // {70, new Card()
-            //     {
-            //         Index = 70,
-            //         Title = "The Old Nixon",
-            //         Text = "The Nixon player loses 1 momentum marker.  The Kennedy player loses 3 momentum markers.",
-            //         CampaignPoints = 4,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Economy,
-            //         Affiliation = Affiliation.Nixon,
-            //         State = State.IL,
-            //         Event = (engine, player, choices) => {
-            //             engine.LoseMomentum(Player.Nixon, 1);
-            //             engine.LoseMomentum(Player.Kennedy, 3);
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
-            //
-            // {71, new Card()
-            //     {
-            //         Index = 71,
-            //         Title = "Heartland of America",
-            //         Text = "The Nixon player may add a total of 7 state support in states in the West or Midwest having 10 or fewer electoral votes, no more than 1 per state.",
-            //         CampaignPoints = 3,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Defense,
-            //         Affiliation = Affiliation.Nixon,
-            //         State = State.NJ,
-            //         Event = (engine, player, choices) => {
-            //             engine.ImplementChanges(choices);
-            //         },
-            //         RequiresPlayerInput = true,
-            //         AreChangesValid = (choices) => {
-            //
-            //             var heartlandStates = StateData.Where(x => x.Value.ElectoralVotes <=10)
-            //             .Where(y => y.Value.Region is Region.Midwest or Region.West).Select(z => z.Key);
-            //
-            //             var onlyHeartlandStates = choices.StateChanges.Select(s => s.Target).All(x => heartlandStates.Contains(x));
-            //             var sevenOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 7;
-            //             var noValueAboveOne = choices.HighestStateChange <= 1;
-            //             var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
-            //             var containsOnlyStateSupportChanges =
-            //                 choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
-            //
-            //             return onlyHeartlandStates && sevenOrFewerPointsOfStateChanges
-            //                 && statePlayerIsOnlyNixon && noValueAboveOne && containsOnlyStateSupportChanges;
-            //         },
-            //     }
-            // },
+            {68, new Card()
+                {
+                    Index = 68,
+                    Title = "“Peace Without Surrender”",
+                    Text = "Defense moves up one space on the Issue Track and Nixon gains 1 issue support in Defense.",
+                    CampaignPoints = 2,
+                    EventType = EventType.None,
+                    Issue = Issue.Defense,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.CO,
+                    Event = (engine, player, choices) => {
+                        engine.MoveIssueUp(Issue.Defense);
+                        engine.GainSupport(Player.Nixon, Issue.Defense, 1);
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
+            //new Card(69, "Congressional Summer Session"),
+            {70, new Card()
+                {
+                    Index = 70,
+                    Title = "The Old Nixon",
+                    Text = "The Nixon player loses 1 momentum marker.  The Kennedy player loses 3 momentum markers.",
+                    CampaignPoints = 4,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.IL,
+                    Event = (engine, player, choices) => {
+                        engine.LoseMomentum(Player.Nixon, 1);
+                        engine.LoseMomentum(Player.Kennedy, 3);
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
+            {71, new Card()
+                {
+                    Index = 71,
+                    Title = "Heartland of America",
+                    Text = "The Nixon player may add a total of 7 state support in states in the West or Midwest having 10 or fewer electoral votes, no more than 1 per state.",
+                    CampaignPoints = 3,
+                    EventType = EventType.None,
+                    Issue = Issue.Defense,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.NJ,
+                    Event = (engine, player, choices) => {
+                        engine.ImplementChanges(choices);
+                    },
+                    RequiresPlayerInput = true,
+                    AreChangesValid = (choices) => {
+            
+                        var heartlandStates = StateData.Where(x => x.Value.ElectoralVotes <=10)
+                        .Where(y => y.Value.Region is Region.Midwest or Region.West).Select(z => z.Key);
+            
+                        var onlyHeartlandStates = choices.StateChanges.Select(s => s.Target).All(x => heartlandStates.Contains(x));
+                        var sevenOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 7;
+                        var noValueAboveOne = choices.HighestStateChange <= 1;
+                        var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
+                        var containsOnlyStateSupportChanges =
+                            choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
+            
+                        return onlyHeartlandStates && sevenOrFewerPointsOfStateChanges
+                            && statePlayerIsOnlyNixon && noValueAboveOne && containsOnlyStateSupportChanges;
+                    },
+                }
+            },
             // {72, new Card()
             //     {
             //         Index = 72,
