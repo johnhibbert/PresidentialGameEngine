@@ -14,7 +14,7 @@ public class SouthernRevolt72Tests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
-    public void SouthernRevolt_72_SupportAddedToStates(Player player)
+    public void SouthernRevolt_72_NixonGainsStateSupportIfKennedyLeadsCivilRights(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
         engine.GainSupport(Player.Kennedy, Issue.CivilRights, 2);
@@ -100,9 +100,6 @@ public class SouthernRevolt72Tests
     [TestMethod]
     public void SouthernRevolt_72_PassedValidationEvenIfNixonLeadsCivilRights()
     {
-        var engine = EngineFixtures.GetGameEngine();
-        engine.GainSupport(Player.Nixon, Issue.CivilRights, 2);
-
         SetOfChanges playerChoices = new();
         var oneSupportInFlorida = new SupportChange<Player, State>(Player.Nixon, State.FL, 1);
         var oneSupportInVirginia = new SupportChange<Player, State>(Player.Nixon, State.VA, 1);
