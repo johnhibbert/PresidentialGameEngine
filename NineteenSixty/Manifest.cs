@@ -876,31 +876,31 @@ public class Manifest
             // //new Card(83, "Whistlestop"),
             // //new Card(84, "Quemoy and Matsu"),
             // //new Card(85, "Jackie Kennedy"),
-            // {86,  new Card()
-            //     {
-            //         Index = 86,
-            //         Title = "Herb Klein",
-            //         Text = "The Nixon player may add a total of 3 issue support in any issues.",
-            //         CampaignPoints = 3,
-            //         EventType = EventType.None,
-            //         Issue = Issue.CivilRights,
-            //         Affiliation = Affiliation.Nixon,
-            //         State = State.IA,
-            //         Event = (engine, player, choices) => {
-            //
-            //             engine.ImplementChanges(choices);
-            //         },
-            //         RequiresPlayerInput = true,
-            //         AreChangesValid = (choices) =>
-            //         {
-            //             var threePointsOfIssueChanges = choices.TotalIssueChanges == 3;
-            //             var issuePlayerIsOnlyNixon = choices.IssueChanges.Select(x => x.Player).All(y => y == Player.Nixon);
-            //             var onlyIssueChanges = choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.IssueSupport]);
-            //
-            //             return threePointsOfIssueChanges && issuePlayerIsOnlyNixon && onlyIssueChanges;
-            //         },
-            //     }
-            // },
+            {86,  new Card()
+                {
+                    Index = 86,
+                    Title = "Herb Klein",
+                    Text = "The Nixon player may add a total of 3 issue support in any issues.",
+                    CampaignPoints = 3,
+                    EventType = EventType.None,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.IA,
+                    Event = (engine, player, choices) => {
+            
+                        engine.ImplementChanges(choices);
+                    },
+                    RequiresPlayerInput = true,
+                    AreChangesValid = (choices) =>
+                    {
+                        var threePointsOfIssueChanges = choices.TotalIssueChanges == 3;
+                        var issuePlayerIsOnlyNixon = choices.IssueChanges.Select(x => x.Player).All(y => y == Player.Nixon);
+                        var onlyIssueChanges = choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.IssueSupport]);
+            
+                        return threePointsOfIssueChanges && issuePlayerIsOnlyNixon && onlyIssueChanges;
+                    },
+                }
+            },
             // //new Card(87, "Stevenson Loyalists"),
             // //new Card(88, "Stature Gap"),
             // {89, new Card()
