@@ -743,29 +743,29 @@ public class Manifest
             },
             // //new Card(73, "Norman Vincent Peale"),
             // //new Card(74, "Eisenhower’s Silence"),
-            // {75, new Card()
-            //     {
-            //         Index = 75,
-            //         Title = "Republican TV Spots",
-            //         Text = "Immediately move the Nixon candidate token to New York, but do no pay the normal travel costs for doing so.  The Nixon player may place 3 media support cubes.",
-            //         CampaignPoints = 4,
-            //         EventType = EventType.None,
-            //         Issue = Issue.CivilRights,
-            //         Affiliation = Affiliation.Nixon,
-            //         State = State.CA,
-            //         Event = (engine, player, choices) => {
-            //             engine.MovePlayerToState(Player.Nixon, State.NY);
-            //             engine.ImplementChanges(choices);
-            //         },
-            //         RequiresPlayerInput = true,
-            //         AreChangesValid = (choices) => {
-            //             var threeOrFewerMediaSupportChanges = choices.TotalMediaChanges <= 3;
-            //             var onlyMediaSupport = choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.MediaSupport]);
-            //             
-            //             return threeOrFewerMediaSupportChanges && onlyMediaSupport;
-            //         },
-            //     }
-            // },
+            {75, new Card()
+                {
+                    Index = 75,
+                    Title = "Republican TV Spots",
+                    Text = "Immediately move the Nixon candidate token to New York, but do no pay the normal travel costs for doing so.  The Nixon player may place 3 media support cubes.",
+                    CampaignPoints = 4,
+                    EventType = EventType.None,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.CA,
+                    Event = (engine, player, choices) => {
+                        engine.MovePlayerToState(Player.Nixon, State.NY);
+                        engine.ImplementChanges(choices);
+                    },
+                    RequiresPlayerInput = true,
+                    AreChangesValid = (choices) => {
+                        var threeOrFewerMediaSupportChanges = choices.TotalMediaChanges <= 3;
+                        var onlyMediaSupport = choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.MediaSupport]);
+                        
+                        return threeOrFewerMediaSupportChanges && onlyMediaSupport;
+                    },
+                }
+            },
             // //new Card(76, "Nixon’s Pledge"),
             // //new Card(77, "Suburban Voters"),
             // {77, new Card()
