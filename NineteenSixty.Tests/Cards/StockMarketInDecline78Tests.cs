@@ -14,7 +14,7 @@ public class StockMarketInDecline78Tests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
-    public void StockMarketInDecline_78_EconomyGoesUpTwoSpaces(Player player)
+    public void StockMarketInDecline_78_EconomyGoesUpTwoPositions(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
 
