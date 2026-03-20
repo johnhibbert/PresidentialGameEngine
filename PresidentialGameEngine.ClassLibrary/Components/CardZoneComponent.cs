@@ -3,53 +3,64 @@ using PresidentialGameEngine.ClassLibrary.Interfaces;
 
 namespace PresidentialGameEngine.ClassLibrary.Components;
 
-public class CardZoneComponent<TPlayer, TZone, TCard> : ICardZoneComponent<TPlayer, TZone, TCard>
-    where TPlayer : Enum
+public class CardZoneComponent<TZone, TPublicZone, TPrivateZone, TPlayer, TCard>
+    : ICardZoneComponent<TZone, TPublicZone, TPrivateZone, TPlayer, TCard>
     where TZone : Enum
+    where TPublicZone : Enum
+    where TPrivateZone : Enum
+    where TPlayer : Enum
 {
     
-    private IDictionary<TZone, List<TCard>> PublicZones { get; init; }
+    private IDictionary<TPublicZone, List<TCard>> PublicZones { get; init; }
     
-    private IDictionary<TPlayer, IDictionary<TZone, List<TCard>>> PrivateZones { get; init; }
+    private IDictionary<TPlayer, IDictionary<TPrivateZone, List<TCard>>> PrivateZones { get; init; }
 
 
-    public CardZoneComponent(HashSet<TZone> publicZones, HashSet<TZone> privateZones)
+    //public CardZoneComponent(HashSet<TPublicZone> publicZones, HashSet<TPrivateZone> privateZones)
+    public CardZoneComponent()
     {
-        if (Enum.GetValues(typeof(TZone)).Length != (publicZones.Count + privateZones.Count))
-        {
-            throw new ArgumentException("Public and private zones must cover all zones.");
-        }
+        PublicZones = new Dictionary<TPublicZone, List<TCard>>();
+        PrivateZones = new Dictionary<TPlayer, IDictionary<TPrivateZone, List<TCard>>>();
         
-        PublicZones = new Dictionary<TZone, List<TCard>>();
-        PrivateZones = new Dictionary<TPlayer, IDictionary<TZone, List<TCard>>>();
-        
-        foreach (var zone in publicZones)
+        foreach (var zone in (TPublicZone[])Enum.GetValues(typeof(TPublicZone)))
         {
             PublicZones.Add(zone, []);
         }
         
         foreach (var player in (TPlayer[])Enum.GetValues(typeof(TPlayer)))
         {
-            var dict =  new Dictionary<TZone, List<TCard>>();
-            foreach (var zone in privateZones)
+            var dict =  new Dictionary<TPrivateZone, List<TCard>>();
+            foreach (var zone in (TPrivateZone[])Enum.GetValues(typeof(TPrivateZone)))
             {
                 dict.Add(zone, []);
             }
             PrivateZones.Add(player, dict);
         }
-
-        int i = 0;
-
     }
     
-    public IEnumerable<TCard> GetCardsInPublicZone(TZone zone)
+    // public IEnumerable<TCard> GetCardsInPublicZone(TZone zone)
+    // {
+    //     return PublicZones[zone];
+    // }
+    //
+    // public IEnumerable<TCard> GetCardsInPrivateZone(TZone zone, TPlayer player)
+    // {
+    //     return PrivateZones[player][zone];
+    // }
+
+    // public IEnumerable<TCard> GetCardsInZone(TZone zone)
+    // {
+    //     throw new NotImplementedException();
+    // }
+
+    public IEnumerable<TCard> GetCardsInPublicZone(TPublicZone publicZone)
     {
-        return PublicZones[zone];
+        return PublicZones[publicZone];
     }
 
-    public IEnumerable<TCard> GetCardsInPrivateZone(TZone zone, TPlayer player)
+    public IEnumerable<TCard> GetCardsInPrivateZone(TPrivateZone privateZone, TPlayer player)
     {
-        return PrivateZones[player][zone];
+        return PrivateZones[player][privateZone];
     }
 
     public void MoveCardFromOneZoneToAnother(TPlayer player, TCard cardToMove, TZone source, TZone destination)
