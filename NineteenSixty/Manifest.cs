@@ -613,29 +613,29 @@ public class Manifest
                     AreChangesValid = (choices) => true,
                 }
             },
-            // {64, new Card()
-            //     {
-            //         Index = 64,
-            //         Title = "Stump Speech",
-            //         Text = "If opponent has more momentum markers, player gains enough to have the same number.",
-            //         CampaignPoints = 4,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Economy,
-            //         Affiliation = Affiliation.Both,
-            //         State = State.OH,
-            //         Event = (engine, player, choices) => {
-            //             var playerMomentum = engine.GetPlayerMomentum(player);
-            //             var opponentMomentum = engine.GetPlayerMomentum(player.ToOpponent());
-            //
-            //             if(opponentMomentum > playerMomentum)
-            //             {
-            //                 engine.GainMomentum(player, opponentMomentum - playerMomentum);
-            //             }
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
+            {64, new Card()
+                {
+                    Index = 64,
+                    Title = "Stump Speech",
+                    Text = "If opponent has more momentum markers, player gains enough to have the same number.",
+                    CampaignPoints = 4,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Both,
+                    State = State.OH,
+                    Event = (engine, player, choices) => {
+                        var playerMomentum = engine.GetPlayerMomentum(player);
+                        var opponentMomentum = engine.GetPlayerMomentum(player.ToOpponent());
+            
+                        if(opponentMomentum > playerMomentum)
+                        {
+                            engine.GainMomentum(player, opponentMomentum - playerMomentum);
+                        }
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
             // //new Card(65, "Joe Kennedy"),
             // //new Card(66, "Adlai Stevenson"),
             // //new Card(67, "Voter Registration Drive"),
