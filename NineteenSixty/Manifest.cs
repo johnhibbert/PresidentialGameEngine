@@ -476,41 +476,42 @@ public class Manifest
             },
             // //new Card(49, "Eleanor Roosevelt’s Speaking Tour"),
             // //new Card(50, "Industrial Midwest"),
-            // {51, new Card()
-            //     {
-            //         Index = 51,
-            //         Title = "Missile Gap",
-            //         Text = "Kennedy gains 3 issue support in Defense.",
-            //         CampaignPoints = 3,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Economy,
-            //         Affiliation = Affiliation.Kennedy,
-            //         State = State.GA,
-            //         Event = (engine, player, choices) => {
-            //             engine.GainSupport(Player.Kennedy, Issue.Defense, 3);
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
-            // {52, new Card()
-            //     {
-            //         Index = 52,
-            //         Title = "Hurricane Donna",
-            //         Text = "Move player's candidate token to Florida.  Player gains 1 momentum marker and 1 state support in Florida.",
-            //         CampaignPoints = 2,
-            //         EventType = EventType.None,
-            //         Issue = Issue.CivilRights,
-            //         Affiliation = Affiliation.Both,
-            //         State = State.MT,
-            //         Event = (engine, player, choices) => {
-            //             engine.MovePlayerToState(player, State.FL);
-            //             engine.GainSupport(player, State.FL, 1);
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
+            {51, new Card()
+                {
+                    Index = 51,
+                    Title = "Missile Gap",
+                    Text = "Kennedy gains 3 issue support in Defense.",
+                    CampaignPoints = 3,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Kennedy,
+                    State = State.GA,
+                    Event = (engine, player, choices) => {
+                        engine.GainSupport(Player.Kennedy, Issue.Defense, 3);
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
+            {52, new Card()
+                {
+                    Index = 52,
+                    Title = "Hurricane Donna",
+                    Text = "Move player's candidate token to Florida.  Player gains 1 momentum marker and 1 state support in Florida.",
+                    CampaignPoints = 2,
+                    EventType = EventType.None,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Both,
+                    State = State.MT,
+                    Event = (engine, player, choices) => {
+                        engine.MovePlayerToState(player, State.FL);
+                        engine.GainMomentum(player, 1);
+                        engine.GainSupport(player, State.FL, 1);
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
             // //new Card(53, "Campaign Headquarters"),
             // //new Card(54, "Bobby Kennedy"),
             // //new Card(55, "Hostile Press Corps"),
@@ -518,79 +519,80 @@ public class Manifest
             // //new Card(57, "“A New Frontier”"),
             // //new Card(58, "Tricky Dick"),
             // //new Card(59, "Mid-Atlantic"),
-            // {60, new Card()
-            //     {
-            //         Index = 60,
-            //         Title = "World Series Ends",
-            //         Text = "The player with media support cubes in the East (if any) may add a total of 5 state support in the East, no more than 2 per state.",
-            //         CampaignPoints = 3,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Economy,
-            //         Affiliation = Affiliation.Both,
-            //         State = State.UT,
-            //         Event = (engine, player, choices) => {
-            //             if(engine.GetMediaSupportLeader(Region.East) != Leader.None)
-            //             {
-            //                 engine.ImplementChanges(choices);
-            //             }
-            //         },
-            //         RequiresPlayerInput = true,
-            //         AreChangesValid = (choices) => {
-            //             var easternStates = StateData.Where(y => y.Value.Region == Region.East).Select(z => z.Key);
-            //
-            //             var onlyEasternStatesIncluded = choices.StateChanges.Select(s => s.Target).All(x => easternStates.Contains(x));
-            //             var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
-            //             var noValueAboveTwo = choices.HighestStateChange <= 2;
-            //             var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
-            //             var onlyContainsStateSupport =
-            //                 choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
-            //
-            //             return onlyEasternStatesIncluded && fiveOrFewerPointsOfStateChanges
-            //                 && statePlayerIsOnlyNixon && noValueAboveTwo && onlyContainsStateSupport;
-            //         },
-            //     }
-            // },
-            // {61, new Card()
-            //     {
-            //         Index = 61,
-            //         Title = "Fatigue Sets In",
-            //         Text = "If opponent's candidate card is currently available for play, flip it over to its Exhausted side.",
-            //         CampaignPoints = 4,
-            //         EventType = EventType.None,
-            //         Issue = Issue.CivilRights,
-            //         Affiliation = Affiliation.Both,
-            //         State = State.OH,
-            //         Event = (engine, player, choices) => {
-            //             engine.ExhaustPlayer(player.ToOpponent());
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
-            // {62, new Card()
-            //     {
-            //         Index = 62,
-            //         Title = "Trial of Gary Powers",
-            //         Text = "Defense moves up two spaces on the Issue Track.  The leader in Defense gains 1 momentum marker.",
-            //         CampaignPoints = 3,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Economy,
-            //         Affiliation = Affiliation.Both,
-            //         State = State.WI,
-            //         Event = (engine, player, choices) => {
-            //             engine.MoveIssueUp(Issue.Defense);
-            //             engine.MoveIssueUp(Issue.Defense);
-            //             var leader = engine.GetLeader(Issue.Defense);
-            //             if(leader != Leader.None)
-            //             {
-            //                 engine.GainMomentum(leader.ToPlayer(), 1);
-            //             }
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
-            //
+            {60, new Card()
+                {
+                    Index = 60,
+                    Title = "World Series Ends",
+                    Text = "The player with media support cubes in the East (if any) may add a total of 5 state support in the East, no more than 2 per state.",
+                    CampaignPoints = 3,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Both,
+                    State = State.UT,
+                    Event = (engine, player, choices) =>
+                    {
+                        var gameState = engine.GetGameState();
+                        if(gameState.MediaSupportLevels[Region.East].Leader != Leader.None)
+                        {
+                            engine.ImplementChanges(choices);
+                        }
+                    },
+                    RequiresPlayerInput = true,
+                    AreChangesValid = (choices) => {
+                        var easternStates = StateData.Where(y => y.Value.Region == Region.East).Select(z => z.Key);
+            
+                        var onlyEasternStatesIncluded = choices.StateChanges.Select(s => s.Target).All(x => easternStates.Contains(x));
+                        var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
+                        var noValueAboveTwo = choices.HighestStateChange <= 2;
+                        var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
+                        var onlyContainsStateSupport =
+                            choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
+            
+                        return onlyEasternStatesIncluded && fiveOrFewerPointsOfStateChanges
+                            && statePlayerIsOnlyNixon && noValueAboveTwo && onlyContainsStateSupport;
+                    },
+                }
+            },
+            {61, new Card()
+                {
+                    Index = 61,
+                    Title = "Fatigue Sets In",
+                    Text = "If opponent's candidate card is currently available for play, flip it over to its Exhausted side.",
+                    CampaignPoints = 4,
+                    EventType = EventType.None,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Both,
+                    State = State.OH,
+                    Event = (engine, player, choices) => {
+                        engine.ExhaustPlayer(player.ToOpponent());
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
+            {62, new Card()
+                {
+                    Index = 62,
+                    Title = "Trial of Gary Powers",
+                    Text = "Defense moves up two spaces on the Issue Track.  The leader in Defense gains 1 momentum marker.",
+                    CampaignPoints = 3,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Both,
+                    State = State.WI,
+                    Event = (engine, player, choices) => {
+                        engine.MoveIssueUp(Issue.Defense);
+                        engine.MoveIssueUp(Issue.Defense);
+                        var leader = engine.GetLeader(Issue.Defense);
+                        if(leader != Leader.None)
+                        {
+                            engine.GainMomentum(leader.ToPlayer(), 1);
+                        }
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
             // {63, new Card()
             //     {
             //         Index = 63,
