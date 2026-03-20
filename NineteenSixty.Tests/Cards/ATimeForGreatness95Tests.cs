@@ -11,6 +11,7 @@ public class ATimeForGreatness95Tests
     //"Nixon loses 1 issue support on each issue.  The Kennedy player may add 3 state support anywhere, no more than 1 per state."
     private const int CardIndex = 95;
     
+    
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
