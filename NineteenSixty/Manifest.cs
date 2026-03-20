@@ -823,32 +823,32 @@ public class Manifest
                 }
             },
             // //new Card(79, "Advance Men"),
-            // {80, new Card()
-            //     {
-            //         Index = 80,
-            //         Title = "Herblock",
-            //         Text = "The Kennedy player may remove 2 Nixon media support cubes from the board.",
-            //         CampaignPoints = 2,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Economy,
-            //         Affiliation = Affiliation.Kennedy,
-            //         State = State.MS,
-            //         Event = (engine, player, choices) => {
-            //             engine.ImplementChanges(choices);
-            //         },
-            //         RequiresPlayerInput = true,
-            //         AreChangesValid = (choices) => {
-            //             var upToNegativeTwoPointsOfLostMediaSupport = choices.TotalMediaChanges is >= -2 and >= 0;
-            //             var affectedPlayerIsNixon = choices.MediaSupportChanges.Select(x => x.Player).All(y => y == Player.Nixon);
-            //
-            //             var hasOnlyMediaSupportChanges =
-            //                 choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.MediaSupport]);
-            //
-            //             return upToNegativeTwoPointsOfLostMediaSupport && affectedPlayerIsNixon 
-            //                    && hasOnlyMediaSupportChanges;
-            //         },
-            //     }
-            // },
+            {80, new Card()
+                {
+                    Index = 80,
+                    Title = "Herblock",
+                    Text = "The Kennedy player may remove 2 Nixon media support cubes from the board.",
+                    CampaignPoints = 2,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Kennedy,
+                    State = State.MS,
+                    Event = (engine, player, choices) => {
+                        engine.ImplementChanges(choices);
+                    },
+                    RequiresPlayerInput = true,
+                    AreChangesValid = (choices) => {
+                        var upToNegativeTwoPointsOfLostMediaSupport = choices.TotalMediaChanges is >= -2 and >= 0;
+                        var affectedPlayerIsNixon = choices.MediaSupportChanges.Select(x => x.Player).All(y => y == Player.Nixon);
+            
+                        var hasOnlyMediaSupportChanges =
+                            choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.MediaSupport]);
+            
+                        return upToNegativeTwoPointsOfLostMediaSupport && affectedPlayerIsNixon 
+                               && hasOnlyMediaSupportChanges;
+                    },
+                }
+            },
             // //new Card(81, "Kennedy’s Peace Corps"),
             // {82, new Card()
             //     {                    
