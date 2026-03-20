@@ -959,26 +959,26 @@ public class Manifest
         private static readonly Dictionary<int, Card> GMT_OnlyCards = new()
         {
             // //new Card(92, "Give ‘Em Hell Harry"),
-            // {93, new Card()
-            //     {
-            //         Index = 93,
-            //         Title = "Experience Counts",
-            //         Text = "Kennedy loses 1 issue support in each issue.  The Nixon player gains one momentum marker.",
-            //         CampaignPoints = 4,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Defense,
-            //         Affiliation = Affiliation.Nixon,
-            //         State = State.CA,
-            //         Event = (engine, player, choices) => {
-            //             engine.LoseSupport(Player.Kennedy, Issue.Defense, 1);
-            //             engine.LoseSupport(Player.Kennedy, Issue.CivilRights, 1);
-            //             engine.LoseSupport(Player.Kennedy, Issue.Economy, 1);
-            //             engine.GainMomentum(Player.Nixon, 1);
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
+            {93, new Card()
+                {
+                    Index = 93,
+                    Title = "Experience Counts",
+                    Text = "Kennedy loses 1 issue support in each issue.  The Nixon player gains one momentum marker.",
+                    CampaignPoints = 4,
+                    EventType = EventType.None,
+                    Issue = Issue.Defense,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.CA,
+                    Event = (engine, player, choices) => {
+                        engine.LoseSupport(Player.Kennedy, Issue.Defense, 1);
+                        engine.LoseSupport(Player.Kennedy, Issue.CivilRights, 1);
+                        engine.LoseSupport(Player.Kennedy, Issue.Economy, 1);
+                        engine.GainMomentum(Player.Nixon, 1);
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
             // //new Card(94, "A Low Blow"),
             // //new Card(95, "A Time For Greatness"),
             // {95, new Card()
