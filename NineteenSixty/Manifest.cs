@@ -903,23 +903,23 @@ public class Manifest
             },
             // //new Card(87, "Stevenson Loyalists"),
             // //new Card(88, "Stature Gap"),
-            // {89, new Card()
-            //     {
-            //         Index = 89,
-            //         Title = "The New Nixon",
-            //         Text = "The Nixon player gains 1 momentum marker.",
-            //         CampaignPoints = 2,
-            //         EventType = EventType.None,
-            //         Issue = Issue.CivilRights,
-            //         Affiliation = Affiliation.Nixon,
-            //         State = State.KS,
-            //         Event = (engine, player, choices) => {
-            //             engine.GainMomentum(Player.Nixon, 1);
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
+            {89, new Card()
+                {
+                    Index = 89,
+                    Title = "The New Nixon",
+                    Text = "The Nixon player gains 1 momentum marker.",
+                    CampaignPoints = 2,
+                    EventType = EventType.None,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.KS,
+                    Event = (engine, player, choices) => {
+                        engine.GainMomentum(Player.Nixon, 1);
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
             // {90, new Card()
             //     {
             //         Index = 90,
