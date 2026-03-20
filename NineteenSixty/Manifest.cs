@@ -707,40 +707,40 @@ public class Manifest
                     },
                 }
             },
-            // {72, new Card()
-            //     {
-            //         Index = 72,
-            //         Title = "Southern Revolt",
-            //         Text = "If Kennedy is leading in Civil Rights, the Nixon player may add a total of 5 state support in the South, no more than 2 per state.",
-            //         CampaignPoints = 3,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Economy,
-            //         Affiliation = Affiliation.Nixon,
-            //         State = State.IN,
-            //         Event = (engine, player, choices) => {
-            //             var civilRightsleader = engine.GetLeader(Issue.CivilRights);
-            //
-            //             if(civilRightsleader == Leader.Kennedy)
-            //             {
-            //                 engine.ImplementChanges(choices);
-            //             }
-            //         },
-            //         RequiresPlayerInput = true,
-            //         AreChangesValid = (choices) => {
-            //             var southernStates = StateData.Where(y => y.Value.Region == Region.South).Select(z => z.Key);
-            //
-            //             var onlySouthernStatesIncluded = choices.StateChanges.Select(s => s.Target).All(x => southernStates.Contains(x));
-            //             var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
-            //             var noValueAboveTwo = choices.HighestStateChange <= 2;
-            //             var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
-            //             var containsOnlyStateSupportChanges =
-            //                 choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
-            //
-            //             return onlySouthernStatesIncluded && fiveOrFewerPointsOfStateChanges
-            //                 && statePlayerIsOnlyNixon && noValueAboveTwo && containsOnlyStateSupportChanges;
-            //         },
-            //     }
-            // },
+            {72, new Card()
+                {
+                    Index = 72,
+                    Title = "Southern Revolt",
+                    Text = "If Kennedy is leading in Civil Rights, the Nixon player may add a total of 5 state support in the South, no more than 2 per state.",
+                    CampaignPoints = 3,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.IN,
+                    Event = (engine, player, choices) => {
+                        var civilRightsLeader = engine.GetLeader(Issue.CivilRights);
+            
+                        if(civilRightsLeader == Leader.Kennedy)
+                        {
+                            engine.ImplementChanges(choices);
+                        }
+                    },
+                    RequiresPlayerInput = true,
+                    AreChangesValid = (choices) => {
+                        var southernStates = StateData.Where(y => y.Value.Region == Region.South).Select(z => z.Key);
+            
+                        var onlySouthernStatesIncluded = choices.StateChanges.Select(s => s.Target).All(x => southernStates.Contains(x));
+                        var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
+                        var noValueAboveTwo = choices.HighestStateChange <= 2;
+                        var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
+                        var containsOnlyStateSupportChanges =
+                            choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
+            
+                        return onlySouthernStatesIncluded && fiveOrFewerPointsOfStateChanges
+                            && statePlayerIsOnlyNixon && noValueAboveTwo && containsOnlyStateSupportChanges;
+                    },
+                }
+            },
             // //new Card(73, "Norman Vincent Peale"),
             // //new Card(74, "Eisenhower’s Silence"),
             // {75, new Card()
