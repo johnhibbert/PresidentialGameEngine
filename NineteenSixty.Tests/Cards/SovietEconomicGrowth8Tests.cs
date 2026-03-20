@@ -12,7 +12,7 @@ public class SovietEconomicGrowth8Tests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
-    public void SovietEconomicGrowth_8_EconomyGoesUpOneSpace(Player player)
+    public void SovietEconomicGrowth_8_EconomyGoesUpOnePosition(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
         engine.SetIssueOrder([Issue.CivilRights, Issue.Defense, Issue.Economy]);

@@ -14,7 +14,7 @@ public class CivilRightsAct25Tests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
-    public void CivilRightsAct_25_CivilRightsGoesUpOneSpace(Player player)
+    public void CivilRightsAct_25_CivilRightsGoesUpOnePosition(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
 

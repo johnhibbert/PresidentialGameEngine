@@ -14,7 +14,7 @@ public class PeaceWithoutSurrender68Tests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
-    public void PeaceWithoutSurrender_68_DefenseGoesUpOneSpace(Player player)
+    public void PeaceWithoutSurrender_68_DefenseGoesUpOnePosition(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
 

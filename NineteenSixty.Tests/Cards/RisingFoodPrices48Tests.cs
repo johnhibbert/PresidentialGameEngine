@@ -14,7 +14,7 @@ public class RisingFoodPrices48Tests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
-    public void RisingFoodPrices_48_EconomyGoesUpOneSpace(Player player)
+    public void RisingFoodPrices_48_EconomyGoesUpOnePosition(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
 
