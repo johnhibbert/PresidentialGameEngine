@@ -13,7 +13,7 @@ public class MissileGap51Tests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
-    public void MissileGap_51_ExpectedSupportGained(Player player)
+    public void MissileGap_51_KennedyGainsThreeIssueSupportInDefense(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
 
@@ -28,7 +28,7 @@ public class MissileGap51Tests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
-    public void MissileGap_51_SupportFromOpponentRemoved(Player player)
+    public void MissileGap_51_IssueSupportGainedRemovesOpponentSupport(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
 
@@ -45,7 +45,7 @@ public class MissileGap51Tests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
-    public void MissileGap_51_SupportChangedToZero(Player player)
+    public void MissileGap_51_GainedSupportCanCauseNoLeaderInDefense(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
 
