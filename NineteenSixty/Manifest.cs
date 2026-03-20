@@ -1041,38 +1041,38 @@ public class Manifest
                     AreChangesValid = (choices) => true,
                 }
             },
-            // {97, new Card()
-            //     {
-            //         Index = 97,
-            //         Title = "Cassius Clay Wins Gold",
-            //         Text = "The leaders in Defense and Economy lose 1 issue support in those issues.  If the same player leads both, they also lose 1 momentum marker.",
-            //         CampaignPoints = 2,
-            //         EventType = EventType.None,
-            //         Issue = Issue.CivilRights,
-            //         Affiliation = Affiliation.Both,
-            //         State = State.OH,
-            //         Event = (engine, player, choices) => {
-            //
-            //             var defenseLeader = engine.GetLeader(Issue.Defense);
-            //             var econLeader = engine.GetLeader(Issue.Economy);
-            //
-            //             if(defenseLeader == econLeader && defenseLeader != Leader.None)
-            //             {
-            //                 engine.LoseMomentum(defenseLeader.ToPlayer(), 1);
-            //             }
-            //             if(defenseLeader != Leader.None)
-            //             {
-            //                 engine.LoseSupport(defenseLeader.ToPlayer(), Issue.Defense, 1);
-            //             }
-            //             if(econLeader != Leader.None)
-            //             {
-            //                 engine.LoseSupport(econLeader.ToPlayer(), Issue.Economy, 1);
-            //             }
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
+            {97, new Card()
+                {
+                    Index = 97,
+                    Title = "Cassius Clay Wins Gold",
+                    Text = "The leaders in Defense and Economy lose 1 issue support in those issues.  If the same player leads both, they also lose 1 momentum marker.",
+                    CampaignPoints = 2,
+                    EventType = EventType.None,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Both,
+                    State = State.OH,
+                    Event = (engine, player, choices) => {
+            
+                        var defenseLeader = engine.GetLeader(Issue.Defense);
+                        var econLeader = engine.GetLeader(Issue.Economy);
+            
+                        if(defenseLeader == econLeader && defenseLeader != Leader.None)
+                        {
+                            engine.LoseMomentum(defenseLeader.ToPlayer(), 1);
+                        }
+                        if(defenseLeader != Leader.None)
+                        {
+                            engine.LoseSupport(defenseLeader.ToPlayer(), Issue.Defense, 1);
+                        }
+                        if(econLeader != Leader.None)
+                        {
+                            engine.LoseSupport(econLeader.ToPlayer(), Issue.Economy, 1);
+                        }
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
         };
 
         public static readonly Dictionary<int, Card> GMTCards =
