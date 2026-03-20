@@ -14,7 +14,7 @@ public class SuburbanVoters77Tests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
-    public void SuburbanVoters_77_SupportAddedToStates(Player player)
+    public void SuburbanVoters_77_KennedyGainsFiveStateSupport(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
 
@@ -103,12 +103,12 @@ public class SuburbanVoters77Tests
         var oneSupportInMichigan = new SupportChange<Player, State>(Player.Kennedy, State.MI, 1);
         var oneSupportInPenn = new SupportChange<Player, State>(Player.Kennedy, State.PA, 1);
         var twoSupportInCali = new SupportChange<Player, State>(Player.Kennedy, State.CA, 2);
-        var oneSupportInKansas = new SupportChange<Player, State>(Player.Kennedy, State.KS, 1);
+        var invalidSupportInStateWithTooFewElectoralVotes = new SupportChange<Player, State>(Player.Kennedy, State.KS, 1);
 
         playerChoices.StateChanges.Add(oneSupportInMichigan);
         playerChoices.StateChanges.Add(oneSupportInPenn);
         playerChoices.StateChanges.Add(twoSupportInCali);
-        playerChoices.StateChanges.Add(oneSupportInKansas);
+        playerChoices.StateChanges.Add(invalidSupportInStateWithTooFewElectoralVotes);
 
         var sut = Manifest.GMTCards[CardIndex];
         var result = sut.AreChangesValid(playerChoices);
