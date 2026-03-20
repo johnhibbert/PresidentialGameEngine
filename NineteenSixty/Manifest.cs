@@ -639,24 +639,24 @@ public class Manifest
             // //new Card(65, "Joe Kennedy"),
             // //new Card(66, "Adlai Stevenson"),
             // //new Card(67, "Voter Registration Drive"),
-            // {68, new Card()
-            //     {
-            //         Index = 68,
-            //         Title = "“Peace Without Surrender”",
-            //         Text = "Defense moves up one space on the Issue Track and Nixon gains 1 issue support in Defense.",
-            //         CampaignPoints = 2,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Defense,
-            //         Affiliation = Affiliation.Nixon,
-            //         State = State.CO,
-            //         Event = (engine, player, choices) => {
-            //             engine.MoveIssueUp(Issue.Defense);
-            //             engine.GainSupport(Player.Nixon, Issue.Defense, 1);
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
+            {68, new Card()
+                {
+                    Index = 68,
+                    Title = "“Peace Without Surrender”",
+                    Text = "Defense moves up one space on the Issue Track and Nixon gains 1 issue support in Defense.",
+                    CampaignPoints = 2,
+                    EventType = EventType.None,
+                    Issue = Issue.Defense,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.CO,
+                    Event = (engine, player, choices) => {
+                        engine.MoveIssueUp(Issue.Defense);
+                        engine.GainSupport(Player.Nixon, Issue.Defense, 1);
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
             // //new Card(69, "Congressional Summer Session"),
             // {70, new Card()
             //     {
