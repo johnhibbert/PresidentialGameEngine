@@ -959,120 +959,120 @@ public class Manifest
         private static readonly Dictionary<int, Card> GMT_OnlyCards = new()
         {
             // //new Card(92, "Give ‘Em Hell Harry"),
-            // {93, new Card()
-            //     {
-            //         Index = 93,
-            //         Title = "Experience Counts",
-            //         Text = "Kennedy loses 1 issue support in each issue.  The Nixon player gains one momentum marker.",
-            //         CampaignPoints = 4,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Defense,
-            //         Affiliation = Affiliation.Nixon,
-            //         State = State.CA,
-            //         Event = (engine, player, choices) => {
-            //             engine.LoseSupport(Player.Kennedy, Issue.Defense, 1);
-            //             engine.LoseSupport(Player.Kennedy, Issue.CivilRights, 1);
-            //             engine.LoseSupport(Player.Kennedy, Issue.Economy, 1);
-            //             engine.GainMomentum(Player.Nixon, 1);
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
+            {93, new Card()
+                {
+                    Index = 93,
+                    Title = "Experience Counts",
+                    Text = "Kennedy loses 1 issue support in each issue.  The Nixon player gains one momentum marker.",
+                    CampaignPoints = 4,
+                    EventType = EventType.None,
+                    Issue = Issue.Defense,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.CA,
+                    Event = (engine, player, choices) => {
+                        engine.LoseSupport(Player.Kennedy, Issue.Defense, 1);
+                        engine.LoseSupport(Player.Kennedy, Issue.CivilRights, 1);
+                        engine.LoseSupport(Player.Kennedy, Issue.Economy, 1);
+                        engine.GainMomentum(Player.Nixon, 1);
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
             // //new Card(94, "A Low Blow"),
             // //new Card(95, "A Time For Greatness"),
-            // {95, new Card()
-            //     {
-            //         Index = 95,
-            //         Title = "A Time For Greatness",
-            //         Text = "Nixon loses 1 issue support on each issue.  The Kennedy player may add 3 state support anywhere, no more than 1 per state.",
-            //         CampaignPoints = 4,
-            //         EventType = EventType.None,
-            //         Issue = Issue.CivilRights,
-            //         Affiliation = Affiliation.Kennedy,
-            //         State = State.TX,
-            //         Event = (engine, player, choices) => {
-            //             engine.LoseSupport(Player.Nixon, Issue.Defense, 1);
-            //             engine.LoseSupport(Player.Nixon, Issue.CivilRights, 1);
-            //             engine.LoseSupport(Player.Nixon, Issue.Economy, 1);
-            //             engine.ImplementChanges(choices);
-            //         },
-            //         RequiresPlayerInput = true,
-            //         AreChangesValid = (choices) => {
-            //             var threePointsOfStateChanges = choices.TotalStateChanges <= 3;
-            //             var noValueAboveOne = choices.HighestStateChange <= 1;
-            //             var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
-            //             var onlyStateChanges = choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
-            //
-            //             return threePointsOfStateChanges && noValueAboveOne
-            //                     && statePlayerIsOnlyKennedy && onlyStateChanges;
-            //         },
-            //     }
-            // },
-            // {96, new Card()
-            //     {
-            //         Index = 96,
-            //         Title = "Medal Count",
-            //         Text = "The leaders in Civil Rights and Economy lose 1 issue support in those issues.  If the same player leads both, they also lose 1 momentum marker.",
-            //         CampaignPoints = 2,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Defense,
-            //         Affiliation = Affiliation.Both,
-            //         State = State.PA,
-            //         Event = (engine, player, choices) => {
-            //
-            //             var civilRightsLeader = engine.GetLeader(Issue.CivilRights);
-            //             var econLeader = engine.GetLeader(Issue.Economy);
-            //
-            //             if(civilRightsLeader == econLeader && civilRightsLeader != Leader.None)
-            //             {
-            //                 engine.LoseMomentum(civilRightsLeader.ToPlayer(), 1);
-            //             }
-            //             if(civilRightsLeader != Leader.None)
-            //             {
-            //                 engine.LoseSupport(civilRightsLeader.ToPlayer(), Issue.CivilRights, 1);
-            //             }
-            //             if(econLeader != Leader.None)
-            //             {
-            //                 engine.LoseSupport(econLeader.ToPlayer(), Issue.Economy, 1);
-            //             }
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
-            // {97, new Card()
-            //     {
-            //         Index = 97,
-            //         Title = "Cassius Clay Wins Gold",
-            //         Text = "The leaders in Defense and Economy lose 1 issue support in those issues.  If the same player leads both, they also lose 1 momentum marker.",
-            //         CampaignPoints = 2,
-            //         EventType = EventType.None,
-            //         Issue = Issue.CivilRights,
-            //         Affiliation = Affiliation.Both,
-            //         State = State.OH,
-            //         Event = (engine, player, choices) => {
-            //
-            //             var defenseLeader = engine.GetLeader(Issue.Defense);
-            //             var econLeader = engine.GetLeader(Issue.Economy);
-            //
-            //             if(defenseLeader == econLeader && defenseLeader != Leader.None)
-            //             {
-            //                 engine.LoseMomentum(defenseLeader.ToPlayer(), 1);
-            //             }
-            //             if(defenseLeader != Leader.None)
-            //             {
-            //                 engine.LoseSupport(defenseLeader.ToPlayer(), Issue.Defense, 1);
-            //             }
-            //             if(econLeader != Leader.None)
-            //             {
-            //                 engine.LoseSupport(econLeader.ToPlayer(), Issue.Economy, 1);
-            //             }
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
+            {95, new Card()
+                {
+                    Index = 95,
+                    Title = "A Time For Greatness",
+                    Text = "Nixon loses 1 issue support on each issue.  The Kennedy player may add 3 state support anywhere, no more than 1 per state.",
+                    CampaignPoints = 4,
+                    EventType = EventType.None,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Kennedy,
+                    State = State.TX,
+                    Event = (engine, player, choices) => {
+                        engine.LoseSupport(Player.Nixon, Issue.Defense, 1);
+                        engine.LoseSupport(Player.Nixon, Issue.CivilRights, 1);
+                        engine.LoseSupport(Player.Nixon, Issue.Economy, 1);
+                        engine.ImplementChanges(choices);
+                    },
+                    RequiresPlayerInput = true,
+                    AreChangesValid = (choices) => {
+                        var threePointsOfStateChanges = choices.TotalStateChanges <= 3;
+                        var noValueAboveOne = choices.HighestStateChange <= 1;
+                        var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var onlyStateChanges = choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
+            
+                        return threePointsOfStateChanges && noValueAboveOne
+                                && statePlayerIsOnlyKennedy && onlyStateChanges;
+                    },
+                }
+            },
+            {96, new Card()
+                {
+                    Index = 96,
+                    Title = "Medal Count",
+                    Text = "The leaders in Civil Rights and Economy lose 1 issue support in those issues.  If the same player leads both, they also lose 1 momentum marker.",
+                    CampaignPoints = 2,
+                    EventType = EventType.None,
+                    Issue = Issue.Defense,
+                    Affiliation = Affiliation.Both,
+                    State = State.PA,
+                    Event = (engine, player, choices) => {
+            
+                        var civilRightsLeader = engine.GetLeader(Issue.CivilRights);
+                        var econLeader = engine.GetLeader(Issue.Economy);
+            
+                        if(civilRightsLeader == econLeader && civilRightsLeader != Leader.None)
+                        {
+                            engine.LoseMomentum(civilRightsLeader.ToPlayer(), 1);
+                        }
+                        if(civilRightsLeader != Leader.None)
+                        {
+                            engine.LoseSupport(civilRightsLeader.ToPlayer(), Issue.CivilRights, 1);
+                        }
+                        if(econLeader != Leader.None)
+                        {
+                            engine.LoseSupport(econLeader.ToPlayer(), Issue.Economy, 1);
+                        }
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
+            {97, new Card()
+                {
+                    Index = 97,
+                    Title = "Cassius Clay Wins Gold",
+                    Text = "The leaders in Defense and Economy lose 1 issue support in those issues.  If the same player leads both, they also lose 1 momentum marker.",
+                    CampaignPoints = 2,
+                    EventType = EventType.None,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Both,
+                    State = State.OH,
+                    Event = (engine, player, choices) => {
+            
+                        var defenseLeader = engine.GetLeader(Issue.Defense);
+                        var econLeader = engine.GetLeader(Issue.Economy);
+            
+                        if(defenseLeader == econLeader && defenseLeader != Leader.None)
+                        {
+                            engine.LoseMomentum(defenseLeader.ToPlayer(), 1);
+                        }
+                        if(defenseLeader != Leader.None)
+                        {
+                            engine.LoseSupport(defenseLeader.ToPlayer(), Issue.Defense, 1);
+                        }
+                        if(econLeader != Leader.None)
+                        {
+                            engine.LoseSupport(econLeader.ToPlayer(), Issue.Economy, 1);
+                        }
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
         };
 
         public static readonly Dictionary<int, Card> GMTCards =
