@@ -1009,38 +1009,38 @@ public class Manifest
                     },
                 }
             },
-            // {96, new Card()
-            //     {
-            //         Index = 96,
-            //         Title = "Medal Count",
-            //         Text = "The leaders in Civil Rights and Economy lose 1 issue support in those issues.  If the same player leads both, they also lose 1 momentum marker.",
-            //         CampaignPoints = 2,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Defense,
-            //         Affiliation = Affiliation.Both,
-            //         State = State.PA,
-            //         Event = (engine, player, choices) => {
-            //
-            //             var civilRightsLeader = engine.GetLeader(Issue.CivilRights);
-            //             var econLeader = engine.GetLeader(Issue.Economy);
-            //
-            //             if(civilRightsLeader == econLeader && civilRightsLeader != Leader.None)
-            //             {
-            //                 engine.LoseMomentum(civilRightsLeader.ToPlayer(), 1);
-            //             }
-            //             if(civilRightsLeader != Leader.None)
-            //             {
-            //                 engine.LoseSupport(civilRightsLeader.ToPlayer(), Issue.CivilRights, 1);
-            //             }
-            //             if(econLeader != Leader.None)
-            //             {
-            //                 engine.LoseSupport(econLeader.ToPlayer(), Issue.Economy, 1);
-            //             }
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
+            {96, new Card()
+                {
+                    Index = 96,
+                    Title = "Medal Count",
+                    Text = "The leaders in Civil Rights and Economy lose 1 issue support in those issues.  If the same player leads both, they also lose 1 momentum marker.",
+                    CampaignPoints = 2,
+                    EventType = EventType.None,
+                    Issue = Issue.Defense,
+                    Affiliation = Affiliation.Both,
+                    State = State.PA,
+                    Event = (engine, player, choices) => {
+            
+                        var civilRightsLeader = engine.GetLeader(Issue.CivilRights);
+                        var econLeader = engine.GetLeader(Issue.Economy);
+            
+                        if(civilRightsLeader == econLeader && civilRightsLeader != Leader.None)
+                        {
+                            engine.LoseMomentum(civilRightsLeader.ToPlayer(), 1);
+                        }
+                        if(civilRightsLeader != Leader.None)
+                        {
+                            engine.LoseSupport(civilRightsLeader.ToPlayer(), Issue.CivilRights, 1);
+                        }
+                        if(econLeader != Leader.None)
+                        {
+                            engine.LoseSupport(econLeader.ToPlayer(), Issue.Economy, 1);
+                        }
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
             // {97, new Card()
             //     {
             //         Index = 97,
