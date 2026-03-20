@@ -798,30 +798,30 @@ public class Manifest
                     },
                 }
             },
-            // {78, new Card()
-            //     {
-            //         Index = 78,
-            //         Title = "Stock Market In Decline",
-            //         Text = "Economy moves up two spaces on the Issue Track. The leader in Economy gains 2 state support in New York.",
-            //         CampaignPoints = 3,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Defense,
-            //         Affiliation = Affiliation.Both,
-            //         State = State.TN,
-            //         Event = (engine, player, choices) => {
-            //             engine.MoveIssueUp(Issue.Economy);
-            //             engine.MoveIssueUp(Issue.Economy);
-            //
-            //             var econLeader = engine.GetLeader(Issue.Economy);
-            //             if(econLeader != Leader.None)
-            //             {
-            //                 engine.GainSupport(econLeader.ToPlayer(), State.NY, 2);
-            //             }
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
+            {78, new Card()
+                {
+                    Index = 78,
+                    Title = "Stock Market In Decline",
+                    Text = "Economy moves up two spaces on the Issue Track. The leader in Economy gains 2 state support in New York.",
+                    CampaignPoints = 3,
+                    EventType = EventType.None,
+                    Issue = Issue.Defense,
+                    Affiliation = Affiliation.Both,
+                    State = State.TN,
+                    Event = (engine, player, choices) => {
+                        engine.MoveIssueUp(Issue.Economy);
+                        engine.MoveIssueUp(Issue.Economy);
+            
+                        var econLeader = engine.GetLeader(Issue.Economy);
+                        if(econLeader != Leader.None)
+                        {
+                            engine.GainSupport(econLeader.ToPlayer(), State.NY, 2);
+                        }
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
             // //new Card(79, "Advance Men"),
             // {80, new Card()
             //     {
