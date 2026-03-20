@@ -76,6 +76,13 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             PepsiOrCoke = 2
         }
 
+        public enum FakeStatus
+        {
+            Hungry = 0,
+            Sleepy = 1,
+            Bashful = 2,
+        }
+        
         public class FakeCardClass : ICard
         {
             public int Index { get; init; }
