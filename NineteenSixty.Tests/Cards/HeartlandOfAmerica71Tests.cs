@@ -6,7 +6,7 @@ using PresidentialGameEngine.ClassLibrary.Data;
 namespace NineteenSixty.Tests.Cards;
 
 [TestClass]
-public class HeartlandOfAmerica71Posts
+public class HeartlandOfAmerica71Tests
 {
     //"The Nixon player may add a total of 7 state support in states in the West or Midwest having 10 or fewer electoral votes, no more than 1 per state."
     private const int CardIndex = 71;
