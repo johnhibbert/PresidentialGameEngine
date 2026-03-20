@@ -14,7 +14,7 @@ public class FatigueSetsIn61Tests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
-    public void FatigueSetsIn_61_OpponentExhausted(Player player)
+    public void FatigueSetsIn_61_ReadyOpponentBecomesExhausted(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
 
@@ -29,7 +29,7 @@ public class FatigueSetsIn61Tests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
-    public void FatigueSetsIn_61_OpponentAlreadyExhaustedStillWorks(Player player)
+    public void FatigueSetsIn_61_ExhaustedOpponentRemainsExhausted(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
         
