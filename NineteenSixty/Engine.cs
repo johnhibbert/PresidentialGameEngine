@@ -18,7 +18,7 @@ public class Engine(
     IAccumulatingComponent<Player> restComponent,
     ISupportComponent<Player, Leader, Region> endorsementComponent,
     ISupportComponent<Player, Leader, Region> mediaSupportComponent,
-    IExhaustionComponent<Player> exhaustionComponent)
+    IPlayerStatusComponent<Player, Status> exhaustionComponent)
     //CardComponent needs a revision to work now.
     //ICardComponent<Player, Card> cardComponent,
     //IStaticDataComponent<State, Player, Region> staticDataComponent)
@@ -36,7 +36,7 @@ public class Engine(
     private IAccumulatingComponent<Player> RestComponent { get; init; } = restComponent;
     private ISupportComponent<Player, Leader, Region> EndorsementComponent { get; init; } = endorsementComponent;
     private ISupportComponent<Player, Leader, Region> MediaSupportComponent { get; init; } = mediaSupportComponent;
-    private IExhaustionComponent<Player> ExhaustionComponent { get; init; } = exhaustionComponent;
+    private IPlayerStatusComponent<Player, Status> ExhaustionComponent { get; init; } = exhaustionComponent;
     //CardComponent needs a revision to work now.
     //private ICardComponent<Player, Card> CardComponent { get; init; } = cardComponent;
     //private IStaticDataComponent<State, Player, Region> StaticDataComponent { get; init; } = staticDataComponent;
@@ -50,7 +50,7 @@ public class Engine(
             IssueContests = IssueSupportComponent.GetRawData(),
             IssueOrder = IssuePositioningComponent.GetSubjectOrder,
             Endorsements = EndorsementComponent.GetRawData(),
-            Exhaustion = ExhaustionComponent.GetRawData(),
+            PlayerStatuses = ExhaustionComponent.GetRawData(),
             MediaSupportLevels = MediaSupportComponent.GetRawData(),
             PlayerLocations = PlayerLocationComponent.GetRawData(),
             StateContests = StateSupportComponent.GetRawData(),
@@ -206,12 +206,12 @@ public class Engine(
 
     public void ExhaustPlayer(Player player)
     {
-        ExhaustionComponent.ExhaustPlayer(player);
+        ExhaustionComponent.UpdatePlayerStatus(player, Status.Exhausted);
     }
 
     public void UnexhaustPlayer(Player player)
     {
-        ExhaustionComponent.UnexhaustPlayer(player);
+        ExhaustionComponent.UpdatePlayerStatus(player, Status.Ready);
     }
 
 

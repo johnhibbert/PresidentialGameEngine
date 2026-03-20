@@ -23,7 +23,7 @@ public class FatigueSetsIn61Tests
         var sut = Manifest.GMTCards[CardIndex];
         sut.Event(engine, player, EngineFixtures.EmptyChanges);
 
-        Assert.IsFalse(engine.GetGameState().Exhaustion[opponent]);
+        Assert.AreEqual(Status.Exhausted, engine.GetGameState().PlayerStatuses[opponent]);
     }
 
     [TestMethod]
@@ -40,7 +40,7 @@ public class FatigueSetsIn61Tests
         var sut = Manifest.GMTCards[CardIndex];
         sut.Event(engine, player, EngineFixtures.EmptyChanges);
 
-        Assert.IsFalse(engine.GetGameState().Exhaustion[opponent]);
+        Assert.AreEqual(Status.Exhausted, engine.GetGameState().PlayerStatuses[opponent]);
     }
         
     [TestMethod]
