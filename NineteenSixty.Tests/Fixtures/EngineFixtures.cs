@@ -21,7 +21,7 @@ public static class EngineFixtures
         var restComponent = new AccumulatingComponent<Player>();
         var endorsementComponent = new SupportComponent<Player, Leader, Region>();
         var mediaSupportComponent = new SupportComponent<Player, Leader, Region>();
-        var exhaustionComponent = new ExhaustionComponent<Player>();
+        var exhaustionComponent = new PlayerStatusComponent<Player, Status>();
         //var cardComponent = new CardComponent<Player, Card>(seed, Manifest.GMTCards);
         //var staticDataComponent = new StaticDataComponent<State, Player, Region>(Manifest.StateData);
 

@@ -48,7 +48,7 @@ public class HenryCabotLodge42Tests
         var sut = Manifest.GMTCards[CardIndex];
         sut.Event(engine, player, EngineFixtures.EmptyChanges);
 
-        Assert.IsTrue(engine.GetGameState().Exhaustion[Player.Nixon]);
+        Assert.AreEqual(Status.Ready, engine.GetGameState().PlayerStatuses[Player.Nixon]);
     }
 
     [TestMethod]
@@ -62,7 +62,7 @@ public class HenryCabotLodge42Tests
         var sut = Manifest.GMTCards[CardIndex];
         sut.Event(engine, player, EngineFixtures.EmptyChanges);
 
-        Assert.IsTrue(engine.GetGameState().Exhaustion[Player.Nixon]);
+        Assert.AreEqual(Status.Ready, engine.GetGameState().PlayerStatuses[Player.Nixon]);
     }
 
     [TestMethod]

@@ -21,5 +21,5 @@ public record GameState
 
     public required IDictionary<Player, State> PlayerLocations { get; init; }
 
-    public required IDictionary<Player, bool> Exhaustion { get; init; }
+    public required IDictionary<Player, Status> PlayerStatuses { get; init; }
 }

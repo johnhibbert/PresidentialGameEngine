@@ -63,7 +63,7 @@ public class LyndonJohnson39Tests
 
         sut.Event(engine, player, playerChoices);
 
-        Assert.IsTrue(engine.GetGameState().Exhaustion[Player.Kennedy]);
+        Assert.AreEqual(Status.Ready, engine.GetGameState().PlayerStatuses[Player.Kennedy]);
 
     }
     
@@ -91,7 +91,7 @@ public class LyndonJohnson39Tests
 
         sut.Event(engine, player, playerChoices);
 
-        Assert.IsTrue(engine.GetGameState().Exhaustion[Player.Kennedy]);
+        Assert.AreEqual(Status.Ready, engine.GetGameState().PlayerStatuses[Player.Kennedy]);
 
     }
 
