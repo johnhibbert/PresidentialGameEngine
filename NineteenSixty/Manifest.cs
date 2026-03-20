@@ -570,30 +570,29 @@ public class Manifest
                     AreChangesValid = (choices) => true,
                 }
             },
-            // {62, new Card()
-            //     {
-            //         Index = 62,
-            //         Title = "Trial of Gary Powers",
-            //         Text = "Defense moves up two spaces on the Issue Track.  The leader in Defense gains 1 momentum marker.",
-            //         CampaignPoints = 3,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Economy,
-            //         Affiliation = Affiliation.Both,
-            //         State = State.WI,
-            //         Event = (engine, player, choices) => {
-            //             engine.MoveIssueUp(Issue.Defense);
-            //             engine.MoveIssueUp(Issue.Defense);
-            //             var leader = engine.GetLeader(Issue.Defense);
-            //             if(leader != Leader.None)
-            //             {
-            //                 engine.GainMomentum(leader.ToPlayer(), 1);
-            //             }
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
-            //
+            {62, new Card()
+                {
+                    Index = 62,
+                    Title = "Trial of Gary Powers",
+                    Text = "Defense moves up two spaces on the Issue Track.  The leader in Defense gains 1 momentum marker.",
+                    CampaignPoints = 3,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Both,
+                    State = State.WI,
+                    Event = (engine, player, choices) => {
+                        engine.MoveIssueUp(Issue.Defense);
+                        engine.MoveIssueUp(Issue.Defense);
+                        var leader = engine.GetLeader(Issue.Defense);
+                        if(leader != Leader.None)
+                        {
+                            engine.GainMomentum(leader.ToPlayer(), 1);
+                        }
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
             // {63, new Card()
             //     {
             //         Index = 63,
