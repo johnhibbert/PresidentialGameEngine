@@ -82,6 +82,13 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Sleepy = 1,
             Bashful = 2,
         }
+
+        public enum FakeCardZone
+        {
+            Time = 0,
+            Phantom = 1, 
+            Danger = 2,
+        }
         
         public class FakeCardClass : ICard
         {
