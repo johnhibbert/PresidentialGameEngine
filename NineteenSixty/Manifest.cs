@@ -768,36 +768,36 @@ public class Manifest
             },
             // //new Card(76, "Nixon’s Pledge"),
             // //new Card(77, "Suburban Voters"),
-            // {77, new Card()
-            //     {
-            //         Index = 77,
-            //         Title = "Suburban Voters",
-            //         Text = "The Kennedy player may add a total of 5 state support in states having 20 or more electoral votes, no more than 2 per state.",
-            //         CampaignPoints = 3,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Economy,
-            //         Affiliation = Affiliation.Kennedy,
-            //         State = State.MN,
-            //         Event = (engine, player, choices) => {
-            //             engine.ImplementChanges(choices);
-            //         },
-            //         RequiresPlayerInput = true,
-            //         AreChangesValid = (choices) => {
-            //
-            //             var suburbanStates = StateData.Where(x => x.Value.ElectoralVotes >=20).Select(y => y.Key);
-            //
-            //             var onlySuburbanStates = choices.StateChanges.Select(s => s.Target).All(x => suburbanStates.Contains(x));
-            //             var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
-            //             var noValueAboveTwo = choices.HighestStateChange <= 2;
-            //             var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
-            //             var containsOnlyStateSupportChanges =
-            //                 choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
-            //             
-            //             return onlySuburbanStates && fiveOrFewerPointsOfStateChanges
-            //                 && statePlayerIsOnlyKennedy && noValueAboveTwo && containsOnlyStateSupportChanges;
-            //         },
-            //     }
-            // },
+            {77, new Card()
+                {
+                    Index = 77,
+                    Title = "Suburban Voters",
+                    Text = "The Kennedy player may add a total of 5 state support in states having 20 or more electoral votes, no more than 2 per state.",
+                    CampaignPoints = 3,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Kennedy,
+                    State = State.MN,
+                    Event = (engine, player, choices) => {
+                        engine.ImplementChanges(choices);
+                    },
+                    RequiresPlayerInput = true,
+                    AreChangesValid = (choices) => {
+            
+                        var suburbanStates = StateData.Where(x => x.Value.ElectoralVotes >=20).Select(y => y.Key);
+            
+                        var onlySuburbanStates = choices.StateChanges.Select(s => s.Target).All(x => suburbanStates.Contains(x));
+                        var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
+                        var noValueAboveTwo = choices.HighestStateChange <= 2;
+                        var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var containsOnlyStateSupportChanges =
+                            choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
+                        
+                        return onlySuburbanStates && fiveOrFewerPointsOfStateChanges
+                            && statePlayerIsOnlyKennedy && noValueAboveTwo && containsOnlyStateSupportChanges;
+                    },
+                }
+            },
             // {78, new Card()
             //     {
             //         Index = 78,
