@@ -707,148 +707,148 @@ public class Manifest
                     },
                 }
             },
-            // {72, new Card()
-            //     {
-            //         Index = 72,
-            //         Title = "Southern Revolt",
-            //         Text = "If Kennedy is leading in Civil Rights, the Nixon player may add a total of 5 state support in the South, no more than 2 per state.",
-            //         CampaignPoints = 3,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Economy,
-            //         Affiliation = Affiliation.Nixon,
-            //         State = State.IN,
-            //         Event = (engine, player, choices) => {
-            //             var civilRightsleader = engine.GetLeader(Issue.CivilRights);
-            //
-            //             if(civilRightsleader == Leader.Kennedy)
-            //             {
-            //                 engine.ImplementChanges(choices);
-            //             }
-            //         },
-            //         RequiresPlayerInput = true,
-            //         AreChangesValid = (choices) => {
-            //             var southernStates = StateData.Where(y => y.Value.Region == Region.South).Select(z => z.Key);
-            //
-            //             var onlySouthernStatesIncluded = choices.StateChanges.Select(s => s.Target).All(x => southernStates.Contains(x));
-            //             var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
-            //             var noValueAboveTwo = choices.HighestStateChange <= 2;
-            //             var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
-            //             var containsOnlyStateSupportChanges =
-            //                 choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
-            //
-            //             return onlySouthernStatesIncluded && fiveOrFewerPointsOfStateChanges
-            //                 && statePlayerIsOnlyNixon && noValueAboveTwo && containsOnlyStateSupportChanges;
-            //         },
-            //     }
-            // },
+            {72, new Card()
+                {
+                    Index = 72,
+                    Title = "Southern Revolt",
+                    Text = "If Kennedy is leading in Civil Rights, the Nixon player may add a total of 5 state support in the South, no more than 2 per state.",
+                    CampaignPoints = 3,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.IN,
+                    Event = (engine, player, choices) => {
+                        var civilRightsLeader = engine.GetLeader(Issue.CivilRights);
+            
+                        if(civilRightsLeader == Leader.Kennedy)
+                        {
+                            engine.ImplementChanges(choices);
+                        }
+                    },
+                    RequiresPlayerInput = true,
+                    AreChangesValid = (choices) => {
+                        var southernStates = StateData.Where(y => y.Value.Region == Region.South).Select(z => z.Key);
+            
+                        var onlySouthernStatesIncluded = choices.StateChanges.Select(s => s.Target).All(x => southernStates.Contains(x));
+                        var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
+                        var noValueAboveTwo = choices.HighestStateChange <= 2;
+                        var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
+                        var containsOnlyStateSupportChanges =
+                            choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
+            
+                        return onlySouthernStatesIncluded && fiveOrFewerPointsOfStateChanges
+                            && statePlayerIsOnlyNixon && noValueAboveTwo && containsOnlyStateSupportChanges;
+                    },
+                }
+            },
             // //new Card(73, "Norman Vincent Peale"),
             // //new Card(74, "Eisenhower’s Silence"),
-            // {75, new Card()
-            //     {
-            //         Index = 75,
-            //         Title = "Republican TV Spots",
-            //         Text = "Immediately move the Nixon candidate token to New York, but do no pay the normal travel costs for doing so.  The Nixon player may place 3 media support cubes.",
-            //         CampaignPoints = 4,
-            //         EventType = EventType.None,
-            //         Issue = Issue.CivilRights,
-            //         Affiliation = Affiliation.Nixon,
-            //         State = State.CA,
-            //         Event = (engine, player, choices) => {
-            //             engine.MovePlayerToState(Player.Nixon, State.NY);
-            //             engine.ImplementChanges(choices);
-            //         },
-            //         RequiresPlayerInput = true,
-            //         AreChangesValid = (choices) => {
-            //             var threeOrFewerMediaSupportChanges = choices.TotalMediaChanges <= 3;
-            //             var onlyMediaSupport = choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.MediaSupport]);
-            //             
-            //             return threeOrFewerMediaSupportChanges && onlyMediaSupport;
-            //         },
-            //     }
-            // },
+            {75, new Card()
+                {
+                    Index = 75,
+                    Title = "Republican TV Spots",
+                    Text = "Immediately move the Nixon candidate token to New York, but do no pay the normal travel costs for doing so.  The Nixon player may place 3 media support cubes.",
+                    CampaignPoints = 4,
+                    EventType = EventType.None,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.CA,
+                    Event = (engine, player, choices) => {
+                        engine.MovePlayerToState(Player.Nixon, State.NY);
+                        engine.ImplementChanges(choices);
+                    },
+                    RequiresPlayerInput = true,
+                    AreChangesValid = (choices) => {
+                        var threeOrFewerMediaSupportChanges = choices.TotalMediaChanges <= 3;
+                        var onlyMediaSupport = choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.MediaSupport]);
+                        
+                        return threeOrFewerMediaSupportChanges && onlyMediaSupport;
+                    },
+                }
+            },
             // //new Card(76, "Nixon’s Pledge"),
             // //new Card(77, "Suburban Voters"),
-            // {77, new Card()
-            //     {
-            //         Index = 77,
-            //         Title = "Suburban Voters",
-            //         Text = "The Kennedy player may add a total of 5 state support in states having 20 or more electoral votes, no more than 2 per state.",
-            //         CampaignPoints = 3,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Economy,
-            //         Affiliation = Affiliation.Kennedy,
-            //         State = State.MN,
-            //         Event = (engine, player, choices) => {
-            //             engine.ImplementChanges(choices);
-            //         },
-            //         RequiresPlayerInput = true,
-            //         AreChangesValid = (choices) => {
-            //
-            //             var suburbanStates = StateData.Where(x => x.Value.ElectoralVotes >=20).Select(y => y.Key);
-            //
-            //             var onlySuburbanStates = choices.StateChanges.Select(s => s.Target).All(x => suburbanStates.Contains(x));
-            //             var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
-            //             var noValueAboveTwo = choices.HighestStateChange <= 2;
-            //             var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
-            //             var containsOnlyStateSupportChanges =
-            //                 choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
-            //             
-            //             return onlySuburbanStates && fiveOrFewerPointsOfStateChanges
-            //                 && statePlayerIsOnlyKennedy && noValueAboveTwo && containsOnlyStateSupportChanges;
-            //         },
-            //     }
-            // },
-            // {78, new Card()
-            //     {
-            //         Index = 78,
-            //         Title = "Stock Market In Decline",
-            //         Text = "Economy moves up two spaces on the Issue Track. The leader in Economy gains 2 state support in New York.",
-            //         CampaignPoints = 3,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Defense,
-            //         Affiliation = Affiliation.Both,
-            //         State = State.TN,
-            //         Event = (engine, player, choices) => {
-            //             engine.MoveIssueUp(Issue.Economy);
-            //             engine.MoveIssueUp(Issue.Economy);
-            //
-            //             var econLeader = engine.GetLeader(Issue.Economy);
-            //             if(econLeader != Leader.None)
-            //             {
-            //                 engine.GainSupport(econLeader.ToPlayer(), State.NY, 2);
-            //             }
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
+            {77, new Card()
+                {
+                    Index = 77,
+                    Title = "Suburban Voters",
+                    Text = "The Kennedy player may add a total of 5 state support in states having 20 or more electoral votes, no more than 2 per state.",
+                    CampaignPoints = 3,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Kennedy,
+                    State = State.MN,
+                    Event = (engine, player, choices) => {
+                        engine.ImplementChanges(choices);
+                    },
+                    RequiresPlayerInput = true,
+                    AreChangesValid = (choices) => {
+            
+                        var suburbanStates = StateData.Where(x => x.Value.ElectoralVotes >=20).Select(y => y.Key);
+            
+                        var onlySuburbanStates = choices.StateChanges.Select(s => s.Target).All(x => suburbanStates.Contains(x));
+                        var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
+                        var noValueAboveTwo = choices.HighestStateChange <= 2;
+                        var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var containsOnlyStateSupportChanges =
+                            choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
+                        
+                        return onlySuburbanStates && fiveOrFewerPointsOfStateChanges
+                            && statePlayerIsOnlyKennedy && noValueAboveTwo && containsOnlyStateSupportChanges;
+                    },
+                }
+            },
+            {78, new Card()
+                {
+                    Index = 78,
+                    Title = "Stock Market In Decline",
+                    Text = "Economy moves up two spaces on the Issue Track. The leader in Economy gains 2 state support in New York.",
+                    CampaignPoints = 3,
+                    EventType = EventType.None,
+                    Issue = Issue.Defense,
+                    Affiliation = Affiliation.Both,
+                    State = State.TN,
+                    Event = (engine, player, choices) => {
+                        engine.MoveIssueUp(Issue.Economy);
+                        engine.MoveIssueUp(Issue.Economy);
+            
+                        var econLeader = engine.GetLeader(Issue.Economy);
+                        if(econLeader != Leader.None)
+                        {
+                            engine.GainSupport(econLeader.ToPlayer(), State.NY, 2);
+                        }
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
             // //new Card(79, "Advance Men"),
-            // {80, new Card()
-            //     {
-            //         Index = 80,
-            //         Title = "Herblock",
-            //         Text = "The Kennedy player may remove 2 Nixon media support cubes from the board.",
-            //         CampaignPoints = 2,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Economy,
-            //         Affiliation = Affiliation.Kennedy,
-            //         State = State.MS,
-            //         Event = (engine, player, choices) => {
-            //             engine.ImplementChanges(choices);
-            //         },
-            //         RequiresPlayerInput = true,
-            //         AreChangesValid = (choices) => {
-            //             var upToNegativeTwoPointsOfLostMediaSupport = choices.TotalMediaChanges is >= -2 and >= 0;
-            //             var affectedPlayerIsNixon = choices.MediaSupportChanges.Select(x => x.Player).All(y => y == Player.Nixon);
-            //
-            //             var hasOnlyMediaSupportChanges =
-            //                 choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.MediaSupport]);
-            //
-            //             return upToNegativeTwoPointsOfLostMediaSupport && affectedPlayerIsNixon 
-            //                    && hasOnlyMediaSupportChanges;
-            //         },
-            //     }
-            // },
+            {80, new Card()
+                {
+                    Index = 80,
+                    Title = "Herblock",
+                    Text = "The Kennedy player may remove 2 Nixon media support cubes from the board.",
+                    CampaignPoints = 2,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Kennedy,
+                    State = State.MS,
+                    Event = (engine, player, choices) => {
+                        engine.ImplementChanges(choices);
+                    },
+                    RequiresPlayerInput = true,
+                    AreChangesValid = (choices) => {
+                        var upToNegativeTwoPointsOfLostMediaSupport = choices.TotalMediaChanges is >= -2 and >= 0;
+                        var affectedPlayerIsNixon = choices.MediaSupportChanges.Select(x => x.Player).All(y => y == Player.Nixon);
+            
+                        var hasOnlyMediaSupportChanges =
+                            choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.MediaSupport]);
+            
+                        return upToNegativeTwoPointsOfLostMediaSupport && affectedPlayerIsNixon 
+                               && hasOnlyMediaSupportChanges;
+                    },
+                }
+            },
             // //new Card(81, "Kennedy’s Peace Corps"),
             // {82, new Card()
             //     {                    

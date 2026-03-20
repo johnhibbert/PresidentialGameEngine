@@ -88,11 +88,11 @@ public class Engine(
         {
             if (mediaChange.Change > 0)
             {
-                //MediaSupportComponent.GainMediaSupportWithoutSupportCheck(mediaChange.Player, mediaChange.Target, mediaChange.Change);
+                MediaSupportComponent.GainSupport(mediaChange.Player, mediaChange.Target, mediaChange.Change);
             }
             else
             {
-                //LoseMediaSupport(mediaChange.Player, mediaChange.Target, Math.Abs(mediaChange.Change));
+                MediaSupportComponent.LoseSupport(mediaChange.Player, mediaChange.Target, Math.Abs(mediaChange.Change));
             }
         }
 
