@@ -657,26 +657,25 @@ public class Manifest
                     AreChangesValid = (choices) => true,
                 }
             },
-            // //new Card(69, "Congressional Summer Session"),
-            // {70, new Card()
-            //     {
-            //         Index = 70,
-            //         Title = "The Old Nixon",
-            //         Text = "The Nixon player loses 1 momentum marker.  The Kennedy player loses 3 momentum markers.",
-            //         CampaignPoints = 4,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Economy,
-            //         Affiliation = Affiliation.Nixon,
-            //         State = State.IL,
-            //         Event = (engine, player, choices) => {
-            //             engine.LoseMomentum(Player.Nixon, 1);
-            //             engine.LoseMomentum(Player.Kennedy, 3);
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
-            //
+            //new Card(69, "Congressional Summer Session"),
+            {70, new Card()
+                {
+                    Index = 70,
+                    Title = "The Old Nixon",
+                    Text = "The Nixon player loses 1 momentum marker.  The Kennedy player loses 3 momentum markers.",
+                    CampaignPoints = 4,
+                    EventType = EventType.None,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.IL,
+                    Event = (engine, player, choices) => {
+                        engine.LoseMomentum(Player.Nixon, 1);
+                        engine.LoseMomentum(Player.Kennedy, 3);
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
             // {71, new Card()
             //     {
             //         Index = 71,
