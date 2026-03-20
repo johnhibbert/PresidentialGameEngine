@@ -676,37 +676,37 @@ public class Manifest
                     AreChangesValid = (choices) => true,
                 }
             },
-            // {71, new Card()
-            //     {
-            //         Index = 71,
-            //         Title = "Heartland of America",
-            //         Text = "The Nixon player may add a total of 7 state support in states in the West or Midwest having 10 or fewer electoral votes, no more than 1 per state.",
-            //         CampaignPoints = 3,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Defense,
-            //         Affiliation = Affiliation.Nixon,
-            //         State = State.NJ,
-            //         Event = (engine, player, choices) => {
-            //             engine.ImplementChanges(choices);
-            //         },
-            //         RequiresPlayerInput = true,
-            //         AreChangesValid = (choices) => {
-            //
-            //             var heartlandStates = StateData.Where(x => x.Value.ElectoralVotes <=10)
-            //             .Where(y => y.Value.Region is Region.Midwest or Region.West).Select(z => z.Key);
-            //
-            //             var onlyHeartlandStates = choices.StateChanges.Select(s => s.Target).All(x => heartlandStates.Contains(x));
-            //             var sevenOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 7;
-            //             var noValueAboveOne = choices.HighestStateChange <= 1;
-            //             var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
-            //             var containsOnlyStateSupportChanges =
-            //                 choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
-            //
-            //             return onlyHeartlandStates && sevenOrFewerPointsOfStateChanges
-            //                 && statePlayerIsOnlyNixon && noValueAboveOne && containsOnlyStateSupportChanges;
-            //         },
-            //     }
-            // },
+            {71, new Card()
+                {
+                    Index = 71,
+                    Title = "Heartland of America",
+                    Text = "The Nixon player may add a total of 7 state support in states in the West or Midwest having 10 or fewer electoral votes, no more than 1 per state.",
+                    CampaignPoints = 3,
+                    EventType = EventType.None,
+                    Issue = Issue.Defense,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.NJ,
+                    Event = (engine, player, choices) => {
+                        engine.ImplementChanges(choices);
+                    },
+                    RequiresPlayerInput = true,
+                    AreChangesValid = (choices) => {
+            
+                        var heartlandStates = StateData.Where(x => x.Value.ElectoralVotes <=10)
+                        .Where(y => y.Value.Region is Region.Midwest or Region.West).Select(z => z.Key);
+            
+                        var onlyHeartlandStates = choices.StateChanges.Select(s => s.Target).All(x => heartlandStates.Contains(x));
+                        var sevenOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 7;
+                        var noValueAboveOne = choices.HighestStateChange <= 1;
+                        var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
+                        var containsOnlyStateSupportChanges =
+                            choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
+            
+                        return onlyHeartlandStates && sevenOrFewerPointsOfStateChanges
+                            && statePlayerIsOnlyNixon && noValueAboveOne && containsOnlyStateSupportChanges;
+                    },
+                }
+            },
             // {72, new Card()
             //     {
             //         Index = 72,
