@@ -1,0 +1,55 @@
+using NineteenSixty.Data;
+using NineteenSixty.Enums;
+using NineteenSixty.Tests.Fixtures;
+using PresidentialGameEngine.ClassLibrary.Data;
+
+namespace NineteenSixty.Tests.Cards;
+
+[TestClass]
+public class FatigueSetsIn61Tests
+{
+    //"If opponent's candidate card is currently available for play, flip it over to its Exhausted side."
+    private const int CardIndex = 61;
+    
+    [TestMethod]
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
+    public void FatigueSetsIn_61_OpponentExhausted(Player player)
+    {
+        var engine = EngineFixtures.GetGameEngine();
+
+        var opponent = player.ToOpponent();
+        
+        var sut = Manifest.GMTCards[CardIndex];
+        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+
+        Assert.IsFalse(engine.GetGameState().Exhaustion[opponent]);
+    }
+
+    [TestMethod]
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
+    public void FatigueSetsIn_61_OpponentAlreadyExhaustedStillWorks(Player player)
+    {
+        var engine = EngineFixtures.GetGameEngine();
+        
+        var opponent = player.ToOpponent();
+        
+        engine.ExhaustPlayer(opponent);
+
+        var sut = Manifest.GMTCards[CardIndex];
+        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+
+        Assert.IsFalse(engine.GetGameState().Exhaustion[opponent]);
+    }
+        
+    [TestMethod]
+    public void FatigueSetsIn_61_ValidationAlwaysTrue()
+    {
+        var sut = Manifest.GMTCards[CardIndex];
+
+        var result = sut.AreChangesValid(EngineFixtures.InvalidChanges);
+
+        Assert.IsTrue(result);
+    }
+}

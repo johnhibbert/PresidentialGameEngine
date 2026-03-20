@@ -553,23 +553,23 @@ public class Manifest
                     },
                 }
             },
-            // {61, new Card()
-            //     {
-            //         Index = 61,
-            //         Title = "Fatigue Sets In",
-            //         Text = "If opponent's candidate card is currently available for play, flip it over to its Exhausted side.",
-            //         CampaignPoints = 4,
-            //         EventType = EventType.None,
-            //         Issue = Issue.CivilRights,
-            //         Affiliation = Affiliation.Both,
-            //         State = State.OH,
-            //         Event = (engine, player, choices) => {
-            //             engine.ExhaustPlayer(player.ToOpponent());
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
+            {61, new Card()
+                {
+                    Index = 61,
+                    Title = "Fatigue Sets In",
+                    Text = "If opponent's candidate card is currently available for play, flip it over to its Exhausted side.",
+                    CampaignPoints = 4,
+                    EventType = EventType.None,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Both,
+                    State = State.OH,
+                    Event = (engine, player, choices) => {
+                        engine.ExhaustPlayer(player.ToOpponent());
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) => true,
+                }
+            },
             // {62, new Card()
             //     {
             //         Index = 62,
