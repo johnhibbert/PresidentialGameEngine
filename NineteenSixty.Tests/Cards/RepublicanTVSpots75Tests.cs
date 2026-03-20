@@ -34,7 +34,7 @@ public class RepublicanTvSpots75Tests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
-    public void RepublicanTVSpots_75_MediaSupportAdded(Player player)
+    public void RepublicanTVSpots_75_NixonGainsThreeMediaSupport(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
         engine.GainSupport(Player.Kennedy, Issue.CivilRights, 2);
@@ -47,6 +47,28 @@ public class RepublicanTvSpots75Tests
 
         sut.Event(engine, player, playerChoices);
 
+        Assert.AreEqual(3, engine.GetGameState().MediaSupportLevels[Region.West].Amount);
+    }
+    
+    [TestMethod]
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
+    public void RepublicanTVSpots_75_WorksEvenIfNixonWasAlreadyInNewYork(Player player)
+    {
+        var engine = EngineFixtures.GetGameEngine();
+        engine.MovePlayerToState(Player.Nixon, State.NY);
+        
+        engine.GainSupport(Player.Kennedy, Issue.CivilRights, 2);
+     
+        SetOfChanges playerChoices = new();
+        var mediaSupportGained = new SupportChange<Player, Region>(Player.Nixon, Region.West, 3);
+        playerChoices.MediaSupportChanges.Add(mediaSupportGained);
+
+        var sut = Manifest.GMTCards[CardIndex];
+
+        sut.Event(engine, player, playerChoices);
+        
+        Assert.AreEqual(State.NY, engine.GetPlayerState(Player.Nixon));
         Assert.AreEqual(3, engine.GetGameState().MediaSupportLevels[Region.West].Amount);
     }
 
