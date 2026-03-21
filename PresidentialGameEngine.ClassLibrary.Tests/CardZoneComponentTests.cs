@@ -46,11 +46,11 @@ public class CardZoneComponentTests
     //[ExpectedException(typeof(ArgumentException))]
     public void MoveCardFromOneZoneToAnother_LLL()
     {
-        var fakePlayer = new FakePlayer();
-        var fakeCard = new FakeCardClass();
-        
-        var sut = new CardZoneComponent<FakeNonMatchingCardZone, FakePublicZone, FakePublicZone, FakePlayer, FakeCardClass>();
-        
+        // var fakePlayer = new FakePlayer();
+        // var fakeCard = new FakeCardClass();
+        //
+        // var sut = new CardZoneComponent<FakeNonMatchingCardZone, FakePublicZone, FakePublicZone, FakePlayer, FakeCardClass>();
+        //
         //sut.MoveCardFromOneZoneToAnother(fakePlayer, fakeCard, FakeNonMatchingCardZone.Danger, FakeNonMatchingCardZone.Time);
     }
     
