@@ -101,6 +101,24 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Phantom = 1, 
         }
         
+        public enum FakeNonMatchingCardZone
+        {
+            Time = 0,
+            Phantom = 1, 
+            Danger = 2,
+            Neutral = 3,
+        }
+
+        public enum FakePrivateZoneWithDuplicatedName
+        {
+            Time = 1,
+        }
+        
+        public enum FakePrivateZoneWithDuplicatedValue
+        {
+            Phantom = 2,
+        }
+        
         public class FakeCardClass : ICard
         {
             public int Index { get; init; }

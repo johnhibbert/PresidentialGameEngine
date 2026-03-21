@@ -5,20 +5,15 @@ public interface ICardZoneComponent<TZone, TPublicZone, TPrivateZone, TPlayer, T
     where TPublicZone : Enum
     where TPrivateZone : Enum
     where TPlayer : Enum
-
 {
-    
-    //public IEnumerable<TCard> GetCardsInZone(TZone zone);
-    
     public IEnumerable<TCard> GetCardsInPublicZone(TPublicZone publicZone);
     
     public IEnumerable<TCard> GetCardsInPrivateZone(TPrivateZone privateZone, TPlayer player);
-    
-   
-    //public IEnumerable<TCard> GetCardsInPublicZone(TZone zone);
-    
-    //public IEnumerable<TCard> GetCardsInPrivateZone(TZone zone, TPlayer player);
 
+    public void AddCardToPublicZone(TCard card, TPublicZone publicZone);
+    
+    public void AddCardPrivateZone(TCard card, TPrivateZone privateZone, TPlayer player);
+    
     void MoveCardFromOneZoneToAnother(TPlayer player, TCard cardToMove,
         TZone source, TZone destination);
 }
