@@ -108,14 +108,14 @@ public class CardZoneComponent<TZone, TPublicZone, TPrivateZone, TPlayer, TCard>
         return CardInPrivateZones[player][privateZone];
     }
 
-    public void AddCardToPublicZone(TCard card, TPublicZone publicZone)
+    public void AddCardsToPublicZone(IEnumerable<TCard> cards, TPublicZone publicZone)
     {
-        throw new NotImplementedException();
+        CardsInPublicZones[publicZone].AddRange(cards);
     }
 
-    public void AddCardPrivateZone(TCard card, TPrivateZone privateZone, TPlayer player)
+    public void AddCardsToPrivateZone(IEnumerable<TCard> cards, TPrivateZone privateZone, TPlayer player)
     {
-        throw new NotImplementedException();
+        CardInPrivateZones[player][privateZone].AddRange(cards);
     }
 
 

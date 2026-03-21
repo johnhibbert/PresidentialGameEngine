@@ -40,6 +40,49 @@ public class CardZoneComponentTests
     
     #endregion
     
+    
+    #region AddCardsToPublicZone Tests
+    
+    [TestMethod]
+    public void AddCardsToPublicZone_LLL()
+    {
+        var zone = FakePublicZone.Danger;
+        var card = new FakeCardClass();
+        
+        var sut = new CardZoneComponent<FakeCardZone, FakePublicZone, FakePrivateZone, FakePlayer, FakeCardClass>();
+        
+        sut.AddCardsToPublicZone([card], zone);
+
+        var f = sut.GetCardsInPublicZone(zone);
+        
+        int i = 0;
+
+    }
+    
+    #endregion
+    
+    #region AddCardsToPrivateZone Tests
+    
+    [TestMethod]
+    public void AddCardsToPrivateZone_CardAddedSuccessfully()
+    {
+        var player = FakePlayer.PlayerOne;
+        var zone = FakePrivateZone.Phantom;
+        var card = new FakeCardClass();
+        
+        var sut = new CardZoneComponent<FakeCardZone, FakePublicZone, FakePrivateZone, FakePlayer, FakeCardClass>();
+        
+        sut.AddCardsToPrivateZone([card], zone, player);
+
+        var result = sut.GetCardsInPrivateZone(zone, player);
+        
+        Assert.IsTrue(result.Count() == 1);
+
+    }
+    
+    #endregion
+    
+    
     #region MoveCardFromOneZoneToAnother Tests
     
     [TestMethod]

@@ -10,9 +10,9 @@ public interface ICardZoneComponent<TZone, TPublicZone, TPrivateZone, TPlayer, T
     
     public IEnumerable<TCard> GetCardsInPrivateZone(TPrivateZone privateZone, TPlayer player);
 
-    public void AddCardToPublicZone(TCard card, TPublicZone publicZone);
-    
-    public void AddCardPrivateZone(TCard card, TPrivateZone privateZone, TPlayer player);
+    public void AddCardsToPublicZone(IEnumerable<TCard> cards, TPublicZone publicZone);
+
+    public void AddCardsToPrivateZone(IEnumerable<TCard> cards, TPrivateZone privateZone, TPlayer player);
     
     void MoveCardFromOneZoneToAnother(TPlayer player, TCard cardToMove,
         TZone source, TZone destination);
