@@ -1,18 +1,13 @@
 namespace PresidentialGameEngine.ClassLibrary.Interfaces;
 
-public interface ICardZoneComponent<TZone, TPublicZone, TPrivateZone, TPlayer, TCard>
+public interface ICardZoneComponent<TZone, TPlayer, TCard>
     where TZone : Enum
-    where TPublicZone : Enum
-    where TPrivateZone : Enum
     where TPlayer : Enum
 {
-    public IEnumerable<TCard> GetCardsInPublicZone(TPublicZone publicZone);
     
-    public IEnumerable<TCard> GetCardsInPrivateZone(TPrivateZone privateZone, TPlayer player);
+    public IEnumerable<TCard> GetCardsInZone(TZone zone, TPlayer player);
 
-    public void AddCardsToPublicZone(IEnumerable<TCard> cards, TPublicZone publicZone);
-
-    public void AddCardsToPrivateZone(IEnumerable<TCard> cards, TPrivateZone privateZone, TPlayer player);
+    public void AddCardsToZone(IEnumerable<TCard> cards, TZone zone, TPlayer player);
     
     void MoveCardFromOneZoneToAnother(TPlayer player, TCard cardToMove,
         TZone source, TZone destination);

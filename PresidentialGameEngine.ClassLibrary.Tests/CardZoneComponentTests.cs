@@ -9,86 +9,95 @@ namespace PresidentialGameEngine.ClassLibrary.Tests;
 public class CardZoneComponentTests
 {
     #region Constructor Tests
-    
+
     [TestMethod]
     public void Constructor_PrivateCollectionsCreatedSuccessfully()
     {
-        var sut = new CardZoneComponent<FakeCardZone, FakePublicZone, FakePrivateZone, FakePlayer, FakeCardClass>();
-        
-        Assert.AreEqual(0, sut.GetCardsInPublicZone(FakePublicZone.Time).Count());
-        Assert.AreEqual(0, sut.GetCardsInPublicZone(FakePublicZone.Danger).Count());
-        
-        Assert.AreEqual(0, sut.GetCardsInPrivateZone(FakePrivateZone.Phantom, FakePlayer.PlayerOne).Count());
-        Assert.AreEqual(0, sut.GetCardsInPrivateZone(FakePrivateZone.Phantom, FakePlayer.PlayerTwo).Count());
-        Assert.AreEqual(0, sut.GetCardsInPrivateZone(FakePrivateZone.Phantom, FakePlayer.PlayerThree).Count());
-    }
-    
-    [TestMethod]
-    [ExpectedException(typeof(EnumMismatchException))]
-    public void Constructor_PrivateAndPublicZonesCannotHaveNameCrossover()
-    {
-        var sut = new CardZoneComponent<FakeCardZone, FakePublicZone, FakePrivateZoneWithDuplicatedName, FakePlayer, FakeCardClass>();
-    }
-    
-    [TestMethod]
-    [ExpectedException(typeof(EnumMismatchException))]
-    public void Constructor_PrivateAndPublicZonesCannotHaveValueCrossover()
-    {
-        var sut = new CardZoneComponent<FakeCardZone, FakePublicZone, FakePrivateZoneWithDuplicatedValue, FakePlayer, FakeCardClass>();
+        var privateZones = new HashSet<FakeCardZone>()
+        {
+            FakeCardZone.Phantom,
+        };
+
+        var sut = new CardZoneComponent<FakeCardZone, FakePlayer, FakeCardClass>(privateZones);
+
+        Assert.AreEqual(0, sut.GetCardsInZone(FakeCardZone.Time, FakePlayer.PlayerOne).Count());
+        Assert.AreEqual(0, sut.GetCardsInZone(FakeCardZone.Danger, FakePlayer.PlayerOne).Count());
+
+        Assert.AreEqual(0, sut.GetCardsInZone(FakeCardZone.Phantom, FakePlayer.PlayerOne).Count());
+        Assert.AreEqual(0, sut.GetCardsInZone(FakeCardZone.Phantom, FakePlayer.PlayerTwo).Count());
+        Assert.AreEqual(0, sut.GetCardsInZone(FakeCardZone.Phantom, FakePlayer.PlayerThree).Count());
     }
 
-    [TestMethod]
-    [ExpectedException(typeof(EnumMismatchException))]
-    public void Constructor_ZoneCannotHaveExtraValuesToPublicAndPrivate()
-    {
-        var sut = new CardZoneComponent<FakeCardZoneWithExtraValue, FakePublicZone, FakePrivateZone, FakePlayer, FakeCardClass>();
-    }
-    
-    [TestMethod]
-    [ExpectedException(typeof(EnumMismatchException))]
-    public void Constructor_ZoneCannotBeMissingValuesToPublicAndPrivate()
-    {
-        var sut = new CardZoneComponent<FakeCardZoneWithMissingValue, FakePublicZone, FakePrivateZone, FakePlayer, FakeCardClass>();
-    }
-    
     #endregion
     
     
-    #region AddCardsToPublicZone Tests
+    #region AddCardsToZone Tests
     
     [TestMethod]
-    public void AddCardsToPublicZone_LLL()
+    public void AddCardsToZone_CardAddedToPublicZone()
     {
-        var zone = FakePublicZone.Danger;
-        var card = new FakeCardClass();
+        var privateZones = new HashSet<FakeCardZone>()
+        {
+            FakeCardZone.Phantom,
+        };
         
-        var sut = new CardZoneComponent<FakeCardZone, FakePublicZone, FakePrivateZone, FakePlayer, FakeCardClass>();
-        
-        sut.AddCardsToPublicZone([card], zone);
-
-        var result = sut.GetCardsInPublicZone(zone);
-        
-        Assert.IsTrue(result.Count() == 1);
-    }
-    
-    #endregion
-    
-    #region AddCardsToPrivateZone Tests
-    
-    [TestMethod]
-    public void AddCardsToPrivateZone_CardAddedSuccessfully()
-    {
         var player = FakePlayer.PlayerOne;
-        var zone = FakePrivateZone.Phantom;
+        var zone = FakeCardZone.Danger;
         var card = new FakeCardClass();
         
-        var sut = new CardZoneComponent<FakeCardZone, FakePublicZone, FakePrivateZone, FakePlayer, FakeCardClass>();
+        var sut = new CardZoneComponent<FakeCardZone, FakePlayer, FakeCardClass>(privateZones);
         
-        sut.AddCardsToPrivateZone([card], zone, player);
+        sut.AddCardsToZone([card], zone, player);
 
-        var result = sut.GetCardsInPrivateZone(zone, player);
+        var result = sut.GetCardsInZone(zone, player);
         
         Assert.IsTrue(result.Count() == 1);
+    }
+    
+    [TestMethod]
+    public void AddCardsToZone_CardAddedToPrivateZone()
+    {
+        var privateZones = new HashSet<FakeCardZone>()
+        {
+            FakeCardZone.Phantom,
+        };
+        
+        var player = FakePlayer.PlayerTwo;
+        var zone = FakeCardZone.Phantom;
+        var card = new FakeCardClass();
+        
+        var sut = new CardZoneComponent<FakeCardZone, FakePlayer, FakeCardClass>(privateZones);
+        
+        sut.AddCardsToZone([card], zone, player);
+
+        var result = sut.GetCardsInZone(zone, player);
+        Assert.IsTrue(result.Count() == 1);
+    }
+    
+        
+    [TestMethod]
+    [DataRow(FakePlayer.PlayerOne, FakePlayer.PlayerTwo)]
+    [DataRow(FakePlayer.PlayerOne, FakePlayer.PlayerThree)]
+    [DataRow(FakePlayer.PlayerTwo, FakePlayer.PlayerThree)]
+    [DataRow(FakePlayer.PlayerTwo, FakePlayer.PlayerOne)]
+    [DataRow(FakePlayer.PlayerThree, FakePlayer.PlayerOne)]
+    [DataRow(FakePlayer.PlayerThree, FakePlayer.PlayerTwo)]
+    public void AddCardsToZone_CardAddedToPrivateZoneForCorrectPlayer(FakePlayer player, FakePlayer otherPlayer)
+    {
+        var privateZones = new HashSet<FakeCardZone>()
+        {
+            FakeCardZone.Phantom,
+        };
+        
+        var zone = FakeCardZone.Phantom;
+        var card = new FakeCardClass();
+
+        var sut = new CardZoneComponent<FakeCardZone, FakePlayer, FakeCardClass>(privateZones);
+        
+        sut.AddCardsToZone([card], zone, player);
+
+        var result = sut.GetCardsInZone(zone, otherPlayer);
+        Assert.IsTrue(!result.Any());
     }
     
     #endregion
@@ -97,50 +106,81 @@ public class CardZoneComponentTests
     #region MoveCardFromOneZoneToAnother Tests
     
     [TestMethod]
-    public void MoveCardFromOneZoneToAnother_CardMovedSuccessfully()
+    [DataRow(FakeCardZone.Phantom, FakeCardZone.Time)]
+    [DataRow(FakeCardZone.Phantom, FakeCardZone.Danger)]
+    [DataRow(FakeCardZone.Time, FakeCardZone.Phantom)]
+    [DataRow(FakeCardZone.Time, FakeCardZone.Danger)]
+    [DataRow(FakeCardZone.Danger, FakeCardZone.Time)]
+    [DataRow(FakeCardZone.Danger, FakeCardZone.Phantom)]
+    public void MoveCardFromOneZoneToAnother_CardRemovedFromSource(FakeCardZone sourceZone, FakeCardZone destinationZone)
     {
-        /*var player = FakePlayer.PlayerOne;
-        var publicZone = FakePublicZone.Danger;
-        var sourceZone = FakeCardZone.Danger;
-        var destinationZone = FakeCardZone.Time;
-        var card = new FakeCardClass()
+        var privateZones = new HashSet<FakeCardZone>()
         {
-            Index = 1,
-            Title = "Test Card",
-            AreChangesValid = changes => true,
-            Event = (engine, player, choices) => { }
+            FakeCardZone.Phantom,
         };
         
-        var sut = new CardZoneComponent<FakeCardZone, FakePublicZone, FakePrivateZone, FakePlayer, FakeCardClass>();
+        var player = FakePlayer.PlayerTwo;
+        var card = new FakeCardClass();
         
-        sut.AddCardsToPublicZone([card], publicZone);
+        var sut = new CardZoneComponent<FakeCardZone, FakePlayer, FakeCardClass>(privateZones);
+        
+        sut.AddCardsToZone([card], sourceZone, player);
 
-        sut.MoveCardFromOneZoneToAnother(player, card, sourceZone, destinationZone);*/
+        sut.MoveCardFromOneZoneToAnother(player, card, sourceZone, destinationZone);
+        
+        var result = sut.GetCardsInZone(sourceZone, player);
+        Assert.IsTrue(!result.Any());
         
     }
     
+    [TestMethod]
+    [DataRow(FakeCardZone.Phantom, FakeCardZone.Time)]
+    [DataRow(FakeCardZone.Phantom, FakeCardZone.Danger)]
+    [DataRow(FakeCardZone.Time, FakeCardZone.Phantom)]
+    [DataRow(FakeCardZone.Time, FakeCardZone.Danger)]
+    [DataRow(FakeCardZone.Danger, FakeCardZone.Time)]
+    [DataRow(FakeCardZone.Danger, FakeCardZone.Phantom)]
+    public void MoveCardFromOneZoneToAnother_CardAddedToDestination(FakeCardZone sourceZone, FakeCardZone destinationZone)
+    {
+        var privateZones = new HashSet<FakeCardZone>()
+        {
+            FakeCardZone.Phantom,
+        };
+        
+        var player = FakePlayer.PlayerTwo;
+        var card = new FakeCardClass();
+        
+        var sut = new CardZoneComponent<FakeCardZone, FakePlayer, FakeCardClass>(privateZones);
+        
+        sut.AddCardsToZone([card], sourceZone, player);
+
+        sut.MoveCardFromOneZoneToAnother(player, card, sourceZone, destinationZone);
+        
+        var result = sut.GetCardsInZone(destinationZone, player);
+        Assert.IsTrue(result.Any());
+        
+    }
     
         
     [TestMethod]
     [ExpectedException(typeof(ArgumentException))]
     public void MoveCardFromOneZoneToAnother_SourceAndDestinationCannotBeTheSame()
     {
-        var player = FakePlayer.PlayerOne;
-        var zone = FakeCardZone.Danger;
-        var publicZone = FakePublicZone.Danger;
-        var card = new FakeCardClass()
+        var privateZones = new HashSet<FakeCardZone>()
         {
-            Index = 1,
-            Title = "Test Card",
-            AreChangesValid = changes => true,
-            Event = (engine, player, choices) => { }
+            FakeCardZone.Phantom,
         };
         
-        var sut = new CardZoneComponent<FakeCardZone, FakePublicZone, FakePrivateZone, FakePlayer, FakeCardClass>();
+        var player = FakePlayer.PlayerTwo;
+        var sourceZone = FakeCardZone.Phantom;
+        var destinationZone = FakeCardZone.Phantom;
+        var card = new FakeCardClass();
         
-        sut.AddCardsToPublicZone([card], publicZone);
+        var sut = new CardZoneComponent<FakeCardZone, FakePlayer, FakeCardClass>(privateZones);
+        
+        sut.AddCardsToZone([card], sourceZone, player);
 
-        sut.MoveCardFromOneZoneToAnother(player, card, zone, zone);
+        sut.MoveCardFromOneZoneToAnother(player, card, sourceZone, destinationZone);
     }
 
     

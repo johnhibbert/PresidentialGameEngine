@@ -89,43 +89,6 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Phantom = 1, 
             Danger = 2,
         }
-
-        public enum FakePublicZone
-        {
-            Time = 0,
-            Danger = 2,
-        }
-        
-        public enum FakePrivateZone
-        {
-            Phantom = 1, 
-        }
-        
-        public enum FakeCardZoneWithExtraValue
-        {
-            Time = 0,
-            Phantom = 1, 
-            Danger = 2,
-            Neutral = 3,
-        }
-
-        public enum FakeCardZoneWithMissingValue
-        {
-            Time = 0,
-            Phantom = 1, 
-            Danger = 2,
-            Neutral = 3,
-        }
-        
-        public enum FakePrivateZoneWithDuplicatedName
-        {
-            Time = 1,
-        }
-        
-        public enum FakePrivateZoneWithDuplicatedValue
-        {
-            Phantom = 2,
-        }
         
         public class FakeCardClass : ICard
         {
