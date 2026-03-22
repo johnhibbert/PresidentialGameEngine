@@ -373,9 +373,10 @@ public class Manifest
                     {
                         var noValueAboveOne = choices.TotalEndorsementChanges <= 1;
                         var playerIsOnlyKennedy = choices.EndorsementChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var containsNoLosses = choices.ContainsNoLosses();
                         var containsOnlyEndorsements =
                             choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.Endorsement]);
-                        return noValueAboveOne && playerIsOnlyKennedy && containsOnlyEndorsements;
+                        return noValueAboveOne && playerIsOnlyKennedy && containsNoLosses && containsOnlyEndorsements;
                     },
                 }
             },
