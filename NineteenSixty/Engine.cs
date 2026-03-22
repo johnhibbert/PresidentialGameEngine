@@ -18,9 +18,8 @@ public class Engine(
     IAccumulatingComponent<Player> restComponent,
     ISupportComponent<Player, Leader, Region> endorsementComponent,
     ISupportComponent<Player, Leader, Region> mediaSupportComponent,
-    IPlayerStatusComponent<Player, Status> exhaustionComponent)
-    //CardComponent needs a revision to work now.
-    //ICardComponent<Player, Card> cardComponent,
+    IPlayerStatusComponent<Player, Status> exhaustionComponent,
+    ICardZoneComponent<CardZone, Player, Card> cardZoneComponent)
     //IStaticDataComponent<State, Player, Region> staticDataComponent)
     : IEngine
 {
@@ -37,8 +36,7 @@ public class Engine(
     private ISupportComponent<Player, Leader, Region> EndorsementComponent { get; init; } = endorsementComponent;
     private ISupportComponent<Player, Leader, Region> MediaSupportComponent { get; init; } = mediaSupportComponent;
     private IPlayerStatusComponent<Player, Status> ExhaustionComponent { get; init; } = exhaustionComponent;
-    //CardComponent needs a revision to work now.
-    //private ICardComponent<Player, Card> CardComponent { get; init; } = cardComponent;
+    private ICardZoneComponent<CardZone, Player, Card> CardZoneComponent { get; init; } = cardZoneComponent;
     //private IStaticDataComponent<State, Player, Region> StaticDataComponent { get; init; } = staticDataComponent;
 
     public GameState GetGameState()
@@ -223,5 +221,30 @@ public class Engine(
     public void LoseMediaSupport(Player player, Region region, int amount)
     {
         MediaSupportComponent.LoseSupport(player, region, amount);
+    }
+
+    public IEnumerable<Card> GetCardsInZone(CardZone zone, Player player)
+    {
+        return CardZoneComponent.GetCardsInZone(zone, player);
+    }
+
+    public void AddCardsToZone(IEnumerable<Card> cards, CardZone zone, Player player)
+    {
+        CardZoneComponent.AddCardsToZone(cards, zone, player);
+    }
+
+    public void MoveCardFromOneZoneToAnother(Player player, Card cardToMove, CardZone source, CardZone destination)
+    {
+        cardZoneComponent.MoveCardFromOneZoneToAnother(player, cardToMove, source, destination);
+    }
+
+    public void ReturnCardFromDiscardPileToPlayerHandIfAvailable(Player player, Card cardToRecover)
+    {
+        var cardsInDiscardPile = CardZoneComponent.GetCardsInZone(CardZone.DiscardPile, player);
+        if (cardsInDiscardPile.Contains(cardToRecover))
+        {
+            cardZoneComponent.MoveCardFromOneZoneToAnother(player, cardToRecover,
+                CardZone.DiscardPile, CardZone.Hand);
+        }
     }
 }

@@ -22,6 +22,8 @@ public static class EngineFixtures
         var endorsementComponent = new SupportComponent<Player, Leader, Region>();
         var mediaSupportComponent = new SupportComponent<Player, Leader, Region>();
         var exhaustionComponent = new PlayerStatusComponent<Player, Status>();
+        var cardZoneComponent = new CardZoneComponent<CardZone, Player, Data.Card>
+            ([CardZone.Hand, CardZone.CampaignStrategy]);
         //var cardComponent = new CardComponent<Player, Card>(seed, Manifest.GMTCards);
         //var staticDataComponent = new StaticDataComponent<State, Player, Region>(Manifest.StateData);
 
@@ -34,7 +36,8 @@ public static class EngineFixtures
 
         return new Engine(momentumComponent, issueSupportComponent, stateSupportComponent,
             issuePositioningComponent, politicalCapitalComponent, playerLocationComponent,
-            restComponent, endorsementComponent, mediaSupportComponent, exhaustionComponent);
+            restComponent, endorsementComponent, mediaSupportComponent, exhaustionComponent,
+            cardZoneComponent);
 
     }
 

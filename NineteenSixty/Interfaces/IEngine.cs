@@ -4,7 +4,7 @@ using NineteenSixty.Enums;
 namespace NineteenSixty.Interfaces;
 
 public interface IEngine: IMomentumEngine, IStateSupportEngine, IIssueSupportEngine, IIssuePositioningEngine,
-    IPlayerPositionEngine, IEndorsementEngine, IExhaustionEngine, IMediaSupportEngine
+    IPlayerPositionEngine, IEndorsementEngine, IExhaustionEngine, IMediaSupportEngine, ICardZoneEngine
 {
     GameState GetGameState();
 
@@ -68,5 +68,16 @@ public interface IMediaSupportEngine
 {
     public void GainMediaSupport(Player player, Region region, int amount);
     public void LoseMediaSupport(Player player, Region region, int amount);
+}
 
+public interface ICardZoneEngine
+{
+    public IEnumerable<Card> GetCardsInZone(CardZone zone, Player player);
+    
+    public void AddCardsToZone(IEnumerable<Card> cards, CardZone zone, Player player);
+    
+    public void MoveCardFromOneZoneToAnother(Player player, Card cardToMove, CardZone source, CardZone destination);
+
+    public void ReturnCardFromDiscardPileToPlayerHandIfAvailable(Player player, Card cardToRecover);
+    
 }
