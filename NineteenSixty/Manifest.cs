@@ -200,9 +200,10 @@ public class Manifest
                         var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
                         var onlyIllinois = choices.StateChanges.Select(s => s.Target).All(x => x == State.IL);
                         var playerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var containsNoLosses = choices.ContainsNoLosses();
                         var containsOnlyStateSupport = choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
             
-                        return fiveOrFewerPointsOfStateChanges && onlyIllinois 
+                        return fiveOrFewerPointsOfStateChanges && onlyIllinois && containsNoLosses
                                && playerIsOnlyKennedy && containsOnlyStateSupport;
                     },
                 }

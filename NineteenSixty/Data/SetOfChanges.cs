@@ -96,11 +96,11 @@ public record SetOfChanges
         var mediaSupportTypeExpected = givenTypesAsArray.Any(x => x == ChangeType.MediaSupport);
         var newIssueOrderTypeExpected = givenTypesAsArray.Any(x => x == ChangeType.NewIssueOrder);
             
-        var hasIssueChanges = TotalIssueChanges > 0;
-        var hasStateChanges = TotalStateChanges > 0;
-        var hasEndorsementChanges = TotalEndorsementChanges > 0;
-        var hasMediaChanges = TotalMediaChanges > 0;
-        var hasNewIssuesOrder = NewIssuesOrder.Count > 0;
+        var hasIssueChanges = TotalIssueChanges != 0;
+        var hasStateChanges = TotalStateChanges != 0;
+        var hasEndorsementChanges = TotalEndorsementChanges != 0;
+        var hasMediaChanges = TotalMediaChanges != 0;
+        var hasNewIssuesOrder = NewIssuesOrder.Count != 0;
 
         var issueChangeMatch = !(hasIssueChanges ^ issueChangeTypeExpected);
         var stateChangeMatch = !(hasStateChanges ^ stateChangeTypeExpected);

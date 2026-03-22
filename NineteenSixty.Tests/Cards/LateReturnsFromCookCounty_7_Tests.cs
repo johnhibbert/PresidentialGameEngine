@@ -70,4 +70,16 @@ public class LateReturnsFromCookCounty_7_Tests
         Assert.IsFalse(result);
     }
 
+    [TestMethod]
+    public void LateReturnsFromCookCounty_7_FailsValidationIfAnyNegativeValues()
+    {
+        SetOfChanges playerChoices = new();
+        var invalidNegativeValue = new SupportChange<Player, State>(Player.Kennedy, State.IL, -1);
+        playerChoices.StateChanges.Add(invalidNegativeValue);
+
+        var sut = Manifest.GMTCards[CardIndex];
+        var result = sut.AreChangesValid(playerChoices);
+        Assert.IsFalse(result);
+    }
+    
 }
