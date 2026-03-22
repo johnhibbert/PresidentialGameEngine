@@ -177,25 +177,32 @@ public class Manifest
                     },
                 }
             },
-            // {7, new Card()
-            //     {
-            //         Index = 7,
-            //         Title = "Late Returns From Cook County",
-            //         Text = "ELECTION DAY EVENT!  On Election Day, the Kennedy player gains 5 support checks in Illinois.",
-            //         CampaignPoints = 2,
-            //         EventType = EventType.None,
-            //         Issue = Issue.Economy,
-            //         Affiliation = Affiliation.Kennedy,
-            //         State = State.SC,
-            //         Event = (engine, player, choices) => {
-            //             //engine.GainMomentum(player, 1);
-            //             var supportCheckResult = engine.SupportCheck(Player.Kennedy, 5);
-            //             engine.GainSupport(Player.Kennedy, State.IL, supportCheckResult.Successes);
-            //         },
-            //         RequiresPlayerInput = false,
-            //         AreChangesValid = (choices) => true,
-            //     }
-            // },
+            {7, new Card()
+                {
+                    Index = 7,
+                    Title = "Late Returns From Cook County",
+                    Text = "ELECTION DAY EVENT!  On Election Day, the Kennedy player gains 5 support checks in Illinois.",
+                    CampaignPoints = 2,
+                    EventType = EventType.ElectionDay,
+                    Issue = Issue.Economy,
+                    Affiliation = Affiliation.Kennedy,
+                    State = State.SC,
+                    Event = (engine, player, choices) => {
+                        engine.ImplementChanges(choices);
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) =>
+                    {
+                        var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
+                        var onlyIllinois = choices.StateChanges.Select(s => s.Target).All(x => x == State.IL);
+                        var playerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var containsOnlyStateSupport = choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
+            
+                        return fiveOrFewerPointsOfStateChanges && onlyIllinois 
+                               && playerIsOnlyKennedy && containsOnlyStateSupport;
+                    },
+                }
+            },
             {8, new Card()
                 {
                     Index = 8,
