@@ -201,6 +201,33 @@ public class Manifest
             // //new Card(16, "Gathering Momentum In The Midwest!"),
             // //new Card(17, "Gathering Momentum In The West!"),
             // //new Card(18, "Dwight Eisenhower"),
+            {18, new Card()
+                {
+                    Index = 18,
+                    Title = "Dwight Eisenhower",
+                    Text = "PREVENTION EVENT!  The Nixon player may add a total of 7 state support anywhere, no more than 1 per state.  This event prevents the Eisenhower's Silence event.",
+                    CampaignPoints = 4,
+                    EventType = EventType.Prevention,
+                    Issue = Issue.CivilRights,
+                    Affiliation = Affiliation.Nixon,
+                    State = State.PA,
+                    Event = (engine, player, choices) => {
+                        engine.ImplementChanges(choices);
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) =>
+                    {
+                        var sevenOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 7;
+                        var noValueAboveOne = choices.HighestStateChange <= 1;
+                        var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
+                        var containsOnlyStateSupportChanges =
+                            choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
+            
+                        return sevenOrFewerPointsOfStateChanges && statePlayerIsOnlyNixon
+                                                                && noValueAboveOne && containsOnlyStateSupportChanges;
+                    },
+                }
+            },
             // //new Card(19, "Old South"),
             // //new Card(20, "Nixon Egged In Michigan"),
             // //new Card(21, "Fifty Stars"),
