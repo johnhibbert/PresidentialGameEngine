@@ -259,11 +259,12 @@ public class Manifest
                         var sevenOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 7;
                         var noValueAboveOne = choices.HighestStateChange <= 1;
                         var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
+                        var containsNoLosses = choices.ContainsNoLosses();
                         var containsOnlyStateSupportChanges =
                             choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
             
-                        return sevenOrFewerPointsOfStateChanges && statePlayerIsOnlyNixon
-                                                                && noValueAboveOne && containsOnlyStateSupportChanges;
+                        return sevenOrFewerPointsOfStateChanges && statePlayerIsOnlyNixon &&
+                               containsNoLosses && noValueAboveOne && containsOnlyStateSupportChanges;
                     },
                 }
             },
