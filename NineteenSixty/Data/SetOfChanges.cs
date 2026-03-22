@@ -112,5 +112,21 @@ public record SetOfChanges
                newIssueOrderMatch;
             
     }
+
+    public bool ContainsNoLosses()
+    {
+        return !(IssueChanges.Any(c => c.Change < 0) ||
+                 StateChanges.Any(c => c.Change < 0) ||
+                 EndorsementChanges.Any(c => c.Change < 0) ||
+                 MediaSupportChanges.Any(c => c.Change < 0));
+    }
+
+    public bool ContainsNoGains()
+    {
+        return !(IssueChanges.Any(c => c.Change > 0) ||
+            StateChanges.Any(c => c.Change > 0) ||
+            EndorsementChanges.Any(c => c.Change > 0) ||
+            MediaSupportChanges.Any(c => c.Change > 0));
+    }
     
 }

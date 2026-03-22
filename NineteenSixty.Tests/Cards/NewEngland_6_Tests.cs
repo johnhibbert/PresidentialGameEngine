@@ -114,4 +114,26 @@ public class NewEngland_6_Tests
         Assert.IsFalse(result);
     }
 
+    [TestMethod]
+    public void NewEngland_6_FailsValidationIfAnyNegativeValues()
+    {
+        SetOfChanges playerChoices = new();
+        var oneSupportInRhodeIsland = new SupportChange<Player, State>(Player.Kennedy, State.RI, 1);
+        var oneSupportInMaine = new SupportChange<Player, State>(Player.Kennedy, State.ME, 1);
+        var twoSupportInNewHampshire = new SupportChange<Player, State>(Player.Kennedy, State.NH, 2);
+        var twoSupportInVermont = new SupportChange<Player, State>(Player.Kennedy, State.VT, 2);
+        var invalidMinusOneSupportInMaine = new SupportChange<Player, State>(Player.Kennedy, State.MA, -1);
+
+        playerChoices.StateChanges.Add(oneSupportInRhodeIsland);
+        playerChoices.StateChanges.Add(oneSupportInMaine);
+        playerChoices.StateChanges.Add(twoSupportInNewHampshire);
+        playerChoices.StateChanges.Add(twoSupportInVermont);
+        playerChoices.StateChanges.Add(invalidMinusOneSupportInMaine);
+
+        var sut = Manifest.GMTCards[CardIndex];
+        var result = sut.AreChangesValid(playerChoices);
+        Assert.IsFalse(result);
+    }
+
+    
 }

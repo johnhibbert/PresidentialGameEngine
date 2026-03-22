@@ -1,3 +1,5 @@
+// ReSharper disable UnusedParameter.Local
+
 using NineteenSixty.Enums;
 using PresidentialGameEngine.ClassLibrary.Data;
 using PresidentialGameEngine.ClassLibrary.Interfaces;
@@ -170,10 +172,11 @@ public class Manifest
                         var onlyNewEnglandStatesIncluded = choices.StateChanges.Select(s => s.Target).All(x => newEnglandStates.Contains(x));
                         var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
                         var noValueAboveTwo = choices.HighestStateChange <= 2;
+                        var containsNoLosses = choices.ContainsNoLosses();
                         var containsOnlyStateSupport = choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
             
                         return fiveOrFewerPointsOfStateChanges && onlyNewEnglandStatesIncluded && noValueAboveTwo
-                                && statePlayerIsOnlyKennedy && containsOnlyStateSupport;
+                                && containsNoLosses && statePlayerIsOnlyKennedy && containsOnlyStateSupport;
                     },
                 }
             },
