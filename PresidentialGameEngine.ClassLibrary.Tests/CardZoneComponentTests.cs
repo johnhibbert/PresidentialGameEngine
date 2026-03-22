@@ -37,6 +37,19 @@ public class CardZoneComponentTests
         var sut = new CardZoneComponent<FakeCardZone, FakePublicZone, FakePrivateZoneWithDuplicatedValue, FakePlayer, FakeCardClass>();
     }
 
+    [TestMethod]
+    [ExpectedException(typeof(EnumMismatchException))]
+    public void Constructor_ZoneCannotHaveExtraValuesToPublicAndPrivate()
+    {
+        var sut = new CardZoneComponent<FakeCardZoneWithExtraValue, FakePublicZone, FakePrivateZone, FakePlayer, FakeCardClass>();
+    }
+    
+    [TestMethod]
+    [ExpectedException(typeof(EnumMismatchException))]
+    public void Constructor_ZoneCannotBeMissingValuesToPublicAndPrivate()
+    {
+        var sut = new CardZoneComponent<FakeCardZoneWithMissingValue, FakePublicZone, FakePrivateZone, FakePlayer, FakeCardClass>();
+    }
     
     #endregion
     
@@ -53,10 +66,9 @@ public class CardZoneComponentTests
         
         sut.AddCardsToPublicZone([card], zone);
 
-        var f = sut.GetCardsInPublicZone(zone);
+        var result = sut.GetCardsInPublicZone(zone);
         
-        int i = 0;
-
+        Assert.IsTrue(result.Count() == 1);
     }
     
     #endregion
@@ -77,7 +89,6 @@ public class CardZoneComponentTests
         var result = sut.GetCardsInPrivateZone(zone, player);
         
         Assert.IsTrue(result.Count() == 1);
-
     }
     
     #endregion
@@ -86,16 +97,52 @@ public class CardZoneComponentTests
     #region MoveCardFromOneZoneToAnother Tests
     
     [TestMethod]
-    //[ExpectedException(typeof(ArgumentException))]
-    public void MoveCardFromOneZoneToAnother_LLL()
+    public void MoveCardFromOneZoneToAnother_CardMovedSuccessfully()
     {
-        // var fakePlayer = new FakePlayer();
-        // var fakeCard = new FakeCardClass();
-        //
-        // var sut = new CardZoneComponent<FakeNonMatchingCardZone, FakePublicZone, FakePublicZone, FakePlayer, FakeCardClass>();
-        //
-        //sut.MoveCardFromOneZoneToAnother(fakePlayer, fakeCard, FakeNonMatchingCardZone.Danger, FakeNonMatchingCardZone.Time);
+        /*var player = FakePlayer.PlayerOne;
+        var publicZone = FakePublicZone.Danger;
+        var sourceZone = FakeCardZone.Danger;
+        var destinationZone = FakeCardZone.Time;
+        var card = new FakeCardClass()
+        {
+            Index = 1,
+            Title = "Test Card",
+            AreChangesValid = changes => true,
+            Event = (engine, player, choices) => { }
+        };
+        
+        var sut = new CardZoneComponent<FakeCardZone, FakePublicZone, FakePrivateZone, FakePlayer, FakeCardClass>();
+        
+        sut.AddCardsToPublicZone([card], publicZone);
+
+        sut.MoveCardFromOneZoneToAnother(player, card, sourceZone, destinationZone);*/
+        
     }
+    
+    
+        
+    [TestMethod]
+    [ExpectedException(typeof(ArgumentException))]
+    public void MoveCardFromOneZoneToAnother_SourceAndDestinationCannotBeTheSame()
+    {
+        var player = FakePlayer.PlayerOne;
+        var zone = FakeCardZone.Danger;
+        var publicZone = FakePublicZone.Danger;
+        var card = new FakeCardClass()
+        {
+            Index = 1,
+            Title = "Test Card",
+            AreChangesValid = changes => true,
+            Event = (engine, player, choices) => { }
+        };
+        
+        var sut = new CardZoneComponent<FakeCardZone, FakePublicZone, FakePrivateZone, FakePlayer, FakeCardClass>();
+        
+        sut.AddCardsToPublicZone([card], publicZone);
+
+        sut.MoveCardFromOneZoneToAnother(player, card, zone, zone);
+    }
+
     
     #endregion
     

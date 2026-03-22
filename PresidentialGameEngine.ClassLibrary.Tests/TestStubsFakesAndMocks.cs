@@ -101,7 +101,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Phantom = 1, 
         }
         
-        public enum FakeNonMatchingCardZone
+        public enum FakeCardZoneWithExtraValue
         {
             Time = 0,
             Phantom = 1, 
@@ -109,6 +109,14 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
             Neutral = 3,
         }
 
+        public enum FakeCardZoneWithMissingValue
+        {
+            Time = 0,
+            Phantom = 1, 
+            Danger = 2,
+            Neutral = 3,
+        }
+        
         public enum FakePrivateZoneWithDuplicatedName
         {
             Time = 1,

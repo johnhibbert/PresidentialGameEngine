@@ -12,8 +12,12 @@ public class CardZoneComponent<TZone, TPublicZone, TPrivateZone, TPlayer, TCard>
     where TPlayer : Enum
 {
     
-    private TPublicZone[] _publicZones;
-    private TPrivateZone[] _privateZones;
+    //These don't need to be saved as their enum
+    //private TPublicZone[] _publicZones;
+    //private TPrivateZone[] _privateZones;
+
+    private List<int> _publicZoneInts;
+    private List<int> _privateZoneInts;
     
     private IDictionary<TPublicZone, List<TCard>> CardsInPublicZones { get; set; }
     
@@ -28,8 +32,11 @@ public class CardZoneComponent<TZone, TPublicZone, TPrivateZone, TPlayer, TCard>
 
     private void ExtractAndValidateValuesFromZoneEnums()
     {
-        _publicZones = (TPublicZone[])Enum.GetValues(typeof(TPublicZone));
-        _privateZones = (TPrivateZone[])Enum.GetValues(typeof(TPrivateZone));
+        _publicZoneInts = [];
+        _privateZoneInts = [];
+        
+        var publicZones = (TPublicZone[])Enum.GetValues(typeof(TPublicZone));
+        var privateZones = (TPrivateZone[])Enum.GetValues(typeof(TPrivateZone));
         var allZones = (TZone[])Enum.GetValues(typeof(TZone));
 
         Dictionary<int, string> publicAndPrivateZonesInOneDictionary = new();
@@ -37,13 +44,17 @@ public class CardZoneComponent<TZone, TPublicZone, TPrivateZone, TPlayer, TCard>
 
         try
         {
-            foreach (var publicZone in _publicZones)
+            foreach (var publicZone in publicZones)
             {
-                publicAndPrivateZonesInOneDictionary.Add(Convert.ToInt32(publicZone), publicZone.ToString());
+                var asInt = Convert.ToInt32(publicZone);
+                _publicZoneInts.Add(asInt);
+                publicAndPrivateZonesInOneDictionary.Add(asInt, publicZone.ToString());
             }
         
-            foreach (var privateZone in _privateZones)
+            foreach (var privateZone in privateZones)
             {
+                var asInt = Convert.ToInt32(privateZone);
+                _privateZoneInts.Add(asInt);
                 publicAndPrivateZonesInOneDictionary.Add(Convert.ToInt32(privateZone), privateZone.ToString());
             }
         }
@@ -121,19 +132,56 @@ public class CardZoneComponent<TZone, TPublicZone, TPrivateZone, TPlayer, TCard>
 
     public void MoveCardFromOneZoneToAnother(TPlayer player, TCard cardToMove, TZone source, TZone destination)
     {
-
-        //We can probably do this ahead of time and 'archive' it?
-        var privateZoneCollection = (TPrivateZone[])Enum.GetValues(typeof(TPrivateZone));
-        var publicZoneCollection = (TPublicZone[])Enum.GetValues(typeof(TPublicZone));
-        
-        //if()
-        
-        
         if (source.Equals(destination))
         {
             throw new ArgumentException("Source and destination cannot be the same.");
         }
+
+        /*
+        _publicZones = (TPublicZone[])Enum.GetValues(typeof(TPublicZone));
+        _privateZones = (TPrivateZone[])Enum.GetValues(typeof(TPrivateZone));
+        */
+
+        var fff = CardsInPublicZones.Keys;
+
+        var sourceInt = Convert.ToInt32(source);
+        var destinationInt = Convert.ToInt32(destination);
+
+        bool sourceIsPublic = _publicZoneInts.Contains(sourceInt);
+        bool destinationIsPublic = _publicZoneInts.Contains(destinationInt);
+
+
+        if (sourceIsPublic && destinationIsPublic)
+        {
+
+            // if (Enum.IsDefined(typeof(TPublicZone), sourceInt))
+            // {
+            //     var sourceAsPublic = (TPublicZone)1;
+            // }
+            //
+            // //var sourceAsPublic = (TPublicZone)1;
+            //
+            // //Enum.Parse<TPublicZone>(sourceInt, out TPublicZone sourceAsPublic);
+            // CardsInPublicZones[sourceAsPublic].Remove(cardToMove);
+        }
+        else if (sourceIsPublic && !destinationIsPublic)
+        {
+            
+        }
+        else if (!sourceIsPublic && destinationIsPublic)
+        {
+            
+        }
+        else if (!sourceIsPublic && destinationIsPublic)
+        {
+            
+        }
+            
         
+        //if(fff.Contains(source))
+        
+        TPrivateZone asPrivate = (TPrivateZone)Enum.ToObject(typeof(TPrivateZone), Convert.ToInt32(source));
+        TPublicZone asPublic  = (TPublicZone)Enum.ToObject(typeof(TPublicZone), Convert.ToInt32(source));
         
         
         /* ORIGINAL
