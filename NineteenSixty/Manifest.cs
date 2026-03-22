@@ -94,12 +94,13 @@ public class Manifest
                     {
                         var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
                         var noValueAboveOne = choices.HighestStateChange <= 1;
-                        var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var containsNoLosses = choices.ContainsNoLosses();
                         var containsOnlyStateSupportChanges =
                             choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
             
-                        return fiveOrFewerPointsOfStateChanges && statePlayerIsOnlyNixon
-                                                                && noValueAboveOne && containsOnlyStateSupportChanges;
+                        return fiveOrFewerPointsOfStateChanges && statePlayerIsOnlyKennedy &&
+                               containsNoLosses && noValueAboveOne && containsOnlyStateSupportChanges;
                     },
                 }
             },

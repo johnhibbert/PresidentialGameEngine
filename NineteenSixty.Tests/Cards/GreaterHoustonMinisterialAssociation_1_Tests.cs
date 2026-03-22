@@ -28,7 +28,7 @@ public class GreaterHoustonMinisterialAssociation_1_Tests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
-    public void HurricaneDonna_52_KennedyGainsOneMomentum(Player player)
+    public void GreaterHoustonMinisterialAssociation_1_KennedyGainsOneMomentum(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
         
@@ -150,5 +150,29 @@ public class GreaterHoustonMinisterialAssociation_1_Tests
         Assert.IsFalse(result);
     }
     
+    [TestMethod]
+    public void GreaterHoustonMinisterialAssociation_1_FailsValidationIfAnyNegativeValues()
+    {
+        SetOfChanges playerChoices = new();
+        var oneSupportInWyoming = new SupportChange<Player, State>(Player.Kennedy, State.WY, 1);
+        var oneSupportInWashington = new SupportChange<Player, State>(Player.Kennedy, State.WA, 1);
+        var oneSupportInNorthDakota = new SupportChange<Player, State>(Player.Kennedy, State.ND, 1);
+        var oneSupportInDelaware = new SupportChange<Player, State>(Player.Kennedy, State.DE, 1);
+        var oneSupportInKentucky = new SupportChange<Player, State>(Player.Kennedy, State.KY, 1);
+        var oneSupportInRhodeIsland = new SupportChange<Player, State>(Player.Kennedy, State.RI, 1);
+        var invalidNegativeSupportInAlaska = new SupportChange<Player, State>(Player.Kennedy, State.AK, -1);
+
+        playerChoices.StateChanges.Add(oneSupportInWyoming);
+        playerChoices.StateChanges.Add(oneSupportInWashington);
+        playerChoices.StateChanges.Add(oneSupportInNorthDakota);
+        playerChoices.StateChanges.Add(oneSupportInDelaware);
+        playerChoices.StateChanges.Add(oneSupportInKentucky);
+        playerChoices.StateChanges.Add(oneSupportInRhodeIsland);
+        playerChoices.StateChanges.Add(invalidNegativeSupportInAlaska);
+
+        var sut = Manifest.GMTCards[CardIndex];
+        var result = sut.AreChangesValid(playerChoices);
+        Assert.IsFalse(result);
+    }
     
 }
