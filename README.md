@@ -14,14 +14,20 @@ This is a basic class library and console application and should run in your ave
 #### Project Descriptions
 
 * PresidentialGameEngine.ClassLibrary
-    * The core functional classes
+    * The core functional classes, built mostly on generic enums and classes
 	
 * PresidentialGameEngine.ClassLibrary.Tests
     * The unit tests covering those classes
 
 * PresidentialGameEngine.ConsoleRunner
-    * A console application providing a sandbox and simple access to conduct manual tests
+    * A console application providing a sandbox and simple access to conduct manual testing
 	
+* NineteenSixty
+    * A project to consume the classes above and implement them with non-generic uses.
+ 
+* NineteenSixty.Tests
+    * The unit tests covering the 1960 specific concepts.
+
 * NineteenSixtyApplication
 	* A console application offering some semblance of structure and normal play to try and expose any design issues
 
