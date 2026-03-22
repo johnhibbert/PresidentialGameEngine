@@ -5,6 +5,6 @@
         None = 0,
         Prevention = 1,
         Debate = 2,
-        Election = 3,
+        ElectionDay = 3,
     }
 }
