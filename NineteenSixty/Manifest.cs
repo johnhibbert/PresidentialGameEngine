@@ -402,14 +402,15 @@ public class Manifest
                     RequiresPlayerInput = true,
                     AreChangesValid = (choices) =>
                     {
-                        var threePointsOfIssueChanges = choices.TotalIssueChanges <= 3;
+                        var threePointsOrLessOfStateSupport = choices.TotalStateChanges <= 3;
                         var noValueAboveOne = choices.HighestStateChange <= 1;
-                        var issuePlayerAreAllSame = choices.IssueChanges.Select(x => x.Player).Distinct().Count() == 1;
+                        var gainsForOnlyOnePlayer = choices.StateChanges.Select(x => x.Player).Count() == 1;
+                        var containsNoLosses = choices.ContainsNoLosses();
                         var containsOnlyStateSupport =
                             choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
                         
-                        return threePointsOfIssueChanges && noValueAboveOne
-                                && issuePlayerAreAllSame && containsOnlyStateSupport;
+                        return threePointsOrLessOfStateSupport && noValueAboveOne && gainsForOnlyOnePlayer
+                                && containsNoLosses && containsOnlyStateSupport;
                     },
                 }
             },
