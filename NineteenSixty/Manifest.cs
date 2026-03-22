@@ -72,8 +72,35 @@ public class Manifest
 
         public static readonly Dictionary<int, Card> ZManCards = new()
         {
-
-            //new Card(1, "Greater Houston Ministerial Ass’n"),
+            {1, new Card()
+                {
+                    Index = 1,
+                    Title = "Greater Houston Ministerial Ass’n",
+                    Text = "PREVENTION EVENT!  Immediately move the Kennedy candidate token to Texas, without paying the normal travel costs.  The Kennedy player gains 1 momentum marker and may add a total of 5 state support anywhere, no more than 1 per state.  This event prevents the Baptist Ministers, Norman Vincent Peale, and Puerto Rican Bishops events.",
+                    CampaignPoints = 4,
+                    EventType = EventType.Prevention,
+                    Issue = Issue.Defense,
+                    Affiliation = Affiliation.Kennedy,
+                    State = State.NY,
+                    Event = (engine, player, choices) => {
+                        engine.MovePlayerToState(Player.Kennedy, State.TX);
+                        engine.GainMomentum(Player.Kennedy, 1);
+                        engine.ImplementChanges(choices);
+                    },
+                    RequiresPlayerInput = false,
+                    AreChangesValid = (choices) =>
+                    {
+                        var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
+                        var noValueAboveOne = choices.HighestStateChange <= 1;
+                        var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var containsOnlyStateSupportChanges =
+                            choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
+            
+                        return fiveOrFewerPointsOfStateChanges && statePlayerIsOnlyNixon
+                                                                && noValueAboveOne && containsOnlyStateSupportChanges;
+                    },
+                }
+            },
             //new Card(2, "Nixon’s Knee"),
             {3, new Card()
                 {
