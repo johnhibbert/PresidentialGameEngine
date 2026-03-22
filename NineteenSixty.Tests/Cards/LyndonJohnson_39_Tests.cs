@@ -15,17 +15,15 @@ public class LyndonJohnson_39_Tests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
-    public void LyndonJohnson_39_SupportAddedToStates(Player player)
+    public void LyndonJohnson_39_TwoSupportAutomaticallyAddedToTexas(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
 
         SetOfChanges playerChoices = new();
-        var twoSupportInTexas = new SupportChange<Player, State>(Player.Kennedy, State.TX, 2);
         var oneSupportInFlorida = new SupportChange<Player, State>(Player.Kennedy, State.FL, 1);
         var oneSupportInAlabama = new SupportChange<Player, State>(Player.Kennedy, State.AL, 1);
         var oneSupportInTennessee = new SupportChange<Player, State>(Player.Kennedy, State.TN, 1);
-
-        playerChoices.StateChanges.Add(twoSupportInTexas);
+        
         playerChoices.StateChanges.Add(oneSupportInFlorida);
         playerChoices.StateChanges.Add(oneSupportInAlabama);
         playerChoices.StateChanges.Add(oneSupportInTennessee);
@@ -35,9 +33,52 @@ public class LyndonJohnson_39_Tests
         sut.Event(engine, player, playerChoices);
 
         Assert.AreEqual(2, engine.GetSupportAmount(State.TX));
+    }
+    
+    [TestMethod]
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
+    public void LyndonJohnson_39_SupportAddedToOtherStates(Player player)
+    {
+        var engine = EngineFixtures.GetGameEngine();
+
+        SetOfChanges playerChoices = new();
+        var oneSupportInFlorida = new SupportChange<Player, State>(Player.Kennedy, State.FL, 1);
+        var oneSupportInAlabama = new SupportChange<Player, State>(Player.Kennedy, State.AL, 1);
+        var oneSupportInTennessee = new SupportChange<Player, State>(Player.Kennedy, State.TN, 1);
+        
+        playerChoices.StateChanges.Add(oneSupportInFlorida);
+        playerChoices.StateChanges.Add(oneSupportInAlabama);
+        playerChoices.StateChanges.Add(oneSupportInTennessee);
+
+        var sut = Manifest.GMTCards[CardIndex];
+
+        sut.Event(engine, player, playerChoices);
+        
         Assert.AreEqual(1, engine.GetSupportAmount(State.FL));
         Assert.AreEqual(1, engine.GetSupportAmount(State.AL));
         Assert.AreEqual(1, engine.GetSupportAmount(State.TN));
+    }
+    
+    [TestMethod]
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
+    public void LyndonJohnson_39_AdditionalSupportCanBeAddedToTexas(Player player)
+    {
+        var engine = EngineFixtures.GetGameEngine();
+
+        SetOfChanges playerChoices = new();
+        var twoMoreSupportInTexas = new SupportChange<Player, State>(Player.Kennedy, State.TX, 2);
+        var oneSupportInAlabama = new SupportChange<Player, State>(Player.Kennedy, State.AL, 1);
+        
+        playerChoices.StateChanges.Add(twoMoreSupportInTexas);
+        playerChoices.StateChanges.Add(oneSupportInAlabama);
+
+        var sut = Manifest.GMTCards[CardIndex];
+
+        sut.Event(engine, player, playerChoices);
+        
+        Assert.AreEqual(4, engine.GetSupportAmount(State.TX));
     }
 
     [TestMethod]

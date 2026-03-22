@@ -361,14 +361,13 @@ public class Manifest
                     Affiliation = Affiliation.Kennedy,
                     State = State.CA,
                     Event = (engine, player, choices) => {
-                        //Also, should the 2 points for texas be baked in?  Right now it's assumed to be added.
+                        engine.GainSupport(Player.Kennedy, State.TX, 2);
                         engine.ImplementChanges(choices);
                         engine.UnexhaustPlayer(Player.Kennedy);
                     },
                     RequiresPlayerInput = true,
                     AreChangesValid = (choices) =>{
-                        var fivePointsOfIssueChanges = choices.TotalStateChanges <= 5;
-                        var twoPointsForTexas = choices.StateChanges.Single(x => x.Target == State.TX).Change >= 2;
+                        var threePointsOfStateChanges = choices.TotalStateChanges <= 3;
                         var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
                         var noStateAboveTwo = choices.HighestStateChange <=2;
             
@@ -377,7 +376,7 @@ public class Manifest
                         var containsOnlyStateSupport =
                             choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
                         
-                        return fivePointsOfIssueChanges && noStateAboveTwo && twoPointsForTexas
+                        return threePointsOfStateChanges && noStateAboveTwo
                               && onlySouthernStates && statePlayerIsOnlyKennedy && containsOnlyStateSupport;
                     },
                 }
