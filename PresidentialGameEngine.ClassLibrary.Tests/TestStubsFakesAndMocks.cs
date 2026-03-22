@@ -140,6 +140,11 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         };
 
 
+        public static SeededRandomnessProviderForTesting GetSeededRandomnessProvider()
+        {
+            return new SeededRandomnessProviderForTesting();
+        }
+        
         public class SeededRandomnessProviderForTesting : IRandomnessProvider
         {
             //Seeded for consistency
