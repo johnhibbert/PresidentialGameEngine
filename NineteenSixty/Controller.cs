@@ -40,7 +40,21 @@ public class Controller(IEngine engine) : IController
         //Each player should choose a side and take: Two momentum markers.
         _engine.GainMomentum(Player.Kennedy, 2);
         _engine.GainMomentum(Player.Nixon, 2);
-        
+
+
+
+        //Shuffle the Campaign Card deck and place it facedown near the board.
+        switch (gameEdition)
+        {
+            case GameEdition.FirstEditionByZMan:
+                _engine.AddCardsToZone(Manifest.ZManCards.Values, CardZone.Deck, Player.Kennedy);
+                break;
+
+            case GameEdition.SecondEditionByGmt:
+            default:
+                _engine.AddCardsToZone(Manifest.GMTCards.Values, CardZone.Deck, Player.Kennedy);
+                break;
+        }
         
         
         //throw new NotImplementedException();

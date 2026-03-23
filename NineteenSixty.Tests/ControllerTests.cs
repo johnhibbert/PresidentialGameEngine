@@ -284,6 +284,38 @@ public class ControllerTests
         Assert.AreEqual(0, result[Issue.Economy].Amount);
     }
     
+    [TestMethod]
+    public void SetUpBoard_FirstEditionCardsShuffledIntoDeck()
+    {
+        var engine = EngineFixtures.GetGameEngine();
+
+        //Making this variable instead of concrete because the number of cards implemented will change
+        var numberOfImplementedCards = Manifest.ZManCards.Count;
+        
+        var sut = new Controller(engine);
+        sut.SetUpBoard(GameEdition.FirstEditionByZMan);
+
+        var cardsInDeck = engine.GetCardsInZone(CardZone.Deck, Player.Kennedy);
+
+        Assert.AreEqual(numberOfImplementedCards, cardsInDeck.Count());
+    }
+    
+    [TestMethod]
+    public void SetUpBoard_SecondEditionCardsShuffledIntoDeck()
+    {
+        var engine = EngineFixtures.GetGameEngine();
+
+        //Making this variable instead of concrete because the number of cards implemented will change
+        var numberOfImplementedCards = Manifest.GMTCards.Count;
+        
+        var sut = new Controller(engine);
+        sut.SetUpBoard(GameEdition.SecondEditionByGmt);
+
+        var cardsInDeck = engine.GetCardsInZone(CardZone.Deck, Player.Kennedy);
+
+        Assert.AreEqual(numberOfImplementedCards, cardsInDeck.Count());
+    }
+    
     #endregion
 
 
