@@ -258,7 +258,32 @@ public class ControllerTests
         Assert.AreEqual(expectedLeader, result[state].Leader);
     }
 
+    [TestMethod]
+    public void SetUpBoard_IssueOrderSet()
+    {
+        var expectedOrder = new List<Issue>() { Issue.Defense, Issue.Economy, Issue.CivilRights };
+        
+        var sut = new Controller(EngineFixtures.GetGameEngine());
+        sut.SetUpBoard(GameEdition.SecondEditionByGmt);
+        var result = sut.GetGameState().IssueOrder;
 
+        Assert.AreEqual(result[0], expectedOrder[0]);
+        Assert.AreEqual(result[1], expectedOrder[1]);
+        Assert.AreEqual(result[2], expectedOrder[2]);
+    }
+    
+    [TestMethod]
+    public void SetUpBoard_IssueContestsAllEmpty()
+    {
+        var sut = new Controller(EngineFixtures.GetGameEngine());
+        sut.SetUpBoard(GameEdition.SecondEditionByGmt);
+        var result = sut.GetGameState().IssueContests;
+
+        Assert.AreEqual(0, result[Issue.CivilRights].Amount);
+        Assert.AreEqual(0, result[Issue.Defense].Amount);
+        Assert.AreEqual(0, result[Issue.Economy].Amount);
+    }
+    
     #endregion
 
 
