@@ -1,0 +1,322 @@
+using NSubstitute;
+using NineteenSixty;
+using NineteenSixty.Data;
+using NineteenSixty.Enums;
+using NineteenSixty.Interfaces;
+using NineteenSixty.Tests.Fixtures;
+using NSubstitute.ReturnsExtensions;
+using PresidentialGameEngine.ClassLibrary.Data;
+
+namespace NineteenSixty.Tests;
+
+[TestClass]
+public class ControllerTests
+{
+
+    #region Fixtures
+
+    private static GameState ExampleGameState => GetExampleGameState();
+
+
+    private static GameState GetExampleGameState()
+    {
+        var momentum = new Dictionary<Player, int>()
+        {
+            { Player.Kennedy, 1 },
+            { Player.Nixon, 2 },
+        };
+
+        var restCubes = new Dictionary<Player, int>()
+        {
+            { Player.Kennedy, 20 },
+            { Player.Nixon, 5 },
+        };
+
+        var issueContests = new Dictionary<Issue, SupportContest<Leader>>()
+        {
+            { Issue.CivilRights, new SupportContest<Leader>() },
+            { Issue.Economy, new SupportContest<Leader>() },
+            { Issue.Defense, new SupportContest<Leader>() },
+        };
+
+        issueContests[Issue.Economy].Leader = Leader.Nixon;
+        issueContests[Issue.Economy].Amount = 1;
+
+        issueContests[Issue.CivilRights].Leader = Leader.Kennedy;
+        issueContests[Issue.CivilRights].Amount = 2;
+
+        var stateContests = new Dictionary<State, SupportContest<Leader>>()
+        {
+            { State.CT, new SupportContest<Leader>() },
+            { State.NH, new SupportContest<Leader>() },
+        };
+
+        stateContests[State.CT].Leader = Leader.Nixon;
+        stateContests[State.CT].Amount = 1;
+
+        stateContests[State.NH].Leader = Leader.Kennedy;
+        stateContests[State.NH].Amount = 3;
+
+        var issueOrder = new List<Issue>()
+        {
+            Issue.Defense, Issue.CivilRights, Issue.Economy
+        };
+
+        var endorsements = new Dictionary<Region, SupportContest<Leader>>()
+        {
+            { Region.South, new SupportContest<Leader>() },
+            { Region.West, new SupportContest<Leader>() },
+        };
+
+        endorsements[Region.South].Leader = Leader.Nixon;
+        endorsements[Region.South].Amount = 4;
+        endorsements[Region.West].Leader = Leader.Kennedy;
+        endorsements[Region.West].Amount = 1;
+
+        var mediaSupportLevels = new Dictionary<Region, SupportContest<Leader>>()
+        {
+            { Region.East, new SupportContest<Leader>() },
+            { Region.Midwest, new SupportContest<Leader>() },
+        };
+
+        mediaSupportLevels[Region.East].Leader = Leader.Kennedy;
+        mediaSupportLevels[Region.East].Amount = 2;
+        mediaSupportLevels[Region.Midwest].Leader = Leader.Nixon;
+        mediaSupportLevels[Region.Midwest].Amount = 3;
+
+        var playerLocations = new Dictionary<Player, State>()
+        {
+            { Player.Kennedy, State.AK },
+            { Player.Nixon, State.HI },
+        };
+
+        var playerStatuses = new Dictionary<Player, Status>()
+        {
+            { Player.Kennedy, Status.Exhausted },
+            { Player.Nixon, Status.Ready },
+        };
+
+        var expectedGameState = new GameState()
+        {
+            Momentum = momentum,
+            RestCubes = restCubes,
+            IssueContests = issueContests,
+            StateContests = stateContests,
+            IssueOrder = issueOrder,
+            Endorsements = endorsements,
+            MediaSupportLevels = mediaSupportLevels,
+            PlayerLocations = playerLocations,
+            PlayerStatuses = playerStatuses,
+        };
+
+        return expectedGameState;
+    }
+
+    #endregion
+
+    #region GetGameState Tests
+
+    [TestMethod]
+    public void GetGameState_GetsInfoFromEngine()
+    {
+        var mockEngine = Substitute.For<IEngine>();
+
+        var expectedGameState = ExampleGameState;
+
+        mockEngine.GetGameState().Returns(expectedGameState);
+
+        var sut = new Controller(mockEngine);
+
+        var result = sut.GetGameState();
+        Assert.AreEqual(expectedGameState, result);
+
+    }
+
+    #endregion
+
+
+    #region SetUpBoard Tests
+
+    [TestMethod]
+    [DataRow(State.AK, 0)]
+    [DataRow(State.AL, 1)]
+    [DataRow(State.AR, 1)]
+    [DataRow(State.AZ, 1)]
+    [DataRow(State.CA, 0)]
+    [DataRow(State.CO, 1)]
+    [DataRow(State.CT, 0)]
+    [DataRow(State.DE, 0)]
+    [DataRow(State.FL, 0)]
+    [DataRow(State.GA, 2)]
+    [DataRow(State.HI, 0)]
+    [DataRow(State.IA, 1)]
+    [DataRow(State.ID, 0)]
+    [DataRow(State.IL, 0)]
+    [DataRow(State.IN, 1)]
+    [DataRow(State.KS, 2)]
+    [DataRow(State.KY, 0)]
+    [DataRow(State.LA, 2)]
+    [DataRow(State.MA, 2)]
+    [DataRow(State.MD, 0)]
+    [DataRow(State.ME, 1)]
+    [DataRow(State.MI, 0)]
+    [DataRow(State.MN, 0)]
+    [DataRow(State.MO, 1)]
+    [DataRow(State.MS, 2)]
+    [DataRow(State.MT, 0)]
+    [DataRow(State.NC, 1)]
+    [DataRow(State.ND, 1)]
+    [DataRow(State.NE, 2)]
+    [DataRow(State.NH, 0)]
+    [DataRow(State.NJ, 0)]
+    [DataRow(State.NM, 0)]
+    [DataRow(State.NV, 0)]
+    [DataRow(State.NY, 0)]
+    [DataRow(State.OH, 1)]
+    [DataRow(State.OK, 1)]
+    [DataRow(State.OR, 0)]
+    [DataRow(State.PA, 0)]
+    [DataRow(State.RI, 2)]
+    [DataRow(State.SC, 1)]
+    [DataRow(State.SD, 1)]
+    [DataRow(State.TN, 0)]
+    [DataRow(State.TX, 0)]
+    [DataRow(State.UT, 1)]
+    [DataRow(State.VA, 0)]
+    [DataRow(State.VT, 1)]
+    [DataRow(State.WA, 0)]
+    [DataRow(State.WI, 0)]
+    [DataRow(State.WV, 0)]
+    [DataRow(State.WY, 1)]
+
+    public void SetUpBoard_DefaultStartingStateSupport(State state, int expectedAmount)
+    {
+        var sut = new Controller(EngineFixtures.GetGameEngine());
+        sut.SetUpBoard(GameEdition.SecondEditionByGmt);
+        var result = sut.GetGameState().StateContests;
+
+        Assert.AreEqual(expectedAmount, result[state].Amount);
+    }
+
+    [TestMethod]
+    [DataRow(State.AK, Leader.None)]
+    [DataRow(State.AL, Leader.Kennedy)]
+    [DataRow(State.AR, Leader.Kennedy)]
+    [DataRow(State.AZ, Leader.Nixon)]
+    [DataRow(State.CA, Leader.None)]
+    [DataRow(State.CO, Leader.Nixon)]
+    [DataRow(State.CT, Leader.None)]
+    [DataRow(State.DE, Leader.None)]
+    [DataRow(State.FL, Leader.None)]
+    [DataRow(State.GA, Leader.Kennedy)]
+    [DataRow(State.HI, Leader.None)]
+    [DataRow(State.IA, Leader.Nixon)]
+    [DataRow(State.ID, Leader.None)]
+    [DataRow(State.IL, Leader.None)]
+    [DataRow(State.IN, Leader.Nixon)]
+    [DataRow(State.KS, Leader.Nixon)]
+    [DataRow(State.KY, Leader.None)]
+    [DataRow(State.LA, Leader.Kennedy)]
+    [DataRow(State.MA, Leader.Kennedy)]
+    [DataRow(State.MD, Leader.None)]
+    [DataRow(State.ME, Leader.Nixon)]
+    [DataRow(State.MI, Leader.None)]
+    [DataRow(State.MN, Leader.None)]
+    [DataRow(State.MO, Leader.Kennedy)]
+    [DataRow(State.MS, Leader.Kennedy)]
+    [DataRow(State.MT, Leader.None)]
+    [DataRow(State.NC, Leader.Kennedy)]
+    [DataRow(State.ND, Leader.Nixon)]
+    [DataRow(State.NE, Leader.Nixon)]
+    [DataRow(State.NH, Leader.None)]
+    [DataRow(State.NJ, Leader.None)]
+    [DataRow(State.NM, Leader.None)]
+    [DataRow(State.NV, Leader.None)]
+    [DataRow(State.NY, Leader.None)]
+    [DataRow(State.OH, Leader.Nixon)]
+    [DataRow(State.OK, Leader.Nixon)]
+    [DataRow(State.OR, Leader.None)]
+    [DataRow(State.PA, Leader.None)]
+    [DataRow(State.RI, Leader.Kennedy)]
+    [DataRow(State.SC, Leader.Kennedy)]
+    [DataRow(State.SD, Leader.Nixon)]
+    [DataRow(State.TN, Leader.None)]
+    [DataRow(State.TX, Leader.None)]
+    [DataRow(State.UT, Leader.Nixon)]
+    [DataRow(State.VA, Leader.None)]
+    [DataRow(State.VT, Leader.Nixon)]
+    [DataRow(State.WA, Leader.None)]
+    [DataRow(State.WI, Leader.None)]
+    [DataRow(State.WV, Leader.None)]
+    [DataRow(State.WY, Leader.Nixon)]
+    public void SetUpBoard_DefaultLeader(State state, Leader expectedLeader)
+    {
+        var sut = new Controller(EngineFixtures.GetGameEngine());
+        sut.SetUpBoard(GameEdition.SecondEditionByGmt);
+        var result = sut.GetGameState().StateContests;
+
+        Assert.AreEqual(expectedLeader, result[state].Leader);
+    }
+
+    [TestMethod]
+    public void SetUpBoard_IssueOrderSet()
+    {
+        var expectedOrder = new List<Issue>() { Issue.Defense, Issue.Economy, Issue.CivilRights };
+        
+        var sut = new Controller(EngineFixtures.GetGameEngine());
+        sut.SetUpBoard(GameEdition.SecondEditionByGmt);
+        var result = sut.GetGameState().IssueOrder;
+
+        Assert.AreEqual(result[0], expectedOrder[0]);
+        Assert.AreEqual(result[1], expectedOrder[1]);
+        Assert.AreEqual(result[2], expectedOrder[2]);
+    }
+    
+    [TestMethod]
+    public void SetUpBoard_IssueContestsAllEmpty()
+    {
+        var sut = new Controller(EngineFixtures.GetGameEngine());
+        sut.SetUpBoard(GameEdition.SecondEditionByGmt);
+        var result = sut.GetGameState().IssueContests;
+
+        Assert.AreEqual(0, result[Issue.CivilRights].Amount);
+        Assert.AreEqual(0, result[Issue.Defense].Amount);
+        Assert.AreEqual(0, result[Issue.Economy].Amount);
+    }
+    
+    [TestMethod]
+    public void SetUpBoard_FirstEditionCardsShuffledIntoDeck()
+    {
+        var engine = EngineFixtures.GetGameEngine();
+
+        //Making this variable instead of concrete because the number of cards implemented will change
+        var numberOfImplementedCards = Manifest.ZManCards.Count;
+        
+        var sut = new Controller(engine);
+        sut.SetUpBoard(GameEdition.FirstEditionByZMan);
+
+        var cardsInDeck = engine.GetCardsInZone(CardZone.Deck, Player.Kennedy);
+
+        Assert.AreEqual(numberOfImplementedCards, cardsInDeck.Count());
+    }
+    
+    [TestMethod]
+    public void SetUpBoard_SecondEditionCardsShuffledIntoDeck()
+    {
+        var engine = EngineFixtures.GetGameEngine();
+
+        //Making this variable instead of concrete because the number of cards implemented will change
+        var numberOfImplementedCards = Manifest.GMTCards.Count;
+        
+        var sut = new Controller(engine);
+        sut.SetUpBoard(GameEdition.SecondEditionByGmt);
+
+        var cardsInDeck = engine.GetCardsInZone(CardZone.Deck, Player.Kennedy);
+
+        Assert.AreEqual(numberOfImplementedCards, cardsInDeck.Count());
+    }
+    
+    #endregion
+
+
+}
