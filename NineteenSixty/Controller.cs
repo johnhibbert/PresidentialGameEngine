@@ -6,11 +6,9 @@ using Card = NineteenSixty.Data.Card;
 
 namespace NineteenSixty;
 
-public class Controller(IEngine engine, Manifest manifest) : IController
+public class Controller(IEngine engine) : IController
 {
     private IEngine _engine = engine;
-
-    private Manifest _manifest = manifest;
     
     public void PlayCard(Card card)
     {
