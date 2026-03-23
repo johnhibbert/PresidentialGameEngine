@@ -438,11 +438,12 @@ public class Manifest
             
                         var southernStates = StateData.Where(y => y.Value.Region == Region.South).Select(z => z.Key);
                         var onlySouthernStates = choices.StateChanges.Select(s => s.Target).All(x => southernStates.Contains(x));
+                        var containsNoLosses = choices.ContainsNoLosses();
                         var containsOnlyStateSupport =
                             choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
                         
-                        return threePointsOfStateChanges && noStateAboveTwo
-                              && onlySouthernStates && statePlayerIsOnlyKennedy && containsOnlyStateSupport;
+                        return threePointsOfStateChanges && statePlayerIsOnlyKennedy && noStateAboveTwo 
+                               && onlySouthernStates && containsNoLosses && containsOnlyStateSupport;
                     },
                 }
             },

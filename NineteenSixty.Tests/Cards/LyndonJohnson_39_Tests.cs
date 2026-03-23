@@ -89,12 +89,10 @@ public class LyndonJohnson_39_Tests
         var engine = EngineFixtures.GetGameEngine();
 
         SetOfChanges playerChoices = new();
-        var twoSupportInTexas = new SupportChange<Player, State>(Player.Kennedy, State.TX, 2);
         var oneSupportInFlorida = new SupportChange<Player, State>(Player.Kennedy, State.FL, 1);
         var oneSupportInAlabama = new SupportChange<Player, State>(Player.Kennedy, State.AL, 1);
         var oneSupportInTennessee = new SupportChange<Player, State>(Player.Kennedy, State.TN, 1);
 
-        playerChoices.StateChanges.Add(twoSupportInTexas);
         playerChoices.StateChanges.Add(oneSupportInFlorida);
         playerChoices.StateChanges.Add(oneSupportInAlabama);
         playerChoices.StateChanges.Add(oneSupportInTennessee);
@@ -117,12 +115,10 @@ public class LyndonJohnson_39_Tests
         var engine = EngineFixtures.GetGameEngine();
 
         SetOfChanges playerChoices = new();
-        var twoSupportInTexas = new SupportChange<Player, State>(Player.Kennedy, State.TX, 2);
         var oneSupportInFlorida = new SupportChange<Player, State>(Player.Kennedy, State.FL, 1);
         var oneSupportInAlabama = new SupportChange<Player, State>(Player.Kennedy, State.AL, 1);
         var oneSupportInTennessee = new SupportChange<Player, State>(Player.Kennedy, State.TN, 1);
 
-        playerChoices.StateChanges.Add(twoSupportInTexas);
         playerChoices.StateChanges.Add(oneSupportInFlorida);
         playerChoices.StateChanges.Add(oneSupportInAlabama);
         playerChoices.StateChanges.Add(oneSupportInTennessee);
@@ -142,15 +138,15 @@ public class LyndonJohnson_39_Tests
     {
         SetOfChanges playerChoices = new();
         var twoSupportInTexas = new SupportChange<Player, State>(Player.Kennedy, State.TX, 2);
-        var oneSupportInFlorida = new SupportChange<Player, State>(Player.Nixon, State.FL, 1);
         var oneSupportInAlabama = new SupportChange<Player, State>(Player.Kennedy, State.AL, 1);
         var oneSupportInTennessee = new SupportChange<Player, State>(Player.Kennedy, State.TN, 1);
+        var invalidNixonSupport = new SupportChange<Player, State>(Player.Nixon, State.FL, 1);
 
         playerChoices.StateChanges.Add(twoSupportInTexas);
-        playerChoices.StateChanges.Add(oneSupportInFlorida);
         playerChoices.StateChanges.Add(oneSupportInAlabama);
         playerChoices.StateChanges.Add(oneSupportInTennessee);
-
+        playerChoices.StateChanges.Add(invalidNixonSupport);
+        
         var sut = Manifest.GMTCards[CardIndex];
         var result = sut.AreChangesValid(playerChoices);
         Assert.IsFalse(result);
@@ -179,14 +175,15 @@ public class LyndonJohnson_39_Tests
     }
 
     [TestMethod]
-    public void LyndonJohnson_39_FailsValidationIfGreaterThanOne()
+    public void LyndonJohnson_39_FailsValidationIfGreaterThanThree()
     {
         SetOfChanges playerChoices = new();
-        var twoSupportInTexas = new SupportChange<Player, State>(Player.Kennedy, State.TX, 2);
-        var threeSupportInFlorida = new SupportChange<Player, State>(Player.Kennedy, State.FL, 3);
+        
+        var twoSupportInFlorida = new SupportChange<Player, State>(Player.Kennedy, State.FL, 2);
+        var twoSupportInAlabama = new SupportChange<Player, State>(Player.Kennedy, State.AL, 2);
 
-        playerChoices.StateChanges.Add(twoSupportInTexas);
-        playerChoices.StateChanges.Add(threeSupportInFlorida);
+        playerChoices.StateChanges.Add(twoSupportInFlorida);
+        playerChoices.StateChanges.Add(twoSupportInAlabama);
 
         var sut = Manifest.GMTCards[CardIndex];
         var result = sut.AreChangesValid(playerChoices);
@@ -197,19 +194,35 @@ public class LyndonJohnson_39_Tests
     public void LyndonJohnson_39_FailsValidationIfStateNotInCorrectRegion()
     {
         SetOfChanges playerChoices = new();
-        var twoSupportInTexas = new SupportChange<Player, State>(Player.Kennedy, State.TX, 2);
         var oneSupportInFlorida = new SupportChange<Player, State>(Player.Kennedy, State.FL, 1);
         var oneSupportInAlabama = new SupportChange<Player, State>(Player.Kennedy, State.AL, 1);
-        var oneSupportInOhio = new SupportChange<Player, State>(Player.Kennedy, State.OH, 1);
+        var invalidSupportInOhio = new SupportChange<Player, State>(Player.Kennedy, State.OH, 1);
 
-        playerChoices.StateChanges.Add(twoSupportInTexas);
         playerChoices.StateChanges.Add(oneSupportInFlorida);
         playerChoices.StateChanges.Add(oneSupportInAlabama);
-        playerChoices.StateChanges.Add(oneSupportInOhio);
+        playerChoices.StateChanges.Add(invalidSupportInOhio);
 
         var sut = Manifest.GMTCards[CardIndex];
         var result = sut.AreChangesValid(playerChoices);
         Assert.IsFalse(result);
     }
 
+    [TestMethod]
+    public void LyndonJohnson_39_FailsValidationIfAnyNegativeValues()
+    {
+        SetOfChanges playerChoices = new();
+        
+        var oneSupportInFlorida = new SupportChange<Player, State>(Player.Kennedy, State.FL, 2);
+        var oneSupportInAlabama = new SupportChange<Player, State>(Player.Kennedy, State.AL, 1);
+        var invalidNegativeSupport = new SupportChange<Player, State>(Player.Kennedy, State.TN, -1);
+
+        playerChoices.StateChanges.Add(oneSupportInFlorida);
+        playerChoices.StateChanges.Add(oneSupportInAlabama);
+        playerChoices.StateChanges.Add(invalidNegativeSupport);
+
+        var sut = Manifest.GMTCards[CardIndex];
+        var result = sut.AreChangesValid(playerChoices);
+        Assert.IsFalse(result);
+    }
+    
 }
