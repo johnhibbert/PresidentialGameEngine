@@ -122,5 +122,31 @@ public class DwightEisenhower_18_Tests
         Assert.IsFalse(result);
     }
 
+    [TestMethod]
+    public void DwightEisenhower_18_FailsValidationIfAnyNegativeValues()
+    {
+        SetOfChanges playerChoices = new();
+        var oneSupportInWyoming = new SupportChange<Player, State>(Player.Nixon, State.WY, 1);
+        var oneSupportInWashington = new SupportChange<Player, State>(Player.Nixon, State.WA, 1);
+        var oneSupportInNorthDakota = new SupportChange<Player, State>(Player.Nixon, State.ND, 1);
+        var oneSupportInNebraska = new SupportChange<Player, State>(Player.Nixon, State.NE, 1);
+        var oneSupportInKentucky = new SupportChange<Player, State>(Player.Nixon, State.KY, 1);
+        var oneSupportInRhodeIsland = new SupportChange<Player, State>(Player.Nixon, State.RI, 1);
+        var oneSupportInHawaii = new  SupportChange<Player, State>(Player.Nixon, State.HI, 1);
+        var invalidSupportLoss = new SupportChange<Player, State>(Player.Nixon, State.MA, -1);
+
+        playerChoices.StateChanges.Add(oneSupportInWyoming);
+        playerChoices.StateChanges.Add(oneSupportInWashington);
+        playerChoices.StateChanges.Add(oneSupportInNorthDakota);
+        playerChoices.StateChanges.Add(oneSupportInNebraska);
+        playerChoices.StateChanges.Add(oneSupportInKentucky);
+        playerChoices.StateChanges.Add(oneSupportInRhodeIsland);
+        playerChoices.StateChanges.Add(oneSupportInHawaii);
+        playerChoices.StateChanges.Add(invalidSupportLoss);
+
+        var sut = Manifest.GMTCards[CardIndex];
+        var result = sut.AreChangesValid(playerChoices);
+        Assert.IsFalse(result);
+    }
 
 }

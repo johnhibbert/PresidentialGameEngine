@@ -1,3 +1,5 @@
+// ReSharper disable UnusedParameter.Local
+
 using NineteenSixty.Enums;
 using PresidentialGameEngine.ClassLibrary.Data;
 using PresidentialGameEngine.ClassLibrary.Interfaces;
@@ -92,12 +94,13 @@ public class Manifest
                     {
                         var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
                         var noValueAboveOne = choices.HighestStateChange <= 1;
-                        var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var containsNoLosses = choices.ContainsNoLosses();
                         var containsOnlyStateSupportChanges =
                             choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
             
-                        return fiveOrFewerPointsOfStateChanges && statePlayerIsOnlyNixon
-                                                                && noValueAboveOne && containsOnlyStateSupportChanges;
+                        return fiveOrFewerPointsOfStateChanges && statePlayerIsOnlyKennedy &&
+                               containsNoLosses && noValueAboveOne && containsOnlyStateSupportChanges;
                     },
                 }
             },
@@ -170,10 +173,11 @@ public class Manifest
                         var onlyNewEnglandStatesIncluded = choices.StateChanges.Select(s => s.Target).All(x => newEnglandStates.Contains(x));
                         var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
                         var noValueAboveTwo = choices.HighestStateChange <= 2;
+                        var containsNoLosses = choices.ContainsNoLosses();
                         var containsOnlyStateSupport = choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
             
                         return fiveOrFewerPointsOfStateChanges && onlyNewEnglandStatesIncluded && noValueAboveTwo
-                                && statePlayerIsOnlyKennedy && containsOnlyStateSupport;
+                                && containsNoLosses && statePlayerIsOnlyKennedy && containsOnlyStateSupport;
                     },
                 }
             },
@@ -196,9 +200,10 @@ public class Manifest
                         var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
                         var onlyIllinois = choices.StateChanges.Select(s => s.Target).All(x => x == State.IL);
                         var playerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var containsNoLosses = choices.ContainsNoLosses();
                         var containsOnlyStateSupport = choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
             
-                        return fiveOrFewerPointsOfStateChanges && onlyIllinois 
+                        return fiveOrFewerPointsOfStateChanges && onlyIllinois && containsNoLosses
                                && playerIsOnlyKennedy && containsOnlyStateSupport;
                     },
                 }
@@ -254,11 +259,12 @@ public class Manifest
                         var sevenOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 7;
                         var noValueAboveOne = choices.HighestStateChange <= 1;
                         var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
+                        var containsNoLosses = choices.ContainsNoLosses();
                         var containsOnlyStateSupportChanges =
                             choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
             
-                        return sevenOrFewerPointsOfStateChanges && statePlayerIsOnlyNixon
-                                                                && noValueAboveOne && containsOnlyStateSupportChanges;
+                        return sevenOrFewerPointsOfStateChanges && statePlayerIsOnlyNixon &&
+                               containsNoLosses && noValueAboveOne && containsOnlyStateSupportChanges;
                     },
                 }
             },
@@ -367,9 +373,10 @@ public class Manifest
                     {
                         var noValueAboveOne = choices.TotalEndorsementChanges <= 1;
                         var playerIsOnlyKennedy = choices.EndorsementChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
+                        var containsNoLosses = choices.ContainsNoLosses();
                         var containsOnlyEndorsements =
                             choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.Endorsement]);
-                        return noValueAboveOne && playerIsOnlyKennedy && containsOnlyEndorsements;
+                        return noValueAboveOne && playerIsOnlyKennedy && containsNoLosses && containsOnlyEndorsements;
                     },
                 }
             },
@@ -395,14 +402,15 @@ public class Manifest
                     RequiresPlayerInput = true,
                     AreChangesValid = (choices) =>
                     {
-                        var threePointsOfIssueChanges = choices.TotalIssueChanges <= 3;
+                        var threePointsOrLessOfStateSupport = choices.TotalStateChanges <= 3;
                         var noValueAboveOne = choices.HighestStateChange <= 1;
-                        var issuePlayerAreAllSame = choices.IssueChanges.Select(x => x.Player).Distinct().Count() == 1;
+                        var gainsForOnlyOnePlayer = choices.StateChanges.Select(x => x.Player).Count() == 1;
+                        var containsNoLosses = choices.ContainsNoLosses();
                         var containsOnlyStateSupport =
                             choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
                         
-                        return threePointsOfIssueChanges && noValueAboveOne
-                                && issuePlayerAreAllSame && containsOnlyStateSupport;
+                        return threePointsOrLessOfStateSupport && noValueAboveOne && gainsForOnlyOnePlayer
+                                && containsNoLosses && containsOnlyStateSupport;
                     },
                 }
             },
@@ -430,11 +438,12 @@ public class Manifest
             
                         var southernStates = StateData.Where(y => y.Value.Region == Region.South).Select(z => z.Key);
                         var onlySouthernStates = choices.StateChanges.Select(s => s.Target).All(x => southernStates.Contains(x));
+                        var containsNoLosses = choices.ContainsNoLosses();
                         var containsOnlyStateSupport =
                             choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.StateSupport]);
                         
-                        return threePointsOfStateChanges && noStateAboveTwo
-                              && onlySouthernStates && statePlayerIsOnlyKennedy && containsOnlyStateSupport;
+                        return threePointsOfStateChanges && statePlayerIsOnlyKennedy && noStateAboveTwo 
+                               && onlySouthernStates && containsNoLosses && containsOnlyStateSupport;
                     },
                 }
             },

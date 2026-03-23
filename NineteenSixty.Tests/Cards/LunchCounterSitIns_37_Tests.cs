@@ -150,4 +150,22 @@ public class LunchCounterSitIns_37_Tests
         Assert.IsFalse(result);
     }
 
+    [TestMethod]
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
+    public void LunchCounterSitIns_37_FailsValidationIfAnyNegativeValues(Player player)
+    {
+        SetOfChanges playerChoices = new();
+        var oneSupportInOregon = new SupportChange<Player, State>(player, State.OR, 1);
+        var oneSupportInFlorida = new SupportChange<Player, State>(player, State.FL, 1);
+        var invalidSupportLoss = new SupportChange<Player, State>(player, State.AL, -1);
+
+        playerChoices.StateChanges.Add(oneSupportInOregon);
+        playerChoices.StateChanges.Add(oneSupportInFlorida);
+        playerChoices.StateChanges.Add(invalidSupportLoss);
+
+        var sut = Manifest.GMTCards[CardIndex];
+        var result = sut.AreChangesValid(playerChoices);
+        Assert.IsFalse(result);
+    }
 }
