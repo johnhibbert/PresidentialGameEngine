@@ -16,7 +16,7 @@ public static class EngineFixtures
         var issueSupportComponent = new SupportComponent<Player, Leader, Issue>();
         var stateSupportComponent = new CarriableSupportComponent<Player, Leader, State>();
         var issuePositioningComponent = new PositioningComponent<Issue>();
-        var politicalCapitalComponent = new PoliticalCapitalComponent<Player>(seed, 12);
+        var politicalCapitalComponent = new BlindBagComponent<Player>(12, seed);
         var playerLocationComponent = new PlayerLocationComponent<Player, State>(Manifest.PlayerStartingPositions);
         var restComponent = new AccumulatingComponent<Player>();
         var endorsementComponent = new SupportComponent<Player, Leader, Region>();
