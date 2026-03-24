@@ -72,6 +72,12 @@ public class Manifest
             { Player.Nixon, State.CA }
         };
 
+        public static readonly Dictionary<GameEdition, int> StartingPoliticalCapital = new()
+        {
+            { GameEdition.FirstEditionByZMan, 10},
+            { GameEdition.SecondEditionByGmt, 12}
+        };
+
         public static readonly Dictionary<int, Card> ZManCards = new()
         {
             {1, new Card()
