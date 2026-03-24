@@ -117,7 +117,9 @@ public class ControllerTests
     #region GetGameState Tests
 
     [TestMethod]
-    public void GetGameState_GetsInfoFromEngine()
+    [DataRow(GameEdition.FirstEditionByZMan)]
+    [DataRow(GameEdition.SecondEditionByGmt)]
+    public void GetGameState_GetsInfoFromEngine(GameEdition edition)
     {
         var mockEngine = Substitute.For<IEngine>();
 
@@ -125,7 +127,7 @@ public class ControllerTests
 
         mockEngine.GetGameState().Returns(expectedGameState);
 
-        var sut = new Controller(mockEngine);
+        var sut = new Controller(mockEngine, edition);
 
         var result = sut.GetGameState();
         Assert.AreEqual(expectedGameState, result);
@@ -191,8 +193,8 @@ public class ControllerTests
 
     public void SetUpBoard_DefaultStartingStateSupport(State state, int expectedAmount)
     {
-        var sut = new Controller(EngineFixtures.GetGameEngine());
-        sut.SetUpBoard(GameEdition.SecondEditionByGmt);
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
         var result = sut.GetGameState().StateContests;
 
         Assert.AreEqual(expectedAmount, result[state].Amount);
@@ -251,20 +253,22 @@ public class ControllerTests
     [DataRow(State.WY, Leader.Nixon)]
     public void SetUpBoard_DefaultLeader(State state, Leader expectedLeader)
     {
-        var sut = new Controller(EngineFixtures.GetGameEngine());
-        sut.SetUpBoard(GameEdition.SecondEditionByGmt);
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
         var result = sut.GetGameState().StateContests;
 
         Assert.AreEqual(expectedLeader, result[state].Leader);
     }
 
     [TestMethod]
-    public void SetUpBoard_IssueOrderSet()
+    [DataRow(GameEdition.FirstEditionByZMan)]
+    [DataRow(GameEdition.SecondEditionByGmt)]
+    public void SetUpBoard_IssueOrderSet(GameEdition edition)
     {
         var expectedOrder = new List<Issue>() { Issue.Defense, Issue.Economy, Issue.CivilRights };
         
-        var sut = new Controller(EngineFixtures.GetGameEngine());
-        sut.SetUpBoard(GameEdition.SecondEditionByGmt);
+        var sut = new Controller(EngineFixtures.GetGameEngine(), edition);
+        sut.SetUpBoard();
         var result = sut.GetGameState().IssueOrder;
 
         Assert.AreEqual(result[0], expectedOrder[0]);
@@ -273,10 +277,12 @@ public class ControllerTests
     }
     
     [TestMethod]
-    public void SetUpBoard_IssueContestsAllEmpty()
+    [DataRow(GameEdition.FirstEditionByZMan)]
+    [DataRow(GameEdition.SecondEditionByGmt)]
+    public void SetUpBoard_IssueContestsAllEmpty(GameEdition edition)
     {
-        var sut = new Controller(EngineFixtures.GetGameEngine());
-        sut.SetUpBoard(GameEdition.SecondEditionByGmt);
+        var sut = new Controller(EngineFixtures.GetGameEngine(), edition);
+        sut.SetUpBoard();
         var result = sut.GetGameState().IssueContests;
 
         Assert.AreEqual(0, result[Issue.CivilRights].Amount);
@@ -292,8 +298,8 @@ public class ControllerTests
         //Making this variable instead of concrete because the number of cards implemented will change
         var numberOfImplementedCards = Manifest.ZManCards.Count;
         
-        var sut = new Controller(engine);
-        sut.SetUpBoard(GameEdition.FirstEditionByZMan);
+        var sut = new Controller(engine, GameEdition.FirstEditionByZMan);
+        sut.SetUpBoard();
 
         var cardsInDeck = engine.GetCardsInZone(CardZone.Deck, Player.Kennedy);
 
@@ -308,8 +314,8 @@ public class ControllerTests
         //Making this variable instead of concrete because the number of cards implemented will change
         var numberOfImplementedCards = Manifest.GMTCards.Count;
         
-        var sut = new Controller(engine);
-        sut.SetUpBoard(GameEdition.SecondEditionByGmt);
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
 
         var cardsInDeck = engine.GetCardsInZone(CardZone.Deck, Player.Kennedy);
 

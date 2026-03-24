@@ -139,7 +139,7 @@ internal class Program
     
     private static IController GetController(IRandomnessProvider randomnessProvider, GameEdition edition)
     {
-        return new Controller(GetEngine(randomnessProvider, edition));
+        return new Controller(GetEngine(randomnessProvider, edition), edition);
     }
 
     private static IEngine GetEngine(IRandomnessProvider randomnessProvider, GameEdition edition)

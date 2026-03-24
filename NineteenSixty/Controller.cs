@@ -6,9 +6,11 @@ using Card = NineteenSixty.Data.Card;
 
 namespace NineteenSixty;
 
-public class Controller(IEngine engine) : IController
+public class Controller(IEngine engine, GameEdition gameEdition) : IController
 {
     private IEngine _engine = engine;
+
+    public GameEdition GameEdition { get; init; } = gameEdition;
     
     public void PlayCard(Card card)
     {
@@ -21,7 +23,7 @@ public class Controller(IEngine engine) : IController
         return _engine.GetGameState();
     }
 
-    public void SetUpBoard(GameEdition gameEdition)
+    public void SetUpBoard()
     {
 
         foreach (var ff in Manifest.StateData)

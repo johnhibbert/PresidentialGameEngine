@@ -7,5 +7,5 @@ public interface IController
 {
 
     GameState GetGameState();
-    void SetUpBoard(GameEdition gameEdition);
+    void SetUpBoard();
 }
