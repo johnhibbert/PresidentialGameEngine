@@ -61,6 +61,8 @@ internal class Program
         Console.WriteLine(GetLineOne(gameState));
         Console.WriteLine(GetLineTwo(gameState));
         Console.WriteLine(Border);
+        Console.WriteLine(GetLinesThreeAneFour(gameState));
+        Console.WriteLine(Border);
         // Console.Write($"|     John F. Kennedy in {gameState.PlayerLocations[Player.Kennedy]}        |");
         // Console.WriteLine($"    Richard M. Nixon in {gameState.PlayerLocations[Player.Nixon]}         |");
         
@@ -96,7 +98,51 @@ internal class Program
          line += "| ";
         return line;
     }
-    
+
+    private static string GetLinesThreeAneFour(GameState gameState)
+    {
+        var defense = "Defense      "; //13
+        var civilRights = "Civil Rights "; //13
+        var economy = "Economy      "; //13
+
+        Dictionary<Issue, string> dict = new Dictionary<Issue, string>()
+        {
+            { Issue.Defense, defense },
+            { Issue.CivilRights, civilRights },
+            { Issue.Economy, economy }
+        };
+        
+        var issueOrder = gameState.IssueOrder;
+        var contests = gameState.IssueContests;
+        
+        /*
+        issueOrder = new List<Issue>()
+        {
+            Issue.CivilRights, Issue.Defense, Issue.Economy
+        };
+        
+        contests[Issue.Defense].Amount = 2;
+        contests[Issue.Defense].Leader = Leader.Kennedy;
+        contests[Issue.CivilRights].Amount = 9;
+        contests[Issue.CivilRights].Leader = Leader.Nixon;
+        */
+        
+        var line = $"| Issues | 1st: ";
+        line += dict[issueOrder[0]];
+        line += "| 2nd: ";
+        line += dict[issueOrder[1]];
+        line += "| 3rd: ";
+        line += dict[issueOrder[2]];
+        line += " |";
+        line += Environment.NewLine;
+        line += $"|        ";
+        line += $"| {contests[issueOrder[0]].Leader}: {contests[issueOrder[0]].Amount}".PadRight(20);
+        line += $"| {contests[issueOrder[1]].Leader}: {contests[issueOrder[1]].Amount}".PadRight(20);
+        line += $"| {contests[issueOrder[2]].Leader}: {contests[issueOrder[2]].Amount}".PadRight(20);
+        line += " |";
+        return line;
+    }
+
     
     
     static GameEdition GetGameEditionFromUser()
