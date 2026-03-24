@@ -14,6 +14,7 @@ internal class Program
     
     static void Main(string[] args)
     {
+        
         Console.WriteLine("Welcome to the 1960 application.");
         Console.WriteLine("----");
         Console.WriteLine("Press Enter to Begin");
@@ -28,8 +29,76 @@ internal class Program
         
         controller = GetController(randomnessProvider, edition);
 
+        controller.SetUpBoard();
+
+        var holder = controller.GetGameState();
+
+        DisplayGameState(holder);
+        int i = 0;
     }
 
+
+    //private static string Border = "123456789012345678901234567890123456789012345678901234567890123456789012";
+    private static string Border = " ---------------------------------------------------------------------- ";
+    private static string TTTTTT = "|                                                                      |";
+    private static string Label  = "|     John F. Kennedy in MA        |    Richard M. Nixon in CA         |";
+    private static string UUUUU  = "| Momentum: 2, Rest: 3, Ready  |      Richard M. Nixon             |";
+
+    // |          John F. Kennedy         |         Richard M. Nixon          |
+    //  1234567890               1234567890123456789                1234567890
+    
+    
+    //PlayerLocations
+    //PlayerStatuses
+    
+    static void DisplayGameState(GameState gameState)
+    {
+        Console.Clear();
+        
+        
+        var momentum = gameState.Momentum;
+        Console.WriteLine(Border);
+        Console.WriteLine(GetLineOne(gameState));
+        Console.WriteLine(GetLineTwo(gameState));
+        Console.WriteLine(Border);
+        // Console.Write($"|     John F. Kennedy in {gameState.PlayerLocations[Player.Kennedy]}        |");
+        // Console.WriteLine($"    Richard M. Nixon in {gameState.PlayerLocations[Player.Nixon]}         |");
+        
+        //Console.WriteLine("12345678901234567890123456789012345678901234567890123456789012345678901234567890");
+        //Console.WriteLine("123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
+        Console.WriteLine("Momentum");
+        Console.Write($"Kennedy: {momentum[Player.Kennedy]} Nixon: {momentum[Player.Nixon]}");
+        
+        
+        //gameState.
+        
+    }
+
+    private static string GetLineOne(GameState gameState)
+    {
+        var line = "| Kennedy: ";
+        line+= gameState.PlayerStatuses[Player.Kennedy] == Status.Exhausted ? "Exhausted  " : "Ready      ";
+        line += $"Location: {gameState.PlayerLocations[Player.Kennedy]} ";
+        line += "| ";
+        line += "Nixon: ";
+        line += gameState.PlayerStatuses[Player.Nixon] == Status.Exhausted ? "Exhausted  " : "Ready      ";
+        line += $"  Location: {gameState.PlayerLocations[Player.Nixon]} ";
+        line += "|";
+        return line;
+    }
+    
+    private static string GetLineTwo(GameState gameState)
+    {
+        var line = $"| Momentum: {gameState.Momentum[Player.Kennedy],-2}";
+        line += $"            Rest: {gameState.RestCubes[Player.Kennedy],-2} ";
+        line += $"| Momentum: {gameState.Momentum[Player.Nixon],-2}";
+         line += $"            Rest: {gameState.RestCubes[Player.Nixon],-2} ";
+         line += "| ";
+        return line;
+    }
+    
+    
+    
     static GameEdition GetGameEditionFromUser()
     {
         Console.WriteLine("The revised GMT edition of this game included some changes");
