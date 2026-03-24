@@ -53,7 +53,7 @@ internal class Program
 
     static int GetSeedFromUser()
     {
-        int returnValue = 12;
+        var returnValue = 1960;
         
         Console.WriteLine("This application uses a seeded randomizer.");
         Console.WriteLine("You can choose to a default seed for consistent testing");
@@ -72,15 +72,12 @@ internal class Program
             case 2:
                 Console.WriteLine("Type in a valid integer.");
                 returnValue = GetIntegerInputFromUser(int.MaxValue);
-                
-                
                 break;
             case 3:
-                //
+                var rnd =  new Random();
+                returnValue = rnd.Next();
                 break;
         }
-        
-
         
         return returnValue;
     }
