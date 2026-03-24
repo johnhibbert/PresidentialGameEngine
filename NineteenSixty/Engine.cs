@@ -13,7 +13,7 @@ public class Engine(
     ISupportComponent<Player, Leader, Issue> issueSupportComponent,
     ICarriableSupportComponent<Player, Leader, State> stateSupportComponent,
     IPositioningComponent<Issue> issuePositioningComponent,
-    IPoliticalCapitalComponent<Player> politicalCapitalComponent,
+    IBlindBagComponent<Player> politicalCapitalComponent,
     IPlayerLocationComponent<Player, State> playerLocationComponent,
     IAccumulatingComponent<Player> restComponent,
     ISupportComponent<Player, Leader, Region> endorsementComponent,
@@ -30,7 +30,7 @@ public class Engine(
         stateSupportComponent;
 
     private IPositioningComponent<Issue> IssuePositioningComponent { get; init; } = issuePositioningComponent;
-    private IPoliticalCapitalComponent<Player> PoliticalCapitalComponent { get; init; } = politicalCapitalComponent;
+    private IBlindBagComponent<Player> PoliticalCapitalComponent { get; init; } = politicalCapitalComponent;
     private IPlayerLocationComponent<Player, State> PlayerLocationComponent { get; init; } = playerLocationComponent;
     private IAccumulatingComponent<Player> RestComponent { get; init; } = restComponent;
     private ISupportComponent<Player, Leader, Region> EndorsementComponent { get; init; } = endorsementComponent;
