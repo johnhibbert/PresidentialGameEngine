@@ -3,37 +3,42 @@ using NineteenSixty.Data;
 using NineteenSixty.Enums;
 using NineteenSixty.Interfaces;
 using PresidentialGameEngine.ClassLibrary.Components;
+using PresidentialGameEngine.ClassLibrary.Data;
 using PresidentialGameEngine.ClassLibrary.Interfaces;
 using PresidentialGameEngine.ClassLibrary.Randomness;
+using Card = NineteenSixty.Data.Card;
 
 namespace NineteenSixtyApplication;
 
 internal class Program
 {
     private static IController controller;
-    
+
     static void Main(string[] args)
     {
-        
+
         Console.WriteLine("Welcome to the 1960 application.");
         Console.WriteLine("----");
         Console.WriteLine("Press Enter to Begin");
         Console.ReadLine();
         Console.Clear();
-        
+
         var seed = GetSeedFromUser();
         var randomnessProvider = new DefaultRandomnessProvider(seed);
 
         var edition = GetGameEditionFromUser();
-        
-        
+
+
         controller = GetController(randomnessProvider, edition);
 
         controller.SetUpBoard();
 
         var holder = controller.GetGameState();
-
-        DisplayGameState(holder);
+        //DisplayGameState(holder);
+        
+        DisplayGameState(GetFakeGameState());
+        
+        
         int i = 0;
     }
 
@@ -41,21 +46,21 @@ internal class Program
     //private static string Border = "123456789012345678901234567890123456789012345678901234567890123456789012";
     private static string Border = " ---------------------------------------------------------------------- ";
     private static string TTTTTT = "|                                                                      |";
-    private static string Label  = "|     John F. Kennedy in MA        |    Richard M. Nixon in CA         |";
-    private static string UUUUU  = "| Momentum: 2, Rest: 3, Ready  |      Richard M. Nixon             |";
+    private static string Label = "|     John F. Kennedy in MA        |    Richard M. Nixon in CA         |";
+    private static string UUUUU = "| Momentum: 2, Rest: 3, Ready  |      Richard M. Nixon             |";
 
     // |          John F. Kennedy         |         Richard M. Nixon          |
     //  1234567890               1234567890123456789                1234567890
-    
-    
+
+
     //PlayerLocations
     //PlayerStatuses
-    
+
     static void DisplayGameState(GameState gameState)
     {
         Console.Clear();
-        
-        
+
+
         var momentum = gameState.Momentum;
         Console.WriteLine(Border);
         Console.WriteLine(GetLineOne(gameState));
@@ -63,18 +68,136 @@ internal class Program
         Console.WriteLine(Border);
         Console.WriteLine(GetLinesThreeAneFour(gameState));
         Console.WriteLine(Border);
+        Console.WriteLine(GetLineFive(gameState));
+        Console.WriteLine(Border);
         // Console.Write($"|     John F. Kennedy in {gameState.PlayerLocations[Player.Kennedy]}        |");
         // Console.WriteLine($"    Richard M. Nixon in {gameState.PlayerLocations[Player.Nixon]}         |");
-        
+
         //Console.WriteLine("12345678901234567890123456789012345678901234567890123456789012345678901234567890");
         //Console.WriteLine("123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
-        Console.WriteLine("Momentum");
-        Console.Write($"Kennedy: {momentum[Player.Kennedy]} Nixon: {momentum[Player.Nixon]}");
-        
-        
+        //Console.WriteLine("Momentum");
+        //Console.Write($"Kennedy: {momentum[Player.Kennedy]} Nixon: {momentum[Player.Nixon]}");
+
+
         //gameState.
-        
+
     }
+
+    private static GameState GetFakeGameState()
+    {
+        return new GameState
+        {
+
+            IssueOrder = new List<Issue>()
+            {
+                Issue.CivilRights,
+                Issue.Defense,
+                Issue.Economy
+            },
+            IssueContests = new Dictionary<Issue, SupportContest<Leader>>()
+            {
+                {
+                    Issue.Defense, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Kennedy,
+                        Amount = 2
+                    }
+                },
+                {
+                    Issue.CivilRights, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Nixon,
+                        Amount = 9
+                    }
+                },
+                {
+                Issue.Economy, new SupportContest<Leader>()
+                {
+                    Leader = Leader.None,
+                    Amount = 0
+                }
+            },
+            },
+            Momentum = new Dictionary<Player, int>()
+            {
+                {Player.Kennedy, 6},
+                {Player.Nixon, 3},
+            },
+            RestCubes = new Dictionary<Player, int>()
+            {
+                {Player.Kennedy, 41},
+                {Player.Nixon, 10},
+            },
+            StateContests = null,
+            Endorsements = new Dictionary<Region, SupportContest<Leader>>()
+            {
+                {
+                    Region.East, new SupportContest<Leader>()
+                    {
+                        Amount = 2, Leader = Leader.Kennedy
+                    }
+                },
+                {
+                    Region.Midwest, new SupportContest<Leader>()
+                    {
+                        Amount = 7, Leader = Leader.Kennedy
+                    }
+                },
+                {
+                    Region.South, new SupportContest<Leader>()
+                    {
+                        Amount = 2, Leader = Leader.Nixon
+                    }
+                },
+                {
+                    Region.West, new SupportContest<Leader>()
+                    {
+                        Amount = 0, Leader = Leader.None
+                    }
+                }
+            },
+            MediaSupportLevels = new Dictionary<Region, SupportContest<Leader>>()
+            {
+                {
+                    Region.East, new SupportContest<Leader>()
+                    {
+                        Amount = 0, Leader = Leader.None
+                    }
+                },
+                {
+                    Region.Midwest, new SupportContest<Leader>()
+                    {
+                        Amount = 3, Leader = Leader.Nixon
+                    }
+                },
+                {
+                    Region.South, new SupportContest<Leader>()
+                    {
+                        Amount = 5, Leader = Leader.Nixon
+                    }
+                },
+                {
+                    Region.West, new SupportContest<Leader>()
+                    {
+                        Amount = 1, Leader = Leader.Kennedy
+                    }
+                }
+            },
+            PlayerLocations = new Dictionary<Player, State>()
+            {
+                { Player.Kennedy, State.RI },
+                { Player.Nixon, State.OR },
+            },
+            PlayerStatuses = new Dictionary<Player, Status>()
+            {
+                { Player.Kennedy, Status.Exhausted },
+                { Player.Nixon,  Status.Exhausted },
+            }
+        };
+
+
+    }
+
 
     private static string GetLineOne(GameState gameState)
     {
@@ -115,18 +238,6 @@ internal class Program
         var issueOrder = gameState.IssueOrder;
         var contests = gameState.IssueContests;
         
-        /*
-        issueOrder = new List<Issue>()
-        {
-            Issue.CivilRights, Issue.Defense, Issue.Economy
-        };
-        
-        contests[Issue.Defense].Amount = 2;
-        contests[Issue.Defense].Leader = Leader.Kennedy;
-        contests[Issue.CivilRights].Amount = 9;
-        contests[Issue.CivilRights].Leader = Leader.Nixon;
-        */
-        
         var line = $"| Issues | 1st: ";
         line += dict[issueOrder[0]];
         line += "| 2nd: ";
@@ -143,6 +254,44 @@ internal class Program
         return line;
     }
 
+    private static string GetLineFive(GameState gameState)
+    {
+        var endorsements = gameState.Endorsements;
+        var mediaSupport = gameState.MediaSupportLevels;
+        
+        var mediaString = $"| Media Support | Kennedy: {GetLineForRegionalContests(mediaSupport,  Leader.Kennedy)}";
+        mediaString += $" | Nixon: {GetLineForRegionalContests(mediaSupport,  Leader.Nixon)}";
+        mediaString = mediaString.PadRight(70) + "|";
+        
+        var endorsementString = $"| Endorsements  | Kennedy: {GetLineForRegionalContests(endorsements,  Leader.Kennedy)}";
+        endorsementString += $"| Nixon: {GetLineForRegionalContests(endorsements,  Leader.Nixon)}";
+        endorsementString = endorsementString.PadRight(70) + "|"; 
+        
+        return mediaString + Environment.NewLine + endorsementString;
+    }
+
+    static string GetLineForRegionalContests(IDictionary<Region, SupportContest<Leader>> contests, Leader leader)
+    {
+        var returnValue = string.Empty;
+        
+        var leads =
+            contests.Where(x => x.Value.Leader == leader).ToArray();
+        
+        if (leads.Length != 0)
+        {
+            foreach (var kvp in leads)
+            {
+                returnValue += $"{kvp.Key.ToString()[..1]}={kvp.Value.Amount} ";
+            }
+        }
+        else
+        {
+            returnValue += "None ";
+        }
+
+        return returnValue;
+    }
+    
     
     
     static GameEdition GetGameEditionFromUser()
