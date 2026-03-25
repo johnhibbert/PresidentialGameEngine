@@ -61,5 +61,35 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
         
         //throw new NotImplementedException();
     }
+
+    public InitiativeCheckResult ConductInitiativeCheck()
+    {
+        var cubesDrawn = new Dictionary<Player, int>()
+        {
+            [Player.Kennedy] = 0,
+            [Player.Nixon] = 0,
+        };
+
+        var thresholdMet = false;
+        var playerWithInitiative = Player.Kennedy;
+        
+        while (!thresholdMet)
+        {
+            var player = _engine.DrawCubeFromPoliticalCapitalBag();
+            cubesDrawn[player]++;
+
+            if (cubesDrawn[player] == 2)
+            {
+                thresholdMet = true;
+                playerWithInitiative = player;
+            }
+        }
+
+        return new InitiativeCheckResult()
+        {
+            CubesDrawn = cubesDrawn,
+            PlayerWithInitiative = playerWithInitiative,
+        };
+    }
 }
 

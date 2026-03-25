@@ -42,6 +42,13 @@ public class BlindBagComponent<TPlayer>
     public TPlayer DrawCube()
     {
         var fullSum = _cubes.Values.Sum();
+        
+        if (fullSum == 0 && _refillBagAutomatically)
+        {
+            FillBag();
+            fullSum = _cubes.Values.Sum();
+        }
+        
         var num = _rng.GetRandomNumber(fullSum);
         
         var stillHasCubes = _cubes.Where(v => v.Value > 0).Select(k => k.Key).ToArray();
@@ -49,11 +56,6 @@ public class BlindBagComponent<TPlayer>
         var playerDrawn = stillHasCubes[remainder];
 
         _cubes[playerDrawn]--;
-
-        if (fullSum == 1 && _refillBagAutomatically)
-        {
-            FillBag();
-        }
         
         return playerDrawn;
     }

@@ -136,7 +136,6 @@ public class ControllerTests
 
     #endregion
 
-
     #region SetUpBoard Tests
 
     [TestMethod]
@@ -324,5 +323,29 @@ public class ControllerTests
     
     #endregion
 
+    #region ConductInitiativeCheck
+
+    [TestMethod]
+    public void ConductInitiativeCheck_PlayerGainsInitiative()
+    {
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
+        var result = sut.ConductInitiativeCheck();
+
+        Assert.AreEqual(Player.Nixon, result.PlayerWithInitiative);
+    }
+
+    [TestMethod]
+    public void ConductInitiativeCheck_DiceDrawn()
+    {
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
+        var result = sut.ConductInitiativeCheck();
+
+        Assert.AreEqual(2, result.CubesDrawn[Player.Nixon]);
+    }
+    
+    
+    #endregion
 
 }
