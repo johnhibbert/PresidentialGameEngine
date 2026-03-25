@@ -136,7 +136,7 @@ public class BlindBagComponentTests
         const int initialPopulation = 12;
         BlindBagComponent<FakePlayer> sut = new(initialPopulation, GetSeededRandomnessProvider());
         sut.FillBag();
-        int index = initialPopulation * 3;
+        var index = (initialPopulation * 3) + 1;
 
         while (index >= 1)
         {
@@ -148,7 +148,7 @@ public class BlindBagComponentTests
 
         Assert.AreEqual(initialPopulation, result[FakePlayer.PlayerOne]);
         Assert.AreEqual(initialPopulation, result[FakePlayer.PlayerTwo]);
-        Assert.AreEqual(initialPopulation, result[FakePlayer.PlayerThree]);
+        Assert.AreEqual(initialPopulation - 1, result[FakePlayer.PlayerThree]);
     }
 
     [TestMethod]
