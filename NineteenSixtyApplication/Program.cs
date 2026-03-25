@@ -33,10 +33,10 @@ internal class Program
 
         controller.SetUpBoard();
 
-        var holder = controller.GetGameState();
-        //DisplayGameState(holder);
+        var initialGameState = controller.GetGameState();
+        DisplayGameState(initialGameState);
         
-        DisplayGameState(GetFakeGameState());
+        //DisplayGameState(GetFakeGameState());
         
         
         int i = 0;
