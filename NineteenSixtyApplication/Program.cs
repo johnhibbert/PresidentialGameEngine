@@ -70,17 +70,8 @@ internal class Program
         Console.WriteLine(Border);
         Console.WriteLine(GetLineFive(gameState));
         Console.WriteLine(Border);
-        // Console.Write($"|     John F. Kennedy in {gameState.PlayerLocations[Player.Kennedy]}        |");
-        // Console.WriteLine($"    Richard M. Nixon in {gameState.PlayerLocations[Player.Nixon]}         |");
-
-        //Console.WriteLine("12345678901234567890123456789012345678901234567890123456789012345678901234567890");
-        //Console.WriteLine("123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
-        //Console.WriteLine("Momentum");
-        //Console.Write($"Kennedy: {momentum[Player.Kennedy]} Nixon: {momentum[Player.Nixon]}");
-
-
-        //gameState.
-
+        Console.WriteLine(GetStateContestLines(gameState));
+        Console.WriteLine(Border);
     }
 
     private static GameState GetFakeGameState()
@@ -128,7 +119,6 @@ internal class Program
                 {Player.Kennedy, 41},
                 {Player.Nixon, 10},
             },
-            StateContests = null,
             Endorsements = new Dictionary<Region, SupportContest<Leader>>()
             {
                 {
@@ -192,7 +182,260 @@ internal class Program
             {
                 { Player.Kennedy, Status.Exhausted },
                 { Player.Nixon,  Status.Exhausted },
-            }
+            },
+            StateContests = new Dictionary<State, SupportContest<Leader>>()
+            {
+                { State.AK, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Kennedy, Amount = 1
+                    }
+                },
+                { State.AL, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Kennedy, Amount = 1
+                    }
+                },
+                { State.AR, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.None, Amount = 0
+                    }
+                },
+                { State.AZ, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Nixon, Amount = 3
+                    }
+                },
+                { State.CA, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.None, Amount = 0
+                    }
+                },
+                { State.CO, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Kennedy, Amount = 3
+                    }
+                },
+                { State.CT, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Nixon, Amount = 4
+                    }
+                },
+                { State.DE, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Kennedy, Amount = 1
+                    }
+                },
+                { State.FL, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Kennedy, Amount = 1
+                    }
+                },
+                { State.GA, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Kennedy, Amount = 1
+                    }
+                },
+                { State.HI, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Kennedy, Amount = 1
+                    }
+                },
+                { State.IA, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Kennedy, Amount = 1
+                    }
+                },
+                { State.ID, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Kennedy, Amount = 1
+                    }
+                },
+                { State.IL, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Kennedy, Amount = 1
+                    }
+                },
+                { State.IN, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.None, Amount = 0
+                    }
+                },
+                { State.KS, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Nixon, Amount = 3
+                    }
+                },
+                { State.KY, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.None, Amount = 0
+                    }
+                },
+                { State.LA, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Kennedy, Amount = 3
+                    }
+                },
+                { State.MA, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Nixon, Amount = 4
+                    }
+                },
+                { State.MD, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Kennedy, Amount = 1
+                    }
+                },
+                { State.ME, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Kennedy, Amount = 1
+                    }
+                },
+                { State.MI, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Kennedy, Amount = 1
+                    }
+                },
+                { State.MN, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.None, Amount = 0
+                    }
+                },
+                { State.MO, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Nixon, Amount = 3
+                    }
+                },
+                { State.MS, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.None, Amount = 0
+                    }
+                },
+                { State.MT, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Kennedy, Amount = 3
+                    }
+                },
+                { State.NC, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Nixon, Amount = 4
+                    }
+                },
+                { State.ND, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Kennedy, Amount = 1
+                    }
+                },
+                { State.NE, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Kennedy, Amount = 1
+                    }
+                },
+                { State.NH, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Kennedy, Amount = 1
+                    }
+                },
+                { State.NJ, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Kennedy, Amount = 1
+                    }
+                },
+                { State.NM, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Kennedy, Amount = 1
+                    }
+                },
+                { State.NV, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Kennedy, Amount = 1
+                    }
+                },
+                { State.NY, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Kennedy, Amount = 1
+                    }
+                },
+                { State.OH, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.None, Amount = 0
+                    }
+                },
+                { State.OK, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Nixon, Amount = 3
+                    }
+                },
+                { State.OR, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.None, Amount = 0
+                    }
+                },
+                { State.PA, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Kennedy, Amount = 3
+                    }
+                },
+                { State.RI, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Nixon, Amount = 4
+                    }
+                },
+                { State.SC, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Kennedy, Amount = 1
+                    }
+                },
+                { State.SD, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Kennedy, Amount = 1
+                    }
+                },
+                { State.TN, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Kennedy, Amount = 1
+                    }
+                },
+                { State.TX, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.None, Amount = 0
+                    }
+                },
+                { State.UT, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Nixon, Amount = 3
+                    }
+                },
+                { State.VA, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.None, Amount = 0
+                    }
+                },
+                { State.VT, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Kennedy, Amount = 3
+                    }
+                },
+                { State.WA, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Nixon, Amount = 4
+                    }
+                },
+                { State.WI, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Kennedy, Amount = 1
+                    }
+                },
+                { State.WV, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Kennedy, Amount = 1
+                    }
+                },
+                { State.WY, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.Kennedy, Amount = 1
+                    }
+                },
+            },
         };
 
 
@@ -282,6 +525,10 @@ internal class Program
             foreach (var kvp in leads)
             {
                 returnValue += $"{kvp.Key.ToString()[..1]}={kvp.Value.Amount} ";
+                if (kvp.Key == Region.Midwest)
+                {
+                    returnValue = returnValue.Replace("M=", "MW=");
+                }
             }
         }
         else
@@ -289,6 +536,47 @@ internal class Program
             returnValue += "None ";
         }
 
+        return returnValue;
+    }
+
+    static string GetStateContestLines(GameState gameState)
+    {
+        string returnValue =  string.Empty;
+        returnValue += "| States: ";
+
+        string div = "-";
+        string empty = "X0";
+        
+        int index = 1;
+        var contests = gameState.StateContests;
+        
+        var alphabetizedStates = contests.Keys.OrderBy(x => x);
+        
+        foreach(var state in alphabetizedStates)
+        {
+            var stateContest = contests[state];
+            if (stateContest.Leader != Leader.None)
+            {
+                returnValue += $"{state}{div}{stateContest.Leader.ToString()[..1]}{stateContest.Amount} ";
+            }
+            else
+            {
+                returnValue += $"{state}{div}{empty} ";
+            }
+
+            if (index == 50)
+            {
+                returnValue += "|";
+            }
+            else if (index % 10 == 0)
+            {
+                returnValue += "|" + Environment.NewLine + "|         ";
+            }
+            
+            index++;
+        }
+        
+        
         return returnValue;
     }
     
