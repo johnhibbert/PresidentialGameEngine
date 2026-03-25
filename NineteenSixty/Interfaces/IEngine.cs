@@ -4,7 +4,8 @@ using NineteenSixty.Enums;
 namespace NineteenSixty.Interfaces;
 
 public interface IEngine: IMomentumEngine, IStateSupportEngine, IIssueSupportEngine, IIssuePositioningEngine,
-    IPlayerPositionEngine, IEndorsementEngine, IExhaustionEngine, IMediaSupportEngine, ICardZoneEngine
+    IPlayerPositionEngine, IEndorsementEngine, IExhaustionEngine, IMediaSupportEngine, ICardZoneEngine,
+    IPoliticalCapitalEngine
 {
     GameState GetGameState();
 
@@ -80,4 +81,9 @@ public interface ICardZoneEngine
 
     public void ReturnCardFromDiscardPileToPlayerHandIfAvailable(Player player, Card cardToRecover);
     
+}
+
+public interface IPoliticalCapitalEngine
+{
+    public Player DrawCubeFromPoliticalCapitalBag();
 }

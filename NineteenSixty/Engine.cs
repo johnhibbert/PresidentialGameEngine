@@ -247,4 +247,9 @@ public class Engine(
                 CardZone.DiscardPile, CardZone.Hand);
         }
     }
+
+    public Player DrawCubeFromPoliticalCapitalBag()
+    {
+        return PoliticalCapitalComponent.DrawCube();
+    }
 }
