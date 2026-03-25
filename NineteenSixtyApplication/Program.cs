@@ -32,8 +32,23 @@ internal class Program
 
         controller.SetUpBoard();
 
-        var initialGameState = controller.GetGameState();
-        DrawToConsole.DrawGameState(initialGameState);
+        //var initialGameState = controller.GetGameState();
+        //DrawToConsole.DrawGameState(initialGameState);
+
+        
+        var initiativeCheck = controller.ConductInitiativeCheck();
+        var firstPlayer = GetFirstPlayerFromUser(initiativeCheck);
+
+        
+
+        int i = 0;
+    }
+
+    static Player GetFirstPlayerFromUser(InitiativeCheckResult initiativeCheck)
+    {
+        Console.WriteLine($"--{initiativeCheck.PlayerWithInitiative.ToString().ToUpper()} PLAYER-- You have the initiative.");
+        Console.WriteLine($"You get to choose which player goes first.  (It is usually advantageous to go second.)");
+        return GetPlayerFromUser();
 
     }
     
@@ -93,7 +108,7 @@ internal class Program
     
     static Player GetPlayerFromUser() 
     {
-        Console.WriteLine("Type 1 for Kennedy, 2 for Nixon.");
+        Console.WriteLine("Enter 1 for Kennedy, 2 for Nixon.");
         var intFromUser = GetIntegerInputFromUser(2);
 
         return intFromUser switch
