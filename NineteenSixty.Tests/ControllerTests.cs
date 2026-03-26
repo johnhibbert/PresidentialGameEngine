@@ -321,6 +321,15 @@ public class ControllerTests
         Assert.AreEqual(numberOfImplementedCards, cardsInDeck.Count());
     }
     
+    [TestMethod]
+    [ExpectedException(typeof(ActionNotAllowed))]
+    public void SetUpBoard_CannotSetupBoardAfterBoardAlreadySetUp()
+    {
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
+        sut.SetUpBoard();
+    }
+    
     #endregion
 
     #region ConductInitiativeCheck

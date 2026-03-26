@@ -18,7 +18,10 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
         
     }
 
-
+    private Phase _currentPhase = Phase.Setup;
+    
+    
+    
     public GameState GetGameState()
     {
         return _engine.GetGameState();
@@ -27,7 +30,7 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
     [ValidOnlyInCertainPhases([Phase.Setup])]
     public void SetUpBoard()
     {
-        ActionValidator.ThrowIfActionNotAllowed(Phase.Setup);
+        ActionValidator.ThrowIfActionNotAllowed(_currentPhase);
         
         foreach (var ff in Manifest.StateData)
         {
@@ -60,9 +63,8 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
                 _engine.AddCardsToZone(Manifest.GMTCards.Values, CardZone.Deck, Player.Kennedy);
                 break;
         }
-        
-        
-        //throw new NotImplementedException();
+
+        _currentPhase =  Phase.Initiative;
     }
 
     public InitiativeCheckResult ConductInitiativeCheck()
