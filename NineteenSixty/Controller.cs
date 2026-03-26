@@ -1,3 +1,4 @@
+using System.Reflection;
 using NineteenSixty.Data;
 using NineteenSixty.Enums;
 using NineteenSixty.Interfaces;
@@ -23,9 +24,11 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
         return _engine.GetGameState();
     }
 
+    [ValidOnlyInCertainPhases([Phase.Setup])]
     public void SetUpBoard()
     {
-
+        ActionValidator.ThrowIfActionNotAllowed(Phase.Setup);
+        
         foreach (var ff in Manifest.StateData)
         {
             if (ff.Value.StartingSupport > 0)
