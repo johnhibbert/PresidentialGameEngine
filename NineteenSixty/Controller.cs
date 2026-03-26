@@ -19,8 +19,7 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
     }
 
     private Phase _currentPhase = Phase.Setup;
-    
-    
+
     
     public GameState GetGameState()
     {
@@ -40,16 +39,12 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
             }
         }
         
-        
-        
         //Place the issue tiles on their indicated spaces on the Issues Track.
         _engine.SetIssueOrder([Issue.Defense, Issue.Economy, Issue.CivilRights]);
         
         //Each player should choose a side and take: Two momentum markers.
         _engine.GainMomentum(Player.Kennedy, 2);
         _engine.GainMomentum(Player.Nixon, 2);
-
-
 
         //Shuffle the Campaign Card deck and place it facedown near the board.
         switch (gameEdition)
