@@ -23,6 +23,15 @@ public static class DrawToConsole
         Console.Clear();
     }
     
+    public static string DrawPlayerHand(Player player, List<Card> cards)
+    {
+        //FIX ME
+        var line = $"{player} drew: ";
+        line += string.Join(", ", cards.ToString());
+        
+        return line;
+    }
+    
     public static void DrawGameTime(GameTime gameTime, bool drawBottomLine = true)
     {
         Console.WriteLine(Border);
@@ -60,6 +69,8 @@ public static class DrawToConsole
         Console.WriteLine(Border);
     }
 
+    
+    
     private static string DrawPlayerStatusAndLocation(GameState gameState)
     {
         var line = "| Kennedy: ";
@@ -79,7 +90,7 @@ public static class DrawToConsole
         line += $" Rest: {gameState.RestCubes[Player.Kennedy],-2} ";
         line += $" Cards: {gameState.NumberOfCardsInPlayerHands[Player.Kennedy],-2} ";
         line += $"| Momentum: {gameState.Momentum[Player.Nixon],-2}";
-        line += $" Rest: {gameState.NumberOfCardsInPlayerHands[Player.Nixon],-2} ";
+        line += $" Rest: {gameState.RestCubes[Player.Nixon],-2} ";
         line += $" Cards: {gameState.NumberOfCardsInPlayerHands[Player.Nixon],-2} ";
         line += "| ";
         return line;

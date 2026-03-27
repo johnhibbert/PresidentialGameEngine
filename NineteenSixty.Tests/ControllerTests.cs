@@ -585,4 +585,27 @@ public class ControllerTests
     
     #endregion
     
+    #region GetCardsInHand Tests
+    
+    [TestMethod]
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
+    public void GetCardsInHand_CardsAreDrawn(Player player)
+    {
+        
+        var engine = EngineFixtures.GetGameEngine();
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
+        sut.DrawCards(player, 3);
+        
+        var result = sut.GetCardsInHand(player).ToList();
+        
+        //Hardcoded for now, this will break when the manifest changes.
+        Assert.AreEqual(Manifest.GMTCards[1], result[0]);
+        Assert.AreEqual(Manifest.GMTCards[3], result[1]);
+        Assert.AreEqual(Manifest.GMTCards[5], result[2]);
+    }
+    
+    #endregion
+    
 }

@@ -19,7 +19,14 @@ internal class Program
         ShowIntroMessage();
         
         DoInitialSetup();
-
+        
+        DrawHands();
+        
+        
+        
+        DoInitativeCheck();
+        
+        
         ClearScreen();
         
         DrawToConsole.DrawGameState(controller.GetGameState());
@@ -71,11 +78,29 @@ internal class Program
 
         controller.SetUpBoard();
         
+
+
+
+    }
+
+    static void DoInitativeCheck()
+    {
         var initiativeCheck = controller.ConductInitiativeCheck();
         var firstPlayer = GetFirstPlayerFromUser(initiativeCheck);
-
+        
         controller.SetFirstPlayerForActivityPhase(firstPlayer);
     }
+
+    static void DrawHands()
+    {
+        controller.DrawCards(Player.Kennedy, 6);
+        controller.DrawCards(Player.Nixon, 6);
+
+        
+        
+        DrawToConsole.DrawPlayerHand(Player.Kennedy, new List<Card>());
+    }
+    
     
     
     static Player GetFirstPlayerFromUser(InitiativeCheckResult initiativeCheck)

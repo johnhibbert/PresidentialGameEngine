@@ -16,5 +16,7 @@ public interface IController
     void SetFirstPlayerForActivityPhase(Player player);
 
     void DrawCards(Player player, int numberToDraw);
+    
+    IEnumerable<Card> GetCardsInHand(Player player);
 
 }
