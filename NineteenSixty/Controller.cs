@@ -13,11 +13,25 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
     private IEngine _engine = engine;
 
     public GameEdition GameEdition { get; init; } = gameEdition;
-    
-    private Phase _currentPhase = Phase.Setup;
 
-    public Player FirstPlayer { get; internal set; }
-    public Player CurrentPlayer { get; internal set; }
+    private int TurnNumber { get; set; } = 0;
+    private Phase CurrentPhase { get; set; } = Phase.Setup;
+    private int ActivityPhaseNumber { get; set; }
+    private Player FirstPlayer { get; set; }
+    private Player CurrentPlayer { get; set; }
+    
+    
+    public GameTime GetGameTime()
+    {
+        return new  GameTime()
+        {
+            TurnNumber =  TurnNumber,
+            CurrentPhase = CurrentPhase,
+            ActivityPhaseNumber = ActivityPhaseNumber,
+            FirstPlayer = FirstPlayer,
+            CurrentPlayer = CurrentPlayer,
+        };
+    }
     
     public GameState GetGameState()
     {
@@ -27,7 +41,7 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
     [ValidOnlyInCertainPhases([Phase.Setup])]
     public void SetUpBoard()
     {
-        ActionValidator.ThrowIfActionNotAllowed(_currentPhase);
+        ActionValidator.ThrowIfActionNotAllowed(CurrentPhase);
         
         foreach (var ff in Manifest.StateData)
         {
@@ -57,7 +71,7 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
                 break;
         }
 
-        _currentPhase =  Phase.Initiative;
+        CurrentPhase =  Phase.Initiative;
     }
 
     public InitiativeCheckResult ConductInitiativeCheck()
@@ -100,10 +114,18 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
         card.Event(plan, player);
     }
 
-    public void SetFirstPlayerForTurn(Player player)
+    [ValidOnlyInCertainPhases([Phase.Initiative])]
+    public void SetFirstPlayerForActivityPhase(Player player)
     {
+        ActionValidator.ThrowIfActionNotAllowed(CurrentPhase);
+        
+        TurnNumber++;
+        CurrentPhase = Phase.Activity;
+        ActivityPhaseNumber = 1;
         FirstPlayer = player;
         CurrentPlayer = player;
     }
+    
+    
 }
 

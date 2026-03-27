@@ -459,9 +459,10 @@ public class ControllerTests
         var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
         sut.SetUpBoard();
         sut.ConductInitiativeCheck();
-        sut.SetFirstPlayerForTurn(player);
+        sut.SetFirstPlayerForActivityPhase(player);
+        var result = sut.GetGameTime();
 
-        Assert.AreEqual(player, sut.FirstPlayer);
+        Assert.AreEqual(player, result.FirstPlayer);
     }
     
     [DataRow(Player.Nixon)]
@@ -473,9 +474,76 @@ public class ControllerTests
         var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
         sut.SetUpBoard();
         sut.ConductInitiativeCheck();
-        sut.SetFirstPlayerForTurn(player);
+        sut.SetFirstPlayerForActivityPhase(player);
+        var result = sut.GetGameTime();
         
-        Assert.AreEqual(player, sut.CurrentPlayer);
+        Assert.AreEqual(player, result.CurrentPlayer);
+    }
+    
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
+    [TestMethod]
+    public void SetFirstPlayerForTurn_ActivityPhaseNumberUpdatedToOne(Player player)
+    {
+
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
+        sut.ConductInitiativeCheck();
+        sut.SetFirstPlayerForActivityPhase(player);
+        var result = sut.GetGameTime();
+        
+        Assert.AreEqual(1, result.ActivityPhaseNumber);
+    }
+    
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
+    [TestMethod]
+    public void SetFirstPlayerForTurn_TurnNumberUpdatedToOne(Player player)
+    {
+
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
+        sut.ConductInitiativeCheck();
+        sut.SetFirstPlayerForActivityPhase(player);
+        var result = sut.GetGameTime();
+        
+        Assert.AreEqual(1, result.TurnNumber);
+    }
+    
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
+    [TestMethod]
+    public void SetFirstPlayerForTurn_CurrentPhaseIsActivity(Player player)
+    {
+
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
+        sut.ConductInitiativeCheck();
+        sut.SetFirstPlayerForActivityPhase(player);
+        var result = sut.GetGameTime();
+        
+        Assert.AreEqual(Phase.Activity, result.CurrentPhase);
+    }
+    
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
+    [TestMethod]
+    [ExpectedException(typeof(ActionNotAllowed))]
+    public void SetFirstPlayerForTurn_NotAllowedInSetupPhase(Player player)
+    {
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        sut.SetFirstPlayerForActivityPhase(player);
+    }
+    
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
+    [TestMethod]
+    [ExpectedException(typeof(ActionNotAllowed))]
+    public void SetFirstPlayerForTurn_NotAllowedInActivityPhase(Player player)
+    {
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        sut.SetFirstPlayerForActivityPhase(player);
+        sut.SetFirstPlayerForActivityPhase(player);
     }
     
     #endregion
