@@ -131,7 +131,10 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
         FirstPlayer = player;
         CurrentPlayer = player;
     }
-    
-    
+
+    public void DrawCards(Player player, int numberToDraw)
+    {
+        _engine.DrawCards(player, numberToDraw);
+    }
 }
 

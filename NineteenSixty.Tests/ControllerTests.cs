@@ -565,4 +565,24 @@ public class ControllerTests
     
     #endregion
 
+    #region DrawCards Tests
+    
+    [TestMethod]
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
+    public void DrawCards_CorrectNumberOfCardsAreDrawn(Player player)
+    {
+        
+        var engine = EngineFixtures.GetGameEngine();
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
+        sut.DrawCards(player, 3);
+        
+        var result = sut.GetGameState().NumberOfCardsInPlayerHands[player];
+        
+        Assert.AreEqual(3, result);
+    }
+    
+    #endregion
+    
 }
