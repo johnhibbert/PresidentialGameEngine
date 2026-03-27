@@ -29,7 +29,7 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
             CurrentPhase = CurrentPhase,
             ActivityPhaseNumber = ActivityPhaseNumber,
             FirstPlayer = FirstPlayer,
-            CurrentPlayer = CurrentPlayer,
+            ActivePlayer = CurrentPlayer,
         };
     }
     

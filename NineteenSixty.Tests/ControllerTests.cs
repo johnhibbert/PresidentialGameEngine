@@ -477,7 +477,7 @@ public class ControllerTests
         sut.SetFirstPlayerForActivityPhase(player);
         var result = sut.GetGameTime();
         
-        Assert.AreEqual(player, result.CurrentPlayer);
+        Assert.AreEqual(player, result.ActivePlayer);
     }
     
     [DataRow(Player.Nixon)]

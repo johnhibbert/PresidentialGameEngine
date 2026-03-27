@@ -39,8 +39,12 @@ internal class Program
         var initiativeCheck = controller.ConductInitiativeCheck();
         var firstPlayer = GetFirstPlayerFromUser(initiativeCheck);
 
+        controller.SetFirstPlayerForActivityPhase(firstPlayer);
+        var holder = controller.GetGameTime();
+        DrawToConsole.DrawGameTime(holder);
+        //var holder2 = controller.GetGameState();
+        //DrawToConsole.DrawGameState(holder2);
         
-
         int i = 0;
     }
 

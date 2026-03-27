@@ -13,10 +13,32 @@ namespace NineteenSixtyApplication;
 public static class DrawToConsole
 {
     private static string Border = " ---------------------------------------------------------------------- ";
+
+    public static void DrawGameTime(GameTime gameTime, bool drawBottomLine = true)
+    {
+        Console.WriteLine(Border);
+        
+        string timeMessage = "| ";
+        timeMessage += $"Turn {gameTime.TurnNumber}, {gameTime.CurrentPhase} Phase ";
+        if (gameTime.CurrentPhase == Phase.Activity)
+        {
+            timeMessage += $"#{gameTime.ActivityPhaseNumber} | ";
+            timeMessage += $"Active Player: {gameTime.ActivePlayer} ";
+            timeMessage += gameTime.ActivePlayer == gameTime.FirstPlayer ? "(Top of Inning)" : "(Bottom of Inning)";
+        }
+        
+        timeMessage = timeMessage.PadRight(70) + "|";
+
+        Console.WriteLine(timeMessage);
+        if (drawBottomLine)
+        {
+            Console.WriteLine(Border);
+        }
+        
+    }
     
     public static void DrawGameState(GameState gameState)
     {
-        Console.Clear();
         Console.WriteLine(Border);
         Console.WriteLine(DrawPlayerStatusAndLocation(gameState));
         Console.WriteLine(DrawMomentumAndRest(gameState));

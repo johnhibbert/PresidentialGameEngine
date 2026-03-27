@@ -12,5 +12,5 @@ public class GameTime
     
     public Player FirstPlayer { get; init; }
     
-    public Player CurrentPlayer { get; init; }
+    public Player ActivePlayer { get; init; }
 }
