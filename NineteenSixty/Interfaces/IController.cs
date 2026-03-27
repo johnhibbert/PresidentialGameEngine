@@ -12,5 +12,7 @@ public interface IController
 
     void PlayCardAsEvent(Card card, ActionPlan plan, Player player);
 
+    void SetFirstPlayerForTurn(Player player);
+
 
 }

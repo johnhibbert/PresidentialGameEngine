@@ -449,5 +449,35 @@ public class ControllerTests
     }
     
     #endregion
+    
+    #region SetFirstPlayerForTurn Tests
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
+    [TestMethod]
+    public void SetFirstPlayerForTurn_FirstPlayerSet(Player player)
+    {
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
+        sut.ConductInitiativeCheck();
+        sut.SetFirstPlayerForTurn(player);
+
+        Assert.AreEqual(player, sut.FirstPlayer);
+    }
+    
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
+    [TestMethod]
+    public void SetFirstPlayerForTurn_CurrentPlayerSet(Player player)
+    {
+
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
+        sut.ConductInitiativeCheck();
+        sut.SetFirstPlayerForTurn(player);
+        
+        Assert.AreEqual(player, sut.CurrentPlayer);
+    }
+    
+    #endregion
 
 }

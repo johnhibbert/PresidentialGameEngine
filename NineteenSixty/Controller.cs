@@ -16,6 +16,8 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
     
     private Phase _currentPhase = Phase.Setup;
 
+    public Player FirstPlayer { get; internal set; }
+    public Player CurrentPlayer { get; internal set; }
     
     public GameState GetGameState()
     {
@@ -96,6 +98,12 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
         }
         
         card.Event(plan, player);
+    }
+
+    public void SetFirstPlayerForTurn(Player player)
+    {
+        FirstPlayer = player;
+        CurrentPlayer = player;
     }
 }
 
