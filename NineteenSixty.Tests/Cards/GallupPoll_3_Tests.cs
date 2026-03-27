@@ -23,8 +23,9 @@ public class GallupPoll_3_Tests
         SetOfChanges issueOrderChosenByPlayer = new();
         issueOrderChosenByPlayer.NewIssuesOrder.AddRange([Issue.Defense, Issue.Economy, Issue.CivilRights]);
 
+        var plan = new ActionPlan{Engine = engine, Changes = issueOrderChosenByPlayer};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, issueOrderChosenByPlayer);
+        sut.Event(plan, player);
 
         var result = engine.GetGameState().IssueOrder;
 
@@ -40,8 +41,10 @@ public class GallupPoll_3_Tests
         SetOfChanges invalidIssueOrderWithWrongLength = new();
         invalidIssueOrderWithWrongLength.NewIssuesOrder.AddRange([Issue.Defense, Issue.Economy]);
 
+        var plan = new ActionPlan{Engine = null,  Changes = invalidIssueOrderWithWrongLength};
+        
         var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(invalidIssueOrderWithWrongLength);
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -51,8 +54,10 @@ public class GallupPoll_3_Tests
         SetOfChanges invalidIssueOrderWithDuplicates = new();
         invalidIssueOrderWithDuplicates.NewIssuesOrder.AddRange([Issue.Defense, Issue.Defense, Issue.Economy]);
 
+        var plan = new ActionPlan{Engine = null,  Changes = invalidIssueOrderWithDuplicates};
+        
         var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(invalidIssueOrderWithDuplicates);
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
   
@@ -64,8 +69,10 @@ public class GallupPoll_3_Tests
         var invalidIssueSupportChange = new SupportChange<Player, Issue>(Player.Kennedy, Issue.Defense, 1);
         playerChoices.IssueChanges.Add(invalidIssueSupportChange);
 
+        var plan = new ActionPlan{Engine = null,  Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var result = sut.AreChangesValid(plan);
+        
         Assert.IsFalse(result);
     }
 
@@ -77,8 +84,9 @@ public class GallupPoll_3_Tests
         var invalidStateSupportChange = new SupportChange<Player, State>(Player.Kennedy, State.CO, 1);
         playerChoices.StateChanges.Add(invalidStateSupportChange);
 
+        var plan = new ActionPlan{Engine = null,  Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
     
@@ -92,8 +100,9 @@ public class GallupPoll_3_Tests
         playerChoices.NewIssuesOrder.AddRange([Issue.Defense, Issue.Defense, Issue.Economy]);
         playerChoices.MediaSupportChanges.Add(invalidMediaSupportChange);
 
+        var plan = new ActionPlan{Engine = null,  Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 

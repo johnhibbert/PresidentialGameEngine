@@ -36,9 +36,9 @@ public class HeartlandOfAmerica_71_Tests
         playerChoices.StateChanges.Add(oneSupportInOklahoma);
         playerChoices.StateChanges.Add(oneSupportInNebraska);
 
+        var plan = new ActionPlan{Engine = engine, Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-
-        sut.Event(engine, player, playerChoices);
+        sut.Event(plan, player);
 
         Assert.AreEqual(1, engine.GetSupportAmount(State.WY));
         Assert.AreEqual(1, engine.GetSupportAmount(State.ID));
@@ -69,8 +69,9 @@ public class HeartlandOfAmerica_71_Tests
         playerChoices.StateChanges.Add(oneSupportInNebraska);
         playerChoices.StateChanges.Add(invalidSupportForKennedy);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -97,8 +98,9 @@ public class HeartlandOfAmerica_71_Tests
         playerChoices.StateChanges.Add(oneSupportInNebraska);
         playerChoices.IssueChanges.Add(invalidIssueSupport);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -120,8 +122,9 @@ public class HeartlandOfAmerica_71_Tests
         playerChoices.StateChanges.Add(oneSupportInKentucky);
         playerChoices.StateChanges.Add(invalidStateSupportGreaterThanOne);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -145,8 +148,9 @@ public class HeartlandOfAmerica_71_Tests
         playerChoices.StateChanges.Add(oneSupportInWyoming);
         playerChoices.StateChanges.Add(invalidSupportOutsideWestOrMidwest);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -170,8 +174,9 @@ public class HeartlandOfAmerica_71_Tests
         playerChoices.StateChanges.Add(oneSupportInOklahoma);
         playerChoices.StateChanges.Add(invalidSupportForStateWithTooManyVotes);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 

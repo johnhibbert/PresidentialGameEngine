@@ -1,4 +1,5 @@
 using System.Reflection;
+using NineteenSixty.Exceptions;
 
 namespace NineteenSixty;
 
@@ -60,10 +61,4 @@ public static class ActionValidator
             throw new ActionNotAllowed(msg);
         }
     }
-}
-
-public class ActionNotAllowed :  ApplicationException
-{
-    public ActionNotAllowed() : base() { }
-    public ActionNotAllowed(string? message) : base(message) { }
 }

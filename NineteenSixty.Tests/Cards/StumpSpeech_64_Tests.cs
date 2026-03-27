@@ -21,8 +21,9 @@ public class StumpSpeech_64_Tests
 
         engine.GainMomentum(player.ToOpponent(), 5);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(engine.GetPlayerMomentum(player), engine.GetPlayerMomentum(player.ToOpponent()));
     }
@@ -36,8 +37,9 @@ public class StumpSpeech_64_Tests
 
         engine.GainMomentum(player, 5);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(5, engine.GetPlayerMomentum(player));
         Assert.AreEqual(0, engine.GetPlayerMomentum(player.ToOpponent()));
@@ -53,8 +55,9 @@ public class StumpSpeech_64_Tests
         engine.GainMomentum(Player.Kennedy, 2);
         engine.GainMomentum(Player.Nixon, 2);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(2, engine.GetPlayerMomentum(Player.Nixon));
         Assert.AreEqual(2, engine.GetPlayerMomentum(Player.Kennedy));
@@ -64,7 +67,8 @@ public class StumpSpeech_64_Tests
     public void StumpSpeech_64_ValidationAlwaysTrue()
     {
         var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(EngineFixtures.InvalidChanges);
+        var plan = new ActionPlan{Engine = null,  Changes = EngineFixtures.InvalidChanges};
+        var result = sut.AreChangesValid(plan);
 
         Assert.IsTrue(result);
     }

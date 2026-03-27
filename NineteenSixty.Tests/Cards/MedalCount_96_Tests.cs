@@ -21,8 +21,9 @@ public class MedalCount_96_Tests
 
         engine.GainSupport(player, Issue.CivilRights, 3);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(2, engine.GetSupportAmount(Issue.CivilRights));
     }
@@ -36,8 +37,9 @@ public class MedalCount_96_Tests
 
         engine.GainSupport(player, Issue.Economy, 2);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(1, engine.GetSupportAmount(Issue.Economy));
     }
@@ -53,8 +55,9 @@ public class MedalCount_96_Tests
         engine.GainSupport(player, Issue.Economy, 2);
         engine.GainMomentum(player, 2);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(1, engine.GetPlayerMomentum(player));
     }
@@ -71,8 +74,9 @@ public class MedalCount_96_Tests
         engine.GainMomentum(Player.Nixon, 1);
         engine.GainMomentum(Player.Kennedy, 1);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Nixon));
         Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Kennedy));
@@ -88,8 +92,9 @@ public class MedalCount_96_Tests
         engine.GainMomentum(Player.Nixon, 1);
         engine.GainMomentum(Player.Kennedy, 1);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Nixon));
         Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Kennedy));
@@ -106,9 +111,9 @@ public class MedalCount_96_Tests
         engine.GainMomentum(Player.Nixon, 1);
         engine.GainMomentum(Player.Kennedy, 1);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Nixon));
         Assert.AreEqual(1, engine.GetPlayerMomentum(Player.Kennedy));
@@ -119,7 +124,8 @@ public class MedalCount_96_Tests
     {
         var sut = Manifest.GMTCards[CardIndex];
 
-        var result = sut.AreChangesValid(EngineFixtures.InvalidChanges);
+        var plan = new ActionPlan{Engine = null,  Changes = EngineFixtures.InvalidChanges};
+        var result = sut.AreChangesValid(plan);
 
         Assert.IsTrue(result);
     }

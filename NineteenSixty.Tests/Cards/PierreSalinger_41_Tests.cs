@@ -26,9 +26,9 @@ public class PierreSalinger_41_Tests
         var threeSupportInOneIssue = new SupportChange<Player, Issue>(Player.Kennedy, issue, 3);
         playerChoices.IssueChanges.Add(threeSupportInOneIssue);
 
+        var plan = new ActionPlan{Engine = engine, Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-
-        sut.Event(engine, Player.Kennedy, playerChoices);
+        sut.Event(plan, Player.Kennedy);
 
         Assert.AreEqual(4, engine.GetSupportAmount(issue));
     }
@@ -47,9 +47,9 @@ public class PierreSalinger_41_Tests
         var threeSupportInOneIssue = new SupportChange<Player, Issue>(Player.Kennedy, issue, 3);
         playerChoices.IssueChanges.Add(threeSupportInOneIssue);
 
+        var plan = new ActionPlan{Engine = engine, Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-
-        sut.Event(engine, Player.Kennedy, playerChoices);
+        sut.Event(plan, Player.Kennedy);
 
         Assert.AreEqual(1, engine.GetSupportAmount(issue));
     }
@@ -64,8 +64,9 @@ public class PierreSalinger_41_Tests
         var threeSupportInOneIssue = new SupportChange<Player, Issue>(Player.Nixon, issue, 3);
         playerChoices.IssueChanges.Add(threeSupportInOneIssue);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -80,8 +81,9 @@ public class PierreSalinger_41_Tests
         playerChoices.IssueChanges.Add(oneSupportInDefense);
         playerChoices.IssueChanges.Add(oneSupportInEconomy);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -97,8 +99,9 @@ public class PierreSalinger_41_Tests
         playerChoices.IssueChanges.Add(threeSupportInOneIssue);
         playerChoices.StateChanges.Add(invalidSupportInNewYork);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 

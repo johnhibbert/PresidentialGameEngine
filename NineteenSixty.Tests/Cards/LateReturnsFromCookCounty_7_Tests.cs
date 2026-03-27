@@ -24,8 +24,9 @@ public class LateReturnsFromCookCounty_7_Tests
 
         playerChoices.StateChanges.Add(fiveSupportInIllinois);
 
+        var plan = new ActionPlan{Engine = engine, Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, playerChoices);
+        sut.Event(plan, player);
 
         Assert.AreEqual(5, engine.GetSupportAmount(State.IL));
     }
@@ -38,8 +39,9 @@ public class LateReturnsFromCookCounty_7_Tests
 
         playerChoices.StateChanges.Add(invalidSupportForNixon);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -53,8 +55,9 @@ public class LateReturnsFromCookCounty_7_Tests
         playerChoices.StateChanges.Add(fiveSupportInIllinois);
         playerChoices.IssueChanges.Add(invalidIssueSupport);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -65,8 +68,9 @@ public class LateReturnsFromCookCounty_7_Tests
         var invalidSupportGreaterThanFive = new SupportChange<Player, State>(Player.Kennedy, State.IL, 6);
         playerChoices.StateChanges.Add(invalidSupportGreaterThanFive);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -77,8 +81,9 @@ public class LateReturnsFromCookCounty_7_Tests
         var invalidNegativeValue = new SupportChange<Player, State>(Player.Kennedy, State.IL, -1);
         playerChoices.StateChanges.Add(invalidNegativeValue);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
     

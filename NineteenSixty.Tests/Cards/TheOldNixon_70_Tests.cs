@@ -23,8 +23,9 @@ public class TheOldNixon_70_Tests
 
         var nixonStartingMomentum = engine.GetPlayerMomentum(Player.Nixon);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(engine.GetPlayerMomentum(Player.Nixon), nixonStartingMomentum - 1);
     }
@@ -40,8 +41,9 @@ public class TheOldNixon_70_Tests
 
         var kennedyStartingMomentum = engine.GetPlayerMomentum(Player.Kennedy);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(engine.GetPlayerMomentum(Player.Kennedy), kennedyStartingMomentum - 3);
     }
@@ -56,9 +58,9 @@ public class TheOldNixon_70_Tests
         engine.GainMomentum(Player.Nixon, 1);
         engine.GainMomentum(Player.Kennedy, 2);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(engine.GetPlayerMomentum(Player.Nixon), 0);
         Assert.AreEqual(engine.GetPlayerMomentum(Player.Kennedy), 0);
@@ -73,8 +75,9 @@ public class TheOldNixon_70_Tests
 
         engine.GainMomentum(player, 0);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(engine.GetPlayerMomentum(player), 0);
     }
@@ -84,7 +87,8 @@ public class TheOldNixon_70_Tests
     {
         var sut = Manifest.GMTCards[CardIndex];
 
-        var result = sut.AreChangesValid(EngineFixtures.InvalidChanges);
+        var plan = new ActionPlan{Engine = null,  Changes = EngineFixtures.InvalidChanges};
+        var result = sut.AreChangesValid(plan);
 
         Assert.IsTrue(result);
     }

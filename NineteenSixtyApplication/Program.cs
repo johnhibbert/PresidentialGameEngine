@@ -16,13 +16,50 @@ internal class Program
 
     static void Main(string[] args)
     {
+        ShowIntroMessage();
+        
+        DoInitialSetup();
 
-        Console.WriteLine("Welcome to the 1960 application.");
-        Console.WriteLine("----");
-        Console.WriteLine("Press Enter to Begin");
-        Console.ReadLine();
+        ClearScreen();
+        
+        /*
+        var gameTime = controller.GetGameTime();
+        DrawToConsole.DrawGameTime(gameTime);
+*/
+        
+        /* THIS CODE WORKS.
+        DrawToConsole.DrawGameState(controller.GetGameState());
+        controller.PlayCardAsEvent(Manifest.GMTCards[5], new SetOfChanges(), Player.Kennedy);
+        DrawToConsole.DrawGameState(controller.GetGameState());
+        */
+        
+        var chosenAction = GetActionFromPlayer();
+
+        switch (chosenAction)
+        {
+            case ActionType.PlayCardForEvent:
+                
+                break;
+            default:
+                break;
+        }
+        
+        int i = 0;
+    }
+
+
+    static void ClearScreen()
+    {
         Console.Clear();
-
+    }
+    
+    static void ShowIntroMessage()
+    {
+        DrawToConsole.DrawIntroMessage();
+    }
+    
+    static void DoInitialSetup()
+    {
         var seed = GetSeedFromUser();
         var randomnessProvider = new DefaultRandomnessProvider(seed);
 
@@ -31,19 +68,14 @@ internal class Program
         controller = GetController(randomnessProvider, edition);
 
         controller.SetUpBoard();
-
-        //var initialGameState = controller.GetGameState();
-        //DrawToConsole.DrawGameState(initialGameState);
-
         
         var initiativeCheck = controller.ConductInitiativeCheck();
         var firstPlayer = GetFirstPlayerFromUser(initiativeCheck);
 
-        
-
-        int i = 0;
+        controller.SetFirstPlayerForActivityPhase(firstPlayer);
     }
-
+    
+    
     static Player GetFirstPlayerFromUser(InitiativeCheckResult initiativeCheck)
     {
         Console.WriteLine($"--{initiativeCheck.PlayerWithInitiative.ToString().ToUpper()} PLAYER-- You have the initiative.");
@@ -151,7 +183,14 @@ internal class Program
     
     
     
-    
+    static ActionType GetActionFromPlayer() 
+    {
+        Console.WriteLine("Choose an action:");
+        Console.WriteLine("1: Play card for event");
+        var intFromUser = GetIntegerInputFromUser(1);
+
+        return (ActionType)intFromUser;
+    }
     
     
     
@@ -187,3 +226,7 @@ internal class Program
     
 }
 
+public enum ActionType
+{
+    PlayCardForEvent = 1,
+}

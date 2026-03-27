@@ -25,9 +25,9 @@ public class RepublicanTvSpots_75_Tests
         var mediaSupportGained = new SupportChange<Player, Region>(Player.Nixon, Region.West, 3);
         playerChoices.MediaSupportChanges.Add(mediaSupportGained);
         
+        var plan = new ActionPlan{Engine = engine, Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-
-        sut.Event(engine, player, playerChoices);
+        sut.Event(plan, player);
 
         Assert.AreEqual(State.NY, engine.GetPlayerState(Player.Nixon));
     }
@@ -44,9 +44,9 @@ public class RepublicanTvSpots_75_Tests
         var mediaSupportGained = new SupportChange<Player, Region>(Player.Nixon, Region.West, 3);
         playerChoices.MediaSupportChanges.Add(mediaSupportGained);
 
+        var plan = new ActionPlan{Engine = engine, Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-
-        sut.Event(engine, player, playerChoices);
+        sut.Event(plan, player);
 
         Assert.AreEqual(3, engine.GetGameState().MediaSupportLevels[Region.West].Amount);
     }
@@ -65,9 +65,9 @@ public class RepublicanTvSpots_75_Tests
         var mediaSupportGained = new SupportChange<Player, Region>(Player.Nixon, Region.West, 3);
         playerChoices.MediaSupportChanges.Add(mediaSupportGained);
 
+        var plan = new ActionPlan{Engine = engine, Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-
-        sut.Event(engine, player, playerChoices);
+        sut.Event(plan, player);
         
         Assert.AreEqual(State.NY, engine.GetPlayerState(Player.Nixon));
         Assert.AreEqual(3, engine.GetGameState().MediaSupportLevels[Region.West].Amount);
@@ -86,8 +86,9 @@ public class RepublicanTvSpots_75_Tests
 
         playerChoices.MediaSupportChanges.Add(invalidMediaSupportGainedGreaterThanThree);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -102,8 +103,9 @@ public class RepublicanTvSpots_75_Tests
 
         playerChoices.StateChanges.Add(invalidStateSupport);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -118,8 +120,9 @@ public class RepublicanTvSpots_75_Tests
 
         playerChoices.IssueChanges.Add(invalidIssueSupport);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 

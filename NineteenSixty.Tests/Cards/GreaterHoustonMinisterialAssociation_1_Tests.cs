@@ -19,8 +19,9 @@ public class GreaterHoustonMinisterialAssociation_1_Tests
     {
         var engine = EngineFixtures.GetGameEngine();
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(State.TX, engine.GetPlayerState(Player.Kennedy));
     }
@@ -34,8 +35,9 @@ public class GreaterHoustonMinisterialAssociation_1_Tests
         
         engine.GainMomentum(Player.Kennedy, 1);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(2, engine.GetPlayerMomentum(Player.Kennedy));
     }
@@ -64,9 +66,9 @@ public class GreaterHoustonMinisterialAssociation_1_Tests
         playerChoices.StateChanges.Add(oneSupportInRhodeIsland);
         playerChoices.StateChanges.Add(oneSupportInAlaska);
 
+        var plan = new ActionPlan{Engine = engine, Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-
-        sut.Event(engine, player, playerChoices);
+        sut.Event(plan, player);
 
         Assert.AreEqual(1, engine.GetSupportAmount(State.WY));
         Assert.AreEqual(1, engine.GetSupportAmount(State.WA));
@@ -97,8 +99,9 @@ public class GreaterHoustonMinisterialAssociation_1_Tests
         playerChoices.StateChanges.Add(oneSupportInRhodeIsland);
         playerChoices.StateChanges.Add(invalidSupportGainForNixon);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -122,8 +125,9 @@ public class GreaterHoustonMinisterialAssociation_1_Tests
         playerChoices.StateChanges.Add(oneSupportInRhodeIsland);
         playerChoices.IssueChanges.Add(invalidIssueSupport);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -145,8 +149,9 @@ public class GreaterHoustonMinisterialAssociation_1_Tests
         playerChoices.StateChanges.Add(oneSupportInRhodeIsland);
         playerChoices.StateChanges.Add(invalidStateSupportGreaterThanOne);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
     
@@ -170,8 +175,9 @@ public class GreaterHoustonMinisterialAssociation_1_Tests
         playerChoices.StateChanges.Add(oneSupportInRhodeIsland);
         playerChoices.StateChanges.Add(invalidNegativeSupportInAlaska);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
     

@@ -21,9 +21,9 @@ public class PeaceWithoutSurrender_68_Tests
 
         engine.SetIssueOrder([Issue.CivilRights, Issue.Economy, Issue.Defense]);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(Issue.Defense, engine.GetGameState().IssueOrder[1]);
     }
@@ -37,9 +37,9 @@ public class PeaceWithoutSurrender_68_Tests
 
         engine.SetIssueOrder([Issue.Defense, Issue.Economy, Issue.CivilRights]);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(Issue.Defense, engine.GetGameState().IssueOrder[0]);
     }
@@ -53,9 +53,9 @@ public class PeaceWithoutSurrender_68_Tests
 
         engine.SetIssueOrder([Issue.Defense, Issue.Economy, Issue.CivilRights]);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(Leader.Nixon, engine.GetLeader(Issue.Defense));
         Assert.AreEqual(1, engine.GetSupportAmount(Issue.Defense));
@@ -66,7 +66,8 @@ public class PeaceWithoutSurrender_68_Tests
     {
         var sut = Manifest.GMTCards[CardIndex];
 
-        var result = sut.AreChangesValid(EngineFixtures.InvalidChanges);
+        var plan = new ActionPlan{Engine = null,  Changes = EngineFixtures.InvalidChanges};
+        var result = sut.AreChangesValid(plan);
 
         Assert.IsTrue(result);
     }

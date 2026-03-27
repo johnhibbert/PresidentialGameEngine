@@ -30,9 +30,9 @@ public class SuburbanVoters_77_Tests
         playerChoices.StateChanges.Add(twoSupportInCali);
         playerChoices.StateChanges.Add(oneSupportInNewYork);
 
+        var plan = new ActionPlan{Engine = engine, Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-
-        sut.Event(engine, player, playerChoices);
+        sut.Event(plan, player);
 
         Assert.AreEqual(1, engine.GetSupportAmount(State.MI));
         Assert.AreEqual(1, engine.GetSupportAmount(State.PA));
@@ -54,8 +54,9 @@ public class SuburbanVoters_77_Tests
         playerChoices.StateChanges.Add(twoSupportInCali);
         playerChoices.StateChanges.Add(oneSupportInNewYork);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -75,8 +76,9 @@ public class SuburbanVoters_77_Tests
         playerChoices.StateChanges.Add(oneSupportInNewYork);
         playerChoices.IssueChanges.Add(issueSupport);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -92,8 +94,9 @@ public class SuburbanVoters_77_Tests
         playerChoices.StateChanges.Add(oneSupportInPenn);
         playerChoices.StateChanges.Add(threeSupportInCali);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -111,8 +114,9 @@ public class SuburbanVoters_77_Tests
         playerChoices.StateChanges.Add(twoSupportInCali);
         playerChoices.StateChanges.Add(invalidSupportInStateWithTooFewElectoralVotes);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 

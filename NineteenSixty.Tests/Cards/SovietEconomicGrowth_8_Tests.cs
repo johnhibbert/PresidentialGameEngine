@@ -18,8 +18,9 @@ public class SovietEconomicGrowth_8_Tests
         var engine = EngineFixtures.GetGameEngine();
         engine.SetIssueOrder([Issue.CivilRights, Issue.Defense, Issue.Economy]);
         
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(Issue.Economy, engine.GetGameState().IssueOrder[1]);
     }
@@ -32,8 +33,9 @@ public class SovietEconomicGrowth_8_Tests
         var engine = EngineFixtures.GetGameEngine();
         engine.SetIssueOrder([Issue.Economy, Issue.Defense, Issue.CivilRights]);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(Issue.Economy, engine.GetGameState().IssueOrder[0]);
     }
@@ -47,8 +49,9 @@ public class SovietEconomicGrowth_8_Tests
         engine.SetIssueOrder([Issue.Economy, Issue.Defense, Issue.CivilRights]);
         engine.GainSupport(player, Issue.Economy, 1);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(1, engine.GetSupportAmount(State.NY));
     }
@@ -61,8 +64,9 @@ public class SovietEconomicGrowth_8_Tests
         var engine = EngineFixtures.GetGameEngine();
         engine.SetIssueOrder([Issue.Economy, Issue.Defense, Issue.CivilRights]);
         
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(0, engine.GetSupportAmount(State.NY));
     }
@@ -72,7 +76,8 @@ public class SovietEconomicGrowth_8_Tests
     {
         var sut = Manifest.GMTCards[CardIndex];
 
-        var result = sut.AreChangesValid(EngineFixtures.InvalidChanges);
+        var plan = new ActionPlan{Engine = null,  Changes = EngineFixtures.InvalidChanges};
+        var result = sut.AreChangesValid(plan);
 
         Assert.IsTrue(result);
     }

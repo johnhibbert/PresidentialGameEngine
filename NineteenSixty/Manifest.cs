@@ -1,5 +1,6 @@
 // ReSharper disable UnusedParameter.Local
 
+using NineteenSixty.Data;
 using NineteenSixty.Enums;
 using PresidentialGameEngine.ClassLibrary.Data;
 using PresidentialGameEngine.ClassLibrary.Interfaces;
@@ -90,14 +91,21 @@ public class Manifest
                     Issue = Issue.Defense,
                     Affiliation = Affiliation.Kennedy,
                     State = State.NY,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+                        
                         engine.MovePlayerToState(Player.Kennedy, State.TX);
                         engine.GainMomentum(Player.Kennedy, 1);
                         engine.ImplementChanges(choices);
                     },
                     RequiresPlayerInput = false,
-                    AreChangesValid = (choices) =>
+                    AreChangesValid = (plan) =>
                     {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+                        
                         var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
                         var noValueAboveOne = choices.HighestStateChange <= 1;
                         var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
@@ -121,13 +129,19 @@ public class Manifest
                     Issue = Issue.CivilRights,
                     Affiliation = Affiliation.Both,
                     State = State.MO,
-                    Event = (engine, player, choices) =>
+                    Event = (plan, player) =>
                     {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+                        
                         engine.ImplementChanges(choices);
                     },
                     RequiresPlayerInput = true,
-                    AreChangesValid = (choices) =>
+                    AreChangesValid = (plan) =>
                     {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+                        
                         //This to hard coded because the Issue enum also has a 'none'
                         //Because some cards have no issue (the Gathering Momentum cards).
                         var issueListCorrectLength = choices.NewIssuesOrder.Count == 3;
@@ -149,8 +163,11 @@ public class Manifest
                     Issue = Issue.Defense,
                     Affiliation = Affiliation.Both,
                     State = State.OR,
-                    Event = (engine, player, choices) =>
+                    Event = (plan, player) =>
                     {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         engine.GainMomentum(player, 1);
                     },
                     RequiresPlayerInput = false,
@@ -167,12 +184,19 @@ public class Manifest
                     Issue = Issue.Defense,
                     Affiliation = Affiliation.Kennedy,
                     State = State.LA,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         engine.ImplementChanges(choices);
                     },
                     RequiresPlayerInput = true,
-                    AreChangesValid = (choices) =>
+                    AreChangesValid = (plan) =>
                     {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         State[] newEnglandStates = [State.RI, State.MA, State.CT, State.VT, State.NH, State.ME];
             
                         var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
@@ -197,12 +221,19 @@ public class Manifest
                     Issue = Issue.Economy,
                     Affiliation = Affiliation.Kennedy,
                     State = State.SC,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         engine.ImplementChanges(choices);
                     },
                     RequiresPlayerInput = false,
-                    AreChangesValid = (choices) =>
+                    AreChangesValid = (plan) =>
                     {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         var fiveOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 5;
                         var onlyIllinois = choices.StateChanges.Select(s => s.Target).All(x => x == State.IL);
                         var playerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
@@ -224,7 +255,11 @@ public class Manifest
                     Issue = Issue.Economy,
                     Affiliation = Affiliation.Both,
                     State = State.NH,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         engine.MoveIssueUp(Issue.Economy);
                         var econLeader = engine.GetLeader(Issue.Economy);
                         if(econLeader != Leader.None)
@@ -256,12 +291,19 @@ public class Manifest
                     Issue = Issue.CivilRights,
                     Affiliation = Affiliation.Nixon,
                     State = State.PA,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         engine.ImplementChanges(choices);
                     },
                     RequiresPlayerInput = false,
-                    AreChangesValid = (choices) =>
+                    AreChangesValid = (plan) =>
                     {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         var sevenOrFewerPointsOfStateChanges = choices.TotalStateChanges <= 7;
                         var noValueAboveOne = choices.HighestStateChange <= 1;
                         var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
@@ -287,7 +329,11 @@ public class Manifest
                     Issue = Issue.Economy,
                     Affiliation = Affiliation.Both,
                     State = State.TX,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         var opponent = player.ToOpponent();
                         var opponentLocation = engine.GetPlayerState(opponent);
                         engine.LoseMomentum(opponent, 1);
@@ -307,7 +353,11 @@ public class Manifest
                     Issue = Issue.CivilRights,
                     Affiliation = Affiliation.Both,
                     State = State.CA,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         engine.MoveIssueUp(Issue.CivilRights);
                         engine.GainSupport(player, Issue.CivilRights, 3);
                     },
@@ -326,7 +376,11 @@ public class Manifest
                     Issue = Issue.CivilRights,
                     Affiliation = Affiliation.Nixon,
                     State = State.ND,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         engine.MoveIssueUp(Issue.CivilRights);
                         engine.GainSupport(Player.Nixon, Issue.CivilRights, 1);
                     },
@@ -347,7 +401,11 @@ public class Manifest
                     Issue = Issue.Economy,
                     Affiliation = Affiliation.Nixon,
                     State = State.WI,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         engine.GainSupport(Player.Nixon, Issue.Defense, 1);
                         engine.ReturnCardFromDiscardPileToPlayerHandIfAvailable(Player.Nixon, GMTCards?[42]);
                     },
@@ -371,12 +429,19 @@ public class Manifest
                     Issue = Issue.Defense,
                     Affiliation = Affiliation.Kennedy,
                     State = State.WV,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         engine.ImplementChanges(choices);
                     },
                     RequiresPlayerInput = true,
-                    AreChangesValid = (choices) =>
+                    AreChangesValid = (plan) =>
                     {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         var noValueAboveOne = choices.TotalEndorsementChanges <= 1;
                         var playerIsOnlyKennedy = choices.EndorsementChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
                         var containsNoLosses = choices.ContainsNoLosses();
@@ -396,7 +461,10 @@ public class Manifest
                     Issue = Issue.Defense,
                     Affiliation = Affiliation.Both,
                     State = State.NJ,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
             
                         engine.MoveIssueUp(Issue.CivilRights);
                         var leader = engine.GetLeader(Issue.CivilRights);
@@ -406,8 +474,11 @@ public class Manifest
                         }
                     },
                     RequiresPlayerInput = true,
-                    AreChangesValid = (choices) =>
+                    AreChangesValid = (plan) =>
                     {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         var threePointsOrLessOfStateSupport = choices.TotalStateChanges <= 3;
                         var noValueAboveOne = choices.HighestStateChange <= 1;
                         var gainsForOnlyOnePlayer = choices.StateChanges.Select(x => x.Player).Count() == 1;
@@ -431,13 +502,21 @@ public class Manifest
                     Issue = Issue.CivilRights,
                     Affiliation = Affiliation.Kennedy,
                     State = State.CA,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         engine.GainSupport(Player.Kennedy, State.TX, 2);
                         engine.ImplementChanges(choices);
                         engine.UnexhaustPlayer(Player.Kennedy);
                     },
                     RequiresPlayerInput = true,
-                    AreChangesValid = (choices) =>{
+                    AreChangesValid = (plan) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         var threePointsOfStateChanges = choices.TotalStateChanges <= 3;
                         var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
                         var noStateAboveTwo = choices.HighestStateChange <=2;
@@ -464,13 +543,19 @@ public class Manifest
                     Issue = Issue.CivilRights,
                     Affiliation = Affiliation.Kennedy,
                     State = State.AL,
-                    Event = (engine, player, choices) => {
-            
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         engine.ImplementChanges(choices);
                     },
                     RequiresPlayerInput = true,
-                    AreChangesValid = (choices) =>
+                    AreChangesValid = (plan) =>
                     {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         var threePointsOfIssueChanges = choices.TotalIssueChanges == 3;
                         var onlyOneIssueIncluded = choices.IssueChanges.Count == 1;
                         var issuePlayerIsOnlyKennedy = choices.IssueChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
@@ -493,7 +578,11 @@ public class Manifest
                     Issue = Issue.Economy,
                     Affiliation = Affiliation.Nixon,
                     State = State.NY,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         engine.GainSupport(Player.Nixon, Issue.Defense, 2);
                         engine.GainSupport(Player.Nixon, State.MA, 2);
                         engine.UnexhaustPlayer(Player.Nixon);
@@ -515,7 +604,11 @@ public class Manifest
                     Issue = Issue.Economy,
                     Affiliation = Affiliation.Nixon,
                     State = State.MI,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         engine.MovePlayerToState(Player.Nixon, State.NY);
                         engine.GainSupport(Player.Nixon, State.NY, 2);
                         engine.GainSupport(Player.Nixon, Issue.CivilRights, 1);
@@ -537,7 +630,11 @@ public class Manifest
                     Issue = Issue.CivilRights,
                     Affiliation = Affiliation.Nixon,
                     State = State.IA,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         engine.MoveIssueUp(Issue.Economy);
                         engine.GainSupport(Player.Nixon, Issue.Economy, 2);
                     },
@@ -557,7 +654,11 @@ public class Manifest
                     Issue = Issue.Economy,
                     Affiliation = Affiliation.Kennedy,
                     State = State.GA,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         engine.GainSupport(Player.Kennedy, Issue.Defense, 3);
                     },
                     RequiresPlayerInput = false,
@@ -574,7 +675,11 @@ public class Manifest
                     Issue = Issue.CivilRights,
                     Affiliation = Affiliation.Both,
                     State = State.MT,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         engine.MovePlayerToState(player, State.FL);
                         engine.GainMomentum(player, 1);
                         engine.GainSupport(player, State.FL, 1);
@@ -600,8 +705,11 @@ public class Manifest
                     Issue = Issue.Economy,
                     Affiliation = Affiliation.Both,
                     State = State.UT,
-                    Event = (engine, player, choices) =>
+                    Event = (plan, player) =>
                     {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         var gameState = engine.GetGameState();
                         if(gameState.MediaSupportLevels[Region.East].Leader != Leader.None)
                         {
@@ -609,7 +717,11 @@ public class Manifest
                         }
                     },
                     RequiresPlayerInput = true,
-                    AreChangesValid = (choices) => {
+                    AreChangesValid = (plan) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         var easternStates = StateData.Where(y => y.Value.Region == Region.East).Select(z => z.Key);
             
                         var onlyEasternStatesIncluded = choices.StateChanges.Select(s => s.Target).All(x => easternStates.Contains(x));
@@ -634,7 +746,11 @@ public class Manifest
                     Issue = Issue.CivilRights,
                     Affiliation = Affiliation.Both,
                     State = State.OH,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         engine.ExhaustPlayer(player.ToOpponent());
                     },
                     RequiresPlayerInput = false,
@@ -651,7 +767,11 @@ public class Manifest
                     Issue = Issue.Economy,
                     Affiliation = Affiliation.Both,
                     State = State.WI,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         engine.MoveIssueUp(Issue.Defense);
                         engine.MoveIssueUp(Issue.Defense);
                         var leader = engine.GetLeader(Issue.Defense);
@@ -674,7 +794,11 @@ public class Manifest
                     Issue = Issue.Economy,
                     Affiliation = Affiliation.Kennedy,
                     State = State.OH,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         engine.LoseMomentum(Player.Nixon, 2);
                         engine.LoseSupport(Player.Nixon, Issue.Defense, 1);
                         engine.LoseSupport(Player.Nixon, Issue.Economy, 1);
@@ -694,7 +818,11 @@ public class Manifest
                     Issue = Issue.Economy,
                     Affiliation = Affiliation.Both,
                     State = State.OH,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         var playerMomentum = engine.GetPlayerMomentum(player);
                         var opponentMomentum = engine.GetPlayerMomentum(player.ToOpponent());
             
@@ -720,7 +848,11 @@ public class Manifest
                     Issue = Issue.Defense,
                     Affiliation = Affiliation.Nixon,
                     State = State.CO,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         engine.MoveIssueUp(Issue.Defense);
                         engine.GainSupport(Player.Nixon, Issue.Defense, 1);
                     },
@@ -739,7 +871,11 @@ public class Manifest
                     Issue = Issue.Economy,
                     Affiliation = Affiliation.Nixon,
                     State = State.IL,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         engine.LoseMomentum(Player.Nixon, 1);
                         engine.LoseMomentum(Player.Kennedy, 3);
                     },
@@ -757,12 +893,19 @@ public class Manifest
                     Issue = Issue.Defense,
                     Affiliation = Affiliation.Nixon,
                     State = State.NJ,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         engine.ImplementChanges(choices);
                     },
                     RequiresPlayerInput = true,
-                    AreChangesValid = (choices) => {
-            
+                    AreChangesValid = (plan) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         var heartlandStates = StateData.Where(x => x.Value.ElectoralVotes <=10)
                         .Where(y => y.Value.Region is Region.Midwest or Region.West).Select(z => z.Key);
             
@@ -788,7 +931,11 @@ public class Manifest
                     Issue = Issue.Economy,
                     Affiliation = Affiliation.Nixon,
                     State = State.IN,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         var civilRightsLeader = engine.GetLeader(Issue.CivilRights);
             
                         if(civilRightsLeader == Leader.Kennedy)
@@ -797,7 +944,11 @@ public class Manifest
                         }
                     },
                     RequiresPlayerInput = true,
-                    AreChangesValid = (choices) => {
+                    AreChangesValid = (plan) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         var southernStates = StateData.Where(y => y.Value.Region == Region.South).Select(z => z.Key);
             
                         var onlySouthernStatesIncluded = choices.StateChanges.Select(s => s.Target).All(x => southernStates.Contains(x));
@@ -824,12 +975,20 @@ public class Manifest
                     Issue = Issue.CivilRights,
                     Affiliation = Affiliation.Nixon,
                     State = State.CA,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         engine.MovePlayerToState(Player.Nixon, State.NY);
                         engine.ImplementChanges(choices);
                     },
                     RequiresPlayerInput = true,
-                    AreChangesValid = (choices) => {
+                    AreChangesValid = (plan) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         var threeOrFewerMediaSupportChanges = choices.TotalMediaChanges <= 3;
                         var onlyMediaSupport = choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.MediaSupport]);
                         
@@ -849,12 +1008,19 @@ public class Manifest
                     Issue = Issue.Economy,
                     Affiliation = Affiliation.Kennedy,
                     State = State.MN,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         engine.ImplementChanges(choices);
                     },
                     RequiresPlayerInput = true,
-                    AreChangesValid = (choices) => {
-            
+                    AreChangesValid = (plan) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         var suburbanStates = StateData.Where(x => x.Value.ElectoralVotes >=20).Select(y => y.Key);
             
                         var onlySuburbanStates = choices.StateChanges.Select(s => s.Target).All(x => suburbanStates.Contains(x));
@@ -879,7 +1045,11 @@ public class Manifest
                     Issue = Issue.Defense,
                     Affiliation = Affiliation.Both,
                     State = State.TN,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         engine.MoveIssueUp(Issue.Economy);
                         engine.MoveIssueUp(Issue.Economy);
             
@@ -904,11 +1074,19 @@ public class Manifest
                     Issue = Issue.Economy,
                     Affiliation = Affiliation.Kennedy,
                     State = State.MS,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         engine.ImplementChanges(choices);
                     },
                     RequiresPlayerInput = true,
-                    AreChangesValid = (choices) => {
+                    AreChangesValid = (plan) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         var upToNegativeTwoPointsOfLostMediaSupport = choices.TotalMediaChanges is >= -2 and >= 0;
                         var affectedPlayerIsNixon = choices.MediaSupportChanges.Select(x => x.Player).All(y => y == Player.Nixon);
             
@@ -931,7 +1109,11 @@ public class Manifest
                     Issue = Issue.Economy,
                     Affiliation = Affiliation.Both,
                     State = State.ID,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         var defenseLeader = engine.GetLeader(Issue.Defense);
             
                         if(defenseLeader != Leader.None)
@@ -957,13 +1139,19 @@ public class Manifest
                     Issue = Issue.CivilRights,
                     Affiliation = Affiliation.Nixon,
                     State = State.IA,
-                    Event = (engine, player, choices) => {
-            
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         engine.ImplementChanges(choices);
                     },
                     RequiresPlayerInput = true,
-                    AreChangesValid = (choices) =>
+                    AreChangesValid = (plan) =>
                     {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         var threePointsOfIssueChanges = choices.TotalIssueChanges == 3;
                         var issuePlayerIsOnlyNixon = choices.IssueChanges.Select(x => x.Player).All(y => y == Player.Nixon);
                         var onlyIssueChanges = choices.ContainsOnlyExactlyTheseChangeTypes([ChangeType.IssueSupport]);
@@ -984,7 +1172,11 @@ public class Manifest
                     Issue = Issue.CivilRights,
                     Affiliation = Affiliation.Nixon,
                     State = State.KS,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         engine.GainMomentum(Player.Nixon, 1);
                     },
                     RequiresPlayerInput = false,
@@ -1001,7 +1193,11 @@ public class Manifest
                     Issue = Issue.CivilRights,
                     Affiliation = Affiliation.Nixon,
                     State = State.TX,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         //FIXME
                         //throw new NotImplementedException();
                         
@@ -1012,8 +1208,11 @@ public class Manifest
             
                     },
                     RequiresPlayerInput = true,
-                    AreChangesValid = (choices) =>
+                    AreChangesValid = (plan) =>
                     {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         var threePointsOfStateChanges = choices.TotalStateChanges == 3;
                         var statePlayerIsOnlyNixon = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Nixon);
                         var onlyOneState = choices.StateChanges.Select(x => x.Target).Count() == 1;
@@ -1040,7 +1239,11 @@ public class Manifest
                     Issue = Issue.Defense,
                     Affiliation = Affiliation.Nixon,
                     State = State.CA,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         engine.LoseSupport(Player.Kennedy, Issue.Defense, 1);
                         engine.LoseSupport(Player.Kennedy, Issue.CivilRights, 1);
                         engine.LoseSupport(Player.Kennedy, Issue.Economy, 1);
@@ -1062,14 +1265,22 @@ public class Manifest
                     Issue = Issue.CivilRights,
                     Affiliation = Affiliation.Kennedy,
                     State = State.TX,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         engine.LoseSupport(Player.Nixon, Issue.Defense, 1);
                         engine.LoseSupport(Player.Nixon, Issue.CivilRights, 1);
                         engine.LoseSupport(Player.Nixon, Issue.Economy, 1);
                         engine.ImplementChanges(choices);
                     },
                     RequiresPlayerInput = true,
-                    AreChangesValid = (choices) => {
+                    AreChangesValid = (plan) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
                         var threePointsOfStateChanges = choices.TotalStateChanges <= 3;
                         var noValueAboveOne = choices.HighestStateChange <= 1;
                         var statePlayerIsOnlyKennedy = choices.StateChanges.Select(x => x.Player).All(y => y == Player.Kennedy);
@@ -1090,7 +1301,11 @@ public class Manifest
                     Issue = Issue.Defense,
                     Affiliation = Affiliation.Both,
                     State = State.PA,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
+
             
                         var civilRightsLeader = engine.GetLeader(Issue.CivilRights);
                         var econLeader = engine.GetLeader(Issue.Economy);
@@ -1122,7 +1337,10 @@ public class Manifest
                     Issue = Issue.CivilRights,
                     Affiliation = Affiliation.Both,
                     State = State.OH,
-                    Event = (engine, player, choices) => {
+                    Event = (plan, player) =>
+                    {
+                        var engine = plan.Engine;
+                        var choices = plan.Changes;
             
                         var defenseLeader = engine.GetLeader(Issue.Defense);
                         var econLeader = engine.GetLeader(Issue.Economy);
@@ -1148,6 +1366,5 @@ public class Manifest
 
         public static readonly Dictionary<int, Card> GMTCards =
             ZManCards.Concat(GMT_OnlyCards).ToDictionary(x => x.Key, x => x.Value);
-    //}
-    
+
 }

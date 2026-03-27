@@ -6,7 +6,14 @@ namespace NineteenSixty.Interfaces;
 public interface IController
 {
 
+    GameTime GetGameTime();
     GameState GetGameState();
     void SetUpBoard();
     InitiativeCheckResult ConductInitiativeCheck();
+
+    void PlayCardAsEvent(Card card, SetOfChanges changes, Player player);
+
+    void SetFirstPlayerForActivityPhase(Player player);
+
+
 }

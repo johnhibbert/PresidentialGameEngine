@@ -22,8 +22,9 @@ public class Gaffe_22_Tests
         engine.MovePlayerToState(opponent, state);
         engine.GainSupport(opponent, state, 3);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(0, engine.GetSupportAmount(state));
         Assert.AreEqual(Leader.None, engine.GetLeader(state));
@@ -39,8 +40,9 @@ public class Gaffe_22_Tests
         var opponent = player.ToOpponent();
         engine.GainMomentum(opponent, 2);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(1, engine.GetPlayerMomentum(opponent));
     }
@@ -57,8 +59,9 @@ public class Gaffe_22_Tests
         engine.MovePlayerToState(opponent, state);
         engine.GainSupport(opponent, state, 1);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(0, engine.GetSupportAmount(state));
         Assert.AreEqual(Leader.None, engine.GetLeader(state));
@@ -69,7 +72,8 @@ public class Gaffe_22_Tests
     {
         var sut = Manifest.GMTCards[CardIndex];
 
-        var result = sut.AreChangesValid(EngineFixtures.InvalidChanges);
+        var plan = new ActionPlan{Engine = null,  Changes = EngineFixtures.InvalidChanges};
+        var result = sut.AreChangesValid(plan);
 
         Assert.IsTrue(result);
     }

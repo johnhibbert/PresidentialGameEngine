@@ -25,9 +25,9 @@ public class Recount_90_Tests
         var threeSupportInTexas = new SupportChange<Player, State>(Player.Nixon, State.TX, 3);
         playerChoices.StateChanges.Add(threeSupportInTexas);
 
+        var plan = new ActionPlan{Engine = engine, Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-
-        sut.Event(engine, player, playerChoices);
+        sut.Event(plan, player);
 
         //FIXME LATER
         Assert.IsTrue(true);
@@ -44,8 +44,9 @@ public class Recount_90_Tests
 
         playerChoices.StateChanges.Add(threeSupportInKentucky);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -59,8 +60,9 @@ public class Recount_90_Tests
         playerChoices.StateChanges.Add(twoSupportInKentucky);
         playerChoices.StateChanges.Add(oneSupportInAlaska);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -74,8 +76,9 @@ public class Recount_90_Tests
         playerChoices.StateChanges.Add(threeSupportInKentucky);
         playerChoices.IssueChanges.Add(issueSupport);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -87,8 +90,9 @@ public class Recount_90_Tests
 
         playerChoices.StateChanges.Add(threeSupportInKentucky);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 

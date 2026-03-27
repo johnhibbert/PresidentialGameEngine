@@ -30,9 +30,9 @@ public class NewEngland_6_Tests
         playerChoices.StateChanges.Add(twoSupportInNewHampshire);
         playerChoices.StateChanges.Add(oneSupportInVermont);
 
+        var plan = new ActionPlan{Engine = engine, Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-
-        sut.Event(engine, player, playerChoices);
+        sut.Event(plan, player);
 
         Assert.AreEqual(1, engine.GetSupportAmount(State.RI));
         Assert.AreEqual(1, engine.GetSupportAmount(State.ME));
@@ -53,9 +53,11 @@ public class NewEngland_6_Tests
         playerChoices.StateChanges.Add(twoSupportInNewHampshire);
         playerChoices.StateChanges.Add(oneSupportInVermont);
         playerChoices.StateChanges.Add(invalidSupportForNixon);
-
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
+        
         Assert.IsFalse(result);
     }
 
@@ -75,8 +77,9 @@ public class NewEngland_6_Tests
         playerChoices.StateChanges.Add(oneSupportInVermont);
         playerChoices.IssueChanges.Add(invalidIssueSupport);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -92,8 +95,9 @@ public class NewEngland_6_Tests
         playerChoices.StateChanges.Add(oneSupportInMaine);
         playerChoices.StateChanges.Add(invalidSupportOverThree);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -109,8 +113,9 @@ public class NewEngland_6_Tests
         playerChoices.StateChanges.Add(twoSupportInMaine);
         playerChoices.StateChanges.Add(invalidSupportForExcludedState);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -130,8 +135,9 @@ public class NewEngland_6_Tests
         playerChoices.StateChanges.Add(twoSupportInVermont);
         playerChoices.StateChanges.Add(invalidMinusOneSupportInMaine);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 

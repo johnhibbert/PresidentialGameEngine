@@ -21,8 +21,9 @@ public class GiveMeAWeek_63_Tests
 
         engine.GainMomentum(Player.Nixon, 5);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(3, engine.GetPlayerMomentum(Player.Nixon));
     }
@@ -38,8 +39,9 @@ public class GiveMeAWeek_63_Tests
         engine.GainSupport(Player.Nixon, Issue.Economy, 3);
         engine.GainSupport(Player.Nixon, Issue.CivilRights, 2);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(3, engine.GetSupportAmount(Issue.Defense));
         Assert.AreEqual(2, engine.GetSupportAmount(Issue.Economy));
@@ -58,8 +60,9 @@ public class GiveMeAWeek_63_Tests
         engine.GainSupport(Player.Nixon, Issue.Economy, 0);
         engine.GainSupport(Player.Nixon, Issue.CivilRights, 0);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(0, engine.GetPlayerMomentum(Player.Nixon));
         Assert.AreEqual(0, engine.GetSupportAmount(Issue.Defense));
@@ -72,7 +75,8 @@ public class GiveMeAWeek_63_Tests
     {
         var sut = Manifest.GMTCards[CardIndex];
 
-        var result = sut.AreChangesValid(EngineFixtures.InvalidChanges);
+        var plan = new ActionPlan{Engine = null,  Changes = EngineFixtures.InvalidChanges};
+        var result = sut.AreChangesValid(plan);
 
         Assert.IsTrue(result);
     }

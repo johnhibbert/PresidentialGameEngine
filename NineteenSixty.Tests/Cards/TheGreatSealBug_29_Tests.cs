@@ -21,8 +21,9 @@ public class TheGreatSealBug_29_Tests
     {
         var engine = EngineFixtures.GetGameEngine();
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(1, engine.GetSupportAmount(Issue.Defense));
     }
@@ -35,8 +36,9 @@ public class TheGreatSealBug_29_Tests
         var engine = EngineFixtures.GetGameEngine();
         engine.AddCardsToZone([HenryCabotLodgeCard], CardZone.DiscardPile, player);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(HenryCabotLodgeCard.Index, engine.GetCardsInZone(CardZone.Hand, Player.Nixon).First().Index);
     }
@@ -49,8 +51,9 @@ public class TheGreatSealBug_29_Tests
         var engine = EngineFixtures.GetGameEngine();
         engine.AddCardsToZone([HenryCabotLodgeCard], CardZone.Removed, player);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(0, engine.GetCardsInZone(CardZone.Hand, Player.Nixon).Count());
     }
@@ -63,8 +66,9 @@ public class TheGreatSealBug_29_Tests
         var engine = EngineFixtures.GetGameEngine();
         engine.AddCardsToZone([HenryCabotLodgeCard], CardZone.CampaignStrategy, player);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(0, engine.GetCardsInZone(CardZone.Hand, Player.Nixon).Count());
     }
@@ -75,8 +79,9 @@ public class TheGreatSealBug_29_Tests
         var engine = EngineFixtures.GetGameEngine();
         engine.AddCardsToZone([HenryCabotLodgeCard], CardZone.Hand, Player.Kennedy);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, Player.Nixon, EngineFixtures.EmptyChanges);
+        sut.Event(plan, Player.Nixon);
 
         Assert.AreEqual(0, engine.GetCardsInZone(CardZone.Hand, Player.Nixon).Count());
     }
@@ -87,8 +92,9 @@ public class TheGreatSealBug_29_Tests
         var engine = EngineFixtures.GetGameEngine();
         engine.AddCardsToZone([HenryCabotLodgeCard], CardZone.Hand, Player.Nixon);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, Player.Nixon, EngineFixtures.EmptyChanges);
+        sut.Event(plan, Player.Nixon);
 
         Assert.AreEqual(1, engine.GetCardsInZone(CardZone.Hand, Player.Nixon).Count());
     }
@@ -101,8 +107,9 @@ public class TheGreatSealBug_29_Tests
         var engine = EngineFixtures.GetGameEngine();
         engine.AddCardsToZone([HenryCabotLodgeCard], CardZone.Deck, player);
         
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(0, engine.GetCardsInZone(CardZone.Hand, Player.Nixon).Count());
     }
@@ -115,8 +122,9 @@ public class TheGreatSealBug_29_Tests
         var engine = EngineFixtures.GetGameEngine();
         engine.AddCardsToZone([HenryCabotLodgeCard], CardZone.InPlay, player);
         
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(0, engine.GetCardsInZone(CardZone.Hand, Player.Nixon).Count());
     }
@@ -126,7 +134,8 @@ public class TheGreatSealBug_29_Tests
     {
         var sut = Manifest.GMTCards[CardIndex];
 
-        var result = sut.AreChangesValid(EngineFixtures.InvalidChanges);
+        var plan = new ActionPlan{Engine = null,  Changes = EngineFixtures.InvalidChanges};
+        var result = sut.AreChangesValid(plan);
 
         Assert.IsTrue(result);
     }

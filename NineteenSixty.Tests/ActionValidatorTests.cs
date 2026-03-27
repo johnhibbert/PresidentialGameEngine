@@ -1,3 +1,5 @@
+using NineteenSixty.Exceptions;
+
 namespace NineteenSixty.Tests;
 
 [TestClass]

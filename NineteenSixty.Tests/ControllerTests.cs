@@ -2,10 +2,12 @@ using NSubstitute;
 using NineteenSixty;
 using NineteenSixty.Data;
 using NineteenSixty.Enums;
+using NineteenSixty.Exceptions;
 using NineteenSixty.Interfaces;
 using NineteenSixty.Tests.Fixtures;
 using NSubstitute.ReturnsExtensions;
 using PresidentialGameEngine.ClassLibrary.Data;
+using Card = NineteenSixty.Data.Card;
 
 namespace NineteenSixty.Tests;
 
@@ -112,6 +114,43 @@ public class ControllerTests
         return expectedGameState;
     }
 
+    private static Card ExampleCard => GetExampleCard();
+
+    private static Card GetExampleCard()
+    {
+        var exampleCard = new Card()
+        {
+            Index = 1,
+            Title = "Example Card",
+            Text = "Example Card Tests.",
+            CampaignPoints = 2,
+            EventType = EventType.None,
+            Issue = Issue.Defense,
+            Affiliation = Affiliation.Both,
+            State = State.OR,
+            Event = (plan, player) =>
+            {
+                var engine = plan.Engine;
+                var choices = plan.Changes;
+
+                engine.ImplementChanges(choices);
+            },
+            RequiresPlayerInput = false,
+            AreChangesValid = (plan) =>
+            {
+                var engine = plan.Engine;
+                var choices = plan.Changes;
+
+                State[] validStates = [State.KY];
+                var onlyValidStates = choices.StateChanges.Select(s => s.Target).All(x => validStates.Contains(x));
+            
+                return onlyValidStates;
+            },
+        };
+        
+        return  exampleCard;
+    }
+    
     #endregion
 
     #region GetGameState Tests
@@ -354,6 +393,152 @@ public class ControllerTests
         Assert.AreEqual(2, result.CubesDrawn[Player.Nixon]);
     }
     
+    
+    #endregion
+    
+    #region PlayCardAsEvent
+    
+    [TestMethod]
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
+    public void PlayCardAsEvent_ValidChangesAreImplemented(Player player)
+    {
+        var engine = EngineFixtures.GetGameEngine();
+        
+        var playerChoices = new SetOfChanges();
+        var oneSupportInKentucky = new SupportChange<Player, State>(player, State.KY, 1);
+        playerChoices.StateChanges.Add(oneSupportInKentucky);
+        
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+
+        sut.PlayCardAsEvent(ExampleCard, playerChoices, player);
+
+        var result = sut.GetGameState().StateContests[State.KY];
+        
+        Assert.AreEqual(1, result.Amount);
+        Assert.AreEqual(player.ToLeader(), result.Leader);
+    }
+    
+    [TestMethod]
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
+    [ExpectedException(typeof(InvalidPlayerChoices))]
+    public void PlayCardAsEvent_InvalidChangesThrowException(Player player)
+    {
+        var engine = EngineFixtures.GetGameEngine();
+        
+        var playerChoices = new SetOfChanges();
+        var invalidSupportInTennessee = new SupportChange<Player, State>(player, State.TN, 1);
+        playerChoices.StateChanges.Add(invalidSupportInTennessee);
+
+        var plan = new ActionPlan()
+        {
+            Engine = engine,
+            Changes = playerChoices,
+        };
+        
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+
+        sut.PlayCardAsEvent(ExampleCard, playerChoices, player);
+    }
+    
+    #endregion
+    
+    #region SetFirstPlayerForTurn Tests
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
+    [TestMethod]
+    public void SetFirstPlayerForTurn_FirstPlayerSet(Player player)
+    {
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
+        sut.ConductInitiativeCheck();
+        sut.SetFirstPlayerForActivityPhase(player);
+        var result = sut.GetGameTime();
+
+        Assert.AreEqual(player, result.FirstPlayer);
+    }
+    
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
+    [TestMethod]
+    public void SetFirstPlayerForTurn_CurrentPlayerSet(Player player)
+    {
+
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
+        sut.ConductInitiativeCheck();
+        sut.SetFirstPlayerForActivityPhase(player);
+        var result = sut.GetGameTime();
+        
+        Assert.AreEqual(player, result.ActivePlayer);
+    }
+    
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
+    [TestMethod]
+    public void SetFirstPlayerForTurn_ActivityPhaseNumberUpdatedToOne(Player player)
+    {
+
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
+        sut.ConductInitiativeCheck();
+        sut.SetFirstPlayerForActivityPhase(player);
+        var result = sut.GetGameTime();
+        
+        Assert.AreEqual(1, result.ActivityPhaseNumber);
+    }
+    
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
+    [TestMethod]
+    public void SetFirstPlayerForTurn_TurnNumberUpdatedToOne(Player player)
+    {
+
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
+        sut.ConductInitiativeCheck();
+        sut.SetFirstPlayerForActivityPhase(player);
+        var result = sut.GetGameTime();
+        
+        Assert.AreEqual(1, result.TurnNumber);
+    }
+    
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
+    [TestMethod]
+    public void SetFirstPlayerForTurn_CurrentPhaseIsActivity(Player player)
+    {
+
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
+        sut.ConductInitiativeCheck();
+        sut.SetFirstPlayerForActivityPhase(player);
+        var result = sut.GetGameTime();
+        
+        Assert.AreEqual(Phase.Activity, result.CurrentPhase);
+    }
+    
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
+    [TestMethod]
+    [ExpectedException(typeof(ActionNotAllowed))]
+    public void SetFirstPlayerForTurn_NotAllowedInSetupPhase(Player player)
+    {
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        sut.SetFirstPlayerForActivityPhase(player);
+    }
+    
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
+    [TestMethod]
+    [ExpectedException(typeof(ActionNotAllowed))]
+    public void SetFirstPlayerForTurn_NotAllowedInActivityPhase(Player player)
+    {
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        sut.SetFirstPlayerForActivityPhase(player);
+        sut.SetFirstPlayerForActivityPhase(player);
+    }
     
     #endregion
 

@@ -28,9 +28,9 @@ public class LyndonJohnson_39_Tests
         playerChoices.StateChanges.Add(oneSupportInAlabama);
         playerChoices.StateChanges.Add(oneSupportInTennessee);
 
+        var plan = new ActionPlan{Engine = engine, Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-
-        sut.Event(engine, player, playerChoices);
+        sut.Event(plan, player);
 
         Assert.AreEqual(2, engine.GetSupportAmount(State.TX));
     }
@@ -51,9 +51,9 @@ public class LyndonJohnson_39_Tests
         playerChoices.StateChanges.Add(oneSupportInAlabama);
         playerChoices.StateChanges.Add(oneSupportInTennessee);
 
+        var plan = new ActionPlan{Engine = engine, Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-
-        sut.Event(engine, player, playerChoices);
+        sut.Event(plan, player);
         
         Assert.AreEqual(1, engine.GetSupportAmount(State.FL));
         Assert.AreEqual(1, engine.GetSupportAmount(State.AL));
@@ -74,9 +74,9 @@ public class LyndonJohnson_39_Tests
         playerChoices.StateChanges.Add(twoMoreSupportInTexas);
         playerChoices.StateChanges.Add(oneSupportInAlabama);
 
+        var plan = new ActionPlan{Engine = engine, Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-
-        sut.Event(engine, player, playerChoices);
+        sut.Event(plan, player);
         
         Assert.AreEqual(4, engine.GetSupportAmount(State.TX));
     }
@@ -97,11 +97,9 @@ public class LyndonJohnson_39_Tests
         playerChoices.StateChanges.Add(oneSupportInAlabama);
         playerChoices.StateChanges.Add(oneSupportInTennessee);
 
-        engine.ExhaustPlayer(Player.Kennedy);
-
+        var plan = new ActionPlan{Engine = engine, Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-
-        sut.Event(engine, player, playerChoices);
+        sut.Event(plan, player);
 
         Assert.AreEqual(Status.Ready, engine.GetGameState().PlayerStatuses[Player.Kennedy]);
 
@@ -125,9 +123,9 @@ public class LyndonJohnson_39_Tests
 
         engine.UnexhaustPlayer(Player.Kennedy);
 
+        var plan = new ActionPlan{Engine = engine, Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-
-        sut.Event(engine, player, playerChoices);
+        sut.Event(plan, player);
 
         Assert.AreEqual(Status.Ready, engine.GetGameState().PlayerStatuses[Player.Kennedy]);
 
@@ -147,8 +145,9 @@ public class LyndonJohnson_39_Tests
         playerChoices.StateChanges.Add(oneSupportInTennessee);
         playerChoices.StateChanges.Add(invalidNixonSupport);
         
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -169,8 +168,9 @@ public class LyndonJohnson_39_Tests
         playerChoices.StateChanges.Add(oneSupportInTennessee);
         playerChoices.IssueChanges.Add(issueSupport);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -185,8 +185,9 @@ public class LyndonJohnson_39_Tests
         playerChoices.StateChanges.Add(twoSupportInFlorida);
         playerChoices.StateChanges.Add(twoSupportInAlabama);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -202,8 +203,9 @@ public class LyndonJohnson_39_Tests
         playerChoices.StateChanges.Add(oneSupportInAlabama);
         playerChoices.StateChanges.Add(invalidSupportInOhio);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -220,8 +222,9 @@ public class LyndonJohnson_39_Tests
         playerChoices.StateChanges.Add(oneSupportInAlabama);
         playerChoices.StateChanges.Add(invalidNegativeSupport);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
     

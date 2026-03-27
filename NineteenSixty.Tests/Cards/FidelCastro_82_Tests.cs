@@ -21,8 +21,9 @@ public class FidelCastro_82_Tests
 
         engine.GainSupport(player, Issue.Defense, 1);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(1, engine.GetSupportAmount(State.FL));
     }
@@ -36,8 +37,9 @@ public class FidelCastro_82_Tests
 
         engine.GainSupport(player, Issue.Defense, 1);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(1, engine.GetPlayerMomentum(player));
     }
@@ -52,8 +54,9 @@ public class FidelCastro_82_Tests
         engine.LoseSupport(Player.Kennedy, Issue.Defense, int.MaxValue);
         engine.LoseSupport(Player.Nixon, Issue.Defense, int.MaxValue);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(0, engine.GetSupportAmount(State.FL));
         Assert.AreEqual(0, engine.GetPlayerMomentum(player));
@@ -64,7 +67,8 @@ public class FidelCastro_82_Tests
     {
         var sut = Manifest.GMTCards[CardIndex];
 
-        var result = sut.AreChangesValid(EngineFixtures.InvalidChanges);
+        var plan = new ActionPlan{Engine = null,  Changes = EngineFixtures.InvalidChanges};
+        var result = sut.AreChangesValid(plan);
 
         Assert.IsTrue(result);
     }

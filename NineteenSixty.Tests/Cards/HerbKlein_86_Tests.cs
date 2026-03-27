@@ -26,10 +26,10 @@ public class HerbKlein_86_Tests
         var threeSupportInOneIssue = new SupportChange<Player, Issue>(Player.Nixon, issue, 3);
         playerChoices.IssueChanges.Add(threeSupportInOneIssue);
 
+        var plan = new ActionPlan{Engine = engine, Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-
-        sut.Event(engine, Player.Kennedy, playerChoices);
-
+        sut.Event(plan, Player.Nixon);
+        
         Assert.AreEqual(4, engine.GetSupportAmount(issue));
     }
 
@@ -46,9 +46,9 @@ public class HerbKlein_86_Tests
         playerChoices.IssueChanges.Add(oneSupportInDefense);
         playerChoices.IssueChanges.Add(oneSupportInEconomy);
 
+        var plan = new ActionPlan{Engine = engine, Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-
-        sut.Event(engine, Player.Kennedy, playerChoices);
+        sut.Event(plan, Player.Nixon);
 
         Assert.AreEqual(1, engine.GetSupportAmount(Issue.CivilRights));
         Assert.AreEqual(1, engine.GetSupportAmount(Issue.Defense));
@@ -66,9 +66,9 @@ public class HerbKlein_86_Tests
         playerChoices.IssueChanges.Add(oneSupportInDefense);
         playerChoices.IssueChanges.Add(oneSupportInEconomy);
 
-        var sut = Manifest.GMTCards[CardIndex];
-
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -85,9 +85,9 @@ public class HerbKlein_86_Tests
         playerChoices.IssueChanges.Add(oneSupportInEconomy);
         playerChoices.StateChanges.Add(oneSupportInNewYork);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
-
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 

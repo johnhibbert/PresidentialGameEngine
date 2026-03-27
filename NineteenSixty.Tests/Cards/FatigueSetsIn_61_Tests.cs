@@ -21,8 +21,9 @@ public class FatigueSetsIn_61_Tests
 
         var opponent = player.ToOpponent();
         
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(Status.Exhausted, engine.GetGameState().PlayerStatuses[opponent]);
     }
@@ -38,8 +39,9 @@ public class FatigueSetsIn_61_Tests
         
         engine.ExhaustPlayer(opponent);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(Status.Exhausted, engine.GetGameState().PlayerStatuses[opponent]);
     }
@@ -49,7 +51,8 @@ public class FatigueSetsIn_61_Tests
     {
         var sut = Manifest.GMTCards[CardIndex];
 
-        var result = sut.AreChangesValid(EngineFixtures.InvalidChanges);
+        var plan = new ActionPlan{Engine = null,  Changes = EngineFixtures.InvalidChanges};
+        var result = sut.AreChangesValid(plan);
 
         Assert.IsTrue(result);
     }
