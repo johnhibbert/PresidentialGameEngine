@@ -98,6 +98,12 @@ public class ControllerTests
             { Player.Nixon, Status.Ready },
         };
 
+        var numOfCardsInHand =  new Dictionary<Player, int>()
+        {
+            { Player.Kennedy, 2 },
+            { Player.Nixon, 15 },
+        };
+        
         var expectedGameState = new GameState()
         {
             Momentum = momentum,
@@ -109,6 +115,7 @@ public class ControllerTests
             MediaSupportLevels = mediaSupportLevels,
             PlayerLocations = playerLocations,
             PlayerStatuses = playerStatuses,
+            NumberOfCardsInPlayerHands = numOfCardsInHand,
         };
 
         return expectedGameState;
@@ -367,6 +374,22 @@ public class ControllerTests
         var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
         sut.SetUpBoard();
         sut.SetUpBoard();
+    }
+    
+    [TestMethod]
+    public void SetUpBoard_PlayersGetStartingHands()
+    {
+        var engine = EngineFixtures.GetGameEngine();
+
+        //Making this variable instead of concrete because the number of cards implemented will change
+        var numberOfImplementedCards = Manifest.GMTCards.Count;
+        
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
+
+        var cardsInDeck = engine.GetCardsInZone(CardZone.Deck, Player.Kennedy);
+
+        Assert.AreEqual(numberOfImplementedCards, cardsInDeck.Count());
     }
     
     #endregion

@@ -41,47 +41,59 @@ public static class ExampleFixtures
                     }
                 },
                 {
-                Issue.Economy, new SupportContest<Leader>()
-                {
-                    Leader = Leader.None,
-                    Amount = 0
-                }
-            },
+                    Issue.Economy, new SupportContest<Leader>()
+                    {
+                        Leader = Leader.None,
+                        Amount = 0
+                    }
+                },
             },
             Momentum = new Dictionary<Player, int>()
             {
-                {Player.Kennedy, 6},
-                {Player.Nixon, 3},
+                {
+                    Player.Kennedy, 6
+                },
+                {
+                    Player.Nixon, 3
+                },
             },
             RestCubes = new Dictionary<Player, int>()
             {
-                {Player.Kennedy, 41},
-                {Player.Nixon, 10},
+                {
+                    Player.Kennedy, 41
+                },
+                {
+                    Player.Nixon, 10
+                },
             },
             Endorsements = new Dictionary<Region, SupportContest<Leader>>()
             {
                 {
                     Region.East, new SupportContest<Leader>()
                     {
-                        Amount = 2, Leader = Leader.Kennedy
+                        Amount = 2,
+                        Leader = Leader.Kennedy
                     }
                 },
                 {
                     Region.Midwest, new SupportContest<Leader>()
                     {
-                        Amount = 7, Leader = Leader.Kennedy
+                        Amount = 7,
+                        Leader = Leader.Kennedy
                     }
                 },
                 {
                     Region.South, new SupportContest<Leader>()
                     {
-                        Amount = 2, Leader = Leader.Nixon
+                        Amount = 2,
+                        Leader = Leader.Nixon
                     }
                 },
                 {
                     Region.West, new SupportContest<Leader>()
                     {
-                        Amount = 0, Leader = Leader.None
+                        Amount = 0,
+                        Leader = Leader.None
                     }
                 }
             },
@@ -90,292 +102,410 @@ public static class ExampleFixtures
                 {
                     Region.East, new SupportContest<Leader>()
                     {
-                        Amount = 0, Leader = Leader.None
+                        Amount = 0,
+                        Leader = Leader.None
                     }
                 },
                 {
                     Region.Midwest, new SupportContest<Leader>()
                     {
-                        Amount = 3, Leader = Leader.Nixon
+                        Amount = 3,
+                        Leader = Leader.Nixon
                     }
                 },
                 {
                     Region.South, new SupportContest<Leader>()
                     {
-                        Amount = 5, Leader = Leader.Nixon
+                        Amount = 5,
+                        Leader = Leader.Nixon
                     }
                 },
                 {
                     Region.West, new SupportContest<Leader>()
                     {
-                        Amount = 1, Leader = Leader.Kennedy
+                        Amount = 1,
+                        Leader = Leader.Kennedy
                     }
                 }
             },
             PlayerLocations = new Dictionary<Player, State>()
             {
-                { Player.Kennedy, State.RI },
-                { Player.Nixon, State.OR },
+                {
+                    Player.Kennedy, State.RI
+                },
+                {
+                    Player.Nixon, State.OR
+                },
             },
             PlayerStatuses = new Dictionary<Player, Status>()
             {
-                { Player.Kennedy, Status.Exhausted },
-                { Player.Nixon,  Status.Exhausted },
+                {
+                    Player.Kennedy, Status.Exhausted
+                },
+                {
+                    Player.Nixon, Status.Exhausted
+                },
             },
             StateContests = new Dictionary<State, SupportContest<Leader>>()
             {
-                { State.AK, new SupportContest<Leader>()
+                {
+                    State.AK, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Kennedy, Amount = 1
+                        Leader = Leader.Kennedy,
+                        Amount = 1
                     }
                 },
-                { State.AL, new SupportContest<Leader>()
+                {
+                    State.AL, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Kennedy, Amount = 1
+                        Leader = Leader.Kennedy,
+                        Amount = 1
                     }
                 },
-                { State.AR, new SupportContest<Leader>()
+                {
+                    State.AR, new SupportContest<Leader>()
                     {
-                        Leader = Leader.None, Amount = 0
+                        Leader = Leader.None,
+                        Amount = 0
                     }
                 },
-                { State.AZ, new SupportContest<Leader>()
+                {
+                    State.AZ, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Nixon, Amount = 3
+                        Leader = Leader.Nixon,
+                        Amount = 3
                     }
                 },
-                { State.CA, new SupportContest<Leader>()
+                {
+                    State.CA, new SupportContest<Leader>()
                     {
-                        Leader = Leader.None, Amount = 0
+                        Leader = Leader.None,
+                        Amount = 0
                     }
                 },
-                { State.CO, new SupportContest<Leader>()
+                {
+                    State.CO, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Kennedy, Amount = 3
+                        Leader = Leader.Kennedy,
+                        Amount = 3
                     }
                 },
-                { State.CT, new SupportContest<Leader>()
+                {
+                    State.CT, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Nixon, Amount = 4
+                        Leader = Leader.Nixon,
+                        Amount = 4
                     }
                 },
-                { State.DE, new SupportContest<Leader>()
+                {
+                    State.DE, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Kennedy, Amount = 1
+                        Leader = Leader.Kennedy,
+                        Amount = 1
                     }
                 },
-                { State.FL, new SupportContest<Leader>()
+                {
+                    State.FL, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Kennedy, Amount = 1
+                        Leader = Leader.Kennedy,
+                        Amount = 1
                     }
                 },
-                { State.GA, new SupportContest<Leader>()
+                {
+                    State.GA, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Kennedy, Amount = 1
+                        Leader = Leader.Kennedy,
+                        Amount = 1
                     }
                 },
-                { State.HI, new SupportContest<Leader>()
+                {
+                    State.HI, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Kennedy, Amount = 1
+                        Leader = Leader.Kennedy,
+                        Amount = 1
                     }
                 },
-                { State.IA, new SupportContest<Leader>()
+                {
+                    State.IA, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Kennedy, Amount = 1
+                        Leader = Leader.Kennedy,
+                        Amount = 1
                     }
                 },
-                { State.ID, new SupportContest<Leader>()
+                {
+                    State.ID, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Kennedy, Amount = 1
+                        Leader = Leader.Kennedy,
+                        Amount = 1
                     }
                 },
-                { State.IL, new SupportContest<Leader>()
+                {
+                    State.IL, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Kennedy, Amount = 1
+                        Leader = Leader.Kennedy,
+                        Amount = 1
                     }
                 },
-                { State.IN, new SupportContest<Leader>()
+                {
+                    State.IN, new SupportContest<Leader>()
                     {
-                        Leader = Leader.None, Amount = 0
+                        Leader = Leader.None,
+                        Amount = 0
                     }
                 },
-                { State.KS, new SupportContest<Leader>()
+                {
+                    State.KS, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Nixon, Amount = 3
+                        Leader = Leader.Nixon,
+                        Amount = 3
                     }
                 },
-                { State.KY, new SupportContest<Leader>()
+                {
+                    State.KY, new SupportContest<Leader>()
                     {
-                        Leader = Leader.None, Amount = 0
+                        Leader = Leader.None,
+                        Amount = 0
                     }
                 },
-                { State.LA, new SupportContest<Leader>()
+                {
+                    State.LA, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Kennedy, Amount = 3
+                        Leader = Leader.Kennedy,
+                        Amount = 3
                     }
                 },
-                { State.MA, new SupportContest<Leader>()
+                {
+                    State.MA, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Nixon, Amount = 4
+                        Leader = Leader.Nixon,
+                        Amount = 4
                     }
                 },
-                { State.MD, new SupportContest<Leader>()
+                {
+                    State.MD, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Kennedy, Amount = 1
+                        Leader = Leader.Kennedy,
+                        Amount = 1
                     }
                 },
-                { State.ME, new SupportContest<Leader>()
+                {
+                    State.ME, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Kennedy, Amount = 1
+                        Leader = Leader.Kennedy,
+                        Amount = 1
                     }
                 },
-                { State.MI, new SupportContest<Leader>()
+                {
+                    State.MI, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Kennedy, Amount = 1
+                        Leader = Leader.Kennedy,
+                        Amount = 1
                     }
                 },
-                { State.MN, new SupportContest<Leader>()
+                {
+                    State.MN, new SupportContest<Leader>()
                     {
-                        Leader = Leader.None, Amount = 0
+                        Leader = Leader.None,
+                        Amount = 0
                     }
                 },
-                { State.MO, new SupportContest<Leader>()
+                {
+                    State.MO, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Nixon, Amount = 3
+                        Leader = Leader.Nixon,
+                        Amount = 3
                     }
                 },
-                { State.MS, new SupportContest<Leader>()
+                {
+                    State.MS, new SupportContest<Leader>()
                     {
-                        Leader = Leader.None, Amount = 0
+                        Leader = Leader.None,
+                        Amount = 0
                     }
                 },
-                { State.MT, new SupportContest<Leader>()
+                {
+                    State.MT, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Kennedy, Amount = 3
+                        Leader = Leader.Kennedy,
+                        Amount = 3
                     }
                 },
-                { State.NC, new SupportContest<Leader>()
+                {
+                    State.NC, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Nixon, Amount = 4
+                        Leader = Leader.Nixon,
+                        Amount = 4
                     }
                 },
-                { State.ND, new SupportContest<Leader>()
+                {
+                    State.ND, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Kennedy, Amount = 1
+                        Leader = Leader.Kennedy,
+                        Amount = 1
                     }
                 },
-                { State.NE, new SupportContest<Leader>()
+                {
+                    State.NE, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Kennedy, Amount = 1
+                        Leader = Leader.Kennedy,
+                        Amount = 1
                     }
                 },
-                { State.NH, new SupportContest<Leader>()
+                {
+                    State.NH, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Kennedy, Amount = 1
+                        Leader = Leader.Kennedy,
+                        Amount = 1
                     }
                 },
-                { State.NJ, new SupportContest<Leader>()
+                {
+                    State.NJ, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Kennedy, Amount = 1
+                        Leader = Leader.Kennedy,
+                        Amount = 1
                     }
                 },
-                { State.NM, new SupportContest<Leader>()
+                {
+                    State.NM, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Kennedy, Amount = 1
+                        Leader = Leader.Kennedy,
+                        Amount = 1
                     }
                 },
-                { State.NV, new SupportContest<Leader>()
+                {
+                    State.NV, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Kennedy, Amount = 1
+                        Leader = Leader.Kennedy,
+                        Amount = 1
                     }
                 },
-                { State.NY, new SupportContest<Leader>()
+                {
+                    State.NY, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Kennedy, Amount = 1
+                        Leader = Leader.Kennedy,
+                        Amount = 1
                     }
                 },
-                { State.OH, new SupportContest<Leader>()
+                {
+                    State.OH, new SupportContest<Leader>()
                     {
-                        Leader = Leader.None, Amount = 0
+                        Leader = Leader.None,
+                        Amount = 0
                     }
                 },
-                { State.OK, new SupportContest<Leader>()
+                {
+                    State.OK, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Nixon, Amount = 3
+                        Leader = Leader.Nixon,
+                        Amount = 3
                     }
                 },
-                { State.OR, new SupportContest<Leader>()
+                {
+                    State.OR, new SupportContest<Leader>()
                     {
-                        Leader = Leader.None, Amount = 0
+                        Leader = Leader.None,
+                        Amount = 0
                     }
                 },
-                { State.PA, new SupportContest<Leader>()
+                {
+                    State.PA, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Kennedy, Amount = 3
+                        Leader = Leader.Kennedy,
+                        Amount = 3
                     }
                 },
-                { State.RI, new SupportContest<Leader>()
+                {
+                    State.RI, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Nixon, Amount = 4
+                        Leader = Leader.Nixon,
+                        Amount = 4
                     }
                 },
-                { State.SC, new SupportContest<Leader>()
+                {
+                    State.SC, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Kennedy, Amount = 1
+                        Leader = Leader.Kennedy,
+                        Amount = 1
                     }
                 },
-                { State.SD, new SupportContest<Leader>()
+                {
+                    State.SD, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Kennedy, Amount = 1
+                        Leader = Leader.Kennedy,
+                        Amount = 1
                     }
                 },
-                { State.TN, new SupportContest<Leader>()
+                {
+                    State.TN, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Kennedy, Amount = 1
+                        Leader = Leader.Kennedy,
+                        Amount = 1
                     }
                 },
-                { State.TX, new SupportContest<Leader>()
+                {
+                    State.TX, new SupportContest<Leader>()
                     {
-                        Leader = Leader.None, Amount = 0
+                        Leader = Leader.None,
+                        Amount = 0
                     }
                 },
-                { State.UT, new SupportContest<Leader>()
+                {
+                    State.UT, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Nixon, Amount = 3
+                        Leader = Leader.Nixon,
+                        Amount = 3
                     }
                 },
-                { State.VA, new SupportContest<Leader>()
+                {
+                    State.VA, new SupportContest<Leader>()
                     {
-                        Leader = Leader.None, Amount = 0
+                        Leader = Leader.None,
+                        Amount = 0
                     }
                 },
-                { State.VT, new SupportContest<Leader>()
+                {
+                    State.VT, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Kennedy, Amount = 3
+                        Leader = Leader.Kennedy,
+                        Amount = 3
                     }
                 },
-                { State.WA, new SupportContest<Leader>()
+                {
+                    State.WA, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Nixon, Amount = 4
+                        Leader = Leader.Nixon,
+                        Amount = 4
                     }
                 },
-                { State.WI, new SupportContest<Leader>()
+                {
+                    State.WI, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Kennedy, Amount = 1
+                        Leader = Leader.Kennedy,
+                        Amount = 1
                     }
                 },
-                { State.WV, new SupportContest<Leader>()
+                {
+                    State.WV, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Kennedy, Amount = 1
+                        Leader = Leader.Kennedy,
+                        Amount = 1
                     }
                 },
-                { State.WY, new SupportContest<Leader>()
+                {
+                    State.WY, new SupportContest<Leader>()
                     {
-                        Leader = Leader.Kennedy, Amount = 1
+                        Leader = Leader.Kennedy,
+                        Amount = 1
                     }
                 },
             },
+            NumberOfCardsInPlayerHands = new Dictionary<Player, int>()
+            {
+                { Player.Kennedy, 2 },
+                { Player.Nixon, 15 },
+            },
         };
+        
 
 
     }

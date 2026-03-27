@@ -80,7 +80,7 @@ public interface ICardZoneEngine
     public void MoveCardFromOneZoneToAnother(Player player, Card cardToMove, CardZone source, CardZone destination);
 
     public void ReturnCardFromDiscardPileToPlayerHandIfAvailable(Player player, Card cardToRecover);
-    
+
 }
 
 public interface IPoliticalCapitalEngine

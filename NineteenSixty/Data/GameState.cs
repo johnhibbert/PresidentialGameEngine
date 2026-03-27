@@ -22,4 +22,6 @@ public record GameState
     public required IDictionary<Player, State> PlayerLocations { get; init; }
 
     public required IDictionary<Player, Status> PlayerStatuses { get; init; }
+    
+    public required IDictionary<Player, int> NumberOfCardsInPlayerHands { get; init; }
 }

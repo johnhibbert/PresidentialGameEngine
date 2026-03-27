@@ -50,7 +50,7 @@ public static class DrawToConsole
     {
         Console.WriteLine(Border);
         Console.WriteLine(DrawPlayerStatusAndLocation(gameState));
-        Console.WriteLine(DrawMomentumAndRest(gameState));
+        Console.WriteLine(DrawMomentumRestAndCardCount(gameState));
         Console.WriteLine(Border);
         Console.WriteLine(DrawIssueInfo(gameState));
         Console.WriteLine(Border);
@@ -73,13 +73,15 @@ public static class DrawToConsole
         return line;
     }
 
-    private static string DrawMomentumAndRest(GameState gameState)
+    private static string DrawMomentumRestAndCardCount(GameState gameState)
     {
         var line = $"| Momentum: {gameState.Momentum[Player.Kennedy],-2}";
-        line += $"            Rest: {gameState.RestCubes[Player.Kennedy],-2} ";
+        line += $" Rest: {gameState.RestCubes[Player.Kennedy],-2} ";
+        line += $" Cards: {gameState.NumberOfCardsInPlayerHands[Player.Kennedy],-2} ";
         line += $"| Momentum: {gameState.Momentum[Player.Nixon],-2}";
-         line += $"            Rest: {gameState.RestCubes[Player.Nixon],-2} ";
-         line += "| ";
+        line += $" Rest: {gameState.NumberOfCardsInPlayerHands[Player.Nixon],-2} ";
+        line += $" Cards: {gameState.NumberOfCardsInPlayerHands[Player.Nixon],-2} ";
+        line += "| ";
         return line;
     }
 

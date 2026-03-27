@@ -22,6 +22,8 @@ internal class Program
 
         ClearScreen();
         
+        DrawToConsole.DrawGameState(controller.GetGameState());
+        
         /*
         var gameTime = controller.GetGameTime();
         DrawToConsole.DrawGameTime(gameTime);
