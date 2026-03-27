@@ -425,6 +425,29 @@ public class ControllerTests
         Assert.AreEqual(player.ToLeader(), result.Leader);
     }
     
+    [TestMethod]
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
+    [ExpectedException(typeof(InvalidPlayerChoices))]
+    public void PlayCardAsEvent_InvalidChangesThrowException(Player player)
+    {
+        var engine = EngineFixtures.GetGameEngine();
+        
+        var playerChoices = new SetOfChanges();
+        var invalidSupportInTennessee = new SupportChange<Player, State>(player, State.TN, 1);
+        playerChoices.StateChanges.Add(invalidSupportInTennessee);
+
+        var plan = new ActionPlan()
+        {
+            Engine = engine,
+            Changes = playerChoices,
+        };
+        
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+
+        sut.PlayCardAsEvent(ExampleCard, plan, player);
+    }
+    
     #endregion
 
 }
