@@ -408,16 +408,10 @@ public class ControllerTests
         var playerChoices = new SetOfChanges();
         var oneSupportInKentucky = new SupportChange<Player, State>(player, State.KY, 1);
         playerChoices.StateChanges.Add(oneSupportInKentucky);
-
-        var plan = new ActionPlan()
-        {
-            Engine = engine,
-            Changes = playerChoices,
-        };
         
         var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
 
-        sut.PlayCardAsEvent(ExampleCard, plan, player);
+        sut.PlayCardAsEvent(ExampleCard, playerChoices, player);
 
         var result = sut.GetGameState().StateContests[State.KY];
         
@@ -445,7 +439,7 @@ public class ControllerTests
         
         var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
 
-        sut.PlayCardAsEvent(ExampleCard, plan, player);
+        sut.PlayCardAsEvent(ExampleCard, playerChoices, player);
     }
     
     #endregion

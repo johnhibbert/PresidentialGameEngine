@@ -22,9 +22,17 @@ internal class Program
 
         ClearScreen();
         
+        /*
         var gameTime = controller.GetGameTime();
         DrawToConsole.DrawGameTime(gameTime);
-
+*/
+        
+        /* THIS CODE WORKS.
+        DrawToConsole.DrawGameState(controller.GetGameState());
+        controller.PlayCardAsEvent(Manifest.GMTCards[5], new SetOfChanges(), Player.Kennedy);
+        DrawToConsole.DrawGameState(controller.GetGameState());
+        */
+        
         var chosenAction = GetActionFromPlayer();
 
         switch (chosenAction)

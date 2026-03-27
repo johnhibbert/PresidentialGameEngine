@@ -11,7 +11,7 @@ public interface IController
     void SetUpBoard();
     InitiativeCheckResult ConductInitiativeCheck();
 
-    void PlayCardAsEvent(Card card, ActionPlan plan, Player player);
+    void PlayCardAsEvent(Card card, SetOfChanges changes, Player player);
 
     void SetFirstPlayerForActivityPhase(Player player);
 

@@ -104,8 +104,14 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
         };
     }
 
-    public void PlayCardAsEvent(Card card, ActionPlan plan, Player player)
+    public void PlayCardAsEvent(Card card, SetOfChanges changes, Player player)
     {
+        ActionPlan plan = new ActionPlan()
+        {
+            Engine = _engine,
+            Changes = changes,
+        };
+        
         if(!card.AreChangesValid(plan))
         {
             throw new InvalidPlayerChoices($"The selected choices are invalid for this card: {card.Index} {card.Title}.");
