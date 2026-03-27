@@ -1,6 +1,7 @@
 using System.Reflection;
 using NineteenSixty.Data;
 using NineteenSixty.Enums;
+using NineteenSixty.Exceptions;
 using NineteenSixty.Interfaces;
 using PresidentialGameEngine.ClassLibrary.Data;
 using Card = NineteenSixty.Data.Card;
@@ -87,9 +88,14 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
         };
     }
 
-    public void PlayCardAsEvent(Player player, Card card)
+    public void PlayCardAsEvent(Card card, ActionPlan plan, Player player)
     {
-        throw new NotImplementedException();
+        if(!card.AreChangesValid(plan))
+        {
+            throw new InvalidPlayerChoices($"The selected choices are invalid for this card: {card.Index} {card.Title}.");
+        }
+        
+        card.Event(plan, player);
     }
 }
 

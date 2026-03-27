@@ -2,10 +2,12 @@ using NSubstitute;
 using NineteenSixty;
 using NineteenSixty.Data;
 using NineteenSixty.Enums;
+using NineteenSixty.Exceptions;
 using NineteenSixty.Interfaces;
 using NineteenSixty.Tests.Fixtures;
 using NSubstitute.ReturnsExtensions;
 using PresidentialGameEngine.ClassLibrary.Data;
+using Card = NineteenSixty.Data.Card;
 
 namespace NineteenSixty.Tests;
 
@@ -112,6 +114,43 @@ public class ControllerTests
         return expectedGameState;
     }
 
+    private static Card ExampleCard => GetExampleCard();
+
+    private static Card GetExampleCard()
+    {
+        var exampleCard = new Card()
+        {
+            Index = 1,
+            Title = "Example Card",
+            Text = "Example Card Tests.",
+            CampaignPoints = 2,
+            EventType = EventType.None,
+            Issue = Issue.Defense,
+            Affiliation = Affiliation.Both,
+            State = State.OR,
+            Event = (plan, player) =>
+            {
+                var engine = plan.Engine;
+                var choices = plan.Changes;
+
+                engine.ImplementChanges(choices);
+            },
+            RequiresPlayerInput = false,
+            AreChangesValid = (plan) =>
+            {
+                var engine = plan.Engine;
+                var choices = plan.Changes;
+
+                State[] validStates = [State.KY];
+                var onlyValidStates = choices.StateChanges.Select(s => s.Target).All(x => validStates.Contains(x));
+            
+                return onlyValidStates;
+            },
+        };
+        
+        return  exampleCard;
+    }
+    
     #endregion
 
     #region GetGameState Tests
@@ -354,6 +393,37 @@ public class ControllerTests
         Assert.AreEqual(2, result.CubesDrawn[Player.Nixon]);
     }
     
+    
+    #endregion
+    
+    #region PlayCardAsEvent
+    
+    [TestMethod]
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
+    public void PlayCardAsEvent_ValidChangesAreImplemented(Player player)
+    {
+        var engine = EngineFixtures.GetGameEngine();
+        
+        var playerChoices = new SetOfChanges();
+        var oneSupportInKentucky = new SupportChange<Player, State>(player, State.KY, 1);
+        playerChoices.StateChanges.Add(oneSupportInKentucky);
+
+        var plan = new ActionPlan()
+        {
+            Engine = engine,
+            Changes = playerChoices,
+        };
+        
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+
+        sut.PlayCardAsEvent(ExampleCard, plan, player);
+
+        var result = sut.GetGameState().StateContests[State.KY];
+        
+        Assert.AreEqual(1, result.Amount);
+        Assert.AreEqual(player.ToLeader(), result.Leader);
+    }
     
     #endregion
 
