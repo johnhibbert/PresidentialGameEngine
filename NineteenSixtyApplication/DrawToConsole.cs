@@ -14,6 +14,15 @@ public static class DrawToConsole
 {
     private static string Border = " ---------------------------------------------------------------------- ";
 
+    public static void DrawIntroMessage()
+    {
+        Console.WriteLine("Welcome to the 1960 application.");
+        Console.WriteLine("----");
+        Console.WriteLine("Press Enter to Begin");
+        Console.ReadLine();
+        Console.Clear();
+    }
+    
     public static void DrawGameTime(GameTime gameTime, bool drawBottomLine = true)
     {
         Console.WriteLine(Border);
