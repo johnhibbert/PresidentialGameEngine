@@ -26,8 +26,9 @@ public class ExperienceCounts_93_Tests
         engine.GainSupport(Player.Kennedy, Issue.Defense, 2);
         engine.GainSupport(Player.Kennedy, Issue.Economy, 1);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(engine.GetPlayerMomentum(Player.Nixon), 3);
     }
@@ -43,8 +44,9 @@ public class ExperienceCounts_93_Tests
         engine.GainSupport(Player.Kennedy, Issue.Defense, 2);
         engine.GainSupport(Player.Kennedy, Issue.Economy, 1);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(2, engine.GetSupportAmount(Issue.CivilRights));
         Assert.AreEqual(1, engine.GetSupportAmount(Issue.Defense));
@@ -60,8 +62,9 @@ public class ExperienceCounts_93_Tests
 
         engine.LoseSupport(Player.Kennedy, Issue.Economy, int.MaxValue);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(0, engine.GetSupportAmount(Issue.Economy));
         Assert.AreEqual(Leader.None, engine.GetLeader(Issue.Economy));
@@ -77,8 +80,9 @@ public class ExperienceCounts_93_Tests
         engine.GainSupport(Player.Kennedy, Issue.CivilRights, 3);
         engine.GainSupport(Player.Nixon, Issue.Defense, 2);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(2, engine.GetSupportAmount(Issue.CivilRights));
         Assert.AreEqual(2, engine.GetSupportAmount(Issue.Defense));
@@ -90,7 +94,8 @@ public class ExperienceCounts_93_Tests
     {
         var sut = Manifest.GMTCards[CardIndex];
 
-        var result = sut.AreChangesValid(EngineFixtures.InvalidChanges);
+        var plan = new ActionPlan{Engine = null,  Changes = EngineFixtures.InvalidChanges};
+        var result = sut.AreChangesValid(plan);
 
         Assert.IsTrue(result);
     }

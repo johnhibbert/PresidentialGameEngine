@@ -13,11 +13,6 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
 
     public GameEdition GameEdition { get; init; } = gameEdition;
     
-    public void PlayCard(Card card)
-    {
-        
-    }
-
     private Phase _currentPhase = Phase.Setup;
 
     
@@ -90,6 +85,11 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
             CubesDrawn = cubesDrawn,
             PlayerWithInitiative = playerWithInitiative,
         };
+    }
+
+    public void PlayCardAsEvent(Player player, Card card)
+    {
+        throw new NotImplementedException();
     }
 }
 

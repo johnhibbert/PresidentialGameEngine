@@ -21,8 +21,9 @@ public class TrialOfGaryPowers_62_Tests
 
         engine.SetIssueOrder([Issue.CivilRights, Issue.Economy, Issue.Defense]);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(Issue.Defense, engine.GetGameState().IssueOrder[0]);
     }
@@ -35,9 +36,10 @@ public class TrialOfGaryPowers_62_Tests
         var engine = EngineFixtures.GetGameEngine();
 
         engine.SetIssueOrder([Issue.Defense, Issue.Economy, Issue.CivilRights]);
-
+        
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(Issue.Defense, engine.GetGameState().IssueOrder[0]);
     }
@@ -50,9 +52,10 @@ public class TrialOfGaryPowers_62_Tests
         var engine = EngineFixtures.GetGameEngine();
 
         engine.GainSupport(player, Issue.Defense, 1);
-
+		
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(1, engine.GetPlayerMomentum(player));
     }
@@ -63,9 +66,10 @@ public class TrialOfGaryPowers_62_Tests
     public void TheTrialOfGaryPowers_62_NoLeaderNoMomentumChange(Player player)
     {
         var engine = EngineFixtures.GetGameEngine();
-
+		
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(0, engine.GetPlayerMomentum(Player.Kennedy));
         Assert.AreEqual(0, engine.GetPlayerMomentum(Player.Nixon));
@@ -76,7 +80,8 @@ public class TrialOfGaryPowers_62_Tests
     {
         var sut = Manifest.GMTCards[CardIndex];
 
-        var result = sut.AreChangesValid(EngineFixtures.InvalidChanges);
+        var plan = new ActionPlan{Engine = null,  Changes = EngineFixtures.InvalidChanges};
+        var result = sut.AreChangesValid(plan);
 
         Assert.IsTrue(result);
     }

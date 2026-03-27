@@ -31,9 +31,9 @@ public class SouthernRevolt_72_Tests
         playerChoices.StateChanges.Add(twoSupportInLouisiana);
         playerChoices.StateChanges.Add(oneSupportInTexas);
 
+        var plan = new ActionPlan{Engine = engine, Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-
-        sut.Event(engine, player, playerChoices);
+        sut.Event(plan, player);
 
         Assert.AreEqual(1, engine.GetSupportAmount(State.FL));
         Assert.AreEqual(1, engine.GetSupportAmount(State.VA));
@@ -60,9 +60,9 @@ public class SouthernRevolt_72_Tests
         playerChoices.StateChanges.Add(twoSupportInLouisiana);
         playerChoices.StateChanges.Add(oneSupportInTexas);
 
+        var plan = new ActionPlan{Engine = engine, Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-
-        sut.Event(engine, player, playerChoices);
+        sut.Event(plan, player);
 
         Assert.AreEqual(0, engine.GetSupportAmount(State.FL));
         Assert.AreEqual(0, engine.GetSupportAmount(State.VA));
@@ -88,9 +88,9 @@ public class SouthernRevolt_72_Tests
         playerChoices.StateChanges.Add(twoSupportInLouisiana);
         playerChoices.StateChanges.Add(oneSupportInTexas);
 
+        var plan = new ActionPlan{Engine = engine, Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-
-        sut.Event(engine, player, playerChoices);
+        sut.Event(plan, player);
 
         Assert.AreEqual(0, engine.GetSupportAmount(State.FL));
         Assert.AreEqual(0, engine.GetSupportAmount(State.VA));
@@ -112,8 +112,9 @@ public class SouthernRevolt_72_Tests
         playerChoices.StateChanges.Add(twoSupportInLouisiana);
         playerChoices.StateChanges.Add(oneSupportInTexas);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsTrue(result);
     }
 
@@ -131,8 +132,9 @@ public class SouthernRevolt_72_Tests
         playerChoices.StateChanges.Add(twoSupportInLouisiana);
         playerChoices.StateChanges.Add(oneSupportInTexas);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsTrue(result);
     }
 
@@ -150,8 +152,9 @@ public class SouthernRevolt_72_Tests
         playerChoices.StateChanges.Add(twoSupportInLouisiana);
         playerChoices.StateChanges.Add(oneSupportInTexas);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -171,8 +174,9 @@ public class SouthernRevolt_72_Tests
         playerChoices.StateChanges.Add(oneSupportInTexas);
         playerChoices.IssueChanges.Add(issueSupport);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);;
         Assert.IsFalse(result);
     }
 
@@ -188,8 +192,9 @@ public class SouthernRevolt_72_Tests
         playerChoices.StateChanges.Add(oneSupportInVirginia);
         playerChoices.StateChanges.Add(threeSupportInLouisiana);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -207,8 +212,9 @@ public class SouthernRevolt_72_Tests
         playerChoices.StateChanges.Add(twoSupportInLouisiana);
         playerChoices.StateChanges.Add(oneSupportInRhodeIsland);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 }

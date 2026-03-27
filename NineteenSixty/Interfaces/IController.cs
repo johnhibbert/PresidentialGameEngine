@@ -9,4 +9,8 @@ public interface IController
     GameState GetGameState();
     void SetUpBoard();
     InitiativeCheckResult ConductInitiativeCheck();
+    
+    void PlayCardAsEvent(Player player, Card card);
+    
+    
 }

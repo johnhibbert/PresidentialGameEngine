@@ -31,9 +31,9 @@ public class LunchCounterSitIns_37_Tests
         playerChoices.StateChanges.Add(oneSupportInFlorida);
         playerChoices.StateChanges.Add(oneSupportInVermont);
 
+        var plan = new ActionPlan{Engine = engine, Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-
-        sut.Event(engine, player, playerChoices);
+        sut.Event(plan, player);
 
         Assert.AreEqual(Issue.CivilRights, engine.GetGameState().IssueOrder[1]);
 
@@ -57,9 +57,9 @@ public class LunchCounterSitIns_37_Tests
         playerChoices.StateChanges.Add(oneSupportInFlorida);
         playerChoices.StateChanges.Add(oneSupportInVermont);
 
+        var plan = new ActionPlan{Engine = engine, Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-
-        sut.Event(engine, player, playerChoices);
+        sut.Event(plan, player);
 
         Assert.AreEqual(1, engine.GetSupportAmount(State.HI));
         Assert.AreEqual(1, engine.GetSupportAmount(State.FL));
@@ -84,8 +84,9 @@ public class LunchCounterSitIns_37_Tests
         playerChoices.StateChanges.Add(oneSupportInFlorida);
         playerChoices.StateChanges.Add(oneSupportInVermont);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -109,8 +110,9 @@ public class LunchCounterSitIns_37_Tests
         var issueSupport = new SupportChange<Player, Issue>(player, Issue.Defense, 1);
         playerChoices.IssueChanges.Add(issueSupport);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -125,8 +127,9 @@ public class LunchCounterSitIns_37_Tests
         playerChoices.StateChanges.Add(oneSupportInHawaii);
         playerChoices.StateChanges.Add(twoSupportInFlorida);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -145,8 +148,9 @@ public class LunchCounterSitIns_37_Tests
         playerChoices.StateChanges.Add(oneSupportInVermont);
         playerChoices.StateChanges.Add(oneSupportInMissouri);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -164,8 +168,9 @@ public class LunchCounterSitIns_37_Tests
         playerChoices.StateChanges.Add(oneSupportInFlorida);
         playerChoices.StateChanges.Add(invalidSupportLoss);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 }

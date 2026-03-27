@@ -29,8 +29,9 @@ public class Herblock_80_Tests
         playerChoices.MediaSupportChanges.Add(oneMediaSupportLostInSouth);
         playerChoices.MediaSupportChanges.Add(oneMediaSupportLostInWest);
 
+        var plan = new ActionPlan{Engine = engine, Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, playerChoices);
+        sut.Event(plan, player);
 
         Assert.AreEqual(1, engine.GetGameState().MediaSupportLevels[Region.South].Amount);
         Assert.AreEqual(0, engine.GetGameState().MediaSupportLevels[Region.West].Amount);
@@ -44,8 +45,9 @@ public class Herblock_80_Tests
 
         playerChoices.MediaSupportChanges.Add(invalidMediaSupportInExcessOfTwo);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -59,8 +61,9 @@ public class Herblock_80_Tests
         playerChoices.MediaSupportChanges.Add(oneMediaSupportLostInSouth);
         playerChoices.MediaSupportChanges.Add(invalidMediaSupportLossForKennedy);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -72,8 +75,9 @@ public class Herblock_80_Tests
 
         playerChoices.MediaSupportChanges.Add(invalidMediaSupportGainForKennedy);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -85,8 +89,9 @@ public class Herblock_80_Tests
 
         playerChoices.StateChanges.Add(invalidStateSupportGain);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -98,8 +103,9 @@ public class Herblock_80_Tests
 
         playerChoices.IssueChanges.Add(invalidIssueSupportGain);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 

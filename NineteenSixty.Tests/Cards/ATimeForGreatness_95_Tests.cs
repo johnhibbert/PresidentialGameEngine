@@ -33,9 +33,11 @@ public class ATimeForGreatness_95_Tests
         playerChoices.StateChanges.Add(oneSupportInColorado);
         playerChoices.StateChanges.Add(oneSupportInWestVirginia);
 
+        var plan = new ActionPlan{Engine = engine, Changes = playerChoices};
+        
         var sut = Manifest.GMTCards[CardIndex];
 
-        sut.Event(engine, player, playerChoices);
+        sut.Event(plan, player);
         Assert.AreEqual(Leader.None, engine.GetLeader(Issue.CivilRights));
         Assert.AreEqual(Leader.Nixon, engine.GetLeader(Issue.Defense));
         Assert.AreEqual(Leader.Nixon, engine.GetLeader(Issue.Economy));
@@ -65,9 +67,11 @@ public class ATimeForGreatness_95_Tests
         playerChoices.StateChanges.Add(oneSupportInColorado);
         playerChoices.StateChanges.Add(oneSupportInWestVirginia);
 
+        var plan = new ActionPlan{Engine = engine, Changes = playerChoices};
+        
         var sut = Manifest.GMTCards[CardIndex];
 
-        sut.Event(engine, player, playerChoices);
+        sut.Event(plan, player);
 
         Assert.AreEqual(Leader.Kennedy, engine.GetLeader(State.NY));
         Assert.AreEqual(Leader.Kennedy, engine.GetLeader(State.CO));
@@ -92,8 +96,9 @@ public class ATimeForGreatness_95_Tests
         playerChoices.StateChanges.Add(oneSupportInColorado);
         playerChoices.StateChanges.Add(oneSupportInWestVirginia);
 
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -114,8 +119,9 @@ public class ATimeForGreatness_95_Tests
         var issueSupport = new SupportChange<Player, Issue>(player, Issue.Defense, 1);
         playerChoices.IssueChanges.Add(issueSupport);
 
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -131,8 +137,9 @@ public class ATimeForGreatness_95_Tests
         playerChoices.StateChanges.Add(oneSupportInNewYork);
         playerChoices.StateChanges.Add(twoSupportInColorado);
 
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -151,8 +158,9 @@ public class ATimeForGreatness_95_Tests
         playerChoices.StateChanges.Add(oneSupportInVermont);
         playerChoices.StateChanges.Add(oneSupportInMissouri);
 
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 

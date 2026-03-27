@@ -36,9 +36,11 @@ public class DwightEisenhower_18_Tests
         playerChoices.StateChanges.Add(oneSupportInRhodeIsland);
         playerChoices.StateChanges.Add(oneSupportInAlaska);
 
+        var plan = new ActionPlan{Engine = engine, Changes = playerChoices};
+        
         var sut = Manifest.GMTCards[CardIndex];
 
-        sut.Event(engine, player, playerChoices);
+        sut.Event(plan, player);
 
         Assert.AreEqual(1, engine.GetSupportAmount(State.WY));
         Assert.AreEqual(1, engine.GetSupportAmount(State.WA));
@@ -69,8 +71,10 @@ public class DwightEisenhower_18_Tests
         playerChoices.StateChanges.Add(oneSupportInRhodeIsland);
         playerChoices.StateChanges.Add(invalidSupportGainForKennedy);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
+        
         Assert.IsFalse(result);
     }
 
@@ -94,8 +98,10 @@ public class DwightEisenhower_18_Tests
         playerChoices.StateChanges.Add(oneSupportInRhodeIsland);
         playerChoices.IssueChanges.Add(invalidIssueSupport);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
+        
         Assert.IsFalse(result);
     }
 
@@ -117,8 +123,10 @@ public class DwightEisenhower_18_Tests
         playerChoices.StateChanges.Add(oneSupportInRhodeIsland);
         playerChoices.StateChanges.Add(invalidStateSupportGreaterThanOne);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
+        
         Assert.IsFalse(result);
     }
 
@@ -144,8 +152,10 @@ public class DwightEisenhower_18_Tests
         playerChoices.StateChanges.Add(oneSupportInHawaii);
         playerChoices.StateChanges.Add(invalidSupportLoss);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
+        
         Assert.IsFalse(result);
     }
 

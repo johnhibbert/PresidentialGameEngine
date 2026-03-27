@@ -19,8 +19,9 @@ public class HurricaneDonna_52_Tests
     {
         var engine = EngineFixtures.GetGameEngine();
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(State.FL, engine.GetPlayerState(player));
     }
@@ -34,8 +35,9 @@ public class HurricaneDonna_52_Tests
         
         engine.GainMomentum(player, 2);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(3, engine.GetPlayerMomentum(player));
     }
@@ -47,8 +49,9 @@ public class HurricaneDonna_52_Tests
     {
         var engine = EngineFixtures.GetGameEngine();
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(1, engine.GetSupportAmount(State.FL));
     }
@@ -61,8 +64,9 @@ public class HurricaneDonna_52_Tests
         var engine = EngineFixtures.GetGameEngine();
         engine.MovePlayerToState(player, State.FL);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(State.FL, engine.GetPlayerState(player));
         Assert.AreEqual(1, engine.GetSupportAmount(State.FL));
@@ -74,7 +78,8 @@ public class HurricaneDonna_52_Tests
     {
         var sut = Manifest.GMTCards[CardIndex];
 
-        var result = sut.AreChangesValid(EngineFixtures.InvalidChanges);
+        var plan = new ActionPlan{Engine = null,  Changes = EngineFixtures.InvalidChanges};
+        var result = sut.AreChangesValid(plan);
 
         Assert.IsTrue(result);
     }

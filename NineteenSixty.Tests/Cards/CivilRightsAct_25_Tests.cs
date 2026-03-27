@@ -21,8 +21,11 @@ public class CivilRightsAct_25_Tests
 
         engine.SetIssueOrder([Issue.Economy, Issue.Defense, Issue.CivilRights]);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
+        
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+
+        sut.Event(plan, player);
 
         Assert.AreEqual(Issue.CivilRights, engine.GetGameState().IssueOrder[1]);
     }
@@ -36,8 +39,11 @@ public class CivilRightsAct_25_Tests
 
         engine.SetIssueOrder([Issue.CivilRights, Issue.Defense, Issue.Economy]);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
+        
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+
+        sut.Event(plan, player);
 
         Assert.AreEqual(Issue.CivilRights, engine.GetGameState().IssueOrder[0]);
     }
@@ -52,8 +58,11 @@ public class CivilRightsAct_25_Tests
         engine.SetIssueOrder([Issue.Economy, Issue.Defense, Issue.CivilRights]);
         engine.GainSupport(Player.Nixon, Issue.CivilRights, 1);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
+        
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+
+        sut.Event(plan, player);
 
         Assert.AreEqual(2, engine.GetSupportAmount(Issue.CivilRights));
         Assert.AreEqual(Leader.Nixon, engine.GetLeader(Issue.CivilRights));
@@ -69,8 +78,11 @@ public class CivilRightsAct_25_Tests
         engine.SetIssueOrder([Issue.Economy, Issue.Defense, Issue.CivilRights]);
         engine.GainSupport(Player.Kennedy, Issue.CivilRights, 2);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
+        
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+
+        sut.Event(plan, player);
 
         Assert.AreEqual(1, engine.GetSupportAmount(Issue.CivilRights));
         Assert.AreEqual(Leader.Kennedy, engine.GetLeader(Issue.CivilRights));
@@ -81,7 +93,8 @@ public class CivilRightsAct_25_Tests
     {
         var sut = Manifest.GMTCards[CardIndex];
 
-        var result = sut.AreChangesValid(EngineFixtures.InvalidChanges);
+        var plan = new ActionPlan{Engine = null,  Changes = EngineFixtures.InvalidChanges};
+        var result = sut.AreChangesValid(plan);
 
         Assert.IsTrue(result);
     }

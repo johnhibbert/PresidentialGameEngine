@@ -24,8 +24,9 @@ public class HenryLuce_36_Tests
 
         playerChoices.EndorsementChanges.Add(oneRegionalSupportInWest);
 
+        var plan = new ActionPlan{Engine = engine, Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, playerChoices);
+        sut.Event(plan, player);
 
         Assert.AreEqual(Leader.Kennedy, engine.GetEndorsementLeader(Region.West));
 
@@ -45,8 +46,9 @@ public class HenryLuce_36_Tests
         playerChoices.EndorsementChanges.Add(oneRegionalSupportInWest);
         playerChoices.EndorsementChanges.Add(oneRegionalSupportTooMany);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -57,8 +59,9 @@ public class HenryLuce_36_Tests
         var nixonEndorsement = new SupportChange<Player, Region>(Player.Nixon, Region.West, 1);
         playerChoices.EndorsementChanges.Add(nixonEndorsement);
         
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -72,8 +75,9 @@ public class HenryLuce_36_Tests
         playerChoices.EndorsementChanges.Add(oneRegionalSupportInWest);
         playerChoices.IssueChanges.Add(anInvalidIssueSupportGain);
         
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -87,8 +91,9 @@ public class HenryLuce_36_Tests
         playerChoices.EndorsementChanges.Add(oneRegionalSupportInWest);
         playerChoices.StateChanges.Add(anInvalidSateSupportGain);
         
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -99,8 +104,9 @@ public class HenryLuce_36_Tests
         var invalidEndorsementLoss = new SupportChange<Player, Region>(Player.Kennedy, Region.East, -1);
         playerChoices.EndorsementChanges.Add(invalidEndorsementLoss);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
     

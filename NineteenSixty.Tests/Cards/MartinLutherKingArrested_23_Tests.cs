@@ -21,8 +21,9 @@ public class MartinLutherKingArrested_23_Tests
 
         engine.SetIssueOrder([Issue.Economy, Issue.Defense, Issue.CivilRights]);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(Issue.CivilRights, engine.GetGameState().IssueOrder[1]);
     }
@@ -36,8 +37,9 @@ public class MartinLutherKingArrested_23_Tests
 
         engine.SetIssueOrder([Issue.CivilRights, Issue.Defense, Issue.Economy]);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(Issue.CivilRights, engine.GetGameState().IssueOrder[0]);
     }
@@ -52,8 +54,9 @@ public class MartinLutherKingArrested_23_Tests
         engine.SetIssueOrder([Issue.Economy, Issue.Defense, Issue.CivilRights]);
         engine.GainSupport(player, Issue.CivilRights, 1);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(4, engine.GetSupportAmount(Issue.CivilRights));
         Assert.AreEqual(player.ToLeader(), engine.GetLeader(Issue.CivilRights));
@@ -69,8 +72,9 @@ public class MartinLutherKingArrested_23_Tests
         engine.SetIssueOrder([Issue.Economy, Issue.Defense, Issue.CivilRights]);
         engine.GainSupport(player.ToOpponent(), Issue.CivilRights, 2);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(1, engine.GetSupportAmount(Issue.CivilRights));
         Assert.AreEqual(player.ToLeader(), engine.GetLeader(Issue.CivilRights));
@@ -81,7 +85,8 @@ public class MartinLutherKingArrested_23_Tests
     {
         var sut = Manifest.GMTCards[CardIndex];
 
-        var result = sut.AreChangesValid(EngineFixtures.InvalidChanges);
+        var plan = new ActionPlan{Engine = null,  Changes = EngineFixtures.InvalidChanges};
+        var result = sut.AreChangesValid(plan);
 
         Assert.IsTrue(result);
     }

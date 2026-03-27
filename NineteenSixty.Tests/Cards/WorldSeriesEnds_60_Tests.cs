@@ -31,8 +31,9 @@ public class WorldSeriesEnds_60_Tests
         playerChoices.StateChanges.Add(twoSupportInNewYork);
         playerChoices.StateChanges.Add(oneSupportInPenn);
 
+        var plan = new ActionPlan{Engine = engine, Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, playerChoices);
+        sut.Event(plan, player);
 
         Assert.AreEqual(1, engine.GetSupportAmount(State.RI));
         Assert.AreEqual(1, engine.GetSupportAmount(State.WV));
@@ -58,8 +59,9 @@ public class WorldSeriesEnds_60_Tests
         playerChoices.StateChanges.Add(twoSupportInNewYork);
         playerChoices.StateChanges.Add(oneSupportInPenn);
 
+        var plan = new ActionPlan{Engine = engine, Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, playerChoices);
+        sut.Event(plan, player);
 
         Assert.AreEqual(0, engine.GetSupportAmount(State.RI));
         Assert.AreEqual(0, engine.GetSupportAmount(State.WV));
@@ -88,8 +90,9 @@ public class WorldSeriesEnds_60_Tests
         playerChoices.StateChanges.Add(twoSupportInNewYork);
         playerChoices.StateChanges.Add(oneSupportInPenn);
 
+        var plan = new ActionPlan{Engine = engine, Changes = playerChoices};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, playerChoices);
+        sut.Event(plan, player);
 
         Assert.AreEqual(0, engine.GetSupportAmount(State.RI));
         Assert.AreEqual(0, engine.GetSupportAmount(State.WV));
@@ -113,8 +116,9 @@ public class WorldSeriesEnds_60_Tests
         playerChoices.StateChanges.Add(twoSupportInNewYork);
         playerChoices.StateChanges.Add(invalidStateOutsideOfEast);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -136,8 +140,9 @@ public class WorldSeriesEnds_60_Tests
         playerChoices.StateChanges.Add(oneSupportInPenn);
         playerChoices.MediaSupportChanges.Add(invalidMediaSupportChange);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 
@@ -159,8 +164,9 @@ public class WorldSeriesEnds_60_Tests
         playerChoices.StateChanges.Add(oneSupportInPenn);
         playerChoices.IssueChanges.Add(invalidIssueSupportChange);
 
-        var sut = Manifest.GMTCards[CardIndex];
-        var result = sut.AreChangesValid(playerChoices);
+        var plan = new ActionPlan{Engine = null, Changes = playerChoices};
+        var sut = Manifest.GMTCards[CardIndex]; 
+        var result = sut.AreChangesValid(plan);
         Assert.IsFalse(result);
     }
 

@@ -19,8 +19,9 @@ public class Volunteers_5_Tests
 
         var playerStartingMomentum = engine.GetPlayerMomentum(player);
         
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(playerStartingMomentum + 1, engine.GetPlayerMomentum(player));
     }
@@ -34,9 +35,9 @@ public class Volunteers_5_Tests
 
         var opponentStartingMomentum = engine.GetPlayerMomentum(player.ToOpponent());
         
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
-
+        sut.Event(plan, player);
         Assert.AreEqual(opponentStartingMomentum, engine.GetPlayerMomentum(player.ToOpponent()));
     }
 
@@ -45,7 +46,8 @@ public class Volunteers_5_Tests
     {
         var sut = Manifest.GMTCards[CardIndex];
 
-        var result = sut.AreChangesValid(EngineFixtures.InvalidChanges);
+        var plan = new ActionPlan{Engine = null,  Changes = EngineFixtures.InvalidChanges};
+        var result = sut.AreChangesValid(plan);
 
         Assert.IsTrue(result);
     }

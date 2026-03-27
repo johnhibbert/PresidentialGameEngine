@@ -18,9 +18,9 @@ public class MissileGap_51_Tests
     {
         var engine = EngineFixtures.GetGameEngine();
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(Leader.Kennedy, engine.GetLeader(Issue.Defense));
         Assert.AreEqual(3, engine.GetSupportAmount(Issue.Defense));
@@ -35,9 +35,9 @@ public class MissileGap_51_Tests
 
 
         engine.GainSupport(Player.Nixon, Issue.Defense, 2);
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);
 
         Assert.AreEqual(Leader.Kennedy, engine.GetLeader(Issue.Defense));
         Assert.AreEqual(1, engine.GetSupportAmount(Issue.Defense));
@@ -52,8 +52,9 @@ public class MissileGap_51_Tests
 
         engine.GainSupport(Player.Nixon, Issue.Defense, 3);
 
+        var plan = new ActionPlan{Engine = engine,  Changes = EngineFixtures.EmptyChanges};
         var sut = Manifest.GMTCards[CardIndex];
-        sut.Event(engine, player, EngineFixtures.EmptyChanges);
+        sut.Event(plan, player);;
 
         Assert.AreEqual(Leader.None, engine.GetLeader(Issue.Defense));
         Assert.AreEqual(0, engine.GetSupportAmount(Issue.Defense));
@@ -64,7 +65,8 @@ public class MissileGap_51_Tests
     {
         var sut = Manifest.GMTCards[CardIndex];
 
-        var result = sut.AreChangesValid(EngineFixtures.InvalidChanges);
+        var plan = new ActionPlan{Engine = null,  Changes = EngineFixtures.InvalidChanges};
+        var result = sut.AreChangesValid(plan);
 
         Assert.IsTrue(result);
     }
