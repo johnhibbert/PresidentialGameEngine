@@ -252,7 +252,13 @@ public class Engine(
                 CardZone.DiscardPile, CardZone.Hand);
         }
     }
-    
+
+    public void DrawCards(Player player, int numberToDraw)
+    {
+        var cards = CardZoneComponent.TakeCardsFromZone(CardZone.Deck, player, numberToDraw);
+        AddCardsToZone(cards, CardZone.Hand, player);
+    }
+
     public Player DrawCubeFromPoliticalCapitalBag()
     {
         return PoliticalCapitalComponent.DrawCube();
