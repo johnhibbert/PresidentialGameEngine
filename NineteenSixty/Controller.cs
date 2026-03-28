@@ -70,6 +70,8 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
                 _engine.AddCardsToZone(Manifest.GMTCards.Values, CardZone.Deck, Player.Kennedy);
                 break;
         }
+        
+        _engine.ShufflePublicZone(CardZone.Deck);
 
 
         TurnNumber++;

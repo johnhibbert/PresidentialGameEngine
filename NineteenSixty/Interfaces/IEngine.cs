@@ -82,6 +82,8 @@ public interface ICardZoneEngine
     public void ReturnCardFromDiscardPileToPlayerHandIfAvailable(Player player, Card cardToRecover);
     
     public void DrawCards(Player player, int numberToDraw);
+    
+    public void ShufflePublicZone(CardZone zone);
 }
 
 public interface IPoliticalCapitalEngine

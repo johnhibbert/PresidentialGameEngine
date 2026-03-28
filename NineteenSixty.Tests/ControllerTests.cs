@@ -601,9 +601,9 @@ public class ControllerTests
         var result = sut.GetCardsInHand(player).ToList();
         
         //Hardcoded for now, this will break when the manifest changes.
-        Assert.AreEqual(Manifest.GMTCards[1], result[0]);
-        Assert.AreEqual(Manifest.GMTCards[3], result[1]);
-        Assert.AreEqual(Manifest.GMTCards[5], result[2]);
+        Assert.AreEqual(Manifest.GMTCards[96], result[0]);
+        Assert.AreEqual(Manifest.GMTCards[1], result[1]);
+        Assert.AreEqual(Manifest.GMTCards[45], result[2]);
     }
     
     #endregion

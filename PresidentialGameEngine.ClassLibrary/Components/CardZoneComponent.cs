@@ -10,14 +10,18 @@ public class CardZoneComponent<TZone, TPlayer, TCard>
     where TPlayer : Enum
 {
 
+    private readonly IRandomnessProvider _rng;
+    
     private readonly HashSet<TZone> _privateZones;
     
     private IDictionary<TZone, List<TCard>> CardsInPublicZones { get; set; }
     
     private IDictionary<TPlayer, IDictionary<TZone, List<TCard>>> CardsInPrivateZones { get; set; }
     
-    public CardZoneComponent(HashSet<TZone> privateZones)
+    public CardZoneComponent(HashSet<TZone> privateZones, IRandomnessProvider rng)
     {
+        _rng = rng;
+        
         var allZones = (TZone[])Enum.GetValues(typeof(TZone));
         var allPrivateZones = allZones.Where(x => privateZones.Contains(x)).ToList();
         var allPublicZones = allZones.Where(x => !privateZones.Contains(x)).ToList();
@@ -111,5 +115,10 @@ public class CardZoneComponent<TZone, TPlayer, TCard>
             CardsInPublicZones[zone] = CardsInPublicZones[zone].Except(cards).ToList();
         }
         return cards;
+    }
+
+    public void RandomizeOrderOfCardsInPublicZone(TZone zone)
+    {
+        CardsInPublicZones[zone] = CardsInPublicZones[zone].OrderBy(x => _rng.GetRandomNumber(int.MaxValue)).ToList();
     }
 }
