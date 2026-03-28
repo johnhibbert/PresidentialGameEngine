@@ -259,6 +259,12 @@ public class Engine(
         AddCardsToZone(cards, CardZone.Hand, player);
     }
 
+    public void ShufflePublicZone(CardZone zone)
+    {
+        //TODO: Add a throw if zone not public?
+        CardZoneComponent.RandomizeOrderOfCardsInPublicZone(zone);
+    }
+
     public Player DrawCubeFromPoliticalCapitalBag()
     {
         return PoliticalCapitalComponent.DrawCube();
