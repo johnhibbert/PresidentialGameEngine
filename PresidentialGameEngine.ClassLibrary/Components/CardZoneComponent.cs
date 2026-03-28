@@ -119,8 +119,6 @@ public class CardZoneComponent<TZone, TPlayer, TCard>
 
     public void RandomizeOrderOfCardsInPublicZone(TZone zone)
     {
-        //CardsInPublicZones[zone].OrderBy(x => Guid.NewGuid());
-        
-        throw new NotImplementedException();
+        CardsInPublicZones[zone] = CardsInPublicZones[zone].OrderBy(x => _rng.GetRandomNumber(int.MaxValue)).ToList();
     }
 }

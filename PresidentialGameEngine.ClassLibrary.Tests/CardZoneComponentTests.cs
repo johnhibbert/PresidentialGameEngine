@@ -259,5 +259,79 @@ public class CardZoneComponentTests
     }
     
     #endregion
+
+    #region RandomizeOrderOfCardsInPublicZone Tests
+    [DataRow(FakeCardZone.Time)]
+    [DataRow(FakeCardZone.Danger)]
+    [TestMethod]
+
+    public void RandomizeOrderOfCardsInPublicZone_NonRandomizedRemainInOrder(FakeCardZone zone)
+    {
+        var privateZones = new HashSet<FakeCardZone>()
+        {
+            FakeCardZone.Phantom,
+        };
+        
+        var player = FakePlayer.PlayerOne;
+        
+        var listOfFakeCards = new List<FakeCardClass>()
+        {
+            new () { Index = 1 },
+            new () { Index = 2 },
+            new () { Index = 3 },
+            new () { Index = 4 },
+            new () { Index = 5 },
+        };
+        
+        var sut = new CardZoneComponent<FakeCardZone, FakePlayer, FakeCardClass>(privateZones, GetSeededRandomnessProvider());
+        
+        sut.AddCardsToZone(listOfFakeCards, zone, player);
+     
+        var result = sut.TakeCardsFromZone(zone, player, 5).ToList();
+        
+        Assert.IsTrue(result.Any(x => x.Index == 1));
+        Assert.IsTrue(result.Any(x => x.Index == 2));
+        Assert.IsTrue(result.Any(x => x.Index == 3));
+        Assert.IsTrue(result.Any(x => x.Index == 4));
+        Assert.IsTrue(result.Any(x => x.Index == 5));
+    }
+
+    [DataRow(FakeCardZone.Time)]
+    [DataRow(FakeCardZone.Danger)]
+    [TestMethod]
+    public void RandomizeOrderOfCardsInPublicZone_RandomizedOrderIsChanged(FakeCardZone zone)
+    {
+        var privateZones = new HashSet<FakeCardZone>()
+        {
+            FakeCardZone.Phantom,
+        };
+        
+        var player = FakePlayer.PlayerOne;
+        
+        var listOfFakeCards = new List<FakeCardClass>()
+        {
+            new () { Index = 1 },
+            new () { Index = 2 },
+            new () { Index = 3 },
+            new () { Index = 4 },
+            new () { Index = 5 },
+        };
+        
+        var sut = new CardZoneComponent<FakeCardZone, FakePlayer, FakeCardClass>(privateZones, GetSeededRandomnessProvider());
+        
+        sut.AddCardsToZone(listOfFakeCards, zone, player);
+
+        sut.RandomizeOrderOfCardsInPublicZone(zone);
+        
+        var result = sut.TakeCardsFromZone(zone, player, 5).ToList();
+        
+        Assert.IsTrue(result.Any(x => x.Index == 1));
+        Assert.IsTrue(result.Any(x => x.Index == 5));
+        Assert.IsTrue(result.Any(x => x.Index == 4));
+        Assert.IsTrue(result.Any(x => x.Index == 2));
+        Assert.IsTrue(result.Any(x => x.Index == 3));
+    }
+    
+    #endregion
     
 }
