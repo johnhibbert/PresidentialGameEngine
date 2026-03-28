@@ -29,7 +29,7 @@ internal class Program
         
         ClearScreen();
         
-        DrawToConsole.DrawGameState(controller.GetGameState());
+        DisplayToConsole.DisplayGameState(controller.GetGameState());
         
         /*
         var gameTime = controller.GetGameTime();
@@ -64,7 +64,7 @@ internal class Program
     
     static void ShowIntroMessage()
     {
-        DrawToConsole.DrawIntroMessage();
+        DisplayToConsole.DisplayIntroMessage();
     }
     
     static void DoInitialSetup()
@@ -98,7 +98,7 @@ internal class Program
 
         
         
-        DrawToConsole.DrawPlayerHand(Player.Kennedy, new List<Card>());
+        DisplayToConsole.DisplayPlayerHand(Player.Kennedy, new List<Card>());
     }
     
     

@@ -10,11 +10,11 @@ using Card = NineteenSixty.Data.Card;
 
 namespace NineteenSixtyApplication;
 
-public static class DrawToConsole
+public static class DisplayToConsole
 {
     private static string Border = " ---------------------------------------------------------------------- ";
 
-    public static void DrawIntroMessage()
+    public static void DisplayIntroMessage()
     {
         Console.WriteLine("Welcome to the 1960 application.");
         Console.WriteLine("----");
@@ -23,7 +23,7 @@ public static class DrawToConsole
         Console.Clear();
     }
     
-    public static string DrawPlayerHand(Player player, List<Card> cards)
+    public static string DisplayPlayerHand(Player player, List<Card> cards)
     {
         //FIX ME
         var line = $"{player} drew: ";
@@ -32,7 +32,7 @@ public static class DrawToConsole
         return line;
     }
     
-    public static void DrawGameTime(GameTime gameTime, bool drawBottomLine = true)
+    public static void DisplayGameTime(GameTime gameTime, bool drawBottomLine = true)
     {
         Console.WriteLine(Border);
         
@@ -55,23 +55,23 @@ public static class DrawToConsole
         
     }
     
-    public static void DrawGameState(GameState gameState)
+    public static void DisplayGameState(GameState gameState)
     {
         Console.WriteLine(Border);
-        Console.WriteLine(DrawPlayerStatusAndLocation(gameState));
-        Console.WriteLine(DrawMomentumRestAndCardCount(gameState));
+        Console.WriteLine(DisplayPlayerStatusAndLocation(gameState));
+        Console.WriteLine(DisplayMomentumRestAndCardCount(gameState));
         Console.WriteLine(Border);
-        Console.WriteLine(DrawIssueInfo(gameState));
+        Console.WriteLine(DisplayIssueInfo(gameState));
         Console.WriteLine(Border);
-        Console.WriteLine(DrawMediaSupportAndEndorsements(gameState));
+        Console.WriteLine(DisplayMediaSupportAndEndorsements(gameState));
         Console.WriteLine(Border);
-        Console.WriteLine(DrawStateContests(gameState));
+        Console.WriteLine(DisplayStateContests(gameState));
         Console.WriteLine(Border);
     }
 
     
     
-    private static string DrawPlayerStatusAndLocation(GameState gameState)
+    private static string DisplayPlayerStatusAndLocation(GameState gameState)
     {
         var line = "| Kennedy: ";
         line+= gameState.PlayerStatuses[Player.Kennedy] == Status.Exhausted ? "Exhausted  " : "Ready      ";
@@ -84,7 +84,7 @@ public static class DrawToConsole
         return line;
     }
 
-    private static string DrawMomentumRestAndCardCount(GameState gameState)
+    private static string DisplayMomentumRestAndCardCount(GameState gameState)
     {
         var line = $"| Momentum: {gameState.Momentum[Player.Kennedy],-2}";
         line += $" Rest: {gameState.RestCubes[Player.Kennedy],-2} ";
@@ -96,7 +96,7 @@ public static class DrawToConsole
         return line;
     }
 
-    private static string DrawIssueInfo(GameState gameState)
+    private static string DisplayIssueInfo(GameState gameState)
     {
         var defense = "Defense      "; //13
         var civilRights = "Civil Rights "; //13
@@ -128,23 +128,23 @@ public static class DrawToConsole
         return line;
     }
 
-    private static string DrawMediaSupportAndEndorsements(GameState gameState)
+    private static string DisplayMediaSupportAndEndorsements(GameState gameState)
     {
         var endorsements = gameState.Endorsements;
         var mediaSupport = gameState.MediaSupportLevels;
         
-        var mediaString = $"| Media Support | Kennedy: {DrawRegionalContests(mediaSupport,  Leader.Kennedy)}";
-        mediaString += $" | Nixon: {DrawRegionalContests(mediaSupport,  Leader.Nixon)}";
+        var mediaString = $"| Media Support | Kennedy: {DisplayRegionalContests(mediaSupport,  Leader.Kennedy)}";
+        mediaString += $" | Nixon: {DisplayRegionalContests(mediaSupport,  Leader.Nixon)}";
         mediaString = mediaString.PadRight(70) + "|";
         
-        var endorsementString = $"| Endorsements  | Kennedy: {DrawRegionalContests(endorsements,  Leader.Kennedy)}";
-        endorsementString += $"| Nixon: {DrawRegionalContests(endorsements,  Leader.Nixon)}";
+        var endorsementString = $"| Endorsements  | Kennedy: {DisplayRegionalContests(endorsements,  Leader.Kennedy)}";
+        endorsementString += $"| Nixon: {DisplayRegionalContests(endorsements,  Leader.Nixon)}";
         endorsementString = endorsementString.PadRight(70) + "|"; 
         
         return mediaString + Environment.NewLine + endorsementString;
     }
 
-    private static string DrawRegionalContests(IDictionary<Region, SupportContest<Leader>> contests, Leader leader)
+    private static string DisplayRegionalContests(IDictionary<Region, SupportContest<Leader>> contests, Leader leader)
     {
         var returnValue = string.Empty;
         
@@ -170,7 +170,7 @@ public static class DrawToConsole
         return returnValue;
     }
 
-    private static string DrawStateContests(GameState gameState)
+    private static string DisplayStateContests(GameState gameState)
     {
         string returnValue =  string.Empty;
         returnValue += "| States: ";
