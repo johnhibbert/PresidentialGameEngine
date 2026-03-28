@@ -94,11 +94,12 @@ internal class Program
     static void DrawHands()
     {
         controller.DrawCards(Player.Kennedy, 6);
+        var kennedyCards = controller.GetCardsInHand(Player.Kennedy);
+        DisplayToConsole.DisplayPlayerHand(Player.Kennedy, kennedyCards, false);
+        
         controller.DrawCards(Player.Nixon, 6);
-
-        
-        
-        DisplayToConsole.DisplayPlayerHand(Player.Kennedy, new List<Card>());
+        var nixonCards = controller.GetCardsInHand(Player.Nixon);
+        DisplayToConsole.DisplayPlayerHand(Player.Nixon, nixonCards);
     }
     
     

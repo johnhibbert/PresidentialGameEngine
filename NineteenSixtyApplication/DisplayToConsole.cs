@@ -12,7 +12,7 @@ namespace NineteenSixtyApplication;
 
 public static class DisplayToConsole
 {
-    private static string Border = " ---------------------------------------------------------------------- ";
+    private static string Border = " --------------------------------------------------------------------- ";
 
     public static void DisplayIntroMessage()
     {
@@ -23,13 +23,39 @@ public static class DisplayToConsole
         Console.Clear();
     }
     
-    public static string DisplayPlayerHand(Player player, List<Card> cards)
+    public static void DisplayPlayerHand(Player player, IEnumerable<Card> cards, bool drawBottomLine = true)
     {
-        //FIX ME
-        var line = $"{player} drew: ";
-        line += string.Join(", ", cards.ToString());
+        Console.WriteLine(Border);
         
-        return line;
+        List<string> lines = [];
+
+        var line = $"| {player} drew: ";
+        foreach (var card in cards)
+        {
+            var asString = card.ToString();
+            if ($"{line} {asString}".Length < 70)
+            {
+                line += $" {asString}";
+            }
+            else
+            {
+                line = line.PadRight(69) + "|";
+                lines.Add(line);
+                line = $"| {asString}";
+            }
+            
+        }
+        lines.Add(line.PadRight(69) + "|");
+
+        foreach (var s in lines)
+        {
+            Console.WriteLine(s);
+        }
+        
+        if (drawBottomLine)
+        {
+            Console.WriteLine(Border);
+        }
     }
     
     public static void DisplayGameTime(GameTime gameTime, bool drawBottomLine = true)
