@@ -23,7 +23,7 @@ public static class EngineFixtures
         var mediaSupportComponent = new SupportComponent<Player, Leader, Region>();
         var exhaustionComponent = new PlayerStatusComponent<Player, Status>();
         var cardZoneComponent = new CardZoneComponent<CardZone, Player, Data.Card>
-            ([CardZone.Hand, CardZone.CampaignStrategy]);
+            ([CardZone.Hand, CardZone.CampaignStrategy], seed);
         //var cardComponent = new CardComponent<Player, Card>(seed, Manifest.GMTCards);
         //var staticDataComponent = new StaticDataComponent<State, Player, Region>(Manifest.StateData);
 

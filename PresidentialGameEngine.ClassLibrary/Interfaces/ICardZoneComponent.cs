@@ -13,5 +13,7 @@ public interface ICardZoneComponent<TZone, TPlayer, TCard>
         TZone source, TZone destination);
     
     public IEnumerable<TCard> TakeCardsFromZone(TZone zone, TPlayer player, int amountToTake);
-    
+
+    public void RandomizeOrderOfCardsInPublicZone(TZone zone);
+
 }

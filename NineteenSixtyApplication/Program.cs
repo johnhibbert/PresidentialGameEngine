@@ -258,7 +258,7 @@ internal class Program
         var mediaSupportComponent = new SupportComponent<Player, Leader, Region>();
         var exhaustionComponent = new PlayerStatusComponent<Player, Status>();
         var cardZoneComponent = new CardZoneComponent<CardZone, Player, Card>
-            ([CardZone.Hand, CardZone.CampaignStrategy]);
+            ([CardZone.Hand, CardZone.CampaignStrategy], randomnessProvider);
 
         return new Engine(momentumComponent, issueSupportComponent, stateSupportComponent, issuePositioningComponent,
             politicalCapitalComponent, playerLocationComponent, restComponent, endorsementComponent,

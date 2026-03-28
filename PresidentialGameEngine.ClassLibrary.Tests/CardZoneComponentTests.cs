@@ -18,7 +18,7 @@ public class CardZoneComponentTests
             FakeCardZone.Phantom,
         };
 
-        var sut = new CardZoneComponent<FakeCardZone, FakePlayer, FakeCardClass>(privateZones);
+        var sut = new CardZoneComponent<FakeCardZone, FakePlayer, FakeCardClass>(privateZones, GetSeededRandomnessProvider());
 
         Assert.AreEqual(0, sut.GetCardsInZone(FakeCardZone.Time, FakePlayer.PlayerOne).Count());
         Assert.AreEqual(0, sut.GetCardsInZone(FakeCardZone.Danger, FakePlayer.PlayerOne).Count());
@@ -45,7 +45,7 @@ public class CardZoneComponentTests
         var zone = FakeCardZone.Danger;
         var card = new FakeCardClass();
         
-        var sut = new CardZoneComponent<FakeCardZone, FakePlayer, FakeCardClass>(privateZones);
+        var sut = new CardZoneComponent<FakeCardZone, FakePlayer, FakeCardClass>(privateZones, GetSeededRandomnessProvider());
         
         sut.AddCardsToZone([card], zone, player);
 
@@ -66,7 +66,7 @@ public class CardZoneComponentTests
         var zone = FakeCardZone.Phantom;
         var card = new FakeCardClass();
         
-        var sut = new CardZoneComponent<FakeCardZone, FakePlayer, FakeCardClass>(privateZones);
+        var sut = new CardZoneComponent<FakeCardZone, FakePlayer, FakeCardClass>(privateZones, GetSeededRandomnessProvider());
         
         sut.AddCardsToZone([card], zone, player);
 
@@ -92,7 +92,7 @@ public class CardZoneComponentTests
         var zone = FakeCardZone.Phantom;
         var card = new FakeCardClass();
 
-        var sut = new CardZoneComponent<FakeCardZone, FakePlayer, FakeCardClass>(privateZones);
+        var sut = new CardZoneComponent<FakeCardZone, FakePlayer, FakeCardClass>(privateZones, GetSeededRandomnessProvider());
         
         sut.AddCardsToZone([card], zone, player);
 
@@ -122,7 +122,7 @@ public class CardZoneComponentTests
         var player = FakePlayer.PlayerTwo;
         var card = new FakeCardClass();
         
-        var sut = new CardZoneComponent<FakeCardZone, FakePlayer, FakeCardClass>(privateZones);
+        var sut = new CardZoneComponent<FakeCardZone, FakePlayer, FakeCardClass>(privateZones, GetSeededRandomnessProvider());
         
         sut.AddCardsToZone([card], sourceZone, player);
 
@@ -150,7 +150,7 @@ public class CardZoneComponentTests
         var player = FakePlayer.PlayerTwo;
         var card = new FakeCardClass();
         
-        var sut = new CardZoneComponent<FakeCardZone, FakePlayer, FakeCardClass>(privateZones);
+        var sut = new CardZoneComponent<FakeCardZone, FakePlayer, FakeCardClass>(privateZones, GetSeededRandomnessProvider());
         
         sut.AddCardsToZone([card], sourceZone, player);
 
@@ -176,7 +176,7 @@ public class CardZoneComponentTests
         var destinationZone = FakeCardZone.Phantom;
         var card = new FakeCardClass();
         
-        var sut = new CardZoneComponent<FakeCardZone, FakePlayer, FakeCardClass>(privateZones);
+        var sut = new CardZoneComponent<FakeCardZone, FakePlayer, FakeCardClass>(privateZones, GetSeededRandomnessProvider());
         
         sut.AddCardsToZone([card], sourceZone, player);
 
@@ -211,7 +211,7 @@ public class CardZoneComponentTests
             new () { Index = 5 },
         };
         
-        var sut = new CardZoneComponent<FakeCardZone, FakePlayer, FakeCardClass>(privateZones);
+        var sut = new CardZoneComponent<FakeCardZone, FakePlayer, FakeCardClass>(privateZones, GetSeededRandomnessProvider());
         
         sut.AddCardsToZone(listOfFakeCards, sourceZone, player);
 
@@ -244,7 +244,7 @@ public class CardZoneComponentTests
             new () { Index = 5 },
         };
         
-        var sut = new CardZoneComponent<FakeCardZone, FakePlayer, FakeCardClass>(privateZones);
+        var sut = new CardZoneComponent<FakeCardZone, FakePlayer, FakeCardClass>(privateZones, GetSeededRandomnessProvider());
         
         sut.AddCardsToZone(listOfFakeCards, sourceZone, player);
 
