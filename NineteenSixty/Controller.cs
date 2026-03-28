@@ -71,6 +71,8 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
                 break;
         }
 
+
+        TurnNumber++;
         CurrentPhase =  Phase.Initiative;
     }
 
@@ -125,7 +127,6 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
     {
         ActionValidator.ThrowIfActionNotAllowed(CurrentPhase);
         
-        TurnNumber++;
         CurrentPhase = Phase.Activity;
         ActivityPhaseNumber = 1;
         FirstPlayer = player;

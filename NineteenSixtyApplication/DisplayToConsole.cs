@@ -23,13 +23,13 @@ public static class DisplayToConsole
         Console.Clear();
     }
     
-    public static void DisplayPlayerHand(Player player, IEnumerable<Card> cards, bool drawBottomLine = true)
+    public static void DisplayCardsForPlayer(Player player, IEnumerable<Card> cards, bool drawBottomLine = true)
     {
         Console.WriteLine(Border);
         
         List<string> lines = [];
 
-        var line = $"| {player} drew: ";
+        var line = $"| {player} cards: ";
         foreach (var card in cards)
         {
             var asString = card.ToString();
@@ -39,13 +39,13 @@ public static class DisplayToConsole
             }
             else
             {
-                line = line.PadRight(69) + "|";
+                line = line.PadRight(69) + " |";
                 lines.Add(line);
                 line = $"| {asString}";
             }
             
         }
-        lines.Add(line.PadRight(69) + "|");
+        lines.Add(line.PadRight(69) + " |");
 
         foreach (var s in lines)
         {

@@ -20,9 +20,13 @@ internal class Program
         
         DoInitialSetup();
         
+        
+        
         DrawHands();
-        
-        
+
+        ShowGameTime();
+
+        DisplayHands();
         
         DoInitativeCheck();
         
@@ -83,6 +87,11 @@ internal class Program
 
     }
 
+    static void ShowGameTime()
+    {
+        DisplayToConsole.DisplayGameTime(controller.GetGameTime(), false);
+    }
+    
     static void DoInitativeCheck()
     {
         var initiativeCheck = controller.ConductInitiativeCheck();
@@ -94,14 +103,18 @@ internal class Program
     static void DrawHands()
     {
         controller.DrawCards(Player.Kennedy, 6);
-        var kennedyCards = controller.GetCardsInHand(Player.Kennedy);
-        DisplayToConsole.DisplayPlayerHand(Player.Kennedy, kennedyCards, false);
-        
         controller.DrawCards(Player.Nixon, 6);
-        var nixonCards = controller.GetCardsInHand(Player.Nixon);
-        DisplayToConsole.DisplayPlayerHand(Player.Nixon, nixonCards);
     }
-    
+
+
+    static void DisplayHands()
+    {
+        var kennedyCards = controller.GetCardsInHand(Player.Kennedy);
+        DisplayToConsole.DisplayCardsForPlayer(Player.Kennedy, kennedyCards, false);
+
+        var nixonCards = controller.GetCardsInHand(Player.Nixon);
+        DisplayToConsole.DisplayCardsForPlayer(Player.Nixon, nixonCards);
+    }
     
     
     static Player GetFirstPlayerFromUser(InitiativeCheckResult initiativeCheck)
