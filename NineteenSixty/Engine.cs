@@ -52,6 +52,11 @@ public class Engine(
             MediaSupportLevels = MediaSupportComponent.GetRawData(),
             PlayerLocations = PlayerLocationComponent.GetRawData(),
             StateContests = StateSupportComponent.GetRawData(),
+            NumberOfCardsInPlayerHands = new Dictionary<Player, int>()
+            {
+                { Player.Kennedy, CardZoneComponent.GetCardsInZone(CardZone.Hand, Player.Kennedy).Count()},
+                { Player.Nixon, CardZoneComponent.GetCardsInZone(CardZone.Hand, Player.Nixon).Count()},
+            }
         };
     }
 
@@ -248,8 +253,17 @@ public class Engine(
         }
     }
 
+    public void DrawCards(Player player, int numberToDraw)
+    {
+        var cards = CardZoneComponent.TakeCardsFromZone(CardZone.Deck, player, numberToDraw);
+        AddCardsToZone(cards, CardZone.Hand, player);
+    }
+
     public Player DrawCubeFromPoliticalCapitalBag()
     {
         return PoliticalCapitalComponent.DrawCube();
     }
+    
+    
+    
 }

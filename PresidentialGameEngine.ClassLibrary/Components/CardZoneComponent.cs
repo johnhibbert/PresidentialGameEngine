@@ -95,4 +95,21 @@ public class CardZoneComponent<TZone, TPlayer, TCard>
             CardsInPublicZones[destination].Add(cardToMove);
         }
     }
+
+    public IEnumerable<TCard> TakeCardsFromZone(TZone zone, TPlayer player, int amountToTake)
+    {
+        var cards = new List<TCard>();
+        
+        if (_privateZones.Contains(zone))
+        {
+            cards.AddRange(CardsInPrivateZones[player][zone].Take(amountToTake));
+            CardsInPrivateZones[player][zone] = CardsInPrivateZones[player][zone].Except(cards).ToList();
+        }
+        else
+        {
+            cards.AddRange(CardsInPublicZones[zone].Take(amountToTake));
+            CardsInPublicZones[zone] = CardsInPublicZones[zone].Except(cards).ToList();
+        }
+        return cards;
+    }
 }

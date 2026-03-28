@@ -71,6 +71,8 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
                 break;
         }
 
+
+        TurnNumber++;
         CurrentPhase =  Phase.Initiative;
     }
 
@@ -125,13 +127,20 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
     {
         ActionValidator.ThrowIfActionNotAllowed(CurrentPhase);
         
-        TurnNumber++;
         CurrentPhase = Phase.Activity;
         ActivityPhaseNumber = 1;
         FirstPlayer = player;
         CurrentPlayer = player;
     }
-    
-    
+
+    public void DrawCards(Player player, int numberToDraw)
+    {
+        _engine.DrawCards(player, numberToDraw);
+    }
+
+    public IEnumerable<Card> GetCardsInHand(Player player)
+    {
+        return _engine.GetCardsInZone(CardZone.Hand, player);
+    }
 }
 

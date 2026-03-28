@@ -11,4 +11,7 @@ public interface ICardZoneComponent<TZone, TPlayer, TCard>
     
     void MoveCardFromOneZoneToAnother(TPlayer player, TCard cardToMove,
         TZone source, TZone destination);
+    
+    public IEnumerable<TCard> TakeCardsFromZone(TZone zone, TPlayer player, int amountToTake);
+    
 }

@@ -98,6 +98,12 @@ public class ControllerTests
             { Player.Nixon, Status.Ready },
         };
 
+        var numOfCardsInHand =  new Dictionary<Player, int>()
+        {
+            { Player.Kennedy, 2 },
+            { Player.Nixon, 15 },
+        };
+        
         var expectedGameState = new GameState()
         {
             Momentum = momentum,
@@ -109,6 +115,7 @@ public class ControllerTests
             MediaSupportLevels = mediaSupportLevels,
             PlayerLocations = playerLocations,
             PlayerStatuses = playerStatuses,
+            NumberOfCardsInPlayerHands = numOfCardsInHand,
         };
 
         return expectedGameState;
@@ -369,6 +376,22 @@ public class ControllerTests
         sut.SetUpBoard();
     }
     
+    [TestMethod]
+    public void SetUpBoard_PlayersGetStartingHands()
+    {
+        var engine = EngineFixtures.GetGameEngine();
+
+        //Making this variable instead of concrete because the number of cards implemented will change
+        var numberOfImplementedCards = Manifest.GMTCards.Count;
+        
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
+
+        var cardsInDeck = engine.GetCardsInZone(CardZone.Deck, Player.Kennedy);
+
+        Assert.AreEqual(numberOfImplementedCards, cardsInDeck.Count());
+    }
+    
     #endregion
 
     #region ConductInitiativeCheck
@@ -542,4 +565,47 @@ public class ControllerTests
     
     #endregion
 
+    #region DrawCards Tests
+    
+    [TestMethod]
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
+    public void DrawCards_CorrectNumberOfCardsAreDrawn(Player player)
+    {
+        
+        var engine = EngineFixtures.GetGameEngine();
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
+        sut.DrawCards(player, 3);
+        
+        var result = sut.GetGameState().NumberOfCardsInPlayerHands[player];
+        
+        Assert.AreEqual(3, result);
+    }
+    
+    #endregion
+    
+    #region GetCardsInHand Tests
+    
+    [TestMethod]
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
+    public void GetCardsInHand_CardsAreDrawn(Player player)
+    {
+        
+        var engine = EngineFixtures.GetGameEngine();
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
+        sut.DrawCards(player, 3);
+        
+        var result = sut.GetCardsInHand(player).ToList();
+        
+        //Hardcoded for now, this will break when the manifest changes.
+        Assert.AreEqual(Manifest.GMTCards[1], result[0]);
+        Assert.AreEqual(Manifest.GMTCards[3], result[1]);
+        Assert.AreEqual(Manifest.GMTCards[5], result[2]);
+    }
+    
+    #endregion
+    
 }

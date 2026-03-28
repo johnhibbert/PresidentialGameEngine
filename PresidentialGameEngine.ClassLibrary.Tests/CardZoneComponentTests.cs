@@ -187,4 +187,77 @@ public class CardZoneComponentTests
     #endregion
     
     
+    #region 
+    [TestMethod]
+    [DataRow(FakeCardZone.Phantom)]
+    [DataRow(FakeCardZone.Time)]
+    [DataRow(FakeCardZone.Danger)]
+
+    public void TakeCardsFromZone_CardsMoveBetweenZones(FakeCardZone sourceZone)
+    {
+        var privateZones = new HashSet<FakeCardZone>()
+        {
+            FakeCardZone.Phantom,
+        };
+        
+        var player = FakePlayer.PlayerTwo;
+        
+        var listOfFakeCards = new List<FakeCardClass>()
+        {
+            new () { Index = 1 },
+            new () { Index = 2 },
+            new () { Index = 3 },
+            new () { Index = 4 },
+            new () { Index = 5 },
+        };
+        
+        var sut = new CardZoneComponent<FakeCardZone, FakePlayer, FakeCardClass>(privateZones);
+        
+        sut.AddCardsToZone(listOfFakeCards, sourceZone, player);
+
+        var cardsTaken = sut.TakeCardsFromZone(sourceZone, player, 3);
+        var result = sut.GetCardsInZone(sourceZone, player);
+        
+        Assert.AreEqual(3, cardsTaken.Count());
+        Assert.AreEqual(2, result.Count());
+    }
+    
+    [TestMethod]
+    [DataRow(FakeCardZone.Phantom)]
+    [DataRow(FakeCardZone.Time)]
+    [DataRow(FakeCardZone.Danger)]
+    public void TakeCardsFromZone_MovedCardsAreOnesFromZone(FakeCardZone sourceZone)
+    {
+        var privateZones = new HashSet<FakeCardZone>()
+        {
+            FakeCardZone.Phantom,
+        };
+        
+        var player = FakePlayer.PlayerTwo;
+        
+        var listOfFakeCards = new List<FakeCardClass>()
+        {
+            new () { Index = 1 },
+            new () { Index = 2 },
+            new () { Index = 3 },
+            new () { Index = 4 },
+            new () { Index = 5 },
+        };
+        
+        var sut = new CardZoneComponent<FakeCardZone, FakePlayer, FakeCardClass>(privateZones);
+        
+        sut.AddCardsToZone(listOfFakeCards, sourceZone, player);
+
+        var cardsTaken = sut.TakeCardsFromZone(sourceZone, player, 5).ToList();
+        
+        Assert.AreEqual(5, cardsTaken.Count());
+        Assert.IsTrue(cardsTaken.Any(x => x.Index == 1));
+        Assert.IsTrue(cardsTaken.Any(x => x.Index == 2));
+        Assert.IsTrue(cardsTaken.Any(x => x.Index == 3));
+        Assert.IsTrue(cardsTaken.Any(x => x.Index == 4));
+        Assert.IsTrue(cardsTaken.Any(x => x.Index == 5));
+    }
+    
+    #endregion
+    
 }

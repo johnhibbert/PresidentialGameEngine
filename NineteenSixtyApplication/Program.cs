@@ -19,8 +19,21 @@ internal class Program
         ShowIntroMessage();
         
         DoInitialSetup();
+        
+        
+        
+        DrawHands();
 
+        ShowGameTime();
+
+        DisplayHands();
+        
+        DoInitativeCheck();
+        
+        
         ClearScreen();
+        
+        DisplayToConsole.DisplayGameState(controller.GetGameState());
         
         /*
         var gameTime = controller.GetGameTime();
@@ -55,7 +68,7 @@ internal class Program
     
     static void ShowIntroMessage()
     {
-        DrawToConsole.DrawIntroMessage();
+        DisplayToConsole.DisplayIntroMessage();
     }
     
     static void DoInitialSetup()
@@ -69,10 +82,38 @@ internal class Program
 
         controller.SetUpBoard();
         
+
+
+
+    }
+
+    static void ShowGameTime()
+    {
+        DisplayToConsole.DisplayGameTime(controller.GetGameTime(), false);
+    }
+    
+    static void DoInitativeCheck()
+    {
         var initiativeCheck = controller.ConductInitiativeCheck();
         var firstPlayer = GetFirstPlayerFromUser(initiativeCheck);
-
+        
         controller.SetFirstPlayerForActivityPhase(firstPlayer);
+    }
+
+    static void DrawHands()
+    {
+        controller.DrawCards(Player.Kennedy, 6);
+        controller.DrawCards(Player.Nixon, 6);
+    }
+
+
+    static void DisplayHands()
+    {
+        var kennedyCards = controller.GetCardsInHand(Player.Kennedy);
+        DisplayToConsole.DisplayCardsForPlayer(Player.Kennedy, kennedyCards, false);
+
+        var nixonCards = controller.GetCardsInHand(Player.Nixon);
+        DisplayToConsole.DisplayCardsForPlayer(Player.Nixon, nixonCards);
     }
     
     
