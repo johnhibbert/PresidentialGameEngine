@@ -277,7 +277,7 @@ internal class Program
     {
         var returnValue = new SetOfChanges();
 
-        List<string> instructions = new List<string>();
+        var instructions = new List<string>();
         instructions.Add("Characters 1 and 2: the state abbreviation.");
         instructions.Add("Character 3: the sign of the change (+ or -)");
         instructions.Add("Character 4: the amount of the change (0-9)");
@@ -299,6 +299,29 @@ internal class Program
             Console.WriteLine(s);
         }
 
+        var issueLookup = new Dictionary<string, Issue>()
+        {
+            { "IC", Issue.CivilRights },
+            { "ID", Issue.Defense },
+            { "IE", Issue.Economy },
+        };
+
+        var endorsementLookup = new Dictionary<string, Region>()
+        {
+            { "EE", Region.East },
+            { "EM", Region.Midwest },
+            { "ES", Region.South },
+            { "EW", Region.West },
+        };
+
+        var mediaSupportLookup = new Dictionary<string, Region>()
+        {
+            { "ME", Region.East },
+            { "MM", Region.Midwest },
+            { "MS", Region.South },
+            { "MW", Region.West },
+        };
+        
         bool continueGettingInput = true;
 
         while (continueGettingInput)
@@ -313,11 +336,41 @@ internal class Program
                     continueGettingInput = false;
                     continue;
                 }
+                else if (input.Length != 5)
+                {
+                    throw new InvalidOperationException();
+                }
 
                 var chunkOne = input[..2];
+                
+                //Special handling for Gallup Poll.
+                if(chunkOne == "IO")
+                {
+                    var newIssueOrder = new List<Issue>();
+
+                    //'Casting' it into the other dictionary
+                    var firstString = $"I{input[2]}";
+                    var secondString = $"I{input[3]}";
+                    var thirdString = $"I{input[4]}";
+
+                    if (issueLookup.TryGetValue(firstString, out var firstIssue) &&
+                        issueLookup.TryGetValue(secondString, out var secondIssue) &&
+                        issueLookup.TryGetValue(thirdString, out var thirdIssue))
+                    {
+                        newIssueOrder.Add(firstIssue);
+                        newIssueOrder.Add(secondIssue);
+                        newIssueOrder.Add(thirdIssue);
+                        returnValue.NewIssuesOrder =  newIssueOrder;
+                        Console.WriteLine("Input accepted.");
+                        continue;
+                    }
+
+                    throw new InvalidOperationException();
+                }
+                
                 var chunkTwo = input.Substring(2, 2);
                 var chunkThree = input.Substring(4, 1);
-
+                
                 var affectedPlayer = Player.Kennedy;
                 switch (chunkThree)
                 {
@@ -335,29 +388,6 @@ internal class Program
                 {
                     throw new InvalidOperationException();
                 }
-
-                var issueLookup = new Dictionary<string, Issue>()
-                {
-                    { "IC", Issue.CivilRights },
-                    { "ID", Issue.Defense },
-                    { "IE", Issue.Economy },
-                };
-
-                var endorsementLookup = new Dictionary<string, Region>()
-                {
-                    { "EE", Region.East },
-                    { "EM", Region.Midwest },
-                    { "ES", Region.South },
-                    { "EW", Region.West },
-                };
-
-                var mediaSupportLookup = new Dictionary<string, Region>()
-                {
-                    { "ME", Region.East },
-                    { "MM", Region.Midwest },
-                    { "MS", Region.South },
-                    { "MW", Region.West },
-                };
 
                 if (Enum.TryParse(chunkOne, out State chunkOneAsState))
                 {
@@ -379,19 +409,15 @@ internal class Program
                     var change = new SupportChange<Player, Region>(affectedPlayer, mediaRegion, intFromUser);
                     returnValue.MediaSupportChanges.Add(change);
                 }
-                else throw new InvalidOperationException();
+                else  throw new InvalidOperationException();
 
-
+                Console.WriteLine("Input accepted.");
             }
             catch (Exception e)
             {
                 Console.WriteLine("Input not understood.");
             }
         }
-
-
-        int i = 1;
-
 
         return returnValue;
     }
