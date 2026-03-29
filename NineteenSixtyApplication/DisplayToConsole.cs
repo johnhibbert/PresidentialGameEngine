@@ -10,119 +10,230 @@ using Card = NineteenSixty.Data.Card;
 
 namespace NineteenSixtyApplication;
 
+
+public enum BoxForm
+{
+    TopAndBottom = 0,
+    OnlyTop = 1,
+    OnlyBottom = 2,
+    NoTopOrBottom = 4
+}
+
 public static class DisplayToConsole
 {
-    private static string Border = " --------------------------------------------------------------------- ";
+    private static string CornerBorder = " --------------------------------------------------------------------- ";
+    private static string Border = "-----------------------------------------------------------------------";
+    private static string FullInternalBorder = "|---------------------------------------------------------------------|";
+    private static string ShortInternalBorder = "---------------------------------------------------------------------";
 
+    private static List<string> allBorders = new List<string>()
+    {
+        CornerBorder,
+        Border,
+        FullInternalBorder,
+        ShortInternalBorder
+    };
+
+    public static void DisplayGenericMessage(string message, BoxForm drawMode = BoxForm.TopAndBottom)
+    {
+        DisplayLinesInBox([message], drawMode);
+    }
+    
+    public static void DisplayAlertToPlayer(Player player, IEnumerable<string> messages, BoxForm drawMode = BoxForm.TopAndBottom)
+    {
+        var lines = new List<string>()
+        {
+            $"{player.ToString().ToUpper()} PLAYER -- {messages.First()}"
+        };
+
+        foreach (string line in messages.Skip(1))
+        {
+            lines.Add(line);
+        }
+        
+        DisplayLinesInBox(lines, drawMode);
+    }
+    
+    public static void DisplayRequestForPlayer()
+    {
+        var lines = new List<string>()
+        {
+            "Enter 1 for Kennedy",
+            "Enter 2 for Nixon",
+        };
+        
+        DisplayLinesInBox(lines);
+    }
+    
+    //Maybe pass an enum for topbottom etc?
+    private static void DisplayLinesInBox(IEnumerable<string> lines, BoxForm drawMode = BoxForm.TopAndBottom)
+    {
+        if (drawMode is BoxForm.TopAndBottom or BoxForm.OnlyTop)
+        {
+            Console.WriteLine(CornerBorder);
+        }
+        
+        foreach (var line in lines)
+        {
+            if (allBorders.Contains(line))
+            {
+                Console.WriteLine(line);
+            }
+            else
+            {
+                Console.WriteLine($"| {line,-67} |");
+            }
+        }
+        
+        if (drawMode is BoxForm.TopAndBottom or BoxForm.OnlyBottom)
+        {
+            Console.WriteLine(CornerBorder);
+        }
+    }
+    
     public static void DisplayIntroMessage()
     {
-        Console.WriteLine("Welcome to the 1960 application.");
-        Console.WriteLine("----");
-        Console.WriteLine("Press Enter to Begin");
+        List<string> lines =
+        [
+            "   Welcome to the 1960: The Making of the President console app! ",
+            "                       Press Enter to Begin                        ",
+        ];
+
+        DisplayLinesInBox(lines);
         Console.ReadLine();
         Console.Clear();
     }
-    
-    public static void DisplayCardsForPlayer(Player player, IEnumerable<Card> cards, bool drawBottomLine = true)
+
+    public static void WaitForUserToPressEnter(BoxForm boxForm)
     {
-        Console.WriteLine(Border);
+        var lines = new List<string>()
+        {
+            "Press Enter to continue."
+        };
         
+        DisplayLinesInBox(lines, boxForm);
+        Console.ReadLine();
+    }
+    
+    public static void DisplayRandomizerSeedMessage()
+    {
+        List<string> lines =
+        [
+            "             This application uses a seeded randomizer.",
+            "      You can choose to a default seed for consistent testing.",
+            "               Select your own or get a random seed.",
+            FullInternalBorder,
+            "Enter 1 to use the default seed",
+            "Enter 2 to select a seed of your choice",
+            "Enter 3 to get a random seed",
+        ];
+        
+        DisplayLinesInBox(lines);
+    }
+
+    public static void DisplaySeedValueRequestMessage()
+    {
+        var lines = new List<string>()
+        {
+            $"Enter a valid integer between {int.MinValue} and {int.MaxValue}."
+        };
+        
+        DisplayLinesInBox(lines);
+    }
+
+    public static void DisplayGameEditionMessage()
+    {
+        List<string> lines =
+        [
+            "     The revised GMT edition of this game included some changes",
+            "                  Most notably 6 additional cards.",
+            "              This program can support either edition.",
+            FullInternalBorder,
+            "Enter 1 to use original ZMan edition",
+            "Enter 2 to use the updated GMT edition",
+        ];
+        
+        DisplayLinesInBox(lines);
+    }
+    
+    public static void DisplayCardsForPlayer(Player player, IEnumerable<Card> cards, BoxForm drawMode = BoxForm.TopAndBottom)
+    {
         List<string> lines = [];
 
-        var line = $"| {player} cards: ";
+        var line = $"{player} cards: ";
         foreach (var card in cards)
         {
             var asString = card.ToString();
-            if ($"{line} {asString}".Length < 70)
+            if ($"{line} {asString}".Length < 68)
             {
                 line += $" {asString}";
             }
             else
             {
-                line = line.PadRight(69) + " |";
                 lines.Add(line);
-                line = $"| {asString}";
+                line = $" {asString}";
             }
             
         }
-        lines.Add(line.PadRight(69) + " |");
+        lines.Add(line);
 
-        foreach (var s in lines)
-        {
-            Console.WriteLine(s);
-        }
-        
-        if (drawBottomLine)
-        {
-            Console.WriteLine(Border);
-        }
+        DisplayLinesInBox(lines, drawMode);
     }
-    
-    public static void DisplayGameTime(GameTime gameTime, bool drawBottomLine = true)
+
+    public static void DisplayGameTime(GameTime gameTime, BoxForm drawMode = BoxForm.TopAndBottom)
     {
-        Console.WriteLine(Border);
-        
-        string timeMessage = "| ";
-        timeMessage += $"Turn {gameTime.TurnNumber}, {gameTime.CurrentPhase} Phase ";
+        string timeMessage = $"Turn {gameTime.TurnNumber}, {gameTime.CurrentPhase} Phase ";
         if (gameTime.CurrentPhase == Phase.Activity)
         {
             timeMessage += $"#{gameTime.ActivityPhaseNumber} | ";
             timeMessage += $"Active Player: {gameTime.ActivePlayer} ";
             timeMessage += gameTime.ActivePlayer == gameTime.FirstPlayer ? "(Top of Inning)" : "(Bottom of Inning)";
         }
-        
-        timeMessage = timeMessage.PadRight(70) + "|";
 
-        Console.WriteLine(timeMessage);
-        if (drawBottomLine)
-        {
-            Console.WriteLine(Border);
-        }
-        
+        DisplayLinesInBox([timeMessage], drawMode);
     }
     
     public static void DisplayGameState(GameState gameState)
     {
-        Console.WriteLine(Border);
-        Console.WriteLine(DisplayPlayerStatusAndLocation(gameState));
-        Console.WriteLine(DisplayMomentumRestAndCardCount(gameState));
-        Console.WriteLine(Border);
-        Console.WriteLine(DisplayIssueInfo(gameState));
-        Console.WriteLine(Border);
-        Console.WriteLine(DisplayMediaSupportAndEndorsements(gameState));
-        Console.WriteLine(Border);
-        Console.WriteLine(DisplayStateContests(gameState));
-        Console.WriteLine(Border);
-    }
+        var lines = new List<string>();
+        
+        lines.Add(GetLinesForPlayerStatusAndLocation(gameState));
+        lines.Add(GetLinesForMomentumRestAndCardCount(gameState));
+        lines.Add(FullInternalBorder);
+        lines.Add(GetLinesForIssueInfo(gameState));
+        lines.Add(FullInternalBorder);
+        lines.AddRange(GetLinesForMediaSupportAndEndorsements(gameState));
+        lines.Add(FullInternalBorder);
+        lines.AddRange(GetLinesForStateContests(gameState));
+        
+        DisplayLinesInBox(lines);
 
+    }
     
-    
-    private static string DisplayPlayerStatusAndLocation(GameState gameState)
+    private static string GetLinesForPlayerStatusAndLocation(GameState gameState)
     {
-        var line = "| Kennedy: ";
+        var line = "Kennedy: ";
         line+= gameState.PlayerStatuses[Player.Kennedy] == Status.Exhausted ? "Exhausted  " : "Ready      ";
         line += $"Location: {gameState.PlayerLocations[Player.Kennedy]} ";
         line += "| ";
         line += "Nixon: ";
         line += gameState.PlayerStatuses[Player.Nixon] == Status.Exhausted ? "Exhausted  " : "Ready      ";
-        line += $"  Location: {gameState.PlayerLocations[Player.Nixon]} ";
-        line += "|";
+        line += $"  Location: {gameState.PlayerLocations[Player.Nixon]}";
         return line;
     }
 
-    private static string DisplayMomentumRestAndCardCount(GameState gameState)
+    private static string GetLinesForMomentumRestAndCardCount(GameState gameState)
     {
-        var line = $"| Momentum: {gameState.Momentum[Player.Kennedy],-2}";
+        var line = $"Momentum: {gameState.Momentum[Player.Kennedy],-2}";
         line += $" Rest: {gameState.RestCubes[Player.Kennedy],-2} ";
-        line += $" Cards: {gameState.NumberOfCardsInPlayerHands[Player.Kennedy],-2} ";
+        line += $" Cards: {gameState.NumberOfCardsInPlayerHands[Player.Kennedy],-2}";
         line += $"| Momentum: {gameState.Momentum[Player.Nixon],-2}";
         line += $" Rest: {gameState.RestCubes[Player.Nixon],-2} ";
-        line += $" Cards: {gameState.NumberOfCardsInPlayerHands[Player.Nixon],-2} ";
-        line += "| ";
+        line += $" Cards: {gameState.NumberOfCardsInPlayerHands[Player.Nixon],-2}";
         return line;
     }
 
-    private static string DisplayIssueInfo(GameState gameState)
+    private static string GetLinesForIssueInfo(GameState gameState)
     {
         var defense = "Defense      "; //13
         var civilRights = "Civil Rights "; //13
@@ -138,7 +249,7 @@ public static class DisplayToConsole
         var issueOrder = gameState.IssueOrder;
         var contests = gameState.IssueContests;
         
-        var line = $"| Issues | 1st: ";
+        var line = $"Issues | 1st: ";
         line += dict[issueOrder[0]];
         line += "| 2nd: ";
         line += dict[issueOrder[1]];
@@ -150,27 +261,24 @@ public static class DisplayToConsole
         line += $"| {contests[issueOrder[0]].Leader}: {contests[issueOrder[0]].Amount}".PadRight(20);
         line += $"| {contests[issueOrder[1]].Leader}: {contests[issueOrder[1]].Amount}".PadRight(20);
         line += $"| {contests[issueOrder[2]].Leader}: {contests[issueOrder[2]].Amount}".PadRight(20);
-        line += " |";
         return line;
     }
 
-    private static string DisplayMediaSupportAndEndorsements(GameState gameState)
+    private static IEnumerable<string> GetLinesForMediaSupportAndEndorsements(GameState gameState)
     {
         var endorsements = gameState.Endorsements;
         var mediaSupport = gameState.MediaSupportLevels;
         
-        var mediaString = $"| Media Support | Kennedy: {DisplayRegionalContests(mediaSupport,  Leader.Kennedy)}";
-        mediaString += $" | Nixon: {DisplayRegionalContests(mediaSupport,  Leader.Nixon)}";
-        mediaString = mediaString.PadRight(70) + "|";
+        var mediaString = $"Media Support | Kennedy: {GetLinesForRegionalContests(mediaSupport,  Leader.Kennedy)}";
+        mediaString += $"Nixon: {GetLinesForRegionalContests(mediaSupport,  Leader.Nixon)}";
         
-        var endorsementString = $"| Endorsements  | Kennedy: {DisplayRegionalContests(endorsements,  Leader.Kennedy)}";
-        endorsementString += $"| Nixon: {DisplayRegionalContests(endorsements,  Leader.Nixon)}";
-        endorsementString = endorsementString.PadRight(70) + "|"; 
+        var endorsementString = $"Endorsements  | Kennedy: {GetLinesForRegionalContests(endorsements,  Leader.Kennedy)}";
+        endorsementString += $"Nixon: {GetLinesForRegionalContests(endorsements,  Leader.Nixon)}";
         
-        return mediaString + Environment.NewLine + endorsementString;
+        return [mediaString, endorsementString];
     }
 
-    private static string DisplayRegionalContests(IDictionary<Region, SupportContest<Leader>> contests, Leader leader)
+    private static string GetLinesForRegionalContests(IDictionary<Region, SupportContest<Leader>> contests, Leader leader)
     {
         var returnValue = string.Empty;
         
@@ -196,13 +304,15 @@ public static class DisplayToConsole
         return returnValue;
     }
 
-    private static string DisplayStateContests(GameState gameState)
+    private static List<string> GetLinesForStateContests(GameState gameState)
     {
-        string returnValue =  string.Empty;
-        returnValue += "| States: ";
+        List<string> returnValue = new List<string>();
+        
+        string currentString =  string.Empty;
+        currentString += "States: ";
 
         string div = "-";
-        string empty = "X0";
+        string empty = "X0 ";
         
         int index = 1;
         var contests = gameState.StateContests;
@@ -214,29 +324,22 @@ public static class DisplayToConsole
             var stateContest = contests[state];
             if (stateContest.Leader != Leader.None)
             {
-                returnValue += $"{state}{div}{stateContest.Leader.ToString()[..1]}{stateContest.Amount} ";
+                currentString += $"{state}{div}{stateContest.Leader.ToString()[..1]}{stateContest.Amount} ";
             }
             else
             {
-                returnValue += $"{state}{div}{empty} ";
+                currentString += $"{state}{div}{empty}";
             }
 
-            if (index == 50)
+            if (index % 10 == 0)
             {
-                returnValue += "|";
-            }
-            else if (index % 10 == 0)
-            {
-                returnValue += "|" + Environment.NewLine + "|         ";
+                returnValue.Add(currentString.TrimEnd());
+                currentString = "        ";
             }
             
             index++;
         }
         
-        
         return returnValue;
     }
-
-
-
 }

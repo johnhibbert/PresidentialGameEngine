@@ -20,16 +20,16 @@ internal class Program
         
         DoInitialSetup();
         
-        
-        
         DrawHands();
 
-        ShowGameTime();
+        //ShowGameTime();
 
         DisplayHands();
         
-        DoInitativeCheck();
+        WaitForPlayerToPressEnter(BoxForm.OnlyBottom);
         
+        
+        ConductInitiativeCheck();
         
         ClearScreen();
         
@@ -61,6 +61,11 @@ internal class Program
     }
 
 
+    static void WaitForPlayerToPressEnter(BoxForm boxForm)
+    {
+        DisplayToConsole.WaitForUserToPressEnter(boxForm);
+    }
+    
     static void ClearScreen()
     {
         Console.Clear();
@@ -81,18 +86,15 @@ internal class Program
         controller = GetController(randomnessProvider, edition);
 
         controller.SetUpBoard();
-        
-
-
 
     }
 
     static void ShowGameTime()
     {
-        DisplayToConsole.DisplayGameTime(controller.GetGameTime(), false);
+        DisplayToConsole.DisplayGameTime(controller.GetGameTime(), BoxForm.OnlyTop);
     }
     
-    static void DoInitativeCheck()
+    static void ConductInitiativeCheck()
     {
         var initiativeCheck = controller.ConductInitiativeCheck();
         var firstPlayer = GetFirstPlayerFromUser(initiativeCheck);
@@ -109,9 +111,11 @@ internal class Program
 
     static void DisplayHands()
     {
+        DisplayToConsole.DisplayGenericMessage("PLAYER HANDS".PadLeft(40), BoxForm.OnlyTop);
+        
         var kennedyCards = controller.GetCardsInHand(Player.Kennedy);
-        DisplayToConsole.DisplayCardsForPlayer(Player.Kennedy, kennedyCards, false);
-
+        DisplayToConsole.DisplayCardsForPlayer(Player.Kennedy, kennedyCards, BoxForm.OnlyTop);
+        
         var nixonCards = controller.GetCardsInHand(Player.Nixon);
         DisplayToConsole.DisplayCardsForPlayer(Player.Nixon, nixonCards);
     }
@@ -119,21 +123,21 @@ internal class Program
     
     static Player GetFirstPlayerFromUser(InitiativeCheckResult initiativeCheck)
     {
-        Console.WriteLine($"--{initiativeCheck.PlayerWithInitiative.ToString().ToUpper()} PLAYER-- You have the initiative.");
-        Console.WriteLine($"You get to choose which player goes first.  (It is usually advantageous to go second.)");
+        var messages = new List<string>()
+        {
+            "You have the initiative.",
+            "  You get to choose which player goes first.",
+            "(It is usually advantageous to go second.)".PadLeft(67),
+        };
+        
+        DisplayToConsole.DisplayAlertToPlayer(initiativeCheck.PlayerWithInitiative, messages, BoxForm.OnlyTop);
         return GetPlayerFromUser();
-
     }
     
     
     static GameEdition GetGameEditionFromUser()
     {
-        Console.WriteLine("The revised GMT edition of this game included some changes");
-        Console.WriteLine("most notably 6 additional cards.");
-        Console.WriteLine("This program can support either game edition.");
-        Console.WriteLine("----");
-        Console.WriteLine("Enter 1 to use original ZMan edition");
-        Console.WriteLine("Enter 2 to use the updated GMT edition");
+        DisplayToConsole.DisplayGameEditionMessage();
         var input = GetIntegerInputFromUser(2);
 
         switch (input)
@@ -143,7 +147,6 @@ internal class Program
             default:
                 return GameEdition.SecondEditionByGmt;
         }
-        
     }
     
 
@@ -151,13 +154,8 @@ internal class Program
     {
         var returnValue = 1960;
         
-        Console.WriteLine("This application uses a seeded randomizer.");
-        Console.WriteLine("You can choose to a default seed for consistent testing");
-        Console.WriteLine("You can also select your own or get a random seed.");
-        Console.WriteLine("----");
-        Console.WriteLine("Enter 1 to use the default seed");
-        Console.WriteLine("Enter 2 to select your seed");
-        Console.WriteLine("Enter 3 to get a random seed");
+        DisplayToConsole.DisplayRandomizerSeedMessage();
+        
         var input = GetIntegerInputFromUser(3);
 
         switch (input)
@@ -166,7 +164,7 @@ internal class Program
                 //Do nothing, we set it above
                 break;
             case 2:
-                Console.WriteLine("Type in a valid integer.");
+                DisplayToConsole.DisplaySeedValueRequestMessage();
                 returnValue = GetIntegerInputFromUser(int.MaxValue);
                 break;
             case 3:
@@ -179,9 +177,9 @@ internal class Program
     }
     
     
-    static Player GetPlayerFromUser() 
+    static Player GetPlayerFromUser()
     {
-        Console.WriteLine("Enter 1 for Kennedy, 2 for Nixon.");
+        DisplayToConsole.DisplayRequestForPlayer();
         var intFromUser = GetIntegerInputFromUser(2);
 
         return intFromUser switch
@@ -221,7 +219,6 @@ internal class Program
 
         return returnValue;
     }
-    
     
     
     static ActionType GetActionFromPlayer() 
