@@ -61,6 +61,37 @@ public static class DisplayToConsole
         Console.Clear();
     }
 
+    public static void DisplayRandomizerSeedMessage()
+    {
+        List<string> lines =
+        [
+            "             This application uses a seeded randomizer.",
+            "      You can choose to a default seed for consistent testing.",
+            "               Select your own or get a random seed.",
+            FullInternalBorder,
+            "Enter 1 to use the default seed",
+            "Enter 2 to select your seed",
+            "Enter 3 to get a random seed",
+        ];
+        
+        DisplayLinesInBox(lines);
+    }
+
+    public static void DisplayGameEditionMessage()
+    {
+        List<string> lines =
+        [
+            "     The revised GMT edition of this game included some changes",
+            "                  Most notably 6 additional cards.",
+            "              This program can support either edition.",
+            FullInternalBorder,
+            "Enter 1 to use original ZMan edition",
+            "Enter 2 to use the updated GMT edition",
+        ];
+        
+        DisplayLinesInBox(lines);
+    }
+    
     public static void DisplayCardsForPlayer(Player player, IEnumerable<Card> cards, bool drawBottomLine = true)
     {
         List<string> lines = [];

@@ -16,13 +16,9 @@ internal class Program
 
     static void Main(string[] args)
     {
-        
-        
         ShowIntroMessage();
         
         DoInitialSetup();
-        
-        
         
         DrawHands();
 
@@ -30,8 +26,7 @@ internal class Program
 
         DisplayHands();
         
-        DoInitativeCheck();
-        
+        ConductInitiativeCheck();
         
         ClearScreen();
         
@@ -83,9 +78,6 @@ internal class Program
         controller = GetController(randomnessProvider, edition);
 
         controller.SetUpBoard();
-        
-
-
 
     }
 
@@ -94,7 +86,7 @@ internal class Program
         DisplayToConsole.DisplayGameTime(controller.GetGameTime(), false);
     }
     
-    static void DoInitativeCheck()
+    static void ConductInitiativeCheck()
     {
         var initiativeCheck = controller.ConductInitiativeCheck();
         var firstPlayer = GetFirstPlayerFromUser(initiativeCheck);
@@ -112,12 +104,9 @@ internal class Program
     static void DisplayHands()
     {
         var kennedyCards = controller.GetCardsInHand(Player.Kennedy);
-        //DisplayToConsole.DisplayCardsForPlayer(Player.Kennedy, kennedyCards, false);
         DisplayToConsole.DisplayCardsForPlayer(Player.Kennedy, kennedyCards, false);
         
-        
         var nixonCards = controller.GetCardsInHand(Player.Nixon);
-        //DisplayToConsole.DisplayCardsForPlayer(Player.Nixon, nixonCards);
         DisplayToConsole.DisplayCardsForPlayer(Player.Nixon, nixonCards);
     }
     
@@ -133,12 +122,7 @@ internal class Program
     
     static GameEdition GetGameEditionFromUser()
     {
-        Console.WriteLine("The revised GMT edition of this game included some changes");
-        Console.WriteLine("most notably 6 additional cards.");
-        Console.WriteLine("This program can support either game edition.");
-        Console.WriteLine("----");
-        Console.WriteLine("Enter 1 to use original ZMan edition");
-        Console.WriteLine("Enter 2 to use the updated GMT edition");
+        DisplayToConsole.DisplayGameEditionMessage();
         var input = GetIntegerInputFromUser(2);
 
         switch (input)
@@ -156,13 +140,8 @@ internal class Program
     {
         var returnValue = 1960;
         
-        Console.WriteLine("This application uses a seeded randomizer.");
-        Console.WriteLine("You can choose to a default seed for consistent testing");
-        Console.WriteLine("You can also select your own or get a random seed.");
-        Console.WriteLine("----");
-        Console.WriteLine("Enter 1 to use the default seed");
-        Console.WriteLine("Enter 2 to select your seed");
-        Console.WriteLine("Enter 3 to get a random seed");
+        DisplayToConsole.DisplayRandomizerSeedMessage();
+        
         var input = GetIntegerInputFromUser(3);
 
         switch (input)
