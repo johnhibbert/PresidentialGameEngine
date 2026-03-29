@@ -16,6 +16,8 @@ internal class Program
 
     static void Main(string[] args)
     {
+        
+        
         ShowIntroMessage();
         
         DoInitialSetup();
@@ -110,9 +112,12 @@ internal class Program
     static void DisplayHands()
     {
         var kennedyCards = controller.GetCardsInHand(Player.Kennedy);
+        //DisplayToConsole.DisplayCardsForPlayer(Player.Kennedy, kennedyCards, false);
         DisplayToConsole.DisplayCardsForPlayer(Player.Kennedy, kennedyCards, false);
-
+        
+        
         var nixonCards = controller.GetCardsInHand(Player.Nixon);
+        //DisplayToConsole.DisplayCardsForPlayer(Player.Nixon, nixonCards);
         DisplayToConsole.DisplayCardsForPlayer(Player.Nixon, nixonCards);
     }
     
