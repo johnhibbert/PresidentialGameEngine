@@ -22,9 +22,12 @@ internal class Program
         
         DrawHands();
 
-        ShowGameTime();
+        //ShowGameTime();
 
         DisplayHands();
+        
+        WaitForPlayerToPressEnter();
+        
         
         ConductInitiativeCheck();
         
@@ -58,6 +61,11 @@ internal class Program
     }
 
 
+    static void WaitForPlayerToPressEnter()
+    {
+        DisplayToConsole.WaitForUserToPressEnter();
+    }
+    
     static void ClearScreen()
     {
         Console.Clear();
@@ -103,6 +111,8 @@ internal class Program
 
     static void DisplayHands()
     {
+        DisplayToConsole.DisplayGenericMessage("PLAYER HANDS".PadLeft(40), false);
+        
         var kennedyCards = controller.GetCardsInHand(Player.Kennedy);
         DisplayToConsole.DisplayCardsForPlayer(Player.Kennedy, kennedyCards, false);
         
@@ -113,10 +123,15 @@ internal class Program
     
     static Player GetFirstPlayerFromUser(InitiativeCheckResult initiativeCheck)
     {
-        Console.WriteLine($"--{initiativeCheck.PlayerWithInitiative.ToString().ToUpper()} PLAYER-- You have the initiative.");
-        Console.WriteLine($"You get to choose which player goes first.  (It is usually advantageous to go second.)");
+        var messages = new List<string>()
+        {
+            "You have the initiative.",
+            "  You get to choose which player goes first.",
+            "(It is usually advantageous to go second.)".PadLeft(67),
+        };
+        
+        DisplayToConsole.DisplayAlertToPlayer(initiativeCheck.PlayerWithInitiative, messages, false);
         return GetPlayerFromUser();
-
     }
     
     
@@ -132,7 +147,6 @@ internal class Program
             default:
                 return GameEdition.SecondEditionByGmt;
         }
-        
     }
     
 
@@ -150,7 +164,7 @@ internal class Program
                 //Do nothing, we set it above
                 break;
             case 2:
-                Console.WriteLine("Type in a valid integer.");
+                DisplayToConsole.DisplaySeedValueRequestMessage();
                 returnValue = GetIntegerInputFromUser(int.MaxValue);
                 break;
             case 3:
@@ -163,9 +177,9 @@ internal class Program
     }
     
     
-    static Player GetPlayerFromUser() 
+    static Player GetPlayerFromUser()
     {
-        Console.WriteLine("Enter 1 for Kennedy, 2 for Nixon.");
+        DisplayToConsole.DisplayRequestForPlayer();
         var intFromUser = GetIntegerInputFromUser(2);
 
         return intFromUser switch
@@ -205,7 +219,6 @@ internal class Program
 
         return returnValue;
     }
-    
     
     
     static ActionType GetActionFromPlayer() 

@@ -25,6 +25,37 @@ public static class DisplayToConsole
         FullInternalBorder,
         ShortInternalBorder
     };
+
+    public static void DisplayGenericMessage(string message, bool drawBottomLine = true)
+    {
+        DisplayLinesInBox([message], drawBottomLine);
+    }
+    
+    public static void DisplayAlertToPlayer(Player player, IEnumerable<string> messages, bool drawBottomLine = true)
+    {
+        var lines = new List<string>()
+        {
+            $"{player.ToString().ToUpper()} PLAYER -- {messages.First()}"
+        };
+
+        foreach (string line in messages.Skip(1))
+        {
+            lines.Add(line);
+        }
+        
+        DisplayLinesInBox(lines, drawBottomLine);
+    }
+    
+    public static void DisplayRequestForPlayer()
+    {
+        var lines = new List<string>()
+        {
+            "Enter 1 for Kennedy",
+            "Enter 2 for Nixon",
+        };
+        
+        DisplayLinesInBox(lines);
+    }
     
     //Maybe pass an enum for topbottom etc?
     private static void DisplayLinesInBox(IEnumerable<string> lines, bool drawBottomLine = true)
@@ -52,7 +83,7 @@ public static class DisplayToConsole
     {
         List<string> lines =
         [
-            "   Welcome to the 1960: The Making of the President console app. ",
+            "   Welcome to the 1960: The Making of the President console app! ",
             "                       Press Enter to Begin                        ",
         ];
 
@@ -61,6 +92,17 @@ public static class DisplayToConsole
         Console.Clear();
     }
 
+    public static void WaitForUserToPressEnter()
+    {
+        var lines = new List<string>()
+        {
+            "Press Enter to continue."
+        };
+        
+        DisplayLinesInBox(lines);
+        Console.ReadLine();
+    }
+    
     public static void DisplayRandomizerSeedMessage()
     {
         List<string> lines =
@@ -70,9 +112,19 @@ public static class DisplayToConsole
             "               Select your own or get a random seed.",
             FullInternalBorder,
             "Enter 1 to use the default seed",
-            "Enter 2 to select your seed",
+            "Enter 2 to select a seed of your choice",
             "Enter 3 to get a random seed",
         ];
+        
+        DisplayLinesInBox(lines);
+    }
+
+    public static void DisplaySeedValueRequestMessage()
+    {
+        var lines = new List<string>()
+        {
+            $"Enter a valid integer between {int.MinValue} and {int.MaxValue}."
+        };
         
         DisplayLinesInBox(lines);
     }
