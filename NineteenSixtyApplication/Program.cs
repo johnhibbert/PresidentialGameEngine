@@ -1,6 +1,8 @@
+using System.Data;
 using NineteenSixty;
 using NineteenSixty.Data;
 using NineteenSixty.Enums;
+using NineteenSixty.Exceptions;
 using NineteenSixty.Interfaces;
 using PresidentialGameEngine.ClassLibrary.Components;
 using PresidentialGameEngine.ClassLibrary.Data;
@@ -129,14 +131,30 @@ internal class Program
         
         var hand = controller.GetCardsInHand(player).ToList();
         DisplayToConsole.DisplayCardsInList(hand);
-        //var holder = GetIntegerInputFromUser();
-
         var chosenInt = GetIntegerInputFromUser(hand.Select(x => x.Index));
-
         var cardToPlay = hand.Single(x => x.Index == chosenInt);
-        
-        controller.PlayCardAsEvent(cardToPlay, null, player);
-        
+
+        bool changesAccepted = false;
+
+        while (!changesAccepted)
+        {
+            SetOfChanges changes = new SetOfChanges();
+            if (cardToPlay.RequiresPlayerInput)
+            {
+                changes = GetDesiredSetOfChangesFromUser();
+            }
+
+            try
+            {
+                controller.PlayCardAsEvent(cardToPlay, changes, player);
+                changesAccepted = true;
+            }
+            catch (InvalidPlayerChoices e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
         int i = 0;
         
         DisplayToConsole.DisplayGameState(controller.GetGameState());
@@ -255,13 +273,134 @@ internal class Program
         return (ActionType)intFromUser;
     }
 
+    static SetOfChanges GetDesiredSetOfChangesFromUser()
+    {
+        var returnValue = new SetOfChanges();
 
-    
-    
-    
-    
-    
-    
+        List<string> instructions = new List<string>();
+        instructions.Add("Characters 1 and 2: the state abbreviation.");
+        instructions.Add("Character 3: the sign of the change (+ or -)");
+        instructions.Add("Character 4: the amount of the change (0-9)");
+        instructions.Add("Character 5: the candidate affected (K/N)");
+        instructions.Add("");
+        instructions.Add("For non-state changes, replace the state abbreviation with the following:");
+        instructions.Add("For issues: I and then C, D or E for the issue.");
+        instructions.Add("For endorsements: E and then E, M, S or W for the region.");
+        instructions.Add("For media support: M and then E, M, S or W for the region.");
+        instructions.Add("");
+        instructions.Add("To reorder issues, use IO instead of the state then C, D and E for the new order.");
+        instructions.Add("");
+        instructions.Add("An example would be CA+2K is 2 support for Kennedy in California.");
+        instructions.Add("");
+        instructions.Add("Type 'Q' to quit.");
+
+        foreach (string s in instructions)
+        {
+            Console.WriteLine(s);
+        }
+
+        bool continueGettingInput = true;
+
+        while (continueGettingInput)
+        {
+            try
+            {
+                var input = Console.ReadLine();
+                input = input.ToUpper();
+
+                if (input == "Q")
+                {
+                    continueGettingInput = false;
+                    continue;
+                }
+
+                var chunkOne = input[..2];
+                var chunkTwo = input.Substring(2, 2);
+                var chunkThree = input.Substring(4, 1);
+
+                var affectedPlayer = Player.Kennedy;
+                switch (chunkThree)
+                {
+                    case "K":
+                        affectedPlayer = Player.Kennedy;
+                        break;
+                    case "N":
+                        affectedPlayer = Player.Nixon;
+                        break;
+                    default:
+                        throw new InvalidOperationException();
+                }
+
+                if (!int.TryParse(chunkTwo, out int intFromUser))
+                {
+                    throw new InvalidOperationException();
+                }
+
+                var issueLookup = new Dictionary<string, Issue>()
+                {
+                    { "IC", Issue.CivilRights },
+                    { "ID", Issue.Defense },
+                    { "IE", Issue.Economy },
+                };
+
+                var endorsementLookup = new Dictionary<string, Region>()
+                {
+                    { "EE", Region.East },
+                    { "EM", Region.Midwest },
+                    { "ES", Region.South },
+                    { "EW", Region.West },
+                };
+
+                var mediaSupportLookup = new Dictionary<string, Region>()
+                {
+                    { "ME", Region.East },
+                    { "MM", Region.Midwest },
+                    { "MS", Region.South },
+                    { "MW", Region.West },
+                };
+
+                if (Enum.TryParse(chunkOne, out State chunkOneAsState))
+                {
+                    var change = new SupportChange<Player, State>(affectedPlayer, chunkOneAsState, intFromUser);
+                    returnValue.StateChanges.Add(change);
+                }
+                else if (issueLookup.TryGetValue(chunkOne, out var issue))
+                {
+                    var change = new SupportChange<Player, Issue>(affectedPlayer, issue, intFromUser);
+                    returnValue.IssueChanges.Add(change);
+                }
+                else if (endorsementLookup.TryGetValue(chunkOne, out var endorsementRegion))
+                {
+                    var change = new SupportChange<Player, Region>(affectedPlayer, endorsementRegion, intFromUser);
+                    returnValue.EndorsementChanges.Add(change);
+                }
+                else if (mediaSupportLookup.TryGetValue(chunkOne, out var mediaRegion))
+                {
+                    var change = new SupportChange<Player, Region>(affectedPlayer, mediaRegion, intFromUser);
+                    returnValue.MediaSupportChanges.Add(change);
+                }
+                else throw new InvalidOperationException();
+
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Input not understood.");
+            }
+        }
+
+
+        int i = 1;
+
+
+        return returnValue;
+    }
+
+
+
+
+
+
     private static IController GetController(IRandomnessProvider randomnessProvider, GameEdition edition)
     {
         return new Controller(GetEngine(randomnessProvider, edition), edition);
