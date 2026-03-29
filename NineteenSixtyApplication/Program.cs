@@ -26,7 +26,7 @@ internal class Program
 
         DisplayHands();
         
-        WaitForPlayerToPressEnter();
+        WaitForPlayerToPressEnter(BoxForm.OnlyBottom);
         
         
         ConductInitiativeCheck();
@@ -61,9 +61,9 @@ internal class Program
     }
 
 
-    static void WaitForPlayerToPressEnter()
+    static void WaitForPlayerToPressEnter(BoxForm boxForm)
     {
-        DisplayToConsole.WaitForUserToPressEnter();
+        DisplayToConsole.WaitForUserToPressEnter(boxForm);
     }
     
     static void ClearScreen()
@@ -91,7 +91,7 @@ internal class Program
 
     static void ShowGameTime()
     {
-        DisplayToConsole.DisplayGameTime(controller.GetGameTime(), false);
+        DisplayToConsole.DisplayGameTime(controller.GetGameTime(), BoxForm.OnlyTop);
     }
     
     static void ConductInitiativeCheck()
@@ -111,10 +111,10 @@ internal class Program
 
     static void DisplayHands()
     {
-        DisplayToConsole.DisplayGenericMessage("PLAYER HANDS".PadLeft(40), false);
+        DisplayToConsole.DisplayGenericMessage("PLAYER HANDS".PadLeft(40), BoxForm.OnlyTop);
         
         var kennedyCards = controller.GetCardsInHand(Player.Kennedy);
-        DisplayToConsole.DisplayCardsForPlayer(Player.Kennedy, kennedyCards, false);
+        DisplayToConsole.DisplayCardsForPlayer(Player.Kennedy, kennedyCards, BoxForm.OnlyTop);
         
         var nixonCards = controller.GetCardsInHand(Player.Nixon);
         DisplayToConsole.DisplayCardsForPlayer(Player.Nixon, nixonCards);
@@ -130,7 +130,7 @@ internal class Program
             "(It is usually advantageous to go second.)".PadLeft(67),
         };
         
-        DisplayToConsole.DisplayAlertToPlayer(initiativeCheck.PlayerWithInitiative, messages, false);
+        DisplayToConsole.DisplayAlertToPlayer(initiativeCheck.PlayerWithInitiative, messages, BoxForm.OnlyTop);
         return GetPlayerFromUser();
     }
     

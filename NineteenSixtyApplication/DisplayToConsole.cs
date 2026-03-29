@@ -11,6 +11,14 @@ using Card = NineteenSixty.Data.Card;
 namespace NineteenSixtyApplication;
 
 
+public enum BoxForm
+{
+    TopAndBottom = 0,
+    OnlyTop = 1,
+    OnlyBottom = 2,
+    NoTopOrBottom = 4
+}
+
 public static class DisplayToConsole
 {
     private static string CornerBorder = " --------------------------------------------------------------------- ";
@@ -26,12 +34,12 @@ public static class DisplayToConsole
         ShortInternalBorder
     };
 
-    public static void DisplayGenericMessage(string message, bool drawBottomLine = true)
+    public static void DisplayGenericMessage(string message, BoxForm drawMode = BoxForm.TopAndBottom)
     {
-        DisplayLinesInBox([message], drawBottomLine);
+        DisplayLinesInBox([message], drawMode);
     }
     
-    public static void DisplayAlertToPlayer(Player player, IEnumerable<string> messages, bool drawBottomLine = true)
+    public static void DisplayAlertToPlayer(Player player, IEnumerable<string> messages, BoxForm drawMode = BoxForm.TopAndBottom)
     {
         var lines = new List<string>()
         {
@@ -43,7 +51,7 @@ public static class DisplayToConsole
             lines.Add(line);
         }
         
-        DisplayLinesInBox(lines, drawBottomLine);
+        DisplayLinesInBox(lines, drawMode);
     }
     
     public static void DisplayRequestForPlayer()
@@ -58,9 +66,13 @@ public static class DisplayToConsole
     }
     
     //Maybe pass an enum for topbottom etc?
-    private static void DisplayLinesInBox(IEnumerable<string> lines, bool drawBottomLine = true)
+    private static void DisplayLinesInBox(IEnumerable<string> lines, BoxForm drawMode = BoxForm.TopAndBottom)
     {
-        Console.WriteLine(CornerBorder);
+        if (drawMode is BoxForm.TopAndBottom or BoxForm.OnlyTop)
+        {
+            Console.WriteLine(CornerBorder);
+        }
+        
         foreach (var line in lines)
         {
             if (allBorders.Contains(line))
@@ -73,7 +85,7 @@ public static class DisplayToConsole
             }
         }
         
-        if (drawBottomLine)
+        if (drawMode is BoxForm.TopAndBottom or BoxForm.OnlyBottom)
         {
             Console.WriteLine(CornerBorder);
         }
@@ -92,14 +104,14 @@ public static class DisplayToConsole
         Console.Clear();
     }
 
-    public static void WaitForUserToPressEnter()
+    public static void WaitForUserToPressEnter(BoxForm boxForm)
     {
         var lines = new List<string>()
         {
             "Press Enter to continue."
         };
         
-        DisplayLinesInBox(lines);
+        DisplayLinesInBox(lines, boxForm);
         Console.ReadLine();
     }
     
@@ -144,7 +156,7 @@ public static class DisplayToConsole
         DisplayLinesInBox(lines);
     }
     
-    public static void DisplayCardsForPlayer(Player player, IEnumerable<Card> cards, bool drawBottomLine = true)
+    public static void DisplayCardsForPlayer(Player player, IEnumerable<Card> cards, BoxForm drawMode = BoxForm.TopAndBottom)
     {
         List<string> lines = [];
 
@@ -165,10 +177,10 @@ public static class DisplayToConsole
         }
         lines.Add(line);
 
-        DisplayLinesInBox(lines, drawBottomLine);
+        DisplayLinesInBox(lines, drawMode);
     }
 
-    public static void DisplayGameTime(GameTime gameTime, bool drawBottomLine = true)
+    public static void DisplayGameTime(GameTime gameTime, BoxForm drawMode = BoxForm.TopAndBottom)
     {
         string timeMessage = $"Turn {gameTime.TurnNumber}, {gameTime.CurrentPhase} Phase ";
         if (gameTime.CurrentPhase == Phase.Activity)
@@ -178,7 +190,7 @@ public static class DisplayToConsole
             timeMessage += gameTime.ActivePlayer == gameTime.FirstPlayer ? "(Top of Inning)" : "(Bottom of Inning)";
         }
 
-        DisplayLinesInBox([timeMessage], drawBottomLine);
+        DisplayLinesInBox([timeMessage], drawMode);
     }
     
     public static void DisplayGameState(GameState gameState)
