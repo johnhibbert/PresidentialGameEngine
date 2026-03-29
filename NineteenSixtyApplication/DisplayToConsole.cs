@@ -48,12 +48,15 @@ public static class DisplayToConsole
         }
     }
     
-    
     public static void DisplayIntroMessage()
     {
-        Console.WriteLine("Welcome to the 1960 application.");
-        Console.WriteLine("----");
-        Console.WriteLine("Press Enter to Begin");
+        List<string> lines =
+        [
+            "   Welcome to the 1960: The Making of the President console app. ",
+            "                       Press Enter to Begin                        ",
+        ];
+
+        DisplayLinesInBox(lines);
         Console.ReadLine();
         Console.Clear();
     }
