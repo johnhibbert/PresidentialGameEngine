@@ -75,9 +75,34 @@ public static class DisplayToConsole
         
         DisplayLinesInBox(lines);
     }
+
+    public static void DisplayLongLineWithWordWrapInBox(string message, BoxForm drawMode = BoxForm.TopAndBottom)
+    {
+        var brokenUp = new List<string>();
+        
+        //Border
+        var holder = message.Split(' ');
+        
+        string current = holder[0];
+        
+        foreach (string s in holder.Skip(1))
+        {
+            if ((current.Length + 1 + s.Length) > 67)
+            {
+                brokenUp.Add(current);
+                current = s;
+            }
+            else
+            {
+                current += $" {s}";
+            }
+        }
+        brokenUp.Add(current);
+        
+        DisplayLinesInBox(brokenUp,  drawMode);
+    }
     
-    //Maybe pass an enum for topbottom etc?
-    private static void DisplayLinesInBox(IEnumerable<string> lines, BoxForm drawMode = BoxForm.TopAndBottom)
+    public static void DisplayLinesInBox(IEnumerable<string> lines, BoxForm drawMode = BoxForm.TopAndBottom)
     {
         if (drawMode is BoxForm.TopAndBottom or BoxForm.OnlyTop)
         {

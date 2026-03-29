@@ -141,7 +141,7 @@ internal class Program
             SetOfChanges changes = new SetOfChanges();
             if (cardToPlay.RequiresPlayerInput)
             {
-                changes = GetDesiredSetOfChangesFromUser();
+                changes = GetDesiredSetOfChangesFromUser(cardToPlay);
             }
 
             try
@@ -273,31 +273,38 @@ internal class Program
         return (ActionType)intFromUser;
     }
 
-    static SetOfChanges GetDesiredSetOfChangesFromUser()
+    static SetOfChanges GetDesiredSetOfChangesFromUser(Card card)
     {
         var returnValue = new SetOfChanges();
 
         var instructions = new List<string>();
-        instructions.Add("Characters 1 and 2: the state abbreviation.");
-        instructions.Add("Character 3: the sign of the change (+ or -)");
+        instructions.Add("To input the player chosen changes, type in a 5 character string.");
+        instructions.Add("Characters 1 and 2: the state abbreviation");
+        instructions.Add("Character 3: the sign of the change (+ for gains or - for losses)");
         instructions.Add("Character 4: the amount of the change (0-9)");
         instructions.Add("Character 5: the candidate affected (K/N)");
         instructions.Add("");
-        instructions.Add("For non-state changes, replace the state abbreviation with the following:");
-        instructions.Add("For issues: I and then C, D or E for the issue.");
-        instructions.Add("For endorsements: E and then E, M, S or W for the region.");
-        instructions.Add("For media support: M and then E, M, S or W for the region.");
-        instructions.Add("");
-        instructions.Add("To reorder issues, use IO instead of the state then C, D and E for the new order.");
-        instructions.Add("");
         instructions.Add("An example would be CA+2K is 2 support for Kennedy in California.");
+        instructions.Add("");
+        instructions.Add("For non-state changes, replace the state with the following:");
+        instructions.Add("For issues: I and then C, D or E for the issue. (IC+1K)");
+        instructions.Add("For endorsements: E and then E, M, S or W for the region. (ES+1N)");
+        instructions.Add("For media support: M and then E, M, S or W for the region. (MM-1N)");
+        instructions.Add("");
+        instructions.Add("To reorder issues with Gallup Poll, use IO instead of the state");
+        instructions.Add("Then C, D and E for the new order. (IODEC)");
+        instructions.Add("");
+        instructions.Add("Do not add any changes that are not chosen by the player.");
+        instructions.Add("These will be done automatically.");
         instructions.Add("");
         instructions.Add("Type 'Q' to quit.");
 
-        foreach (string s in instructions)
-        {
-            Console.WriteLine(s);
-        }
+
+        DisplayToConsole.DisplayLinesInBox(instructions);
+
+        
+        DisplayToConsole.DisplayLongLineWithWordWrapInBox(card.Text, BoxForm.OnlyBottom);
+        
 
         var issueLookup = new Dictionary<string, Issue>()
         {
