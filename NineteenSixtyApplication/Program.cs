@@ -21,19 +21,16 @@ internal class Program
         DoInitialSetup();
         
         DrawHands();
-
-        //ShowGameTime();
-
         DisplayHands();
-        
         WaitForPlayerToPressEnter(BoxForm.OnlyBottom);
-        
-        
-        ConductInitiativeCheck();
-        
         ClearScreen();
         
-        DisplayToConsole.DisplayGameState(controller.GetGameState());
+        ConductInitiativeCheck();
+        ClearScreen();
+        
+        ShowGameTime(BoxForm.OnlyTop);
+        
+        //DisplayToConsole.DisplayGameState(controller.GetGameState());
         
         /*
         var gameTime = controller.GetGameTime();
@@ -45,13 +42,15 @@ internal class Program
         controller.PlayCardAsEvent(Manifest.GMTCards[5], new SetOfChanges(), Player.Kennedy);
         DrawToConsole.DrawGameState(controller.GetGameState());
         */
-        
-        var chosenAction = GetActionFromPlayer();
+
+
+        var gameTime = controller.GetGameTime();
+        var chosenAction = GetActionFromUser();
 
         switch (chosenAction)
         {
             case ActionType.PlayCardForEvent:
-                
+                PlayCardAsEvent(gameTime.ActivePlayer);
                 break;
             default:
                 break;
@@ -89,15 +88,16 @@ internal class Program
 
     }
 
-    static void ShowGameTime()
+    static void ShowGameTime(BoxForm boxForm)
     {
-        DisplayToConsole.DisplayGameTime(controller.GetGameTime(), BoxForm.OnlyTop);
+        DisplayToConsole.DisplayGameTime(controller.GetGameTime(), boxForm);
     }
     
     static void ConductInitiativeCheck()
     {
+        var turn = controller.GetGameTime().TurnNumber;
         var initiativeCheck = controller.ConductInitiativeCheck();
-        var firstPlayer = GetFirstPlayerFromUser(initiativeCheck);
+        var firstPlayer = GetFirstPlayerFromUser(initiativeCheck, turn);
         
         controller.SetFirstPlayerForActivityPhase(firstPlayer);
     }
@@ -114,18 +114,44 @@ internal class Program
         DisplayToConsole.DisplayGenericMessage("PLAYER HANDS".PadLeft(40), BoxForm.OnlyTop);
         
         var kennedyCards = controller.GetCardsInHand(Player.Kennedy);
-        DisplayToConsole.DisplayCardsForPlayer(Player.Kennedy, kennedyCards, BoxForm.OnlyTop);
+        DisplayToConsole.DisplayCardsForPlayerInParagraph(Player.Kennedy, kennedyCards, BoxForm.OnlyTop);
         
         var nixonCards = controller.GetCardsInHand(Player.Nixon);
-        DisplayToConsole.DisplayCardsForPlayer(Player.Nixon, nixonCards);
+        DisplayToConsole.DisplayCardsForPlayerInParagraph(Player.Nixon, nixonCards);
     }
     
     
-    static Player GetFirstPlayerFromUser(InitiativeCheckResult initiativeCheck)
+    static void PlayCardAsEvent(Player player)
+    {
+        DisplayToConsole.DisplayGameState(controller.GetGameState());
+        
+        DisplayToConsole.DisplayGenericMessage($"{player} player: Select a card:", BoxForm.OnlyTop);
+        
+        var hand = controller.GetCardsInHand(player).ToList();
+        DisplayToConsole.DisplayCardsInList(hand);
+        //var holder = GetIntegerInputFromUser();
+
+        var chosenInt = GetIntegerInputFromUser(hand.Select(x => x.Index));
+
+        var cardToPlay = hand.Single(x => x.Index == chosenInt);
+        
+        controller.PlayCardAsEvent(cardToPlay, null, player);
+        
+        int i = 0;
+        
+        DisplayToConsole.DisplayGameState(controller.GetGameState());
+    }
+    
+    
+    
+    
+    
+    
+    static Player GetFirstPlayerFromUser(InitiativeCheckResult initiativeCheck, int turnNumber)
     {
         var messages = new List<string>()
         {
-            "You have the initiative.",
+            $"You have the initiative for Turn #{turnNumber}.",
             "  You get to choose which player goes first.",
             "(It is usually advantageous to go second.)".PadLeft(67),
         };
@@ -221,16 +247,15 @@ internal class Program
     }
     
     
-    static ActionType GetActionFromPlayer() 
+    static ActionType GetActionFromUser()
     {
-        Console.WriteLine("Choose an action:");
-        Console.WriteLine("1: Play card for event");
+        DisplayToConsole.DisplayRequestForAction();
         var intFromUser = GetIntegerInputFromUser(1);
 
         return (ActionType)intFromUser;
     }
-    
-    
+
+
     
     
     

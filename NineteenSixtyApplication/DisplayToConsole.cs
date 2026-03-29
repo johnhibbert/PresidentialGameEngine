@@ -54,6 +54,17 @@ public static class DisplayToConsole
         DisplayLinesInBox(lines, drawMode);
     }
     
+    public static void DisplayRequestForAction()
+    {
+        var lines = new List<string>()
+        {
+            "Choose an action:",
+            "1: Play card for event",
+        };
+        
+        DisplayLinesInBox(lines);
+    }
+    
     public static void DisplayRequestForPlayer()
     {
         var lines = new List<string>()
@@ -156,7 +167,7 @@ public static class DisplayToConsole
         DisplayLinesInBox(lines);
     }
     
-    public static void DisplayCardsForPlayer(Player player, IEnumerable<Card> cards, BoxForm drawMode = BoxForm.TopAndBottom)
+    public static void DisplayCardsForPlayerInParagraph(Player player, IEnumerable<Card> cards, BoxForm drawMode = BoxForm.TopAndBottom)
     {
         List<string> lines = [];
 
@@ -179,6 +190,18 @@ public static class DisplayToConsole
 
         DisplayLinesInBox(lines, drawMode);
     }
+
+    public static void DisplayCardsInList(IEnumerable<Card> cards, BoxForm drawMode = BoxForm.TopAndBottom)
+    {
+        List<string> lines = [];
+
+        foreach (var card in cards.OrderBy(x => x.Index))
+        {
+            lines.Add($"{card.Index}: {card.Title}");
+        }
+        DisplayLinesInBox(lines, drawMode);
+    }
+
 
     public static void DisplayGameTime(GameTime gameTime, BoxForm drawMode = BoxForm.TopAndBottom)
     {
