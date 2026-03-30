@@ -44,6 +44,9 @@ internal class Program
                 case ActionType.PlayCardForEvent:
                     PlayCardAsEvent(gameTime.ActivePlayer);
                     break;
+                case ActionType.PlayCardForCampaign:
+                    PlayCardForCampaignPoints(gameTime.ActivePlayer);
+                    break;
                 default:
                     break;
             }
@@ -119,14 +122,7 @@ internal class Program
     
     static void PlayCardAsEvent(Player player)
     {
-        //DisplayToConsole.DisplayGameState(controller.GetGameState());
-        
-        DisplayToConsole.DisplayGenericMessage($"{player} player: Select a card:", BoxForm.OnlyTop);
-        
-        var hand = controller.GetCardsInHand(player).ToList();
-        DisplayToConsole.DisplayCardsInList(hand);
-        var chosenInt = GetIntegerInputFromUser(hand.Select(x => x.Index));
-        var cardToPlay = hand.Single(x => x.Index == chosenInt);
+        var cardToPlay = GetCardFromUser(player);
 
         bool changesAccepted = false;
 
@@ -148,17 +144,64 @@ internal class Program
                 Console.WriteLine(e.Message);
             }
         }
-
-        int i = 0;
-        
-        DisplayToConsole.DisplayGameState(controller.GetGameState());
     }
+
+
+    static Card GetCardFromUser(Player player)
+    {
+        DisplayToConsole.DisplayGenericMessage($"{player} player: Select a card:", BoxForm.OnlyTop);
+        var hand = controller.GetCardsInHand(player).ToList();
+        DisplayToConsole.DisplayCardsInList(hand);
+        var chosenInt = GetIntegerInputFromUser(hand.Select(x => x.Index));
+        var card = hand.Single(x => x.Index == chosenInt);
+
+        return card;
+    }
+
+
+    static void PlayCardForCampaignPoints(Player player)
+    {
+        var chosenAction = GetCampaignPointActionFromUser();
+
+        switch (chosenAction)
+        {
+            case CampaignPointOption.CampaigningInStates:
+                PlayCardForCampaigningInStates(player);
+                break;
+        }
+
+    }
+
+    static void PlayCardForCampaigningInStates(Player player)
+    {
+        var cardToPlay = GetCardFromUser(player);
+
+        bool changesAccepted = false;
+
+        while (!changesAccepted)
+        {
+            SetOfChanges changes = GetDesiredSetOfChangesFromUser(cardToPlay);
+
+            try
+            {
+                //Controller needs new method.
+                controller.CampaignInStates(cardToPlay, changes, player);
+                changesAccepted = true;
+            }
+            catch (InvalidPlayerChoices e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+    }
+
+
+    /*
+
+     */
     
-    
-    
-    
-    
-    
+
+
     static Player GetFirstPlayerFromUser(InitiativeCheckResult initiativeCheck, int turnNumber)
     {
         var messages = new List<string>()
@@ -262,11 +305,19 @@ internal class Program
     static ActionType GetActionFromUser()
     {
         DisplayToConsole.DisplayRequestForAction();
-        var intFromUser = GetIntegerInputFromUser(1);
+        var intFromUser = GetIntegerInputFromUser(2);
 
         return (ActionType)intFromUser;
     }
 
+    static CampaignPointOption GetCampaignPointActionFromUser()
+    {
+        DisplayToConsole.DisplayRequestForCampaignPointAction();
+        var intFromUser = GetIntegerInputFromUser(1);
+
+        return (CampaignPointOption)intFromUser;
+    }
+    
     static SetOfChanges GetDesiredSetOfChangesFromUser(Card card)
     {
         var returnValue = new SetOfChanges();
@@ -458,4 +509,10 @@ internal class Program
 public enum ActionType
 {
     PlayCardForEvent = 1,
+    PlayCardForCampaign = 2,
+}
+
+public enum CampaignPointOption
+{
+    CampaigningInStates = 1,
 }

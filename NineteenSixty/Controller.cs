@@ -146,6 +146,11 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
         SwitchActivePlayer();
     }
 
+    public void CampaignInStates(Card card, SetOfChanges changes, Player player)
+    {
+        throw new NotImplementedException();
+    }
+
     [ValidOnlyInCertainPhases([Phase.Initiative])]
     public void SetFirstPlayerForActivityPhase(Player player)
     {

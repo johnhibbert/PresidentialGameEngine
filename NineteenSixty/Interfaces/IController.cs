@@ -12,6 +12,8 @@ public interface IController
     InitiativeCheckResult ConductInitiativeCheck();
 
     void PlayCardAsEvent(Card card, SetOfChanges changes, Player player);
+    
+    void CampaignInStates(Card card, SetOfChanges changes, Player player);
 
     void SetFirstPlayerForActivityPhase(Player player);
 
