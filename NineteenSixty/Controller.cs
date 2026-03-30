@@ -125,8 +125,11 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
         };
     }
 
+    [ValidOnlyInCertainPhases([Phase.Activity])]
     public void PlayCardAsEvent(Card card, SetOfChanges changes, Player player)
     {
+        ActionValidator.ThrowIfActionNotAllowed(CurrentPhase);
+        
         ActionPlan plan = new ActionPlan()
         {
             Engine = _engine,

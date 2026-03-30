@@ -433,7 +433,8 @@ public class ControllerTests
         playerChoices.StateChanges.Add(oneSupportInKentucky);
         
         var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
-
+        sut.SetUpBoard();
+        sut.SetFirstPlayerForActivityPhase(player);
         sut.PlayCardAsEvent(ExampleCard, playerChoices, player);
 
         var result = sut.GetGameState().StateContests[State.KY];
@@ -461,6 +462,8 @@ public class ControllerTests
         };
         
         var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
+        sut.SetFirstPlayerForActivityPhase(player);
 
         sut.PlayCardAsEvent(ExampleCard, playerChoices, player);
     }
