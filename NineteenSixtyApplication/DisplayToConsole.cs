@@ -54,6 +54,17 @@ public static class DisplayToConsole
         DisplayLinesInBox(lines, drawMode);
     }
     
+    public static void DisplayRequestForAction()
+    {
+        var lines = new List<string>()
+        {
+            "Choose an action:",
+            "1: Play card for event",
+        };
+        
+        DisplayLinesInBox(lines);
+    }
+    
     public static void DisplayRequestForPlayer()
     {
         var lines = new List<string>()
@@ -64,9 +75,34 @@ public static class DisplayToConsole
         
         DisplayLinesInBox(lines);
     }
+
+    public static void DisplayLongLineWithWordWrapInBox(string message, BoxForm drawMode = BoxForm.TopAndBottom)
+    {
+        var brokenUp = new List<string>();
+        
+        //Border
+        var holder = message.Split(' ');
+        
+        string current = holder[0];
+        
+        foreach (string s in holder.Skip(1))
+        {
+            if ((current.Length + 1 + s.Length) > 67)
+            {
+                brokenUp.Add(current);
+                current = s;
+            }
+            else
+            {
+                current += $" {s}";
+            }
+        }
+        brokenUp.Add(current);
+        
+        DisplayLinesInBox(brokenUp,  drawMode);
+    }
     
-    //Maybe pass an enum for topbottom etc?
-    private static void DisplayLinesInBox(IEnumerable<string> lines, BoxForm drawMode = BoxForm.TopAndBottom)
+    public static void DisplayLinesInBox(IEnumerable<string> lines, BoxForm drawMode = BoxForm.TopAndBottom)
     {
         if (drawMode is BoxForm.TopAndBottom or BoxForm.OnlyTop)
         {
@@ -156,7 +192,7 @@ public static class DisplayToConsole
         DisplayLinesInBox(lines);
     }
     
-    public static void DisplayCardsForPlayer(Player player, IEnumerable<Card> cards, BoxForm drawMode = BoxForm.TopAndBottom)
+    public static void DisplayCardsForPlayerInParagraph(Player player, IEnumerable<Card> cards, BoxForm drawMode = BoxForm.TopAndBottom)
     {
         List<string> lines = [];
 
@@ -180,6 +216,18 @@ public static class DisplayToConsole
         DisplayLinesInBox(lines, drawMode);
     }
 
+    public static void DisplayCardsInList(IEnumerable<Card> cards, BoxForm drawMode = BoxForm.TopAndBottom)
+    {
+        List<string> lines = [];
+
+        foreach (var card in cards.OrderBy(x => x.Index))
+        {
+            lines.Add($"{card.Index}: {card.Title}");
+        }
+        DisplayLinesInBox(lines, drawMode);
+    }
+
+
     public static void DisplayGameTime(GameTime gameTime, BoxForm drawMode = BoxForm.TopAndBottom)
     {
         string timeMessage = $"Turn {gameTime.TurnNumber}, {gameTime.CurrentPhase} Phase ";
@@ -187,7 +235,7 @@ public static class DisplayToConsole
         {
             timeMessage += $"#{gameTime.ActivityPhaseNumber} | ";
             timeMessage += $"Active Player: {gameTime.ActivePlayer} ";
-            timeMessage += gameTime.ActivePlayer == gameTime.FirstPlayer ? "(Top of Inning)" : "(Bottom of Inning)";
+            timeMessage += gameTime.ActivePlayer == gameTime.FirstPlayer ? "(Top of Inning)" : "(Bot. of Inning)";
         }
 
         DisplayLinesInBox([timeMessage], drawMode);

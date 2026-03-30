@@ -32,6 +32,23 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
             ActivePlayer = CurrentPlayer,
         };
     }
+
+    public void SwitchActivePlayer()
+    {
+        CurrentPlayer = CurrentPlayer.ToOpponent();
+        if (CurrentPlayer == FirstPlayer)
+        {
+            if (TurnNumber == 5)
+            {
+                TurnNumber = 0;
+                CurrentPhase++;
+            }
+            else
+            {
+                TurnNumber++;
+            }
+        }
+    }
     
     public GameState GetGameState()
     {
@@ -108,8 +125,11 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
         };
     }
 
+    [ValidOnlyInCertainPhases([Phase.Activity])]
     public void PlayCardAsEvent(Card card, SetOfChanges changes, Player player)
     {
+        ActionValidator.ThrowIfActionNotAllowed(CurrentPhase);
+        
         ActionPlan plan = new ActionPlan()
         {
             Engine = _engine,
@@ -122,6 +142,8 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
         }
         
         card.Event(plan, player);
+        _engine.MoveCardFromOneZoneToAnother(player, card, CardZone.Hand, CardZone.Removed);
+        SwitchActivePlayer();
     }
 
     [ValidOnlyInCertainPhases([Phase.Initiative])]
