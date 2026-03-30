@@ -235,7 +235,7 @@ public static class DisplayToConsole
         {
             timeMessage += $"#{gameTime.ActivityPhaseNumber} | ";
             timeMessage += $"Active Player: {gameTime.ActivePlayer} ";
-            timeMessage += gameTime.ActivePlayer == gameTime.FirstPlayer ? "(Top of Inning)" : "(Bottom of Inning)";
+            timeMessage += gameTime.ActivePlayer == gameTime.FirstPlayer ? "(Top of Inning)" : "(Bot. of Inning)";
         }
 
         DisplayLinesInBox([timeMessage], drawMode);

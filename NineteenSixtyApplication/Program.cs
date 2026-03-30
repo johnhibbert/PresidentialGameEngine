@@ -30,34 +30,28 @@ internal class Program
         ConductInitiativeCheck();
         ClearScreen();
         
-        ShowGameTime(BoxForm.OnlyTop);
-        
-        //DisplayToConsole.DisplayGameState(controller.GetGameState());
-        
-        /*
         var gameTime = controller.GetGameTime();
-        DrawToConsole.DrawGameTime(gameTime);
-*/
-        
-        /* THIS CODE WORKS.
-        DrawToConsole.DrawGameState(controller.GetGameState());
-        controller.PlayCardAsEvent(Manifest.GMTCards[5], new SetOfChanges(), Player.Kennedy);
-        DrawToConsole.DrawGameState(controller.GetGameState());
-        */
 
-
-        var gameTime = controller.GetGameTime();
-        var chosenAction = GetActionFromUser();
-
-        switch (chosenAction)
+        while (gameTime.CurrentPhase == Phase.Activity)
         {
-            case ActionType.PlayCardForEvent:
-                PlayCardAsEvent(gameTime.ActivePlayer);
-                break;
-            default:
-                break;
+
+            ShowGameTime(BoxForm.OnlyTop);
+            gameTime = controller.GetGameTime();
+            var chosenAction = GetActionFromUser();
+
+            switch (chosenAction)
+            {
+                case ActionType.PlayCardForEvent:
+                    PlayCardAsEvent(gameTime.ActivePlayer);
+                    break;
+                default:
+                    break;
+            }
+
         }
-        
+
+
+
         int i = 0;
     }
 
@@ -125,7 +119,7 @@ internal class Program
     
     static void PlayCardAsEvent(Player player)
     {
-        DisplayToConsole.DisplayGameState(controller.GetGameState());
+        //DisplayToConsole.DisplayGameState(controller.GetGameState());
         
         DisplayToConsole.DisplayGenericMessage($"{player} player: Select a card:", BoxForm.OnlyTop);
         
