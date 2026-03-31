@@ -7,4 +7,5 @@ public enum ChangeType
     MediaSupport,
     Endorsement,
     NewIssueOrder,
+    NewPlayerLocation,
 }

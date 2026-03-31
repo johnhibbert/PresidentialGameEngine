@@ -44,6 +44,9 @@ internal class Program
                 case ActionType.PlayCardForEvent:
                     PlayCardAsEvent(gameTime.ActivePlayer);
                     break;
+                case ActionType.PlayCardForCampaignPoints:
+                    PlayCardForCampaignPoints(gameTime.ActivePlayer);
+                    break;
                 default:
                     break;
             }
@@ -119,14 +122,7 @@ internal class Program
     
     static void PlayCardAsEvent(Player player)
     {
-        //DisplayToConsole.DisplayGameState(controller.GetGameState());
-        
-        DisplayToConsole.DisplayGenericMessage($"{player} player: Select a card:", BoxForm.OnlyTop);
-        
-        var hand = controller.GetCardsInHand(player).ToList();
-        DisplayToConsole.DisplayCardsInList(hand);
-        var chosenInt = GetIntegerInputFromUser(hand.Select(x => x.Index));
-        var cardToPlay = hand.Single(x => x.Index == chosenInt);
+        var cardToPlay = GetCardFromUser(player);
 
         bool changesAccepted = false;
 
@@ -135,7 +131,7 @@ internal class Program
             SetOfChanges changes = new SetOfChanges();
             if (cardToPlay.RequiresPlayerInput)
             {
-                changes = GetDesiredSetOfChangesFromUser(cardToPlay);
+                changes = GetDesiredSetOfChangesFromUser(cardToPlay, ActionType.PlayCardForEvent);
             }
 
             try
@@ -148,17 +144,64 @@ internal class Program
                 Console.WriteLine(e.Message);
             }
         }
-
-        int i = 0;
-        
-        DisplayToConsole.DisplayGameState(controller.GetGameState());
     }
+
+
+    static Card GetCardFromUser(Player player)
+    {
+        DisplayToConsole.DisplayGenericMessage($"{player} player: Select a card:", BoxForm.OnlyTop);
+        var hand = controller.GetCardsInHand(player).ToList();
+        DisplayToConsole.DisplayCardsInList(hand);
+        var chosenInt = GetIntegerInputFromUser(hand.Select(x => x.Index));
+        var card = hand.Single(x => x.Index == chosenInt);
+
+        return card;
+    }
+
+
+    static void PlayCardForCampaignPoints(Player player)
+    {
+        var chosenAction = GetCampaignPointActionFromUser();
+
+        switch (chosenAction)
+        {
+            case CampaignPointOption.CampaigningInStates:
+                PlayCardForCampaigningInStates(player);
+                break;
+        }
+
+    }
+
+    static void PlayCardForCampaigningInStates(Player player)
+    {
+        var cardToPlay = GetCardFromUser(player);
+
+        bool changesAccepted = false;
+
+        while (!changesAccepted)
+        {
+            SetOfChanges changes = GetDesiredSetOfChangesFromUser(cardToPlay, ActionType.PlayCardForCampaignPoints);
+
+            try
+            {
+                //Controller needs new method.
+                controller.PlayCardToCampaignInStates(cardToPlay, changes, player);
+                changesAccepted = true;
+            }
+            catch (InvalidPlayerChoices e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+    }
+
+
+    /*
+
+     */
     
-    
-    
-    
-    
-    
+
+
     static Player GetFirstPlayerFromUser(InitiativeCheckResult initiativeCheck, int turnNumber)
     {
         var messages = new List<string>()
@@ -262,12 +305,20 @@ internal class Program
     static ActionType GetActionFromUser()
     {
         DisplayToConsole.DisplayRequestForAction();
-        var intFromUser = GetIntegerInputFromUser(1);
+        var intFromUser = GetIntegerInputFromUser(2);
 
         return (ActionType)intFromUser;
     }
 
-    static SetOfChanges GetDesiredSetOfChangesFromUser(Card card)
+    static CampaignPointOption GetCampaignPointActionFromUser()
+    {
+        DisplayToConsole.DisplayRequestForCampaignPointAction();
+        var intFromUser = GetIntegerInputFromUser(1);
+
+        return (CampaignPointOption)intFromUser;
+    }
+    
+    static SetOfChanges GetDesiredSetOfChangesFromUser(Card card, ActionType action)
     {
         var returnValue = new SetOfChanges();
 
@@ -285,14 +336,28 @@ internal class Program
         instructions.Add("For endorsements: E and then E, M, S or W for the region. (ES+1N)");
         instructions.Add("For media support: M and then E, M, S or W for the region. (MM-1N)");
         instructions.Add("");
-        instructions.Add("To reorder issues with Gallup Poll, use IO instead of the state");
-        instructions.Add("Then C, D and E for the new order. (IODEC)");
-        instructions.Add("");
+        if (action == ActionType.PlayCardForEvent)
+        {
+            instructions.Add("To reorder issues with Gallup Poll, use IO instead of the state");
+            instructions.Add("Then C, D and E for the new order. (IODEC)");
+            instructions.Add("");
+        }
+        else if (action == ActionType.PlayCardForCampaignPoints)
+        {
+            instructions.Add("When campaigning, you must end in a state that you campaigned in.");
+            instructions.Add("To move a player, type MV, then the state, then the candidate.");
+            instructions.Add("For example, to move Nixon to Rhode Island, type MVRIN.");
+            instructions.Add("");
+        }
+
         instructions.Add("Do not add any changes that are not chosen by the player.");
         instructions.Add("These will be done automatically.");
         instructions.Add("");
         instructions.Add("Type 'Q' to quit.");
 
+
+
+        
 
         DisplayToConsole.DisplayLinesInBox(instructions);
 
@@ -368,7 +433,7 @@ internal class Program
 
                     throw new InvalidOperationException();
                 }
-                
+
                 var chunkTwo = input.Substring(2, 2);
                 var chunkThree = input.Substring(4, 1);
                 
@@ -385,6 +450,17 @@ internal class Program
                         throw new InvalidOperationException();
                 }
 
+                if (chunkOne == "MV")
+                {
+                    if (Enum.TryParse(chunkTwo, out State chunkTwoAsState))
+                    {
+                        returnValue.NewPlayerLocation.Add(affectedPlayer, chunkTwoAsState);
+                        Console.WriteLine("Input accepted.");
+                        continue;
+                    }
+                    else throw new InvalidOperationException();
+                }
+                
                 if (!int.TryParse(chunkTwo, out int intFromUser))
                 {
                     throw new InvalidOperationException();
@@ -410,7 +486,7 @@ internal class Program
                     var change = new SupportChange<Player, Region>(affectedPlayer, mediaRegion, intFromUser);
                     returnValue.MediaSupportChanges.Add(change);
                 }
-                else  throw new InvalidOperationException();
+                else throw new InvalidOperationException();
 
                 Console.WriteLine("Input accepted.");
             }
@@ -458,4 +534,10 @@ internal class Program
 public enum ActionType
 {
     PlayCardForEvent = 1,
+    PlayCardForCampaignPoints = 2,
+}
+
+public enum CampaignPointOption
+{
+    CampaigningInStates = 1,
 }

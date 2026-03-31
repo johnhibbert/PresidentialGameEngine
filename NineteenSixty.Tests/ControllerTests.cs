@@ -130,7 +130,7 @@ public class ControllerTests
             Index = 1,
             Title = "Example Card",
             Text = "Example Card Tests.",
-            CampaignPoints = 2,
+            CampaignPoints = 3,
             EventType = EventType.None,
             Issue = Issue.Defense,
             Affiliation = Affiliation.Both,
@@ -611,4 +611,99 @@ public class ControllerTests
     
     #endregion
     
+    
+    #region CampaignInStates Tests
+    
+    [TestMethod]
+    [DataRow(Player.Nixon, State.WY)]
+    [DataRow(Player.Kennedy, State.RI)]
+    public void CampaignInStates_SupportGainedInSameRegion(Player player, State state)
+    {
+        var engine = EngineFixtures.GetGameEngine();
+        
+        var playerChoices = new SetOfChanges();
+        var twoSupportInState = new SupportChange<Player, State>(player, state, ExampleCard.CampaignPoints);
+        playerChoices.StateChanges.Add(twoSupportInState);
+        playerChoices.NewPlayerLocation[player] = state;
+        
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
+        sut.SetFirstPlayerForActivityPhase(player);
+        var initialSupportAmount =  sut.GetGameState().StateContests[state].Amount;
+        
+        sut.PlayCardToCampaignInStates(ExampleCard, playerChoices, player);
+
+        var result = sut.GetGameState().StateContests[state];
+        Assert.AreEqual(initialSupportAmount + ExampleCard.CampaignPoints, result.Amount);
+    }
+    
+    [TestMethod]
+    [DataRow(Player.Nixon, State.WY)]
+    [DataRow(Player.Kennedy, State.RI)]
+
+    public void CampaignInStates_CandidateMovedToCampaignedState(Player player, State state)
+    {
+        var engine = EngineFixtures.GetGameEngine();
+        
+        var playerChoices = new SetOfChanges();
+        var twoSupportInState = new SupportChange<Player, State>(player, state, ExampleCard.CampaignPoints);
+        playerChoices.StateChanges.Add(twoSupportInState);
+        playerChoices.NewPlayerLocation[player] = state;
+        
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
+        sut.SetFirstPlayerForActivityPhase(player);
+        
+        sut.PlayCardToCampaignInStates(ExampleCard, playerChoices, player);
+        
+        var result = sut.GetGameState().PlayerLocations[player];
+        Assert.AreEqual(state, result);
+    }
+
+    [TestMethod]
+    [DataRow(Player.Nixon, State.NC)]
+    [DataRow(Player.Kennedy, State.NC)]
+    [ExpectedException(typeof(InvalidPlayerChoices))]
+    public void CampaignInStates_TotalGainReducedByMovingCandidateToNeighboringRegion(Player player, State state)
+    {
+        var engine = EngineFixtures.GetGameEngine();
+        
+        var playerChoices = new SetOfChanges();
+        var twoSupportInState = new SupportChange<Player, State>(player, state, ExampleCard.CampaignPoints);
+        playerChoices.StateChanges.Add(twoSupportInState);
+        playerChoices.NewPlayerLocation[player] = state;
+        
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
+        sut.SetFirstPlayerForActivityPhase(player);
+
+        sut.PlayCardToCampaignInStates(ExampleCard, playerChoices, player);
+    }
+    
+    [TestMethod]
+    [DataRow(State.AK)]
+    [DataRow(State.HI)]
+    public void CampaignInStates_AlaskaAndHawaiiCostOneCampaignPoint(State state)
+    {
+        var player = Player.Nixon;
+        
+        var engine = EngineFixtures.GetGameEngine();
+        
+        var playerChoices = new SetOfChanges();
+        var twoSupportInState = new SupportChange<Player, State>(player, state, ExampleCard.CampaignPoints - 1);
+        playerChoices.StateChanges.Add(twoSupportInState);
+        playerChoices.NewPlayerLocation[player] = state;
+        
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
+        sut.SetFirstPlayerForActivityPhase(player);
+        var initialSupportAmount =  sut.GetGameState().StateContests[state].Amount;
+        
+        sut.PlayCardToCampaignInStates(ExampleCard, playerChoices, player);
+
+        var result = sut.GetGameState().StateContests[state];
+        Assert.AreEqual(initialSupportAmount + ExampleCard.CampaignPoints - 1, result.Amount);
+    }
+    
+    #endregion
 }

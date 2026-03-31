@@ -60,6 +60,18 @@ public static class DisplayToConsole
         {
             "Choose an action:",
             "1: Play card for event",
+            "2: Play card for campaign points"
+        };
+        
+        DisplayLinesInBox(lines);
+    }
+    
+    public static void DisplayRequestForCampaignPointAction()
+    {
+        var lines = new List<string>()
+        {
+            "Choose an use for campaign points:",
+            "1: Campaigning in States",
         };
         
         DisplayLinesInBox(lines);
@@ -222,7 +234,8 @@ public static class DisplayToConsole
 
         foreach (var card in cards.OrderBy(x => x.Index))
         {
-            lines.Add($"{card.Index}: {card.Title}");
+            var asString = $"{card.Index}: {card.Title}".PadRight(57) + $"[{card.CampaignPoints}CP / {card.RestCubes}R]";
+            lines.Add(asString);
         }
         DisplayLinesInBox(lines, drawMode);
     }

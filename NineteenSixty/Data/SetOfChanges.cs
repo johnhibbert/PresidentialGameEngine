@@ -17,6 +17,7 @@ public record SetOfChanges
     //This should probably change.
     public List<Issue> NewIssuesOrder { get; set; } = [];
     
+    public Dictionary<Player, State> NewPlayerLocation  { get; internal set; } = [];
     
     public int TotalIssueChanges
     {
@@ -95,21 +96,24 @@ public record SetOfChanges
         var endorsementTypeExpected = givenTypesAsArray.Any(x => x == ChangeType.Endorsement);
         var mediaSupportTypeExpected = givenTypesAsArray.Any(x => x == ChangeType.MediaSupport);
         var newIssueOrderTypeExpected = givenTypesAsArray.Any(x => x == ChangeType.NewIssueOrder);
+        var newPlayerLocationExpected = givenTypesAsArray.Any(x => x == ChangeType.NewPlayerLocation);
             
         var hasIssueChanges = TotalIssueChanges != 0;
         var hasStateChanges = TotalStateChanges != 0;
         var hasEndorsementChanges = TotalEndorsementChanges != 0;
         var hasMediaChanges = TotalMediaChanges != 0;
         var hasNewIssuesOrder = NewIssuesOrder.Count != 0;
+        var hasNewPlayerLocation = NewPlayerLocation.Count != 0;
 
         var issueChangeMatch = !(hasIssueChanges ^ issueChangeTypeExpected);
         var stateChangeMatch = !(hasStateChanges ^ stateChangeTypeExpected);
         var endorsementChangeMatch = !(hasEndorsementChanges ^ endorsementTypeExpected);
         var mediaSupportChangeMatch = !(hasMediaChanges ^ mediaSupportTypeExpected);
         var newIssueOrderMatch = !(hasNewIssuesOrder ^ newIssueOrderTypeExpected);
+        var newPlayerLocationMatch =  !(hasNewPlayerLocation ^ newPlayerLocationExpected);
 
         return issueChangeMatch && stateChangeMatch && endorsementChangeMatch && mediaSupportChangeMatch &&
-               newIssueOrderMatch;
+               newIssueOrderMatch && newPlayerLocationMatch;
             
     }
 

@@ -16,6 +16,7 @@ public class SetOfChangesTests
     [DataRow(ChangeType.Endorsement, false)]
     [DataRow(ChangeType.MediaSupport, false)]
     [DataRow(ChangeType.NewIssueOrder, false)]
+    [DataRow(ChangeType.NewPlayerLocation, false)]
     public void ContainsOnlyExactlyTheseChangeTypes_IssueChanges(ChangeType changeType, bool expectedResult)
     {
         var sut = new SetOfChanges();
@@ -31,6 +32,7 @@ public class SetOfChangesTests
     [DataRow(ChangeType.Endorsement, false)]
     [DataRow(ChangeType.MediaSupport, false)]
     [DataRow(ChangeType.NewIssueOrder, false)]
+    [DataRow(ChangeType.NewPlayerLocation, false)]
     public void ContainsOnlyExactlyTheseChangeTypes_StateChanges(ChangeType changeType, bool expectedResult)
     {
         var sut = new SetOfChanges();
@@ -46,6 +48,7 @@ public class SetOfChangesTests
     [DataRow(ChangeType.Endorsement, true)]
     [DataRow(ChangeType.MediaSupport, false)]
     [DataRow(ChangeType.NewIssueOrder, false)]
+    [DataRow(ChangeType.NewPlayerLocation, false)]
     public void ContainsOnlyExactlyTheseChangeTypes_EndorsementChanges(ChangeType changeType, bool expectedResult)
     {
         var sut = new SetOfChanges();
@@ -61,6 +64,7 @@ public class SetOfChangesTests
     [DataRow(ChangeType.Endorsement, false)]
     [DataRow(ChangeType.MediaSupport, true)]
     [DataRow(ChangeType.NewIssueOrder, false)]
+    [DataRow(ChangeType.NewPlayerLocation, false)]
     public void ContainsOnlyExactlyTheseChangeTypes_MediaSupportChanges(ChangeType changeType, bool expectedResult)
     {
         var sut = new SetOfChanges();
@@ -76,12 +80,28 @@ public class SetOfChangesTests
     [DataRow(ChangeType.Endorsement, false)]
     [DataRow(ChangeType.MediaSupport, false)]
     [DataRow(ChangeType.NewIssueOrder, true)]
+    [DataRow(ChangeType.NewPlayerLocation, false)]
     public void ContainsOnlyExactlyTheseChangeTypes_NewIssueOrderChanges(ChangeType changeType, bool expectedResult)
     {
         var sut = new SetOfChanges();
         var issueOrderChange = new List<Issue>() { Issue.Economy, Issue.CivilRights, Issue.Defense };
         sut.NewIssuesOrder = issueOrderChange; 
 
+        Assert.AreEqual(expectedResult, sut.ContainsOnlyExactlyTheseChangeTypes([changeType]));
+    }
+    
+    [TestMethod]
+    [DataRow(ChangeType.IssueSupport, false)]
+    [DataRow(ChangeType.StateSupport, false)]
+    [DataRow(ChangeType.Endorsement, false)]
+    [DataRow(ChangeType.MediaSupport, false)]
+    [DataRow(ChangeType.NewIssueOrder, false)]
+    [DataRow(ChangeType.NewPlayerLocation, true)]
+    public void ContainsOnlyExactlyTheseChangeTypes_NewPlayerLocationChanges(ChangeType changeType, bool expectedResult)
+    {
+        var sut = new SetOfChanges();
+        sut.NewPlayerLocation.Add(Player.Kennedy, State.AK);
+        
         Assert.AreEqual(expectedResult, sut.ContainsOnlyExactlyTheseChangeTypes([changeType]));
     }
     
