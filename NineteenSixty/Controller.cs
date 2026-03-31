@@ -146,8 +146,22 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
         SwitchActivePlayer();
     }
 
+    
+    
+    [ValidOnlyInCertainPhases([Phase.Activity])]
     public void CampaignInStates(Card card, SetOfChanges changes, Player player)
     {
+        ActionValidator.ThrowIfActionNotAllowed(CurrentPhase);
+
+        /*
+        var playerCurrentLocation = _engine.GetPlayerState(player);
+        
+        _engine.ImplementChanges(changes);
+        
+        _engine.MoveCardFromOneZoneToAnother(player, card, CardZone.Hand, CardZone.DiscardPile);
+        SwitchActivePlayer();
+        */
+        
         throw new NotImplementedException();
     }
 
