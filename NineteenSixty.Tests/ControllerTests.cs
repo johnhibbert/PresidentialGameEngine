@@ -631,7 +631,7 @@ public class ControllerTests
         sut.SetFirstPlayerForActivityPhase(player);
         var initialSupportAmount =  sut.GetGameState().StateContests[state].Amount;
         
-        sut.CampaignInStates(ExampleCard, playerChoices, player);
+        sut.PlayCardToCampaignInStates(ExampleCard, playerChoices, player);
 
         var result = sut.GetGameState().StateContests[state];
         Assert.AreEqual(initialSupportAmount + ExampleCard.CampaignPoints, result.Amount);
@@ -654,7 +654,7 @@ public class ControllerTests
         sut.SetUpBoard();
         sut.SetFirstPlayerForActivityPhase(player);
         
-        sut.CampaignInStates(ExampleCard, playerChoices, player);
+        sut.PlayCardToCampaignInStates(ExampleCard, playerChoices, player);
         
         var result = sut.GetGameState().PlayerLocations[player];
         Assert.AreEqual(state, result);
@@ -677,7 +677,7 @@ public class ControllerTests
         sut.SetUpBoard();
         sut.SetFirstPlayerForActivityPhase(player);
 
-        sut.CampaignInStates(ExampleCard, playerChoices, player);
+        sut.PlayCardToCampaignInStates(ExampleCard, playerChoices, player);
     }
     
     [TestMethod]
@@ -699,7 +699,7 @@ public class ControllerTests
         sut.SetFirstPlayerForActivityPhase(player);
         var initialSupportAmount =  sut.GetGameState().StateContests[state].Amount;
         
-        sut.CampaignInStates(ExampleCard, playerChoices, player);
+        sut.PlayCardToCampaignInStates(ExampleCard, playerChoices, player);
 
         var result = sut.GetGameState().StateContests[state];
         Assert.AreEqual(initialSupportAmount + ExampleCard.CampaignPoints - 1, result.Amount);

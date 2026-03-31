@@ -149,7 +149,7 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
     
     
     [ValidOnlyInCertainPhases([Phase.Activity])]
-    public void CampaignInStates(Card card, SetOfChanges changes, Player player)
+    public void PlayCardToCampaignInStates(Card card, SetOfChanges changes, Player player)
     {
         ActionValidator.ThrowIfActionNotAllowed(CurrentPhase);
 

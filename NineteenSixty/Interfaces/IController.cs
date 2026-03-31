@@ -13,7 +13,7 @@ public interface IController
 
     void PlayCardAsEvent(Card card, SetOfChanges changes, Player player);
     
-    void CampaignInStates(Card card, SetOfChanges changes, Player player);
+    void PlayCardToCampaignInStates(Card card, SetOfChanges changes, Player player);
 
     void SetFirstPlayerForActivityPhase(Player player);
 

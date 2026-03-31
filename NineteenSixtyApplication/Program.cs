@@ -185,7 +185,7 @@ internal class Program
             try
             {
                 //Controller needs new method.
-                controller.CampaignInStates(cardToPlay, changes, player);
+                controller.PlayCardToCampaignInStates(cardToPlay, changes, player);
                 changesAccepted = true;
             }
             catch (InvalidPlayerChoices e)
