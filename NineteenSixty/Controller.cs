@@ -153,16 +153,40 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
     {
         ActionValidator.ThrowIfActionNotAllowed(CurrentPhase);
 
-        /*
-        var playerCurrentLocation = _engine.GetPlayerState(player);
+        var currentState = _engine.GetGameState();
+        var affectedStates = changes.StateChanges.Select(x => x.Target).ToList();
+        bool isNewPlayerLocationInCampaignedState = affectedStates.Contains(changes.NewPlayerLocation[player]);
+
+        var regions = new List<Region>();
+        foreach (var state in affectedStates)
+        {
+            regions.Add(Manifest.StateData[state].Region);
+        }
+        var currentRegion = Manifest.StateData[currentState.PlayerLocations[player]].Region;
+
+        //This may not be 100% accurate as a way to find the path.
+        var numberOfMoves = regions.Where(x => x != currentRegion).Distinct().ToList().Count;
+
+        bool areMovesAndChangesInBounds =
+            numberOfMoves + changes.TotalStateChanges <= card.CampaignPoints;
+
+        bool isValid = isNewPlayerLocationInCampaignedState && areMovesAndChangesInBounds;
+        
+        if(!isValid)
+        {
+            throw new InvalidPlayerChoices($"The selected choices are invalid for this card: {card.Index} {card.Title}.");
+        }
+
+        ActionPlan plan = new ActionPlan()
+        {
+            Engine = _engine,
+            Changes = changes,
+        };
         
         _engine.ImplementChanges(changes);
         
         _engine.MoveCardFromOneZoneToAnother(player, card, CardZone.Hand, CardZone.DiscardPile);
         SwitchActivePlayer();
-        */
-        
-        throw new NotImplementedException();
     }
 
     [ValidOnlyInCertainPhases([Phase.Initiative])]

@@ -109,6 +109,10 @@ public class Engine(
             IssuePositioningComponent.SetSubjectOrder(changes.NewIssuesOrder);
         }
 
+        foreach (var npl in changes.NewPlayerLocation)
+        {
+            PlayerLocationComponent.MovePlayerToState(npl.Key, npl.Value);
+        }
 
     }
 
