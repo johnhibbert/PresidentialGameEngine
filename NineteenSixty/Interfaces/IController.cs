@@ -9,6 +9,9 @@ public interface IController
     GameTime GetGameTime();
     GameState GetGameState();
     void SetUpBoard();
+
+    bool ConductSupportCheck(Player player);
+    
     InitiativeCheckResult ConductInitiativeCheck();
 
     void PlayCardAsEvent(Card card, SetOfChanges changes, Player player);

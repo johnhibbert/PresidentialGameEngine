@@ -95,6 +95,11 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
         CurrentPhase =  Phase.Initiative;
     }
 
+    public bool ConductSupportCheck(Player player)
+    {
+        return player == _engine.DrawCubeFromPoliticalCapitalBag();
+    }
+    
     public InitiativeCheckResult ConductInitiativeCheck()
     {
         var cubesDrawn = new Dictionary<Player, int>()
