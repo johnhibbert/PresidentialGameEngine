@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PresidentialGameEngine.ClassLibrary.Interfaces
+﻿namespace PresidentialGameEngine.ClassLibrary.Interfaces
 {
+    /// <summary>
+    /// IPositioningComponent represents where some subject has a changeable order of priority.
+    /// For 1960, this would cover the issues changing positions.
+    /// </summary>
+    /// <typeparam name="TSubject">The subject enumeration</typeparam>
     public interface IPositioningComponent<TSubject>
         where TSubject : Enum
     {
