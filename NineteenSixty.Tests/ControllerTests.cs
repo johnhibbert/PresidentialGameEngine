@@ -394,6 +394,22 @@ public class ControllerTests
     
     #endregion
 
+    #region ConductSupportCheck Tests
+
+    [TestMethod]
+    [DataRow(Player.Kennedy, false)]
+    [DataRow(Player.Nixon, true)]
+    public void ConductSupportCheck_ResultDependsOnPlayerConductingCheck(Player player, bool expectedResult)
+    {
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
+        var result = sut.ConductSupportCheck(player);
+
+        Assert.AreEqual(expectedResult, result);
+    }
+    
+    #endregion
+    
     #region ConductInitiativeCheck
 
     [TestMethod]
