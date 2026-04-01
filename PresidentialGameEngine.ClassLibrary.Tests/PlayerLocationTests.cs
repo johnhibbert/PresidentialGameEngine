@@ -23,7 +23,7 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void Constructor_DictionaryAccepted()
         {
             var sut = PlayerLocationComponent;
-            var result = sut.GetPlayerState(FakePlayer.PlayerOne);
+            var result = sut.GetPlayerLocation(FakePlayer.PlayerOne);
             Assert.AreEqual(FakeState.Mind, result);
         }
 
@@ -35,8 +35,8 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void GetPlayerState_CorrectStatesReturned()
         {
             var sut = PlayerLocationComponent;
-            Assert.AreEqual(FakeState.Mind, sut.GetPlayerState(FakePlayer.PlayerOne));
-            Assert.AreEqual(FakeState.Denial, sut.GetPlayerState(FakePlayer.PlayerTwo));
+            Assert.AreEqual(FakeState.Mind, sut.GetPlayerLocation(FakePlayer.PlayerOne));
+            Assert.AreEqual(FakeState.Denial, sut.GetPlayerLocation(FakePlayer.PlayerTwo));
         }
 
         #endregion
@@ -47,8 +47,8 @@ namespace PresidentialGameEngine.ClassLibrary.Tests
         public void MovePlayerToState_CorrectStatesReturned()
         {
             var sut = PlayerLocationComponent;
-            sut.MovePlayerToState(FakePlayer.PlayerOne, FakeState.OfTheArt);
-            Assert.AreEqual(FakeState.OfTheArt, sut.GetPlayerState(FakePlayer.PlayerOne));
+            sut.MovePlayerToLocation(FakePlayer.PlayerOne, FakeState.OfTheArt);
+            Assert.AreEqual(FakeState.OfTheArt, sut.GetPlayerLocation(FakePlayer.PlayerOne));
         }
 
         #endregion

@@ -2,12 +2,12 @@ using PresidentialGameEngine.ClassLibrary.Interfaces;
 
 namespace PresidentialGameEngine.ClassLibrary.Components;
 
-public class BlindBagComponent<TPlayer>
-    : IBlindBagComponent<TPlayer>
-    where TPlayer : Enum
+public class BlindBagComponent<TCubeOption>
+    : IBlindBagComponent<TCubeOption>
+    where TCubeOption : Enum
 {
     private readonly int _initialPopulationPerPlayer;
-    private readonly Dictionary<TPlayer, int> _cubes;
+    private readonly Dictionary<TCubeOption, int> _cubes;
     private readonly IRandomnessProvider _rng;
 
     private bool _refillBagAutomatically = true;
@@ -17,9 +17,9 @@ public class BlindBagComponent<TPlayer>
         _initialPopulationPerPlayer = initialPopulationPerPlayer;
         _rng = rng;
         
-        _cubes =  new Dictionary<TPlayer, int>();
+        _cubes =  new Dictionary<TCubeOption, int>();
         
-        foreach (var val in (TPlayer[])Enum.GetValues(typeof(TPlayer)))
+        foreach (var val in (TCubeOption[])Enum.GetValues(typeof(TCubeOption)))
         {
             _cubes.Add(val, 0);
         }
@@ -28,18 +28,18 @@ public class BlindBagComponent<TPlayer>
     
     public void FillBag()
     {
-        foreach (var val in (TPlayer[])Enum.GetValues(typeof(TPlayer)))
+        foreach (var val in (TCubeOption[])Enum.GetValues(typeof(TCubeOption)))
         {
             _cubes[val] = _initialPopulationPerPlayer;
         }
     }
 
-    public IDictionary<TPlayer, int> PeekIntoBag()
+    public IDictionary<TCubeOption, int> PeekIntoBag()
     {
         return _cubes;
     }
 
-    public TPlayer DrawCube()
+    public TCubeOption DrawCube()
     {
         var fullSum = _cubes.Values.Sum();
         
