@@ -1,13 +1,18 @@
 namespace PresidentialGameEngine.ClassLibrary.Interfaces;
 
-public interface IBlindBagComponent<TPlayer>
-    where TPlayer : Enum
+/// <summary>
+/// IBlindBagComponent represents a bag with choices to be drawn randomly that reduce the included population
+/// For 1960, this would cover the political capital bag.
+/// </summary>
+/// <typeparam name="TCubeOption">The enumeration of options in the bag</typeparam>
+public interface IBlindBagComponent<TCubeOption>
+    where TCubeOption : Enum
 {
     public void FillBag();
 
-    public IDictionary<TPlayer, int> PeekIntoBag();
+    public IDictionary<TCubeOption, int> PeekIntoBag();
     
-    public TPlayer DrawCube();
+    public TCubeOption DrawCube();
 
     public void StopAutomaticallyRefillingBag();
 }
