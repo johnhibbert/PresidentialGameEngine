@@ -231,12 +231,12 @@ namespace PresidentialGameEngine.ClassLibrary.Engines
 
         public TState GetPlayerState(TPlayer player)
         {
-            return PlayerLocationComponent.GetPlayerState(player);
+            return PlayerLocationComponent.GetPlayerLocation(player);
         }
 
         public void MovePlayerToState(TPlayer player, TState states)
         {
-            PlayerLocationComponent.MovePlayerToState(player, states);
+            PlayerLocationComponent.MovePlayerToLocation(player, states);
         }
 
         public void GainEndorsement(TPlayer player, TRegion region, int amount)

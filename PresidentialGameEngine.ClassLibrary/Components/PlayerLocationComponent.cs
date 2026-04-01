@@ -2,24 +2,24 @@
 
 namespace PresidentialGameEngine.ClassLibrary.Components
 {
-    public class PlayerLocationComponent<TPlayer, TState> : IPlayerLocationComponent<TPlayer, TState>
+    public class PlayerLocationComponent<TPlayer, TLocation> : IPlayerLocationComponent<TPlayer, TLocation>
     {
-        private IDictionary<TPlayer, TState> PlayerLocations { get; init; }
+        private IDictionary<TPlayer, TLocation> PlayerLocations { get; init; }
 
-        public IDictionary<TPlayer, TState> GetRawData() { return PlayerLocations; }
+        public IDictionary<TPlayer, TLocation> GetRawData() { return PlayerLocations; }
 
-        public PlayerLocationComponent(IDictionary<TPlayer, TState> playerStartingLocations)
+        public PlayerLocationComponent(IDictionary<TPlayer, TLocation> playerStartingLocations)
         {
             PlayerLocations = playerStartingLocations;
         }
-        public TState GetPlayerState(TPlayer player)
+        public TLocation GetPlayerLocation(TPlayer player)
         {
             return PlayerLocations[player];
         }
 
-        public void MovePlayerToState(TPlayer player, TState states)
+        public void MovePlayerToLocation(TPlayer player, TLocation location)
         {
-            PlayerLocations[player] = states;
+            PlayerLocations[player] = location;
         }
     }
 }

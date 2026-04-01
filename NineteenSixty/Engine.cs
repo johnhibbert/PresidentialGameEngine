@@ -111,7 +111,7 @@ public class Engine(
 
         foreach (var npl in changes.NewPlayerLocation)
         {
-            PlayerLocationComponent.MovePlayerToState(npl.Key, npl.Value);
+            PlayerLocationComponent.MovePlayerToLocation(npl.Key, npl.Value);
         }
 
     }
@@ -183,12 +183,12 @@ public class Engine(
 
     public State GetPlayerState(Player player)
     {
-        return PlayerLocationComponent.GetPlayerState(player);
+        return PlayerLocationComponent.GetPlayerLocation(player);
     }
 
     public void MovePlayerToState(Player player, State state)
     {
-        PlayerLocationComponent.MovePlayerToState(player, state);
+        PlayerLocationComponent.MovePlayerToLocation(player, state);
     }
 
     public void GainEndorsement(Player player, Region region, int amount)
