@@ -317,7 +317,7 @@ internal class Program
 
         return (CampaignPointOption)intFromUser;
     }
-    
+
     static SetOfChanges GetDesiredSetOfChangesFromUser(Card card, ActionType action)
     {
         var returnValue = new SetOfChanges();
@@ -357,15 +357,20 @@ internal class Program
 
 
 
-        
+
 
         DisplayToConsole.DisplayLinesInBox(instructions);
 
-        
-        DisplayToConsole.DisplayLongLineWithWordWrapInBox(card.Text, BoxForm.OnlyBottom);
-        
+        if (action == ActionType.PlayCardForEvent)
+        {
+            DisplayToConsole.DisplayLongLineWithWordWrapInBox(card.Text, BoxForm.OnlyBottom);
+        }
+        else if (action == ActionType.PlayCardForCampaignPoints)
+        {
+            DisplayToConsole.DisplayLongLineWithWordWrapInBox($"{card.Title} is worth {card.CampaignPoints} campaign points.", BoxForm.OnlyBottom);
+        }
 
-        var issueLookup = new Dictionary<string, Issue>()
+    var issueLookup = new Dictionary<string, Issue>()
         {
             { "IC", Issue.CivilRights },
             { "ID", Issue.Defense },
