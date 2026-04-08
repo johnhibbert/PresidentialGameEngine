@@ -1,5 +1,6 @@
 using PresidentialGameEngine.ClassLibrary.Data;
 using PresidentialGameEngine.ClassLibrary.Exceptions;
+using PresidentialGameEngine.ClassLibrary.Extensions;
 using PresidentialGameEngine.ClassLibrary.Interfaces;
 
 namespace PresidentialGameEngine.ClassLibrary.Components;
@@ -119,6 +120,6 @@ public class CardZoneComponent<TZone, TPlayer, TCard>
 
     public void RandomizeOrderOfCardsInPublicZone(TZone zone)
     {
-        CardsInPublicZones[zone] = CardsInPublicZones[zone].OrderBy(x => _rng.GetRandomNumber(int.MaxValue)).ToList();
+        CardsInPublicZones[zone] = CardsInPublicZones[zone].Shuffle(_rng).ToList();
     }
 }
