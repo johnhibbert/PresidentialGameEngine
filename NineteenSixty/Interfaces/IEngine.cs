@@ -5,7 +5,7 @@ namespace NineteenSixty.Interfaces;
 
 public interface IEngine: IMomentumEngine, IStateSupportEngine, IIssueSupportEngine, IIssuePositioningEngine,
     IPlayerPositionEngine, IEndorsementEngine, IExhaustionEngine, IMediaSupportEngine, ICardZoneEngine,
-    IPoliticalCapitalEngine
+    IPoliticalCapitalEngine, IRestEngine
 {
     GameState GetGameState();
 
@@ -89,4 +89,14 @@ public interface ICardZoneEngine
 public interface IPoliticalCapitalEngine
 {
     public Player DrawCubeFromPoliticalCapitalBag();
+}
+
+public interface IRestEngine
+{
+    public void GainRestCubes(Player player, int amount);
+
+    public int GetPlayerRestCubes(Player player);
+
+    public void LoseRestCubes(Player player, int amount);
+    
 }

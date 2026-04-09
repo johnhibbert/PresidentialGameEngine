@@ -274,6 +274,19 @@ public class Engine(
         return PoliticalCapitalComponent.DrawCube();
     }
     
-    
+    public void GainRestCubes(Player player, int amount)
+    {
+        RestComponent.GainAmount(player, amount);
+    }
+
+    public int GetPlayerRestCubes(Player player)
+    {
+        return RestComponent.GetPlayerAmount(player);
+    }
+
+    public void LoseRestCubes(Player player, int amount)
+    {
+        RestComponent.LoseAmount(player, amount);
+    }
     
 }

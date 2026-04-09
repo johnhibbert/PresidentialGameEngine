@@ -462,6 +462,27 @@ public class ControllerTests
     [TestMethod]
     [DataRow(Player.Nixon)]
     [DataRow(Player.Kennedy)]
+    public void PlayCardAsEvent_ValidChangesAddRestCubes(Player player)
+    {
+        var engine = EngineFixtures.GetGameEngine();
+        
+        var playerChoices = new SetOfChanges();
+        var oneSupportInKentucky = new SupportChange<Player, State>(player, State.KY, 1);
+        playerChoices.StateChanges.Add(oneSupportInKentucky);
+        
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
+        sut.SetFirstPlayerForActivityPhase(player);
+        sut.PlayCardAsEvent(ExampleCard, playerChoices, player);
+
+        var result = sut.GetGameState().RestCubes[player];
+        
+        Assert.AreEqual(ExampleCard.RestCubes, result);
+    }
+    
+    [TestMethod]
+    [DataRow(Player.Nixon)]
+    [DataRow(Player.Kennedy)]
     [ExpectedException(typeof(InvalidPlayerChoices))]
     public void PlayCardAsEvent_InvalidChangesThrowException(Player player)
     {
@@ -627,8 +648,28 @@ public class ControllerTests
     
     #endregion
     
-    
     #region CampaignInStates Tests
+    
+    [TestMethod]
+    [DataRow(Player.Nixon, State.WY)]
+    [DataRow(Player.Kennedy, State.RI)]
+    public void CampaignInStates_ValidChangesAddRestCubes(Player player, State state)
+    {
+        var engine = EngineFixtures.GetGameEngine();
+        
+        var playerChoices = new SetOfChanges();
+        var twoSupportInState = new SupportChange<Player, State>(player, state, ExampleCard.CampaignPoints);
+        playerChoices.StateChanges.Add(twoSupportInState);
+        playerChoices.NewPlayerLocation[player] = state;
+        
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
+        sut.SetFirstPlayerForActivityPhase(player);
+        sut.PlayCardToCampaignInStates(ExampleCard, playerChoices, player);
+
+        var result = sut.GetGameState().RestCubes[player];
+        Assert.AreEqual(ExampleCard.RestCubes, result);
+    }
     
     [TestMethod]
     [DataRow(Player.Nixon, State.WY)]
@@ -722,4 +763,5 @@ public class ControllerTests
     }
     
     #endregion
+    
 }
