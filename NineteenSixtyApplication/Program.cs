@@ -31,10 +31,10 @@ internal class Program
         ClearScreen();
         
         var gameTime = controller.GetGameTime();
+        var gameState = controller.GetGameState();
 
         while (gameTime.CurrentPhase == Phase.Activity)
         {
-
             ShowGameTime(BoxForm.OnlyTop);
             gameTime = controller.GetGameTime();
             var chosenAction = GetActionFromUser();

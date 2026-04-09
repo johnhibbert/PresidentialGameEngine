@@ -146,6 +146,7 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
             throw new InvalidPlayerChoices($"The selected choices are invalid for this card: {card.Index} {card.Title}.");
         }
         
+        _engine.GainRestCubes(player, card.RestCubes);
         card.Event(plan, player);
         _engine.MoveCardFromOneZoneToAnother(player, card, CardZone.Hand, CardZone.Removed);
         SwitchActivePlayer();
@@ -188,8 +189,8 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
             Changes = changes,
         };
         
+        _engine.GainRestCubes(player, card.RestCubes);
         _engine.ImplementChanges(changes);
-        
         _engine.MoveCardFromOneZoneToAnother(player, card, CardZone.Hand, CardZone.DiscardPile);
         SwitchActivePlayer();
     }
@@ -214,5 +215,6 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
     {
         return _engine.GetCardsInZone(CardZone.Hand, player);
     }
+
 }
 
