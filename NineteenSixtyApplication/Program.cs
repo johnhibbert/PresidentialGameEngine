@@ -35,8 +35,10 @@ internal class Program
 
         while (gameTime.CurrentPhase == Phase.Activity)
         {
-            ShowGameTime(BoxForm.OnlyTop);
             gameTime = controller.GetGameTime();
+            ShowGameTime(BoxForm.OnlyTop);
+            DisplayPlayerHand(gameTime.ActivePlayer, BoxForm.OnlyTop);
+            
             var chosenAction = GetActionFromUser();
 
             switch (chosenAction)
@@ -111,12 +113,15 @@ internal class Program
     static void DisplayHands()
     {
         DisplayToConsole.DisplayGenericMessage("PLAYER HANDS".PadLeft(40), BoxForm.OnlyTop);
-        
-        var kennedyCards = controller.GetCardsInHand(Player.Kennedy);
-        DisplayToConsole.DisplayCardsForPlayerInParagraph(Player.Kennedy, kennedyCards, BoxForm.OnlyTop);
-        
-        var nixonCards = controller.GetCardsInHand(Player.Nixon);
-        DisplayToConsole.DisplayCardsForPlayerInParagraph(Player.Nixon, nixonCards);
+
+        DisplayPlayerHand(Player.Kennedy, BoxForm.OnlyTop);
+        DisplayPlayerHand(Player.Nixon);
+    }
+    
+    static void DisplayPlayerHand(Player player, BoxForm boxForm = BoxForm.TopAndBottom)
+    {
+        var cards = controller.GetCardsInHand(player);
+        DisplayToConsole.DisplayCardsForPlayerInParagraph(player, cards, boxForm);
     }
     
     
