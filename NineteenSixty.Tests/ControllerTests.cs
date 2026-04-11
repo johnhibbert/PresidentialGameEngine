@@ -653,7 +653,7 @@ public class ControllerTests
     [TestMethod]
     [DataRow(Player.Nixon, State.WY)]
     [DataRow(Player.Kennedy, State.RI)]
-    public void CampaignInStates_ValidChangesAddRestCubes(Player player, State state)
+    public void PlayCardToCampaignInStates_ValidChangesAddRestCubes(Player player, State state)
     {
         var engine = EngineFixtures.GetGameEngine();
         
@@ -674,7 +674,7 @@ public class ControllerTests
     [TestMethod]
     [DataRow(Player.Nixon, State.WY)]
     [DataRow(Player.Kennedy, State.RI)]
-    public void CampaignInStates_SupportGainedInSameRegion(Player player, State state)
+    public void PlayCardToCampaignInStates_SupportGainedInSameRegion(Player player, State state)
     {
         var engine = EngineFixtures.GetGameEngine();
         
@@ -698,7 +698,7 @@ public class ControllerTests
     [DataRow(Player.Nixon, State.WY)]
     [DataRow(Player.Kennedy, State.RI)]
 
-    public void CampaignInStates_CandidateMovedToCampaignedState(Player player, State state)
+    public void PlayCardToCampaignInStates_CandidateMovedToCampaignedState(Player player, State state)
     {
         var engine = EngineFixtures.GetGameEngine();
         
@@ -721,7 +721,7 @@ public class ControllerTests
     [DataRow(Player.Nixon, State.NC)]
     [DataRow(Player.Kennedy, State.NC)]
     [ExpectedException(typeof(InvalidPlayerChoices))]
-    public void CampaignInStates_TotalGainReducedByMovingCandidateToNeighboringRegion(Player player, State state)
+    public void PlayCardToCampaignInStates_TotalGainReducedByMovingCandidateToNeighboringRegion(Player player, State state)
     {
         var engine = EngineFixtures.GetGameEngine();
         
@@ -740,7 +740,7 @@ public class ControllerTests
     [TestMethod]
     [DataRow(State.AK)]
     [DataRow(State.HI)]
-    public void CampaignInStates_AlaskaAndHawaiiCostOneCampaignPoint(State state)
+    public void PlayCardToCampaignInStates_AlaskaAndHawaiiCostOneCampaignPoint(State state)
     {
         var player = Player.Nixon;
         
@@ -760,6 +760,62 @@ public class ControllerTests
 
         var result = sut.GetGameState().StateContests[state];
         Assert.AreEqual(initialSupportAmount + ExampleCard.CampaignPoints - 1, result.Amount);
+    }
+    
+    [TestMethod]
+    [DataRow(Player.Nixon, State.WY)]
+    [DataRow(Player.Kennedy, State.RI)]
+    [ExpectedException(typeof(InvalidPlayerChoices))]
+    public void PlayCardToCampaignInStates_InvalidChangesTooManyStateChanges(Player player, State state)
+    {
+        var engine = EngineFixtures.GetGameEngine();
+        
+        var playerChoices = new SetOfChanges();
+        var invalidExcessiveSupport = new SupportChange<Player, State>(player, state, ExampleCard.CampaignPoints + 1);
+        playerChoices.StateChanges.Add(invalidExcessiveSupport);
+        playerChoices.NewPlayerLocation[player] = state;
+        
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
+        sut.SetFirstPlayerForActivityPhase(player);
+        sut.PlayCardToCampaignInStates(ExampleCard, playerChoices, player);
+    }
+    
+    [TestMethod]
+    [DataRow(Player.Nixon, State.WY)]
+    [DataRow(Player.Kennedy, State.RI)]
+    [ExpectedException(typeof(InvalidPlayerChoices))]
+    public void PlayCardToCampaignInStates_InvalidChangesInIssue(Player player, State state)
+    {
+        var engine = EngineFixtures.GetGameEngine();
+        
+        var playerChoices = new SetOfChanges();
+        var invalidIssueSupport = new SupportChange<Player, Issue>(player, Issue.Economy, ExampleCard.CampaignPoints + 1);
+        playerChoices.IssueChanges.Add(invalidIssueSupport);
+        playerChoices.NewPlayerLocation[player] = state;
+        
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
+        sut.SetFirstPlayerForActivityPhase(player);
+        sut.PlayCardToCampaignInStates(ExampleCard, playerChoices, player);
+    }
+    
+    [TestMethod]
+    [DataRow(Player.Nixon, State.WY)]
+    [DataRow(Player.Kennedy, State.RI)]
+    [ExpectedException(typeof(InvalidPlayerChoices))]
+    public void PlayCardToCampaignInStates_NoNewPlayerLocationChosen(Player player, State state)
+    {
+        var engine = EngineFixtures.GetGameEngine();
+        
+        var playerChoices = new SetOfChanges();
+        var invalidExcessiveSupport = new SupportChange<Player, State>(player, state, ExampleCard.CampaignPoints + 1);
+        playerChoices.StateChanges.Add(invalidExcessiveSupport);
+        
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+        sut.SetUpBoard();
+        sut.SetFirstPlayerForActivityPhase(player);
+        sut.PlayCardToCampaignInStates(ExampleCard, playerChoices, player);
     }
     
     #endregion

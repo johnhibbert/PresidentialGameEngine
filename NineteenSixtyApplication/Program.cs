@@ -189,7 +189,6 @@ internal class Program
 
             try
             {
-                //Controller needs new method.
                 controller.PlayCardToCampaignInStates(cardToPlay, changes, player);
                 changesAccepted = true;
             }
@@ -199,12 +198,6 @@ internal class Program
             }
         }
     }
-
-
-    /*
-
-     */
-    
 
 
     static Player GetFirstPlayerFromUser(InitiativeCheckResult initiativeCheck, int turnNumber)

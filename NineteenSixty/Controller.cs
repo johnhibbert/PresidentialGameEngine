@@ -161,7 +161,6 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
 
         var currentState = _engine.GetGameState();
         var affectedStates = changes.StateChanges.Select(x => x.Target).ToList();
-        bool isNewPlayerLocationInCampaignedState = affectedStates.Contains(changes.NewPlayerLocation[player]);
 
         var regions = new List<Region>();
         foreach (var state in affectedStates)
@@ -173,21 +172,19 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
         //This may not be 100% accurate as a way to find the path.
         var numberOfMoves = regions.Where(x => x != currentRegion).Distinct().ToList().Count;
 
-        bool areMovesAndChangesInBounds =
+        bool areMovesAndChangesWithinBounds =
             numberOfMoves + changes.TotalStateChanges <= card.CampaignPoints;
 
-        bool isValid = isNewPlayerLocationInCampaignedState && areMovesAndChangesInBounds;
+        bool isPlayerMoved = changes.NewPlayerLocation.ContainsKey(player);
+        
+        bool isNewPlayerLocationInCampaignedState = isPlayerMoved && affectedStates.Contains(changes.NewPlayerLocation[player]);
+        
+        bool isValid = areMovesAndChangesWithinBounds && isPlayerMoved &&  isNewPlayerLocationInCampaignedState;
         
         if(!isValid)
         {
             throw new InvalidPlayerChoices($"The selected choices are invalid for this card: {card.Index} {card.Title}.");
         }
-
-        ActionPlan plan = new ActionPlan()
-        {
-            Engine = _engine,
-            Changes = changes,
-        };
         
         _engine.GainRestCubes(player, card.RestCubes);
         _engine.ImplementChanges(changes);
