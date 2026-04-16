@@ -32,7 +32,7 @@ internal class Program
 
         ConductActivityPhase();
 
-
+        ConductMomentumPhase();
 
         int i = 0;
     }
@@ -74,13 +74,14 @@ internal class Program
         var gameState = controller.GetGameState();
         
         //Momentum Decay
+        controller.DecayMomentum();
         
         //Issue Shift
         
         //Momentum Awards and Endorsements
         
         //Issue Support Decay
-        
+        controller.DecayIssueSupport();
         
     }
     

@@ -227,5 +227,31 @@ public class Controller(IEngine engine, GameEdition gameEdition, IPhaseValidator
         _engine.LoseMomentum(Player.Kennedy, kennedyMomentum / 2);
 
     }
+
+    [ValidOnlyInCertainPhases([Phase.Momentum])]
+    public void DecayIssueSupport()
+    {
+        _validator.ThrowIfActionNotAllowed(CurrentPhase);
+
+        var civilRightsLeader = _engine.GetLeader(Issue.CivilRights);
+        var defenseLeader = _engine.GetLeader(Issue.Defense);
+        var economyLeader = _engine.GetLeader(Issue.Economy);
+
+        if (civilRightsLeader != Leader.None)
+        {
+            _engine.LoseSupport(civilRightsLeader.ToPlayer(), Issue.CivilRights, 1);
+        }
+        
+        if (defenseLeader != Leader.None)
+        {
+            _engine.LoseSupport(defenseLeader.ToPlayer(), Issue.Defense, 1);
+        }
+        
+        if (economyLeader != Leader.None)
+        {
+            _engine.LoseSupport(economyLeader.ToPlayer(), Issue.Economy, 1);
+        }
+        
+    }
 }
 

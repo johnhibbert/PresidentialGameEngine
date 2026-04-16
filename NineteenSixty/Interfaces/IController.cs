@@ -26,4 +26,6 @@ public interface IController
 
     void DecayMomentum();
 
+    void DecayIssueSupport();
+
 }

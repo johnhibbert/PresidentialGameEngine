@@ -844,9 +844,11 @@ public class ControllerTests
         var initialNixonMomentum = sut.GetGameState().Momentum[Player.Nixon]; 
         
         sut.DecayMomentum();
+       
+        var result = sut.GetGameState().Momentum;
         
-        var newKennedyMomentum = sut.GetGameState().Momentum[Player.Kennedy];
-        var newNixonMomentum = sut.GetGameState().Momentum[Player.Nixon];                                                       //
+        var newKennedyMomentum = result[Player.Kennedy];
+        var newNixonMomentum = result[Player.Nixon];                                                  //
 
         Assert.AreEqual(initialKennedyMomentum / 2, newKennedyMomentum);
         Assert.AreEqual(initialNixonMomentum / 2, newNixonMomentum);
@@ -867,12 +869,76 @@ public class ControllerTests
         sut.PlayCardAsEvent(Manifest.GMTCards[5], new SetOfChanges(), Player.Kennedy);
         
         sut.DecayMomentum();
+
+        var result = sut.GetGameState().Momentum;
         
-        var newKennedyMomentum = sut.GetGameState().Momentum[Player.Kennedy];
-        var newNixonMomentum = sut.GetGameState().Momentum[Player.Nixon];                                                       //
+        var newKennedyMomentum = result[Player.Kennedy];
+        var newNixonMomentum = result[Player.Nixon];                                                       //
 
         Assert.AreEqual(2, newKennedyMomentum);
         Assert.AreEqual(1, newNixonMomentum);
+    }
+    
+    #endregion
+    
+    
+    
+    #region DecayIssueSupport Tests
+    
+    [TestMethod]
+    public void DecayIssueSupport_AllIssuesLoseOneSupport()
+    {
+        var engine = EngineFixtures.GetGameEngine();
+        //If we don't want to care about phase validation, we can just put in an empty mock.
+        var mockValidator = Substitute.For<IPhaseValidator>();
+        
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt, mockValidator);
+        sut.SetUpBoard();
+        sut.SetFirstPlayerForActivityPhase(Player.Kennedy);
+
+        //Playing Missile Gap [51] to get 3 defense support.
+        sut.PlayCardAsEvent(Manifest.GMTCards[51], new SetOfChanges(), Player.Kennedy);
+        //Playing Rising Food Prices [48] to get 2 economy support.
+        sut.PlayCardAsEvent(Manifest.GMTCards[48], new SetOfChanges(), Player.Nixon);
+        //Playing Martin Luther King Arrested [23] to get 3 civil rights support.
+        sut.PlayCardAsEvent(Manifest.GMTCards[23], new SetOfChanges(), Player.Kennedy);
+        
+        sut.DecayIssueSupport();
+        
+        var result = sut.GetGameState().IssueContests;
+        
+        var newDefenseAmount = result[Issue.Defense].Amount;   
+        var newEconomyAmount = result[Issue.Economy].Amount;
+        var newCivilRightsAmount = result[Issue.CivilRights].Amount;
+
+        Assert.AreEqual(2, newDefenseAmount);
+        Assert.AreEqual(1, newEconomyAmount);
+        Assert.AreEqual(2, newCivilRightsAmount);
+    }
+    
+    [TestMethod]
+    public void DecayIssueSupport_EmptyIssueStaysAtZero()
+    {
+        var engine = EngineFixtures.GetGameEngine();
+        //If we don't want to care about phase validation, we can just put in an empty mock.
+        var mockValidator = Substitute.For<IPhaseValidator>();
+        
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt, mockValidator);
+        sut.SetUpBoard();
+        sut.SetFirstPlayerForActivityPhase(Player.Kennedy);
+        
+        sut.DecayIssueSupport();
+        
+        var result = sut.GetGameState().IssueContests;
+        
+        var newCivilRightsAmount = result[Issue.CivilRights].Amount;
+        var newDefenseAmount = result[Issue.Defense].Amount;   
+        var newEconomyAmount = result[Issue.Economy].Amount;
+
+        Assert.AreEqual(0, newCivilRightsAmount);
+        Assert.AreEqual(0, newDefenseAmount);
+        Assert.AreEqual(0, newEconomyAmount);
+
     }
     
     #endregion
