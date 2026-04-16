@@ -80,8 +80,11 @@ internal class Program
         var leaderInMediaSupport = controller.GetLeaderInMediaSupportForIssueShift();
         if (leaderInMediaSupport != Leader.None)
         {
-            //ask the player for it
-            //controller.IssueShift();
+            var issue = GetIssueShiftFromUser(leaderInMediaSupport.ToPlayer(), gameState.IssueOrder);
+            if (issue != Issue.None)
+            {
+                controller.IssueShift(issue, leaderInMediaSupport.ToPlayer());
+            }
         }
         
         //Momentum Awards and Endorsements
@@ -244,6 +247,20 @@ internal class Program
         return GetPlayerFromUser();
     }
     
+    static Issue GetIssueShiftFromUser(Player player, IList<Issue> currentIssueOrder)
+    {
+        var messages = new List<string>()
+        {
+            $"You have the most media support cubes.",
+            "  You may choose to swap the position of two neighboring issues.",
+            $"  The current order is: 1st: {currentIssueOrder[0]}, 2nd {currentIssueOrder[1]}, 3rd: {currentIssueOrder[2]}",
+            "    Choose which issue to elevate, or None to leave them the same.",
+        };
+        
+        DisplayToConsole.DisplayAlertToPlayer(player, messages, BoxForm.OnlyTop);
+        return GetIssueFromUser();
+    }
+    
     
     static GameEdition GetGameEditionFromUser()
     {
@@ -299,6 +316,20 @@ internal class Program
         };
     }
 
+    static Issue GetIssueFromUser()
+    {
+        DisplayToConsole.DisplayRequestForIssue();
+        var intFromUser = GetIntegerInputFromUser([0,1,2,3]);
+
+        return intFromUser switch
+        {
+            1 => Issue.Defense,
+            2 => Issue.Economy,
+            3 => Issue.CivilRights,
+            _ => Issue.None,
+        };
+    }
+    
 
     static int GetIntegerInputFromUser(int maxValue)
     {

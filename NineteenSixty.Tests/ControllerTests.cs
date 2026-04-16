@@ -884,7 +884,7 @@ public class ControllerTests
     #region GetLeaderInMediaSupportForIssueShift Tests
 
     [TestMethod]
-    public void GetLeaderInMediaSupportForIssueShift_LLL()
+    public void GetLeaderInMediaSupportForIssueShift_ClearLeaderGivesCorrectLeader()
     {
         var engine = EngineFixtures.GetGameEngine();
         //If we don't want to care about phase validation, we can just put in an empty mock.
@@ -904,7 +904,7 @@ public class ControllerTests
     }
 
     [TestMethod]
-    public void GetLeaderInMediaSupportForIssueShift_GGG()
+    public void GetLeaderInMediaSupportForIssueShift_NoLeaderGivesResultOfNone()
     {
         var engine = EngineFixtures.GetGameEngine();
         //If we don't want to care about phase validation, we can just put in an empty mock.
