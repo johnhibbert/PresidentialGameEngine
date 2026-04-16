@@ -881,7 +881,61 @@ public class ControllerTests
     
     #endregion
     
+    #region IssueShift Tests
+    [TestMethod]
+    public void IssueShift_IssuesOrderChangedIfAnyPlayerHasMoreMediaSupportCubes()
+    {
+        var engine = EngineFixtures.GetGameEngine();
+        //If we don't want to care about phase validation, we can just put in an empty mock.
+        var mockValidator = Substitute.For<IPhaseValidator>();
+        
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt, mockValidator);
+        sut.SetUpBoard();
+        sut.SetFirstPlayerForActivityPhase(Player.Kennedy);
+
+        //Playing Gallup Poll [3] to set known order.
+        SetOfChanges issueOrderChosenByPlayer = new();
+        issueOrderChosenByPlayer.NewIssuesOrder.AddRange([Issue.CivilRights, Issue.Defense, Issue.Economy]);
+        sut.PlayCardAsEvent(Manifest.GMTCards[3], issueOrderChosenByPlayer, Player.Kennedy);
+        
+        // Playing Compact of 5th Avenue [45] to give Nixon media support
+        sut.PlayCardAsEvent(Manifest.GMTCards[45], issueOrderChosenByPlayer, Player.Nixon);
+        
+        sut.IssueShift(Issue.Defense);
+        
+        var result = sut.GetGameState().IssueOrder;
+        
+        Assert.AreEqual(Issue.Defense, result[0]);
+        Assert.AreEqual(Issue.CivilRights, result[1]);
+        Assert.AreEqual(Issue.Economy, result[2]);
+    }
     
+    [TestMethod]
+    public void IssueShift_IssuesOrderUnchangedIfMediaSupportIsTiedOverall()
+    {
+        var engine = EngineFixtures.GetGameEngine();
+        //If we don't want to care about phase validation, we can just put in an empty mock.
+        var mockValidator = Substitute.For<IPhaseValidator>();
+        
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt, mockValidator);
+        sut.SetUpBoard();
+        sut.SetFirstPlayerForActivityPhase(Player.Kennedy);
+
+        //Playing Gallup Poll [3] to set known order.
+        SetOfChanges issueOrderChosenByPlayer = new();
+        issueOrderChosenByPlayer.NewIssuesOrder.AddRange([Issue.CivilRights, Issue.Defense, Issue.Economy]);
+        sut.PlayCardAsEvent(Manifest.GMTCards[3], issueOrderChosenByPlayer, Player.Kennedy);
+        
+        sut.IssueShift(Issue.Defense);
+        
+        var result = sut.GetGameState().IssueOrder;
+        
+        Assert.AreEqual(Issue.CivilRights, result[0]);
+        Assert.AreEqual(Issue.Defense, result[1]);
+        Assert.AreEqual(Issue.Economy, result[2]);
+    }
+    
+    #endregion
     
     #region DecayIssueSupport Tests
     

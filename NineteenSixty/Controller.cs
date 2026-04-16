@@ -229,6 +229,40 @@ public class Controller(IEngine engine, GameEdition gameEdition, IPhaseValidator
     }
 
     [ValidOnlyInCertainPhases([Phase.Momentum])]
+    public void IssueShift(Issue issueToElevate)
+    {
+        _validator.ThrowIfActionNotAllowed(CurrentPhase);
+
+        var mediaSupportCubes = new Dictionary<Leader, int>()
+        {
+            { Leader.None, 0 },
+            { Leader.Kennedy, 0 },
+            { Leader.Nixon, 0 },
+        };
+        
+        var mediaSupportContests = _engine.GetGameState().MediaSupportLevels;
+
+        foreach (var key in mediaSupportContests.Keys)
+        {
+            var contest = mediaSupportContests[key];
+            var leader = contest.Leader;
+            mediaSupportCubes[leader] += contest.Amount;
+        }
+
+        var greatestNumberOfCubes = mediaSupportCubes.MaxBy(x => x.Value).Value;
+        var uniqueLeader = mediaSupportCubes.Count(x => x.Value == greatestNumberOfCubes) == 1;
+
+        if (uniqueLeader)
+        {
+            var leaderWithHighest = mediaSupportCubes.MaxBy(x => x.Value).Key;
+            if (leaderWithHighest != Leader.None)
+            {
+                _engine.MoveIssueUp(issueToElevate);
+            }
+        }
+    }
+
+    [ValidOnlyInCertainPhases([Phase.Momentum])]
     public void DecayIssueSupport()
     {
         _validator.ThrowIfActionNotAllowed(CurrentPhase);

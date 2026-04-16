@@ -26,6 +26,8 @@ public interface IController
 
     void DecayMomentum();
 
+    void IssueShift(Issue issueToElevate);
+    
     void DecayIssueSupport();
 
 }
