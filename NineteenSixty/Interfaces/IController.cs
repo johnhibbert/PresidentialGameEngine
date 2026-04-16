@@ -26,7 +26,9 @@ public interface IController
 
     void DecayMomentum();
 
-    void IssueShift(Issue issueToElevate);
+    Leader GetLeaderInMediaSupportForIssueShift();
+    
+    void IssueShift(Issue issueToElevate, Player leadingPlayer);
     
     void DecayIssueSupport();
 

@@ -228,8 +228,7 @@ public class Controller(IEngine engine, GameEdition gameEdition, IPhaseValidator
 
     }
 
-    [ValidOnlyInCertainPhases([Phase.Momentum])]
-    public void IssueShift(Issue issueToElevate)
+    public Leader GetLeaderInMediaSupportForIssueShift()
     {
         _validator.ThrowIfActionNotAllowed(CurrentPhase);
 
@@ -252,13 +251,23 @@ public class Controller(IEngine engine, GameEdition gameEdition, IPhaseValidator
         var greatestNumberOfCubes = mediaSupportCubes.MaxBy(x => x.Value).Value;
         var uniqueLeader = mediaSupportCubes.Count(x => x.Value == greatestNumberOfCubes) == 1;
 
-        if (uniqueLeader)
+        if (!uniqueLeader)
         {
-            var leaderWithHighest = mediaSupportCubes.MaxBy(x => x.Value).Key;
-            if (leaderWithHighest != Leader.None)
-            {
-                _engine.MoveIssueUp(issueToElevate);
-            }
+            return Leader.None;
+        }
+
+        return mediaSupportCubes.MaxBy(x => x.Value).Key;
+    }
+
+    [ValidOnlyInCertainPhases([Phase.Momentum])]
+    public void IssueShift(Issue issueToElevate, Player leadingPlayer)
+    {
+        _validator.ThrowIfActionNotAllowed(CurrentPhase);
+
+        var leader = GetLeaderInMediaSupportForIssueShift();
+        if (leader != Leader.None && leader.ToPlayer() == leadingPlayer)
+        {
+            _engine.MoveIssueUp(issueToElevate);
         }
     }
 

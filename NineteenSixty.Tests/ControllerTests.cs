@@ -881,6 +881,52 @@ public class ControllerTests
     
     #endregion
     
+    #region GetLeaderInMediaSupportForIssueShift Tests
+
+    [TestMethod]
+    public void GetLeaderInMediaSupportForIssueShift_LLL()
+    {
+        var engine = EngineFixtures.GetGameEngine();
+        //If we don't want to care about phase validation, we can just put in an empty mock.
+        var mockValidator = Substitute.For<IPhaseValidator>();
+        
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt, mockValidator);
+        sut.SetUpBoard();
+        sut.SetFirstPlayerForActivityPhase(Player.Kennedy);
+        
+        // Playing Compact of 5th Avenue [45] to give Nixon media support
+        sut.PlayCardAsEvent(Manifest.GMTCards[45], new SetOfChanges(), Player.Nixon);
+        
+        var result = sut.GetLeaderInMediaSupportForIssueShift();
+
+        Assert.AreEqual(Leader.Nixon, result);
+
+    }
+
+    [TestMethod]
+    public void GetLeaderInMediaSupportForIssueShift_GGG()
+    {
+        var engine = EngineFixtures.GetGameEngine();
+        //If we don't want to care about phase validation, we can just put in an empty mock.
+        var mockValidator = Substitute.For<IPhaseValidator>();
+        
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt, mockValidator);
+        sut.SetUpBoard();
+        sut.SetFirstPlayerForActivityPhase(Player.Kennedy);
+
+        //Playing Gallup Poll [3] to set known order.
+        SetOfChanges issueOrderChosenByPlayer = new();
+        issueOrderChosenByPlayer.NewIssuesOrder.AddRange([Issue.CivilRights, Issue.Defense, Issue.Economy]);
+        sut.PlayCardAsEvent(Manifest.GMTCards[3], issueOrderChosenByPlayer, Player.Kennedy);
+        
+        var result = sut.GetLeaderInMediaSupportForIssueShift();
+
+        Assert.AreEqual(Leader.None, result);
+
+    }
+    
+    #endregion
+    
     #region IssueShift Tests
     [TestMethod]
     public void IssueShift_IssuesOrderChangedIfAnyPlayerHasMoreMediaSupportCubes()
@@ -899,9 +945,9 @@ public class ControllerTests
         sut.PlayCardAsEvent(Manifest.GMTCards[3], issueOrderChosenByPlayer, Player.Kennedy);
         
         // Playing Compact of 5th Avenue [45] to give Nixon media support
-        sut.PlayCardAsEvent(Manifest.GMTCards[45], issueOrderChosenByPlayer, Player.Nixon);
+        sut.PlayCardAsEvent(Manifest.GMTCards[45], new SetOfChanges(), Player.Nixon);
         
-        sut.IssueShift(Issue.Defense);
+        sut.IssueShift(Issue.Defense, Player.Nixon);
         
         var result = sut.GetGameState().IssueOrder;
         
@@ -926,7 +972,7 @@ public class ControllerTests
         issueOrderChosenByPlayer.NewIssuesOrder.AddRange([Issue.CivilRights, Issue.Defense, Issue.Economy]);
         sut.PlayCardAsEvent(Manifest.GMTCards[3], issueOrderChosenByPlayer, Player.Kennedy);
         
-        sut.IssueShift(Issue.Defense);
+        sut.IssueShift(Issue.Defense, Player.Nixon);
         
         var result = sut.GetGameState().IssueOrder;
         

@@ -77,6 +77,12 @@ internal class Program
         controller.DecayMomentum();
         
         //Issue Shift
+        var leaderInMediaSupport = controller.GetLeaderInMediaSupportForIssueShift();
+        if (leaderInMediaSupport != Leader.None)
+        {
+            //ask the player for it
+            //controller.IssueShift();
+        }
         
         //Momentum Awards and Endorsements
         
