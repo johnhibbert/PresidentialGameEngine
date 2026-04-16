@@ -8,11 +8,13 @@ using Card = NineteenSixty.Data.Card;
 
 namespace NineteenSixty;
 
-public class Controller(IEngine engine, GameEdition gameEdition) : IController
+public class Controller(IEngine engine, GameEdition gameEdition, IPhaseValidator validator) : IController
 {
     private IEngine _engine = engine;
 
     public GameEdition GameEdition { get; init; } = gameEdition;
+
+    private IPhaseValidator _validator = validator;
 
     private int TurnNumber { get; set; } = 0;
     private Phase CurrentPhase { get; set; } = Phase.Setup;
@@ -58,7 +60,7 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
     [ValidOnlyInCertainPhases([Phase.Setup])]
     public void SetUpBoard()
     {
-        ActionValidator.ThrowIfActionNotAllowed(CurrentPhase);
+        _validator.ThrowIfActionNotAllowed(CurrentPhase);
         
         foreach (var ff in Manifest.StateData)
         {
@@ -133,7 +135,7 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
     [ValidOnlyInCertainPhases([Phase.Activity])]
     public void PlayCardAsEvent(Card card, SetOfChanges changes, Player player)
     {
-        ActionValidator.ThrowIfActionNotAllowed(CurrentPhase);
+        _validator.ThrowIfActionNotAllowed(CurrentPhase);
         
         ActionPlan plan = new ActionPlan()
         {
@@ -157,7 +159,7 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
     [ValidOnlyInCertainPhases([Phase.Activity])]
     public void PlayCardToCampaignInStates(Card card, SetOfChanges changes, Player player)
     {
-        ActionValidator.ThrowIfActionNotAllowed(CurrentPhase);
+        _validator.ThrowIfActionNotAllowed(CurrentPhase);
 
         var currentState = _engine.GetGameState();
         var affectedStates = changes.StateChanges.Select(x => x.Target).ToList();
@@ -195,7 +197,7 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
     [ValidOnlyInCertainPhases([Phase.Initiative])]
     public void SetFirstPlayerForActivityPhase(Player player)
     {
-        ActionValidator.ThrowIfActionNotAllowed(CurrentPhase);
+        _validator.ThrowIfActionNotAllowed(CurrentPhase);
         
         CurrentPhase = Phase.Activity;
         ActivityPhaseNumber = 1;
@@ -213,5 +215,17 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
         return _engine.GetCardsInZone(CardZone.Hand, player);
     }
 
+    [ValidOnlyInCertainPhases([Phase.Momentum])]
+    public void DecayMomentum()
+    {
+        _validator.ThrowIfActionNotAllowed(CurrentPhase);
+        
+        var nixonMomentum = _engine.GetPlayerMomentum(Player.Nixon);
+        var kennedyMomentum = _engine.GetPlayerMomentum(Player.Kennedy);
+        
+        _engine.LoseMomentum(Player.Nixon, nixonMomentum / 2);
+        _engine.LoseMomentum(Player.Kennedy, kennedyMomentum / 2);
+
+    }
 }
 

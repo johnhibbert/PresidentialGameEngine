@@ -29,13 +29,23 @@ internal class Program
         
         ConductInitiativeCheck();
         ClearScreen();
-        
+
+        ConductActivityPhase();
+
+
+
+        int i = 0;
+    }
+
+
+    static void ConductActivityPhase()
+    {
         var gameTime = controller.GetGameTime();
         var gameState = controller.GetGameState();
 
         while (gameTime.CurrentPhase == Phase.Activity)
         {
-            gameTime = controller.GetGameTime();
+            //gameTime = controller.GetGameTime();
             ShowGameTime(BoxForm.OnlyTop);
             DisplayPlayerHand(gameTime.ActivePlayer, BoxForm.OnlyTop);
             
@@ -53,13 +63,27 @@ internal class Program
                     break;
             }
 
+            gameTime = controller.GetGameTime();
+            
         }
-
-
-
-        int i = 0;
     }
 
+    static void ConductMomentumPhase()
+    {
+        var gameTime = controller.GetGameTime();
+        var gameState = controller.GetGameState();
+        
+        //Momentum Decay
+        
+        //Issue Shift
+        
+        //Momentum Awards and Endorsements
+        
+        //Issue Support Decay
+        
+        
+    }
+    
 
     static void WaitForPlayerToPressEnter(BoxForm boxForm)
     {
@@ -509,7 +533,7 @@ internal class Program
 
     private static IController GetController(IRandomnessProvider randomnessProvider, GameEdition edition)
     {
-        return new Controller(GetEngine(randomnessProvider, edition), edition);
+        return new Controller(GetEngine(randomnessProvider, edition), edition, new PhaseValidator());
     }
 
     private static IEngine GetEngine(IRandomnessProvider randomnessProvider, GameEdition edition)

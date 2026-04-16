@@ -5,6 +5,7 @@ using NineteenSixty.Enums;
 using NineteenSixty.Exceptions;
 using NineteenSixty.Interfaces;
 using NineteenSixty.Tests.Fixtures;
+using NSubstitute.ExceptionExtensions;
 using NSubstitute.ReturnsExtensions;
 using PresidentialGameEngine.ClassLibrary.Data;
 using Card = NineteenSixty.Data.Card;
@@ -18,7 +19,6 @@ public class ControllerTests
     #region Fixtures
 
     private static GameState ExampleGameState => GetExampleGameState();
-
 
     private static GameState GetExampleGameState()
     {
@@ -158,6 +158,13 @@ public class ControllerTests
         return  exampleCard;
     }
     
+    private static IPhaseValidator Validator => GetPhaseValidator();
+
+    private static IPhaseValidator GetPhaseValidator()
+    {
+        return new PhaseValidator();
+    }
+
     #endregion
 
     #region GetGameState Tests
@@ -173,7 +180,7 @@ public class ControllerTests
 
         mockEngine.GetGameState().Returns(expectedGameState);
 
-        var sut = new Controller(mockEngine, edition);
+        var sut = new Controller(mockEngine, edition, Validator);
 
         var result = sut.GetGameState();
         Assert.AreEqual(expectedGameState, result);
@@ -238,7 +245,7 @@ public class ControllerTests
 
     public void SetUpBoard_DefaultStartingStateSupport(State state, int expectedAmount)
     {
-        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt, Validator);
         sut.SetUpBoard();
         var result = sut.GetGameState().StateContests;
 
@@ -298,7 +305,7 @@ public class ControllerTests
     [DataRow(State.WY, Leader.Nixon)]
     public void SetUpBoard_DefaultLeader(State state, Leader expectedLeader)
     {
-        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt, Validator);
         sut.SetUpBoard();
         var result = sut.GetGameState().StateContests;
 
@@ -312,7 +319,7 @@ public class ControllerTests
     {
         var expectedOrder = new List<Issue>() { Issue.Defense, Issue.Economy, Issue.CivilRights };
         
-        var sut = new Controller(EngineFixtures.GetGameEngine(), edition);
+        var sut = new Controller(EngineFixtures.GetGameEngine(), edition, Validator);
         sut.SetUpBoard();
         var result = sut.GetGameState().IssueOrder;
 
@@ -326,7 +333,7 @@ public class ControllerTests
     [DataRow(GameEdition.SecondEditionByGmt)]
     public void SetUpBoard_IssueContestsAllEmpty(GameEdition edition)
     {
-        var sut = new Controller(EngineFixtures.GetGameEngine(), edition);
+        var sut = new Controller(EngineFixtures.GetGameEngine(), edition, Validator);
         sut.SetUpBoard();
         var result = sut.GetGameState().IssueContests;
 
@@ -343,7 +350,7 @@ public class ControllerTests
         //Making this variable instead of concrete because the number of cards implemented will change
         var numberOfImplementedCards = Manifest.ZManCards.Count;
         
-        var sut = new Controller(engine, GameEdition.FirstEditionByZMan);
+        var sut = new Controller(engine, GameEdition.FirstEditionByZMan, Validator);
         sut.SetUpBoard();
 
         var cardsInDeck = engine.GetCardsInZone(CardZone.Deck, Player.Kennedy);
@@ -359,7 +366,7 @@ public class ControllerTests
         //Making this variable instead of concrete because the number of cards implemented will change
         var numberOfImplementedCards = Manifest.GMTCards.Count;
         
-        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt, Validator);
         sut.SetUpBoard();
 
         var cardsInDeck = engine.GetCardsInZone(CardZone.Deck, Player.Kennedy);
@@ -371,7 +378,7 @@ public class ControllerTests
     [ExpectedException(typeof(ActionNotAllowed))]
     public void SetUpBoard_CannotSetupBoardAfterBoardAlreadySetUp()
     {
-        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt, Validator);
         sut.SetUpBoard();
         sut.SetUpBoard();
     }
@@ -384,7 +391,7 @@ public class ControllerTests
         //Making this variable instead of concrete because the number of cards implemented will change
         var numberOfImplementedCards = Manifest.GMTCards.Count;
         
-        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt, Validator);
         sut.SetUpBoard();
 
         var cardsInDeck = engine.GetCardsInZone(CardZone.Deck, Player.Kennedy);
@@ -401,7 +408,7 @@ public class ControllerTests
     [DataRow(Player.Nixon, true)]
     public void ConductSupportCheck_ResultDependsOnPlayerConductingCheck(Player player, bool expectedResult)
     {
-        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt, Validator);
         sut.SetUpBoard();
         var result = sut.ConductSupportCheck(player);
 
@@ -415,7 +422,7 @@ public class ControllerTests
     [TestMethod]
     public void ConductInitiativeCheck_PlayerGainsInitiative()
     {
-        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt, Validator);
         sut.SetUpBoard();
         var result = sut.ConductInitiativeCheck();
 
@@ -425,7 +432,7 @@ public class ControllerTests
     [TestMethod]
     public void ConductInitiativeCheck_DiceDrawn()
     {
-        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt, Validator);
         sut.SetUpBoard();
         var result = sut.ConductInitiativeCheck();
 
@@ -448,7 +455,7 @@ public class ControllerTests
         var oneSupportInKentucky = new SupportChange<Player, State>(player, State.KY, 1);
         playerChoices.StateChanges.Add(oneSupportInKentucky);
         
-        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt, Validator);
         sut.SetUpBoard();
         sut.SetFirstPlayerForActivityPhase(player);
         sut.PlayCardAsEvent(ExampleCard, playerChoices, player);
@@ -470,7 +477,7 @@ public class ControllerTests
         var oneSupportInKentucky = new SupportChange<Player, State>(player, State.KY, 1);
         playerChoices.StateChanges.Add(oneSupportInKentucky);
         
-        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt, Validator);
         sut.SetUpBoard();
         sut.SetFirstPlayerForActivityPhase(player);
         sut.PlayCardAsEvent(ExampleCard, playerChoices, player);
@@ -498,7 +505,7 @@ public class ControllerTests
             Changes = playerChoices,
         };
         
-        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt, Validator);
         sut.SetUpBoard();
         sut.SetFirstPlayerForActivityPhase(player);
 
@@ -513,7 +520,7 @@ public class ControllerTests
     [TestMethod]
     public void SetFirstPlayerForTurn_FirstPlayerSet(Player player)
     {
-        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt, Validator);
         sut.SetUpBoard();
         sut.ConductInitiativeCheck();
         sut.SetFirstPlayerForActivityPhase(player);
@@ -528,7 +535,7 @@ public class ControllerTests
     public void SetFirstPlayerForTurn_CurrentPlayerSet(Player player)
     {
 
-        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt, Validator);
         sut.SetUpBoard();
         sut.ConductInitiativeCheck();
         sut.SetFirstPlayerForActivityPhase(player);
@@ -543,7 +550,7 @@ public class ControllerTests
     public void SetFirstPlayerForTurn_ActivityPhaseNumberUpdatedToOne(Player player)
     {
 
-        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt, Validator);
         sut.SetUpBoard();
         sut.ConductInitiativeCheck();
         sut.SetFirstPlayerForActivityPhase(player);
@@ -558,7 +565,7 @@ public class ControllerTests
     public void SetFirstPlayerForTurn_TurnNumberUpdatedToOne(Player player)
     {
 
-        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt, Validator);
         sut.SetUpBoard();
         sut.ConductInitiativeCheck();
         sut.SetFirstPlayerForActivityPhase(player);
@@ -573,7 +580,7 @@ public class ControllerTests
     public void SetFirstPlayerForTurn_CurrentPhaseIsActivity(Player player)
     {
 
-        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt, Validator);
         sut.SetUpBoard();
         sut.ConductInitiativeCheck();
         sut.SetFirstPlayerForActivityPhase(player);
@@ -588,7 +595,7 @@ public class ControllerTests
     [ExpectedException(typeof(ActionNotAllowed))]
     public void SetFirstPlayerForTurn_NotAllowedInSetupPhase(Player player)
     {
-        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt, Validator);
         sut.SetFirstPlayerForActivityPhase(player);
     }
     
@@ -598,7 +605,7 @@ public class ControllerTests
     [ExpectedException(typeof(ActionNotAllowed))]
     public void SetFirstPlayerForTurn_NotAllowedInActivityPhase(Player player)
     {
-        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt);
+        var sut = new Controller(EngineFixtures.GetGameEngine(), GameEdition.SecondEditionByGmt, Validator);
         sut.SetFirstPlayerForActivityPhase(player);
         sut.SetFirstPlayerForActivityPhase(player);
     }
@@ -614,7 +621,7 @@ public class ControllerTests
     {
         
         var engine = EngineFixtures.GetGameEngine();
-        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt, Validator);
         sut.SetUpBoard();
         sut.DrawCards(player, 3);
         
@@ -634,7 +641,7 @@ public class ControllerTests
     {
         
         var engine = EngineFixtures.GetGameEngine();
-        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt, Validator);
         sut.SetUpBoard();
         sut.DrawCards(player, 3);
         
@@ -662,7 +669,7 @@ public class ControllerTests
         playerChoices.StateChanges.Add(twoSupportInState);
         playerChoices.NewPlayerLocation[player] = state;
         
-        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt, Validator);
         sut.SetUpBoard();
         sut.SetFirstPlayerForActivityPhase(player);
         sut.PlayCardToCampaignInStates(ExampleCard, playerChoices, player);
@@ -683,7 +690,7 @@ public class ControllerTests
         playerChoices.StateChanges.Add(twoSupportInState);
         playerChoices.NewPlayerLocation[player] = state;
         
-        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt, Validator);
         sut.SetUpBoard();
         sut.SetFirstPlayerForActivityPhase(player);
         var initialSupportAmount =  sut.GetGameState().StateContests[state].Amount;
@@ -707,7 +714,7 @@ public class ControllerTests
         playerChoices.StateChanges.Add(twoSupportInState);
         playerChoices.NewPlayerLocation[player] = state;
         
-        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt, Validator);
         sut.SetUpBoard();
         sut.SetFirstPlayerForActivityPhase(player);
         
@@ -730,7 +737,7 @@ public class ControllerTests
         playerChoices.StateChanges.Add(twoSupportInState);
         playerChoices.NewPlayerLocation[player] = state;
         
-        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt, Validator);
         sut.SetUpBoard();
         sut.SetFirstPlayerForActivityPhase(player);
 
@@ -751,7 +758,7 @@ public class ControllerTests
         playerChoices.StateChanges.Add(twoSupportInState);
         playerChoices.NewPlayerLocation[player] = state;
         
-        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt, Validator);
         sut.SetUpBoard();
         sut.SetFirstPlayerForActivityPhase(player);
         var initialSupportAmount =  sut.GetGameState().StateContests[state].Amount;
@@ -775,7 +782,7 @@ public class ControllerTests
         playerChoices.StateChanges.Add(invalidExcessiveSupport);
         playerChoices.NewPlayerLocation[player] = state;
         
-        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt, Validator);
         sut.SetUpBoard();
         sut.SetFirstPlayerForActivityPhase(player);
         sut.PlayCardToCampaignInStates(ExampleCard, playerChoices, player);
@@ -794,7 +801,7 @@ public class ControllerTests
         playerChoices.IssueChanges.Add(invalidIssueSupport);
         playerChoices.NewPlayerLocation[player] = state;
         
-        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt, Validator);
         sut.SetUpBoard();
         sut.SetFirstPlayerForActivityPhase(player);
         sut.PlayCardToCampaignInStates(ExampleCard, playerChoices, player);
@@ -812,10 +819,60 @@ public class ControllerTests
         var invalidExcessiveSupport = new SupportChange<Player, State>(player, state, ExampleCard.CampaignPoints + 1);
         playerChoices.StateChanges.Add(invalidExcessiveSupport);
         
-        var sut = new Controller(engine, GameEdition.SecondEditionByGmt);
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt, Validator);
         sut.SetUpBoard();
         sut.SetFirstPlayerForActivityPhase(player);
         sut.PlayCardToCampaignInStates(ExampleCard, playerChoices, player);
+    }
+    
+    #endregion
+    
+    
+    #region DecayMomentum Tests
+    
+    [TestMethod]
+    public void DecayMomentum_MomentumIsHalved()
+    {
+        var engine = EngineFixtures.GetGameEngine();
+        //If we don't want to care about phase validation, we can just put in an empty mock.
+        var mockValidator = Substitute.For<IPhaseValidator>();
+        
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt, mockValidator);
+        sut.SetUpBoard();
+
+        var initialKennedyMomentum = sut.GetGameState().Momentum[Player.Kennedy];
+        var initialNixonMomentum = sut.GetGameState().Momentum[Player.Nixon]; 
+        
+        sut.DecayMomentum();
+        
+        var newKennedyMomentum = sut.GetGameState().Momentum[Player.Kennedy];
+        var newNixonMomentum = sut.GetGameState().Momentum[Player.Nixon];                                                       //
+
+        Assert.AreEqual(initialKennedyMomentum / 2, newKennedyMomentum);
+        Assert.AreEqual(initialNixonMomentum / 2, newNixonMomentum);
+    }
+    
+    [TestMethod]
+    public void DecayMomentum_MomentumLossIsRoundedDown()
+    {
+        var engine = EngineFixtures.GetGameEngine();
+        //If we don't want to care about phase validation, we can just put in an empty mock.
+        var mockValidator = Substitute.For<IPhaseValidator>();
+        
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt, mockValidator);
+        sut.SetUpBoard();
+        sut.SetFirstPlayerForActivityPhase(Player.Kennedy);
+        
+        //Playing Volunteers[5] is a way to increase momentum simply.
+        sut.PlayCardAsEvent(Manifest.GMTCards[5], new SetOfChanges(), Player.Kennedy);
+        
+        sut.DecayMomentum();
+        
+        var newKennedyMomentum = sut.GetGameState().Momentum[Player.Kennedy];
+        var newNixonMomentum = sut.GetGameState().Momentum[Player.Nixon];                                                       //
+
+        Assert.AreEqual(2, newKennedyMomentum);
+        Assert.AreEqual(1, newNixonMomentum);
     }
     
     #endregion

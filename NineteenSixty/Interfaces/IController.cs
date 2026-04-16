@@ -24,4 +24,6 @@ public interface IController
     
     IEnumerable<Card> GetCardsInHand(Player player);
 
+    void DecayMomentum();
+
 }
