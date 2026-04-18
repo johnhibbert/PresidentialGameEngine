@@ -30,7 +30,9 @@ public interface IController
     
     void IssueShift(Issue issueToElevate, Player leadingPlayer);
 
-    Endorsement GainRandomEndorsement();    
+    Endorsement GainRandomEndorsement();
+
+    void GainMomentumAndEndorsementRewards(Player player, int momentumGained, IList<Region> regionsGainingEndorsement);
     
     void DecayIssueSupport();
 

@@ -72,10 +72,10 @@ internal class Program
     {
         var gameTime = controller.GetGameTime();
         var gameState = controller.GetGameState();
-        
+
         //Momentum Decay
         controller.DecayMomentum();
-        
+
         //Issue Shift
         var leaderInMediaSupport = controller.GetLeaderInMediaSupportForIssueShift();
         if (leaderInMediaSupport != Leader.None)
@@ -86,12 +86,71 @@ internal class Program
                 controller.IssueShift(issue, leaderInMediaSupport.ToPlayer());
             }
         }
-        
+
         //Momentum Awards and Endorsements
-        
+        gameState = controller.GetGameState();
+        GrantMomentumAndEndorsementAwards(gameState);
+
         //Issue Support Decay
         controller.DecayIssueSupport();
+
+    }
+
+    static void GrantMomentumAndEndorsementAwards(GameState gameState)
+    {
+        var rewards = new IssueRewards();
+
+        var issuePositions = gameState.IssueOrder;
+        var topIssue = issuePositions[0];
+        var topContest = gameState.IssueContests[topIssue];
+        if (topContest.Leader != Leader.None)
+        {
+            var player = topContest.Leader.ToPlayer();
+            
+            rewards.MomentumGains[player]++;
+            
+            var endorsement =  controller.GainRandomEndorsement();
+            if (endorsement == Endorsement.Major)
+            {
+                var regionFromUser = GetRegionForEndorsement(player);
+                rewards.EndorsementGains[topContest.Leader.ToPlayer()].Add(regionFromUser);
+            }
+        }
+
+        var middleIssue = issuePositions[1];
+        var middleContest = gameState.IssueContests[middleIssue];
+        if (middleContest.Leader != Leader.None)
+        {
+            var player = topContest.Leader.ToPlayer();
+            var choice = GetChoiceOfRegionOrEndorsementFromPlayer(player);
+            
+            switch(choice)
+            {
+              case 1:
+                  var endorsement =  controller.GainRandomEndorsement();
+                  if (endorsement == Endorsement.Major)
+                  {
+                      var regionFromUser = GetRegionForEndorsement(player);
+                      rewards.EndorsementGains[player].Add(regionFromUser);
+                  }
+                  else
+                  {
+                      rewards.EndorsementGains[player].Add(endorsement.ToRegion());
+                  }
+                  break;
+              default:
+                  rewards.MomentumGains[player]++;
+                  break;
+            }
+        }
         
+        var bottomIssue = issuePositions[2];
+        var bottomContest = gameState.IssueContests[bottomIssue];
+        if (bottomContest.Leader != Leader.None)
+        {
+            rewards.MomentumGains[bottomContest.Leader.ToPlayer()]++;
+        }
+
     }
     
 
@@ -261,6 +320,29 @@ internal class Program
         return GetIssueFromUser();
     }
     
+    static Region GetRegionForEndorsement(Player player)
+    {
+        var messages = new List<string>()
+        {
+            $"You have the gained a major endorsement.",
+            "    Choose the region to gain an endorsement.",
+        };
+        
+        DisplayToConsole.DisplayAlertToPlayer(player, messages, BoxForm.OnlyTop);
+        return GetRegionFromUser();
+    }
+
+    static int GetChoiceOfRegionOrEndorsementFromPlayer(Player player)
+    {
+        var messages = new List<string>()
+        {
+            $"You can choose between a major endorsement or one momentum.",
+            "    Choose 1 for endorsement or 2 for momentum.",
+        };
+        
+        DisplayToConsole.DisplayAlertToPlayer(player, messages, BoxForm.OnlyTop);
+        return GetIntegerInputFromUser(2);
+    }
     
     static GameEdition GetGameEditionFromUser()
     {
@@ -329,7 +411,20 @@ internal class Program
             _ => Issue.None,
         };
     }
-    
+
+    static Region GetRegionFromUser()
+    {
+        DisplayToConsole.DisplayRequestForRegion();
+        var intFromUser = GetIntegerInputFromUser([1,2,3,4]);
+
+        return intFromUser switch
+        {
+            1 => Region.East,
+            2 => Region.Midwest,
+            3 => Region.South,
+            _ => Region.West,
+        };
+    }
 
     static int GetIntegerInputFromUser(int maxValue)
     {

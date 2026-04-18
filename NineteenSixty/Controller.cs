@@ -277,6 +277,11 @@ public class Controller(IEngine engine, GameEdition gameEdition, IPhaseValidator
         return _engine.GetRandomEndorsement();
     }
 
+    public void GainMomentumAndEndorsementRewards(Player player, int momentumGained, IList<Region> regionsGainingEndorsement)
+    {
+        throw new NotImplementedException();
+    }
+
     [ValidOnlyInCertainPhases([Phase.Momentum])]
     public void DecayIssueSupport()
     {
