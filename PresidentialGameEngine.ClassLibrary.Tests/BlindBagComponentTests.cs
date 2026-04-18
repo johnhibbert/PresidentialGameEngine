@@ -98,7 +98,7 @@ public class BlindBagComponentTests
         const int initialPopulation = 12;
         BlindBagComponent<FakePlayer> sut = new(initialPopulation, GetSeededRandomnessProvider());
         sut.FillBag();
-        sut.DrawCube();
+        sut.Draw();
 
         var result = sut.PeekIntoBag();
 
@@ -113,11 +113,11 @@ public class BlindBagComponentTests
         const int initialPopulation = 12;
         BlindBagComponent<FakePlayer> sut = new(initialPopulation, GetSeededRandomnessProvider());
         sut.FillBag();
-        sut.DrawCube();
-        sut.DrawCube();
-        sut.DrawCube();
-        sut.DrawCube();
-        sut.DrawCube();
+        sut.Draw();
+        sut.Draw();
+        sut.Draw();
+        sut.Draw();
+        sut.Draw();
 
         var result = sut.PeekIntoBag();
 
@@ -140,7 +140,7 @@ public class BlindBagComponentTests
 
         while (index >= 1)
         {
-            sut.DrawCube();
+            sut.Draw();
             index--;
         }
 
@@ -164,7 +164,7 @@ public class BlindBagComponentTests
 
         while (index >= 1)
         {
-            sut.DrawCube();
+            sut.Draw();
             index--;
         }
 

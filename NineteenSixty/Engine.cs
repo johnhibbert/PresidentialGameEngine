@@ -271,7 +271,7 @@ public class Engine(
 
     public Player DrawCubeFromPoliticalCapitalBag()
     {
-        return PoliticalCapitalComponent.DrawCube();
+        return PoliticalCapitalComponent.Draw();
     }
     
     public void GainRestCubes(Player player, int amount)
