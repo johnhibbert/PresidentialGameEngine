@@ -580,7 +580,7 @@ internal class Program
         var issueSupportComponent = new SupportComponent<Player, Leader, Issue>();
         var stateSupportComponent = new CarriableSupportComponent<Player, Leader, State>();
         var issuePositioningComponent = new PositioningComponent<Issue>();
-        var politicalCapitalComponent = new BlindBagComponent<Player>(Manifest.StartingPoliticalCapital[edition], randomnessProvider);
+        var politicalCapitalComponent = new BlindDrawComponent<Player>(Manifest.StartingPoliticalCapital[edition], randomnessProvider);
         var playerLocationComponent = new PlayerLocationComponent<Player, State>(Manifest.PlayerStartingPositions);
         var restComponent = new AccumulatingComponent<Player>();
         var endorsementComponent = new SupportComponent<Player, Leader, Region>();
@@ -592,7 +592,7 @@ internal class Program
             {Endorsement.South, 3},
             {Endorsement.West, 3},
         };
-        var endorsementRandomizerComponent = new BlindBagComponent<Endorsement>(initalEndorsementPopulations, randomnessProvider);
+        var endorsementRandomizerComponent = new BlindDrawComponent<Endorsement>(initalEndorsementPopulations, randomnessProvider);
         var mediaSupportComponent = new SupportComponent<Player, Leader, Region>();
         var exhaustionComponent = new PlayerStatusComponent<Player, Status>();
         var cardZoneComponent = new CardZoneComponent<CardZone, Player, Card>

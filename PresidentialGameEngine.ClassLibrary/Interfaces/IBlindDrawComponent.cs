@@ -5,14 +5,14 @@ namespace PresidentialGameEngine.ClassLibrary.Interfaces;
 /// For 1960, this would cover the political capital bag.
 /// </summary>
 /// <typeparam name="TOption">The enumeration of options in the bag</typeparam>
-public interface IBlindBagComponent<TOption>
+public interface IBlindDrawComponent<TOption>
     where TOption : Enum
 {
-    public void FillBag();
+    public void RefillInitialPopulation();
 
-    public IDictionary<TOption, int> PeekIntoBag();
+    public IDictionary<TOption, int> PeekAtPopulation();
     
     public TOption Draw();
 
-    public void StopAutomaticallyRefillingBag();
+    public void StopAutomaticallyRefillingPopulation();
 }

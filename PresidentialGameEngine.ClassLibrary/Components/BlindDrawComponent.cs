@@ -3,23 +3,23 @@ using PresidentialGameEngine.ClassLibrary.Interfaces;
 
 namespace PresidentialGameEngine.ClassLibrary.Components;
 
-public class BlindBagComponent<TOption>
-    : IBlindBagComponent<TOption>
+public class BlindDrawComponent<TOption>
+    : IBlindDrawComponent<TOption>
     where TOption : Enum
 {
     private readonly IDictionary<TOption, int> _initialPopulation;
     private readonly IDictionary<TOption, int> _optionPopulations;
     private readonly IRandomnessProvider _rng;
 
-    private bool _refillBagAutomatically = true;
+    private bool _refillPopulationAutomatically = true;
 
-    public BlindBagComponent(int initialPopulationPerOption, IRandomnessProvider rng) 
+    public BlindDrawComponent(int initialPopulationPerOption, IRandomnessProvider rng) 
         : this(((TOption[])Enum.GetValues(typeof(TOption))).ToDictionary(val => val, val => initialPopulationPerOption), rng)
     {
 
     }
 
-    public BlindBagComponent(IDictionary<TOption, int> initialPopulation, IRandomnessProvider rng)
+    public BlindDrawComponent(IDictionary<TOption, int> initialPopulation, IRandomnessProvider rng)
     {
         _initialPopulation = initialPopulation;
         
@@ -32,7 +32,7 @@ public class BlindBagComponent<TOption>
         _rng = rng;
     }
     
-    public void FillBag()
+    public void RefillInitialPopulation()
     {
         foreach (var kvp in _optionPopulations)
         {
@@ -40,7 +40,7 @@ public class BlindBagComponent<TOption>
         }
     }
 
-    public IDictionary<TOption, int> PeekIntoBag()
+    public IDictionary<TOption, int> PeekAtPopulation()
     {
         return _optionPopulations;
     }
@@ -49,12 +49,12 @@ public class BlindBagComponent<TOption>
     {
         var fullSum = _optionPopulations.Values.Sum();
         
-        if (fullSum == 0 && _refillBagAutomatically)
+        if (fullSum == 0 && _refillPopulationAutomatically)
         {
-            FillBag();
+            RefillInitialPopulation();
             fullSum = _optionPopulations.Values.Sum();
         }
-        else if (fullSum == 0 && !_refillBagAutomatically)
+        else if (fullSum == 0 && !_refillPopulationAutomatically)
         {
             throw new EmptyAndNonRefillableException();
         }
@@ -70,9 +70,9 @@ public class BlindBagComponent<TOption>
         return playerDrawn;
     }
 
-    public void StopAutomaticallyRefillingBag()
+    public void StopAutomaticallyRefillingPopulation()
     {
-        _refillBagAutomatically = false;
+        _refillPopulationAutomatically = false;
     }
 }
 

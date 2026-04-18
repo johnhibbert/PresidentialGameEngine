@@ -16,7 +16,7 @@ public static class EngineFixtures
         var issueSupportComponent = new SupportComponent<Player, Leader, Issue>();
         var stateSupportComponent = new CarriableSupportComponent<Player, Leader, State>();
         var issuePositioningComponent = new PositioningComponent<Issue>();
-        var politicalCapitalComponent = new BlindBagComponent<Player>(12, seed);
+        var politicalCapitalComponent = new BlindDrawComponent<Player>(12, seed);
         var playerLocationComponent = new PlayerLocationComponent<Player, State>(Manifest.PlayerStartingPositions);
         var restComponent = new AccumulatingComponent<Player>();
         var endorsementComponent = new SupportComponent<Player, Leader, Region>();
@@ -28,7 +28,7 @@ public static class EngineFixtures
             {Endorsement.South, 3},
             {Endorsement.West, 3},
         };
-        var endorsementRandomizerComponent = new BlindBagComponent<Endorsement>(initalEndorsementPopulations, seed);
+        var endorsementRandomizerComponent = new BlindDrawComponent<Endorsement>(initalEndorsementPopulations, seed);
         var mediaSupportComponent = new SupportComponent<Player, Leader, Region>();
         var exhaustionComponent = new PlayerStatusComponent<Player, Status>();
         var cardZoneComponent = new CardZoneComponent<CardZone, Player, Data.Card>

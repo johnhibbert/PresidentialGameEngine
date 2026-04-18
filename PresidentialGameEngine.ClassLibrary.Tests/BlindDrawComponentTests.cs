@@ -5,7 +5,7 @@ using static PresidentialGameEngine.ClassLibrary.Tests.TestStubsFakesAndMocks;
 namespace PresidentialGameEngine.ClassLibrary.Tests;
 
 [TestClass]
-public class BlindBagComponentTests
+public class BlindDrawComponentTests
 {
     #region Constructor Tests
 
@@ -14,9 +14,9 @@ public class BlindBagComponentTests
     [DataRow(12, 24)]
     public void Constructor_AllEntriesCreated_EnumWithTwoEntries(int initialPopulation, int expectedTotal)
     {
-        BlindBagComponent<FakeEnumWithTwo> sut = new(initialPopulation,GetSeededRandomnessProvider());
+        BlindDrawComponent<FakeEnumWithTwo> sut = new(initialPopulation,GetSeededRandomnessProvider());
 
-        var result = sut.PeekIntoBag();
+        var result = sut.PeekAtPopulation();
         Assert.AreEqual(0, result[FakeEnumWithTwo.ElementOne]);
         Assert.AreEqual(0, result[FakeEnumWithTwo.ElementTwo]);
     }
@@ -26,9 +26,9 @@ public class BlindBagComponentTests
     [DataRow(12, 36)]
     public void Constructor_AllEntriesCreated_EnumWithThreeEntries(int initialPopulation, int expectedTotal)
     {
-        BlindBagComponent<FakeEnumWithThree> sut = new(initialPopulation,GetSeededRandomnessProvider());
+        BlindDrawComponent<FakeEnumWithThree> sut = new(initialPopulation,GetSeededRandomnessProvider());
 
-        var result = sut.PeekIntoBag();
+        var result = sut.PeekAtPopulation();
         Assert.AreEqual(0, result[FakeEnumWithThree.ElementOne]);
         Assert.AreEqual(0, result[FakeEnumWithThree.ElementTwo]);
         Assert.AreEqual(0, result[FakeEnumWithThree.ElementThree]);
@@ -39,9 +39,9 @@ public class BlindBagComponentTests
     [DataRow(12, 60)]
     public void Constructor_AllEntriesCreated_EnumWithFiveEntries(int initialPopulation, int expectedTotal)
     {
-        BlindBagComponent<FakeEnumWithFive> sut = new(initialPopulation,GetSeededRandomnessProvider());
+        BlindDrawComponent<FakeEnumWithFive> sut = new(initialPopulation,GetSeededRandomnessProvider());
 
-        var result = sut.PeekIntoBag();
+        var result = sut.PeekAtPopulation();
         Assert.AreEqual(0, result[FakeEnumWithFive.ElementOne]);
         Assert.AreEqual(0, result[FakeEnumWithFive.ElementTwo]);
         Assert.AreEqual(0, result[FakeEnumWithFive.ElementThree]);
@@ -58,51 +58,11 @@ public class BlindBagComponentTests
             { FakeEnumWithTwo.ElementTwo, 3 }
         };
         
-        BlindBagComponent<FakeEnumWithTwo> sut = new(initPop,GetSeededRandomnessProvider());
+        BlindDrawComponent<FakeEnumWithTwo> sut = new(initPop,GetSeededRandomnessProvider());
 
-        var result = sut.PeekIntoBag();
+        var result = sut.PeekAtPopulation();
         Assert.AreEqual(0, result[FakeEnumWithTwo.ElementOne]);
         Assert.AreEqual(0, result[FakeEnumWithTwo.ElementTwo]);
-    }
-    
-    #endregion
-    
-    #region FillBag Tests
-    
-    [TestMethod]
-    [DataRow(10, 20)]
-    [DataRow(12, 24)]
-    public void FillBag_BagFilledWithCorrectNumber_EnumWithTwoEntries(int initialPopulation, int expectedTotal)
-    {
-        BlindBagComponent<FakeEnumWithTwo> sut = new(initialPopulation,GetSeededRandomnessProvider());
-        sut.FillBag();
-        
-        var result = sut.PeekIntoBag();
-        Assert.AreEqual(expectedTotal, result.Values.Sum());
-    }
-    
-    [TestMethod]
-    [DataRow(10, 30)]
-    [DataRow(12, 36)]
-    public void FillBag_BagFilledWithCorrectNumber_EnumWithThreeEntries(int initialPopulation, int expectedTotal)
-    {
-        BlindBagComponent<FakeEnumWithThree> sut = new(initialPopulation,GetSeededRandomnessProvider());
-        sut.FillBag();
-        
-        var result = sut.PeekIntoBag();
-        Assert.AreEqual(expectedTotal, result.Values.Sum());
-    }
-    
-    [TestMethod]
-    [DataRow(10, 50)]
-    [DataRow(12, 60)]
-    public void FillBag_BagFilledWithCorrectNumber_EnumWithFiveEntries(int initialPopulation, int expectedTotal)
-    {
-        BlindBagComponent<FakeEnumWithFive> sut = new(initialPopulation,GetSeededRandomnessProvider());
-        sut.FillBag();
-        
-        var result = sut.PeekIntoBag();
-        Assert.AreEqual(expectedTotal, result.Values.Sum());
     }
     
     [TestMethod]
@@ -114,27 +74,69 @@ public class BlindBagComponentTests
             { FakeEnumWithTwo.ElementTwo, 3 }
         };
         
-        BlindBagComponent<FakeEnumWithTwo> sut = new(initPop,GetSeededRandomnessProvider());
-        sut.FillBag();
+        BlindDrawComponent<FakeEnumWithTwo> sut = new(initPop,GetSeededRandomnessProvider());
+        sut.RefillInitialPopulation();
         
-        var result = sut.PeekIntoBag();
+        var result = sut.PeekAtPopulation();
         Assert.AreEqual(2, result[FakeEnumWithTwo.ElementOne]);
         Assert.AreEqual(3, result[FakeEnumWithTwo.ElementTwo]);
     }
+
     
     #endregion
     
-    #region DrawCube Tests
+    #region RefillInitialPopulation Tests
     
     [TestMethod]
-    public void DrawCube_ConfirmDrawnCubeReducesPopulation()
+    [DataRow(10, 20)]
+    [DataRow(12, 24)]
+    public void RefillInitialPopulation_BagFilledWithCorrectNumber_EnumWithTwoEntries(int initialPopulation, int expectedTotal)
+    {
+        BlindDrawComponent<FakeEnumWithTwo> sut = new(initialPopulation,GetSeededRandomnessProvider());
+        sut.RefillInitialPopulation();
+        
+        var result = sut.PeekAtPopulation();
+        Assert.AreEqual(expectedTotal, result.Values.Sum());
+    }
+    
+    [TestMethod]
+    [DataRow(10, 30)]
+    [DataRow(12, 36)]
+    public void RefillInitialPopulation_BagFilledWithCorrectNumber_EnumWithThreeEntries(int initialPopulation, int expectedTotal)
+    {
+        BlindDrawComponent<FakeEnumWithThree> sut = new(initialPopulation,GetSeededRandomnessProvider());
+        sut.RefillInitialPopulation();
+        
+        var result = sut.PeekAtPopulation();
+        Assert.AreEqual(expectedTotal, result.Values.Sum());
+    }
+    
+    [TestMethod]
+    [DataRow(10, 50)]
+    [DataRow(12, 60)]
+    public void RefillInitialPopulation_BagFilledWithCorrectNumber_EnumWithFiveEntries(int initialPopulation, int expectedTotal)
+    {
+        BlindDrawComponent<FakeEnumWithFive> sut = new(initialPopulation,GetSeededRandomnessProvider());
+        sut.RefillInitialPopulation();
+        
+        var result = sut.PeekAtPopulation();
+        Assert.AreEqual(expectedTotal, result.Values.Sum());
+    }
+    
+
+    #endregion
+    
+    #region Draw Tests
+    
+    [TestMethod]
+    public void Draw_ConfirmDrawnCubeReducesPopulation()
     {
         const int initialPopulation = 12;
-        BlindBagComponent<FakePlayer> sut = new(initialPopulation, GetSeededRandomnessProvider());
-        sut.FillBag();
+        BlindDrawComponent<FakePlayer> sut = new(initialPopulation, GetSeededRandomnessProvider());
+        sut.RefillInitialPopulation();
         sut.Draw();
 
-        var result = sut.PeekIntoBag();
+        var result = sut.PeekAtPopulation();
 
         Assert.AreEqual(initialPopulation, result[FakePlayer.PlayerOne]);
         Assert.AreEqual(initialPopulation, result[FakePlayer.PlayerTwo]);
@@ -142,18 +144,18 @@ public class BlindBagComponentTests
     }
     
     [TestMethod]
-    public void DrawCube_ConfirmMultipleDrawingsReducesPopulation()
+    public void Draw_ConfirmMultipleDrawingsReducesPopulation()
     {
         const int initialPopulation = 12;
-        BlindBagComponent<FakePlayer> sut = new(initialPopulation, GetSeededRandomnessProvider());
-        sut.FillBag();
+        BlindDrawComponent<FakePlayer> sut = new(initialPopulation, GetSeededRandomnessProvider());
+        sut.RefillInitialPopulation();
         sut.Draw();
         sut.Draw();
         sut.Draw();
         sut.Draw();
         sut.Draw();
 
-        var result = sut.PeekIntoBag();
+        var result = sut.PeekAtPopulation();
 
         Assert.AreEqual(initialPopulation - 3, result[FakePlayer.PlayerOne]);
         Assert.AreEqual(initialPopulation, result[FakePlayer.PlayerTwo]);
@@ -161,29 +163,29 @@ public class BlindBagComponentTests
     }
 
     [TestMethod]
-    public void DrawCube_DrawCubeWhenEmptyRefills()
+    public void Draw_DrawWhenEmptyRefills()
     {
         const int initialPopulation = 1;
-        BlindBagComponent<FakePlayer> sut = new(initialPopulation, GetSeededRandomnessProvider());
-        sut.FillBag();
+        BlindDrawComponent<FakePlayer> sut = new(initialPopulation, GetSeededRandomnessProvider());
+        sut.RefillInitialPopulation();
         sut.Draw();
         sut.Draw();
         sut.Draw();
         sut.Draw();
 
-        var result = sut.PeekIntoBag().Values.Sum();
+        var result = sut.PeekAtPopulation().Values.Sum();
 
         Assert.AreEqual(2, result);
     }
     
     [TestMethod]
     [ExpectedException(typeof(EmptyAndNonRefillableException))]
-    public void DrawCube_DrawCubeThrowsWhenEmptyAndNotRefillable()
+    public void Draw_DrawThrowsWhenEmptyAndNotRefillable()
     {
         const int initialPopulation = 1;
-        BlindBagComponent<FakePlayer> sut = new(initialPopulation, GetSeededRandomnessProvider());
-        sut.FillBag();
-        sut.StopAutomaticallyRefillingBag();
+        BlindDrawComponent<FakePlayer> sut = new(initialPopulation, GetSeededRandomnessProvider());
+        sut.RefillInitialPopulation();
+        sut.StopAutomaticallyRefillingPopulation();
         
         sut.Draw();
         sut.Draw();
@@ -194,14 +196,14 @@ public class BlindBagComponentTests
     
     #endregion
 
-    #region StopAutomaticallyRefillingBag Tests
+    #region StopAutomaticallyRefillingPopulation Tests
 
     [TestMethod]
-    public void StopAutomaticallyRefillingBag_BagRefillsAutomatically()
+    public void StopAutomaticallyRefillingPopulation_BagRefillsAutomatically()
     {
         const int initialPopulation = 12;
-        BlindBagComponent<FakePlayer> sut = new(initialPopulation, GetSeededRandomnessProvider());
-        sut.FillBag();
+        BlindDrawComponent<FakePlayer> sut = new(initialPopulation, GetSeededRandomnessProvider());
+        sut.RefillInitialPopulation();
         var index = (initialPopulation * 3) + 1;
 
         while (index >= 1)
@@ -210,7 +212,7 @@ public class BlindBagComponentTests
             index--;
         }
 
-        var result = sut.PeekIntoBag();
+        var result = sut.PeekAtPopulation();
 
         Assert.AreEqual(initialPopulation, result[FakePlayer.PlayerOne]);
         Assert.AreEqual(initialPopulation, result[FakePlayer.PlayerTwo]);
@@ -220,11 +222,11 @@ public class BlindBagComponentTests
     [TestMethod]
     [DataRow(1)]
     [DataRow(12)]
-    public void StopAutomaticallyRefillingBag_BagDoesNotRefillAutomatically(int initialPopulation)
+    public void StopAutomaticallyRefillingPopulation_BagDoesNotRefillAutomatically(int initialPopulation)
     {
-        BlindBagComponent<FakePlayer> sut = new(initialPopulation, GetSeededRandomnessProvider());
-        sut.FillBag();
-        sut.StopAutomaticallyRefillingBag();
+        BlindDrawComponent<FakePlayer> sut = new(initialPopulation, GetSeededRandomnessProvider());
+        sut.RefillInitialPopulation();
+        sut.StopAutomaticallyRefillingPopulation();
         
         int index = initialPopulation * 3;
 
@@ -234,7 +236,7 @@ public class BlindBagComponentTests
             index--;
         }
 
-        var result = sut.PeekIntoBag();
+        var result = sut.PeekAtPopulation();
 
         Assert.AreEqual(0, result[FakePlayer.PlayerOne]);
         Assert.AreEqual(0, result[FakePlayer.PlayerTwo]);
