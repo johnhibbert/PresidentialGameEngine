@@ -32,7 +32,7 @@ public interface IController
 
     Endorsement GainRandomEndorsement();
 
-    void GainMomentumAndEndorsementRewards(Player player, int momentumGained, IList<Region> regionsGainingEndorsement);
+    void GainMomentumAndEndorsementRewards(IssueRewards rewards);
     
     void DecayIssueSupport();
 

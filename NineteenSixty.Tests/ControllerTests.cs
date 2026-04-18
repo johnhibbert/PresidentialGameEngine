@@ -1032,6 +1032,38 @@ public class ControllerTests
     }
     
     #endregion
+
+    #region GainMomentumAndEndorsementRewards Tests
+
+    [TestMethod]
+    public void GainMomentumAndEndorsementRewards_AFFF()
+    {
+        var engine = EngineFixtures.GetGameEngine();
+        //If we don't want to care about phase validation, we can just put in an empty mock.
+        var mockValidator = Substitute.For<IPhaseValidator>();
+        
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt, mockValidator);
+        sut.SetUpBoard();
+        sut.SetFirstPlayerForActivityPhase(Player.Kennedy);
+
+        var rewards = new IssueRewards();
+        rewards.MomentumGains[Player.Nixon] = 1;
+        rewards.EndorsementGains[Player.Kennedy].Add(Region.East);
+
+        sut.GainMomentumAndEndorsementRewards(rewards);
+
+        var result = sut.GetGameState();
+        
+        Assert.AreEqual(2, result.Momentum[Player.Kennedy]);
+        Assert.AreEqual(3, result.Momentum[Player.Nixon]);
+        Assert.AreEqual(Leader.Kennedy, result.Endorsements[Region.East].Leader);
+        Assert.AreEqual(Leader.None, result.Endorsements[Region.West].Leader);
+        Assert.AreEqual(Leader.None, result.Endorsements[Region.Midwest].Leader);
+        Assert.AreEqual(Leader.None, result.Endorsements[Region.South].Leader);
+        
+    }
+
+    #endregion
     
     #region DecayIssueSupport Tests
     

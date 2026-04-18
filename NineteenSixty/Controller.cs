@@ -277,9 +277,29 @@ public class Controller(IEngine engine, GameEdition gameEdition, IPhaseValidator
         return _engine.GetRandomEndorsement();
     }
 
-    public void GainMomentumAndEndorsementRewards(Player player, int momentumGained, IList<Region> regionsGainingEndorsement)
+    [ValidOnlyInCertainPhases([Phase.Momentum])]
+    public void GainMomentumAndEndorsementRewards(IssueRewards rewards)
     {
-        throw new NotImplementedException();
+        _validator.ThrowIfActionNotAllowed(CurrentPhase);
+
+        foreach (var kvp in rewards.MomentumGains)
+        {
+            if (kvp.Value > 0)
+            {
+                _engine.GainMomentum(kvp.Key, kvp.Value);
+            }
+        }
+
+        foreach (var kvp in rewards.EndorsementGains)
+        {
+            if (kvp.Value.Count > 0)
+            {
+                foreach (var item in kvp.Value)
+                {
+                    _engine.GainEndorsement(kvp.Key, item, 1);
+                }
+            }
+        }
     }
 
     [ValidOnlyInCertainPhases([Phase.Momentum])]
