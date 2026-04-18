@@ -584,13 +584,22 @@ internal class Program
         var playerLocationComponent = new PlayerLocationComponent<Player, State>(Manifest.PlayerStartingPositions);
         var restComponent = new AccumulatingComponent<Player>();
         var endorsementComponent = new SupportComponent<Player, Leader, Region>();
+        var initalEndorsementPopulations = new Dictionary<Endorsement, int>()
+        {
+            {Endorsement.Major, 4},
+            {Endorsement.East, 3},
+            {Endorsement.Midwest, 3},
+            {Endorsement.South, 3},
+            {Endorsement.West, 3},
+        };
+        var endorsementRandomizerComponent = new BlindBagComponent<Endorsement>(initalEndorsementPopulations, randomnessProvider);
         var mediaSupportComponent = new SupportComponent<Player, Leader, Region>();
         var exhaustionComponent = new PlayerStatusComponent<Player, Status>();
         var cardZoneComponent = new CardZoneComponent<CardZone, Player, Card>
             ([CardZone.Hand, CardZone.CampaignStrategy], randomnessProvider);
 
         return new Engine(momentumComponent, issueSupportComponent, stateSupportComponent, issuePositioningComponent,
-            politicalCapitalComponent, playerLocationComponent, restComponent, endorsementComponent,
+            politicalCapitalComponent, playerLocationComponent, restComponent, endorsementComponent, endorsementRandomizerComponent,
             mediaSupportComponent, exhaustionComponent, cardZoneComponent);
     }
     

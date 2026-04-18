@@ -983,6 +983,56 @@ public class ControllerTests
     
     #endregion
     
+    #region GetRandomEndorsement Tests
+    [TestMethod]
+    public void GetRandomEndorsement_EndorsementReturned()
+    {
+        var engine = EngineFixtures.GetGameEngine();
+        //If we don't want to care about phase validation, we can just put in an empty mock.
+        var mockValidator = Substitute.For<IPhaseValidator>();
+        
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt, mockValidator);
+        sut.SetUpBoard();
+        sut.SetFirstPlayerForActivityPhase(Player.Kennedy);
+
+       var result = sut.GainRandomEndorsement();
+       
+       Assert.AreEqual(Endorsement.East, result);
+    }
+    
+    [TestMethod]
+    public void GetRandomEndorsement_AllEndorsementsPresent()
+    {
+        var engine = EngineFixtures.GetGameEngine();
+        //If we don't want to care about phase validation, we can just put in an empty mock.
+        var mockValidator = Substitute.For<IPhaseValidator>();
+        
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt, mockValidator);
+        sut.SetUpBoard();
+        sut.SetFirstPlayerForActivityPhase(Player.Kennedy);
+
+        var result = new Dictionary<Endorsement, int>()
+        {
+            {Endorsement.Major, 0},
+            {Endorsement.East, 0},
+            {Endorsement.Midwest, 0},
+            {Endorsement.South, 0},
+            {Endorsement.West, 0},
+        };
+
+        var count = 1;
+
+        while (count <= 16)
+        {
+            result[sut.GainRandomEndorsement()]++;
+            count++;
+        }
+       
+        Assert.AreEqual(16, result.Values.Sum());
+    }
+    
+    #endregion
+    
     #region DecayIssueSupport Tests
     
     [TestMethod]

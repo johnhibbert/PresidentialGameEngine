@@ -17,6 +17,7 @@ public class Engine(
     IPlayerLocationComponent<Player, State> playerLocationComponent,
     IAccumulatingComponent<Player> restComponent,
     ISupportComponent<Player, Leader, Region> endorsementComponent,
+    IBlindBagComponent<Endorsement> endorsementRandomizerComponent,
     ISupportComponent<Player, Leader, Region> mediaSupportComponent,
     IPlayerStatusComponent<Player, Status> exhaustionComponent,
     ICardZoneComponent<CardZone, Player, Card> cardZoneComponent)
@@ -211,6 +212,11 @@ public class Engine(
         return EndorsementComponent.GetSupportStatus(region).Support;
     }
 
+    public Endorsement GetRandomEndorsement()
+    {
+        return endorsementRandomizerComponent.Draw();
+    }
+    
     public void ExhaustPlayer(Player player)
     {
         ExhaustionComponent.UpdatePlayerStatus(player, Status.Exhausted);

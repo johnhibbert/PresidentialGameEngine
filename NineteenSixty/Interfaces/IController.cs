@@ -29,6 +29,8 @@ public interface IController
     Leader GetLeaderInMediaSupportForIssueShift();
     
     void IssueShift(Issue issueToElevate, Player leadingPlayer);
+
+    Endorsement GainRandomEndorsement();    
     
     void DecayIssueSupport();
 

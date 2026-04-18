@@ -272,6 +272,12 @@ public class Controller(IEngine engine, GameEdition gameEdition, IPhaseValidator
     }
 
     [ValidOnlyInCertainPhases([Phase.Momentum])]
+    public Endorsement GainRandomEndorsement()
+    {
+        return _engine.GetRandomEndorsement();
+    }
+
+    [ValidOnlyInCertainPhases([Phase.Momentum])]
     public void DecayIssueSupport()
     {
         _validator.ThrowIfActionNotAllowed(CurrentPhase);
