@@ -3,7 +3,7 @@ using NineteenSixty.Exceptions;
 namespace NineteenSixty.Tests;
 
 [TestClass]
-public class ActionValidatorTests
+public class PhaseValidatorTests
 {
 
     [ValidOnlyInCertainPhases([Phase.Setup])]
@@ -11,7 +11,8 @@ public class ActionValidatorTests
     [DataRow(Phase.Setup)]
     public void ThrowIfActionNotAllowed_TestWithAllowedAction(Phase currentPhase)
     {
-        ActionValidator.ThrowIfActionNotAllowed(currentPhase);
+        var sut = new PhaseValidator();
+        sut.ThrowIfActionNotAllowed(currentPhase);
     }
     
     [ValidOnlyInCertainPhases([Phase.Setup])]
@@ -21,7 +22,8 @@ public class ActionValidatorTests
     [ExpectedException(typeof(ActionNotAllowed))]
     public void ThrowIfActionNotAllowed_TestWithDisallowedAction(Phase currentPhase)
     {
-        ActionValidator.ThrowIfActionNotAllowed(currentPhase);
+        var sut = new PhaseValidator();
+        sut.ThrowIfActionNotAllowed(currentPhase);
     }
     
 }

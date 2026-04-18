@@ -88,6 +88,32 @@ public static class DisplayToConsole
         DisplayLinesInBox(lines);
     }
 
+    public static void DisplayRequestForIssue()
+    {
+        var lines = new List<string>()
+        {
+            "Enter 1 for Defense",
+            "Enter 2 for Economy",
+            "Enter 3 for Civil Rights",
+            "Or you can enter 0 for None",
+        };
+        
+        DisplayLinesInBox(lines);
+    }
+    
+    public static void DisplayRequestForRegion()
+    {
+        var lines = new List<string>()
+        {
+            "Enter 1 for East",
+            "Enter 2 for Midwest",
+            "Enter 3 for South",
+            "Enter 4 for West",
+        };
+        
+        DisplayLinesInBox(lines);
+    }
+    
     public static void DisplayLongLineWithWordWrapInBox(string message, BoxForm drawMode = BoxForm.TopAndBottom)
     {
         var brokenUp = new List<string>();

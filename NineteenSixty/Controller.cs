@@ -8,11 +8,13 @@ using Card = NineteenSixty.Data.Card;
 
 namespace NineteenSixty;
 
-public class Controller(IEngine engine, GameEdition gameEdition) : IController
+public class Controller(IEngine engine, GameEdition gameEdition, IPhaseValidator validator) : IController
 {
     private IEngine _engine = engine;
 
     public GameEdition GameEdition { get; init; } = gameEdition;
+
+    private IPhaseValidator _validator = validator;
 
     private int TurnNumber { get; set; } = 0;
     private Phase CurrentPhase { get; set; } = Phase.Setup;
@@ -58,7 +60,7 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
     [ValidOnlyInCertainPhases([Phase.Setup])]
     public void SetUpBoard()
     {
-        ActionValidator.ThrowIfActionNotAllowed(CurrentPhase);
+        _validator.ThrowIfActionNotAllowed(CurrentPhase);
         
         foreach (var ff in Manifest.StateData)
         {
@@ -133,7 +135,7 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
     [ValidOnlyInCertainPhases([Phase.Activity])]
     public void PlayCardAsEvent(Card card, SetOfChanges changes, Player player)
     {
-        ActionValidator.ThrowIfActionNotAllowed(CurrentPhase);
+        _validator.ThrowIfActionNotAllowed(CurrentPhase);
         
         ActionPlan plan = new ActionPlan()
         {
@@ -157,7 +159,7 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
     [ValidOnlyInCertainPhases([Phase.Activity])]
     public void PlayCardToCampaignInStates(Card card, SetOfChanges changes, Player player)
     {
-        ActionValidator.ThrowIfActionNotAllowed(CurrentPhase);
+        _validator.ThrowIfActionNotAllowed(CurrentPhase);
 
         var currentState = _engine.GetGameState();
         var affectedStates = changes.StateChanges.Select(x => x.Target).ToList();
@@ -195,7 +197,7 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
     [ValidOnlyInCertainPhases([Phase.Initiative])]
     public void SetFirstPlayerForActivityPhase(Player player)
     {
-        ActionValidator.ThrowIfActionNotAllowed(CurrentPhase);
+        _validator.ThrowIfActionNotAllowed(CurrentPhase);
         
         CurrentPhase = Phase.Activity;
         ActivityPhaseNumber = 1;
@@ -213,5 +215,117 @@ public class Controller(IEngine engine, GameEdition gameEdition) : IController
         return _engine.GetCardsInZone(CardZone.Hand, player);
     }
 
+    [ValidOnlyInCertainPhases([Phase.Momentum])]
+    public void DecayMomentum()
+    {
+        _validator.ThrowIfActionNotAllowed(CurrentPhase);
+        
+        var nixonMomentum = _engine.GetPlayerMomentum(Player.Nixon);
+        var kennedyMomentum = _engine.GetPlayerMomentum(Player.Kennedy);
+        
+        _engine.LoseMomentum(Player.Nixon, nixonMomentum / 2);
+        _engine.LoseMomentum(Player.Kennedy, kennedyMomentum / 2);
+
+    }
+
+    public Leader GetLeaderInMediaSupportForIssueShift()
+    {
+        _validator.ThrowIfActionNotAllowed(CurrentPhase);
+
+        var mediaSupportCubes = new Dictionary<Leader, int>()
+        {
+            { Leader.None, 0 },
+            { Leader.Kennedy, 0 },
+            { Leader.Nixon, 0 },
+        };
+        
+        var mediaSupportContests = _engine.GetGameState().MediaSupportLevels;
+
+        foreach (var key in mediaSupportContests.Keys)
+        {
+            var contest = mediaSupportContests[key];
+            var leader = contest.Leader;
+            mediaSupportCubes[leader] += contest.Amount;
+        }
+
+        var greatestNumberOfCubes = mediaSupportCubes.MaxBy(x => x.Value).Value;
+        var uniqueLeader = mediaSupportCubes.Count(x => x.Value == greatestNumberOfCubes) == 1;
+
+        if (!uniqueLeader)
+        {
+            return Leader.None;
+        }
+
+        return mediaSupportCubes.MaxBy(x => x.Value).Key;
+    }
+
+    [ValidOnlyInCertainPhases([Phase.Momentum])]
+    public void IssueShift(Issue issueToElevate, Player leadingPlayer)
+    {
+        _validator.ThrowIfActionNotAllowed(CurrentPhase);
+
+        var leader = GetLeaderInMediaSupportForIssueShift();
+        if (leader != Leader.None && leader.ToPlayer() == leadingPlayer)
+        {
+            _engine.MoveIssueUp(issueToElevate);
+        }
+    }
+
+    [ValidOnlyInCertainPhases([Phase.Momentum])]
+    public Endorsement GainRandomEndorsement()
+    {
+        return _engine.GetRandomEndorsement();
+    }
+
+    [ValidOnlyInCertainPhases([Phase.Momentum])]
+    public void GainMomentumAndEndorsementRewards(IssueRewards rewards)
+    {
+        _validator.ThrowIfActionNotAllowed(CurrentPhase);
+
+        foreach (var kvp in rewards.MomentumGains)
+        {
+            if (kvp.Value > 0)
+            {
+                _engine.GainMomentum(kvp.Key, kvp.Value);
+            }
+        }
+
+        foreach (var kvp in rewards.EndorsementGains)
+        {
+            if (kvp.Value.Count > 0)
+            {
+                foreach (var item in kvp.Value)
+                {
+                    _engine.GainEndorsement(kvp.Key, item, 1);
+                }
+            }
+        }
+    }
+
+    [ValidOnlyInCertainPhases([Phase.Momentum])]
+    public void DecayIssueSupport()
+    {
+        _validator.ThrowIfActionNotAllowed(CurrentPhase);
+
+        var civilRightsLeader = _engine.GetLeader(Issue.CivilRights);
+        var defenseLeader = _engine.GetLeader(Issue.Defense);
+        var economyLeader = _engine.GetLeader(Issue.Economy);
+
+        if (civilRightsLeader != Leader.None)
+        {
+            _engine.LoseSupport(civilRightsLeader.ToPlayer(), Issue.CivilRights, 1);
+        }
+        
+        if (defenseLeader != Leader.None)
+        {
+            _engine.LoseSupport(defenseLeader.ToPlayer(), Issue.Defense, 1);
+        }
+        
+        if (economyLeader != Leader.None)
+        {
+            _engine.LoseSupport(economyLeader.ToPlayer(), Issue.Economy, 1);
+        }
+        
+    }
 }
 

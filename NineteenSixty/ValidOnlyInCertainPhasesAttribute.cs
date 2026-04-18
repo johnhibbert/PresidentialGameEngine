@@ -24,9 +24,18 @@ public enum Phase
     CampaignStrategy,
 }
 
-public static class ActionValidator
+public interface IPhaseValidator
 {
-    public static void ThrowIfActionNotAllowed(Phase currentPhase,
+    void ThrowIfActionNotAllowed(Phase currentPhase,
+        [System.Runtime.CompilerServices.CallerMemberName]
+        string memberName = "",
+        [System.Runtime.CompilerServices.CallerFilePath]
+        string filePath = "");
+}
+
+public class PhaseValidator : IPhaseValidator
+{
+    public void ThrowIfActionNotAllowed(Phase currentPhase,
         [System.Runtime.CompilerServices.CallerMemberName] string memberName = "",
         [System.Runtime.CompilerServices.CallerFilePath] string filePath = "")
     {

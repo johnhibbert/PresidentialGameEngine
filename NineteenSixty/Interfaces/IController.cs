@@ -24,4 +24,16 @@ public interface IController
     
     IEnumerable<Card> GetCardsInHand(Player player);
 
+    void DecayMomentum();
+
+    Leader GetLeaderInMediaSupportForIssueShift();
+    
+    void IssueShift(Issue issueToElevate, Player leadingPlayer);
+
+    Endorsement GainRandomEndorsement();
+
+    void GainMomentumAndEndorsementRewards(IssueRewards rewards);
+    
+    void DecayIssueSupport();
+
 }

@@ -13,10 +13,11 @@ public class Engine(
     ISupportComponent<Player, Leader, Issue> issueSupportComponent,
     ICarriableSupportComponent<Player, Leader, State> stateSupportComponent,
     IPositioningComponent<Issue> issuePositioningComponent,
-    IBlindBagComponent<Player> politicalCapitalComponent,
+    IBlindDrawComponent<Player> politicalCapitalComponent,
     IPlayerLocationComponent<Player, State> playerLocationComponent,
     IAccumulatingComponent<Player> restComponent,
     ISupportComponent<Player, Leader, Region> endorsementComponent,
+    IBlindDrawComponent<Endorsement> endorsementRandomizerComponent,
     ISupportComponent<Player, Leader, Region> mediaSupportComponent,
     IPlayerStatusComponent<Player, Status> exhaustionComponent,
     ICardZoneComponent<CardZone, Player, Card> cardZoneComponent)
@@ -30,7 +31,7 @@ public class Engine(
         stateSupportComponent;
 
     private IPositioningComponent<Issue> IssuePositioningComponent { get; init; } = issuePositioningComponent;
-    private IBlindBagComponent<Player> PoliticalCapitalComponent { get; init; } = politicalCapitalComponent;
+    private IBlindDrawComponent<Player> PoliticalCapitalComponent { get; init; } = politicalCapitalComponent;
     private IPlayerLocationComponent<Player, State> PlayerLocationComponent { get; init; } = playerLocationComponent;
     private IAccumulatingComponent<Player> RestComponent { get; init; } = restComponent;
     private ISupportComponent<Player, Leader, Region> EndorsementComponent { get; init; } = endorsementComponent;
@@ -211,6 +212,11 @@ public class Engine(
         return EndorsementComponent.GetSupportStatus(region).Support;
     }
 
+    public Endorsement GetRandomEndorsement()
+    {
+        return endorsementRandomizerComponent.Draw();
+    }
+    
     public void ExhaustPlayer(Player player)
     {
         ExhaustionComponent.UpdatePlayerStatus(player, Status.Exhausted);
@@ -271,7 +277,7 @@ public class Engine(
 
     public Player DrawCubeFromPoliticalCapitalBag()
     {
-        return PoliticalCapitalComponent.DrawCube();
+        return PoliticalCapitalComponent.Draw();
     }
     
     public void GainRestCubes(Player player, int amount)

@@ -29,13 +29,23 @@ internal class Program
         
         ConductInitiativeCheck();
         ClearScreen();
-        
+
+        ConductActivityPhase();
+
+        ConductMomentumPhase();
+
+        int i = 0;
+    }
+
+
+    static void ConductActivityPhase()
+    {
         var gameTime = controller.GetGameTime();
         var gameState = controller.GetGameState();
 
         while (gameTime.CurrentPhase == Phase.Activity)
         {
-            gameTime = controller.GetGameTime();
+            //gameTime = controller.GetGameTime();
             ShowGameTime(BoxForm.OnlyTop);
             DisplayPlayerHand(gameTime.ActivePlayer, BoxForm.OnlyTop);
             
@@ -53,13 +63,96 @@ internal class Program
                     break;
             }
 
+            gameTime = controller.GetGameTime();
+            
         }
-
-
-
-        int i = 0;
     }
 
+    static void ConductMomentumPhase()
+    {
+        var gameTime = controller.GetGameTime();
+        var gameState = controller.GetGameState();
+
+        //Momentum Decay
+        controller.DecayMomentum();
+
+        //Issue Shift
+        var leaderInMediaSupport = controller.GetLeaderInMediaSupportForIssueShift();
+        if (leaderInMediaSupport != Leader.None)
+        {
+            var issue = GetIssueShiftFromUser(leaderInMediaSupport.ToPlayer(), gameState.IssueOrder);
+            if (issue != Issue.None)
+            {
+                controller.IssueShift(issue, leaderInMediaSupport.ToPlayer());
+            }
+        }
+
+        //Momentum Awards and Endorsements
+        gameState = controller.GetGameState();
+        GrantMomentumAndEndorsementAwards(gameState);
+
+        //Issue Support Decay
+        controller.DecayIssueSupport();
+
+    }
+
+    static void GrantMomentumAndEndorsementAwards(GameState gameState)
+    {
+        var rewards = new IssueRewards();
+
+        var issuePositions = gameState.IssueOrder;
+        var topIssue = issuePositions[0];
+        var topContest = gameState.IssueContests[topIssue];
+        if (topContest.Leader != Leader.None)
+        {
+            var player = topContest.Leader.ToPlayer();
+            
+            rewards.MomentumGains[player]++;
+            
+            var endorsement =  controller.GainRandomEndorsement();
+            if (endorsement == Endorsement.Major)
+            {
+                var regionFromUser = GetRegionForEndorsement(player);
+                rewards.EndorsementGains[topContest.Leader.ToPlayer()].Add(regionFromUser);
+            }
+        }
+
+        var middleIssue = issuePositions[1];
+        var middleContest = gameState.IssueContests[middleIssue];
+        if (middleContest.Leader != Leader.None)
+        {
+            var player = topContest.Leader.ToPlayer();
+            var choice = GetChoiceOfRegionOrEndorsementFromPlayer(player);
+            
+            switch(choice)
+            {
+              case 1:
+                  var endorsement =  controller.GainRandomEndorsement();
+                  if (endorsement == Endorsement.Major)
+                  {
+                      var regionFromUser = GetRegionForEndorsement(player);
+                      rewards.EndorsementGains[player].Add(regionFromUser);
+                  }
+                  else
+                  {
+                      rewards.EndorsementGains[player].Add(endorsement.ToRegion());
+                  }
+                  break;
+              default:
+                  rewards.MomentumGains[player]++;
+                  break;
+            }
+        }
+        
+        var bottomIssue = issuePositions[2];
+        var bottomContest = gameState.IssueContests[bottomIssue];
+        if (bottomContest.Leader != Leader.None)
+        {
+            rewards.MomentumGains[bottomContest.Leader.ToPlayer()]++;
+        }
+
+    }
+    
 
     static void WaitForPlayerToPressEnter(BoxForm boxForm)
     {
@@ -213,6 +306,43 @@ internal class Program
         return GetPlayerFromUser();
     }
     
+    static Issue GetIssueShiftFromUser(Player player, IList<Issue> currentIssueOrder)
+    {
+        var messages = new List<string>()
+        {
+            $"You have the most media support cubes.",
+            "  You may choose to swap the position of two neighboring issues.",
+            $"  The current order is: 1st: {currentIssueOrder[0]}, 2nd {currentIssueOrder[1]}, 3rd: {currentIssueOrder[2]}",
+            "    Choose which issue to elevate, or None to leave them the same.",
+        };
+        
+        DisplayToConsole.DisplayAlertToPlayer(player, messages, BoxForm.OnlyTop);
+        return GetIssueFromUser();
+    }
+    
+    static Region GetRegionForEndorsement(Player player)
+    {
+        var messages = new List<string>()
+        {
+            $"You have the gained a major endorsement.",
+            "    Choose the region to gain an endorsement.",
+        };
+        
+        DisplayToConsole.DisplayAlertToPlayer(player, messages, BoxForm.OnlyTop);
+        return GetRegionFromUser();
+    }
+
+    static int GetChoiceOfRegionOrEndorsementFromPlayer(Player player)
+    {
+        var messages = new List<string>()
+        {
+            $"You can choose between a major endorsement or one momentum.",
+            "    Choose 1 for endorsement or 2 for momentum.",
+        };
+        
+        DisplayToConsole.DisplayAlertToPlayer(player, messages, BoxForm.OnlyTop);
+        return GetIntegerInputFromUser(2);
+    }
     
     static GameEdition GetGameEditionFromUser()
     {
@@ -268,6 +398,33 @@ internal class Program
         };
     }
 
+    static Issue GetIssueFromUser()
+    {
+        DisplayToConsole.DisplayRequestForIssue();
+        var intFromUser = GetIntegerInputFromUser([0,1,2,3]);
+
+        return intFromUser switch
+        {
+            1 => Issue.Defense,
+            2 => Issue.Economy,
+            3 => Issue.CivilRights,
+            _ => Issue.None,
+        };
+    }
+
+    static Region GetRegionFromUser()
+    {
+        DisplayToConsole.DisplayRequestForRegion();
+        var intFromUser = GetIntegerInputFromUser([1,2,3,4]);
+
+        return intFromUser switch
+        {
+            1 => Region.East,
+            2 => Region.Midwest,
+            3 => Region.South,
+            _ => Region.West,
+        };
+    }
 
     static int GetIntegerInputFromUser(int maxValue)
     {
@@ -509,7 +666,7 @@ internal class Program
 
     private static IController GetController(IRandomnessProvider randomnessProvider, GameEdition edition)
     {
-        return new Controller(GetEngine(randomnessProvider, edition), edition);
+        return new Controller(GetEngine(randomnessProvider, edition), edition, new PhaseValidator());
     }
 
     private static IEngine GetEngine(IRandomnessProvider randomnessProvider, GameEdition edition)
@@ -518,17 +675,26 @@ internal class Program
         var issueSupportComponent = new SupportComponent<Player, Leader, Issue>();
         var stateSupportComponent = new CarriableSupportComponent<Player, Leader, State>();
         var issuePositioningComponent = new PositioningComponent<Issue>();
-        var politicalCapitalComponent = new BlindBagComponent<Player>(Manifest.StartingPoliticalCapital[edition], randomnessProvider);
+        var politicalCapitalComponent = new BlindDrawComponent<Player>(Manifest.StartingPoliticalCapital[edition], randomnessProvider);
         var playerLocationComponent = new PlayerLocationComponent<Player, State>(Manifest.PlayerStartingPositions);
         var restComponent = new AccumulatingComponent<Player>();
         var endorsementComponent = new SupportComponent<Player, Leader, Region>();
+        var initalEndorsementPopulations = new Dictionary<Endorsement, int>()
+        {
+            {Endorsement.Major, 4},
+            {Endorsement.East, 3},
+            {Endorsement.Midwest, 3},
+            {Endorsement.South, 3},
+            {Endorsement.West, 3},
+        };
+        var endorsementRandomizerComponent = new BlindDrawComponent<Endorsement>(initalEndorsementPopulations, randomnessProvider);
         var mediaSupportComponent = new SupportComponent<Player, Leader, Region>();
         var exhaustionComponent = new PlayerStatusComponent<Player, Status>();
         var cardZoneComponent = new CardZoneComponent<CardZone, Player, Card>
             ([CardZone.Hand, CardZone.CampaignStrategy], randomnessProvider);
 
         return new Engine(momentumComponent, issueSupportComponent, stateSupportComponent, issuePositioningComponent,
-            politicalCapitalComponent, playerLocationComponent, restComponent, endorsementComponent,
+            politicalCapitalComponent, playerLocationComponent, restComponent, endorsementComponent, endorsementRandomizerComponent,
             mediaSupportComponent, exhaustionComponent, cardZoneComponent);
     }
     
