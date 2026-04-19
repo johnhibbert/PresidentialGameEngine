@@ -19,7 +19,60 @@ internal class Program
     static void Main(string[] args)
     {
         ShowIntroMessage();
+
+        string msg = "Press 1 to play or 2 two use the test sandbox.";
+        DisplayToConsole.DisplayLinesInBox([msg]);
         
+        var input = GetIntegerInputFromUser(2);
+
+        switch (input)
+        {
+            case 2:
+                RunThroughSandbox();
+                break;
+            default:
+                PlayGame();
+                break;
+        }
+
+        int i = 0;
+    }
+
+    
+    
+
+    static void RunThroughSandbox()
+    {
+        //Maybe centralize this?  ehh
+        var randomnessProvider = new DefaultRandomnessProvider(1960);
+        
+        foreach (var card in Manifest.GMTCards.Values)
+        {
+            
+            //Resetting it each time for isolation purposes.
+            controller = GetController(randomnessProvider, GameEdition.SecondEditionByGmt);
+
+            controller.SetUpBoard();
+            controller.SetFirstPlayerForActivityPhase(Player.Kennedy);
+            
+            
+            
+            //THESE WORK FINE AS FAR AS I CAN TELL
+            //SetOfChanges changes = GetDesiredSetOfChangesFromUser(card, ActionType.PlayCardForCampaignPoints);
+            //controller.PlayCardToCampaignInStates(card, changes, Player.Kennedy);
+            
+            
+            SetOfChanges changes = GetDesiredSetOfChangesFromUser(card, ActionType.PlayCardForEvent);
+            controller.PlayCardAsEvent(card, changes, Player.Kennedy);
+            
+            
+        }
+        
+        
+    }
+    
+    static void PlayGame()
+    {
         DoInitialSetup();
         
         DrawHands();
@@ -33,10 +86,8 @@ internal class Program
         ConductActivityPhase();
 
         ConductMomentumPhase();
-
-        int i = 0;
     }
-
+    
 
     static void ConductActivityPhase()
     {
@@ -663,7 +714,6 @@ internal class Program
 
 
 
-
     private static IController GetController(IRandomnessProvider randomnessProvider, GameEdition edition)
     {
         return new Controller(GetEngine(randomnessProvider, edition), edition, new PhaseValidator());
@@ -697,7 +747,6 @@ internal class Program
             politicalCapitalComponent, playerLocationComponent, restComponent, endorsementComponent, endorsementRandomizerComponent,
             mediaSupportComponent, exhaustionComponent, cardZoneComponent);
     }
-    
 }
 
 public enum ActionType
