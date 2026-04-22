@@ -161,7 +161,9 @@ public class Controller(IEngine engine, GameEdition gameEdition, IPhaseValidator
     {
         _validator.ThrowIfActionNotAllowed(CurrentPhase);
 
-        var currentState = _engine.GetGameState();
+        var gameState = _engine.GetGameState();
+        var currentPlayerLocation = gameState.PlayerLocations[player];
+        
         var affectedStates = changes.StateChanges.Select(x => x.Target).ToList();
 
         var regions = new List<Region>();
@@ -169,11 +171,37 @@ public class Controller(IEngine engine, GameEdition gameEdition, IPhaseValidator
         {
             regions.Add(Manifest.StateData[state].Region);
         }
-        var currentRegion = Manifest.StateData[currentState.PlayerLocations[player]].Region;
+        
+        var currentRegion = Manifest.StateData[currentPlayerLocation].Region;
 
-        //This may not be 100% accurate as a way to find the path.
-        var numberOfMoves = regions.Where(x => x != currentRegion).Distinct().ToList().Count;
+        regions.Add(currentRegion);
+        
+        var numberOfMoves = regions.Distinct().ToList().Count - 1;
 
+        //ADD NON-CONTIGUOUS
+        if (regions.Contains(Region.West) && regions.Contains(Region.East)
+                                          && !regions.Contains(Region.Midwest) && !regions.Contains(Region.South))
+        {
+            numberOfMoves++;
+        }
+        
+        //Add move costs for AK and HI
+        if (affectedStates.Contains(State.AK) || affectedStates.Contains(State.HI))
+        {
+            //Add moves across borders.
+            numberOfMoves += affectedStates.Count(x => x is State.AK or State.HI);
+
+            if (currentPlayerLocation is not (State.HI and State.AK))
+            {
+                numberOfMoves++;
+            }
+
+            if (changes.NewPlayerLocation[player] is not (State.HI or State.AK))
+            {
+                numberOfMoves++;
+            }
+        }
+        
         bool areMovesAndChangesWithinBounds =
             numberOfMoves + changes.TotalStateChanges <= card.CampaignPoints;
 

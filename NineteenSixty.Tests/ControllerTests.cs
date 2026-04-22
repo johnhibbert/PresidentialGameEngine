@@ -121,16 +121,16 @@ public class ControllerTests
         return expectedGameState;
     }
 
-    private static Card ExampleCard => GetExampleCard();
+    private static Card ExampleCard => GetExampleCard(3, [State.KY]);
 
-    private static Card GetExampleCard()
+    private static Card GetExampleCard(int campaignPoints, State[] validStates)
     {
         var exampleCard = new Card()
         {
             Index = 1,
             Title = "Example Card",
             Text = "Example Card Tests.",
-            CampaignPoints = 3,
+            CampaignPoints = campaignPoints,
             EventType = EventType.None,
             Issue = Issue.Defense,
             Affiliation = Affiliation.Both,
@@ -148,7 +148,7 @@ public class ControllerTests
                 var engine = plan.Engine;
                 var choices = plan.Changes;
 
-                State[] validStates = [State.KY];
+                //State[] validStates = [State.KY];
                 var onlyValidStates = choices.StateChanges.Select(s => s.Target).All(x => validStates.Contains(x));
             
                 return onlyValidStates;
@@ -747,27 +747,96 @@ public class ControllerTests
     [TestMethod]
     [DataRow(State.AK)]
     [DataRow(State.HI)]
-    public void PlayCardToCampaignInStates_AlaskaAndHawaiiCostOneCampaignPoint(State state)
+    [ExpectedException(typeof(InvalidPlayerChoices))]
+    public void PlayCardToCampaignInStates_EnteringAlaskaAndHawaiiCostOneCampaignPoint(State state)
     {
         var player = Player.Nixon;
+        
+        var mockCard = GetExampleCard(3, [State.AK, State.HI]);
         
         var engine = EngineFixtures.GetGameEngine();
         
         var playerChoices = new SetOfChanges();
-        var twoSupportInState = new SupportChange<Player, State>(player, state, ExampleCard.CampaignPoints - 1);
-        playerChoices.StateChanges.Add(twoSupportInState);
+        var invalidFullSupportInState = new SupportChange<Player, State>(player, state, ExampleCard.CampaignPoints);
+        playerChoices.StateChanges.Add(invalidFullSupportInState);
         playerChoices.NewPlayerLocation[player] = state;
         
         var sut = new Controller(engine, GameEdition.SecondEditionByGmt, Validator);
         sut.SetUpBoard();
         sut.SetFirstPlayerForActivityPhase(player);
-        var initialSupportAmount =  sut.GetGameState().StateContests[state].Amount;
         
-        sut.PlayCardToCampaignInStates(ExampleCard, playerChoices, player);
-
-        var result = sut.GetGameState().StateContests[state];
-        Assert.AreEqual(initialSupportAmount + ExampleCard.CampaignPoints - 1, result.Amount);
+        sut.PlayCardToCampaignInStates(mockCard, playerChoices, player);
     }
+    
+    [TestMethod]
+    [ExpectedException(typeof(InvalidPlayerChoices))]
+    public void PlayCardToCampaignInStates_BothLeavingAndEnteringAlaskaAndHawaiiCostOneCampaignPoint_InvalidVersion()
+    {
+        var player = Player.Nixon;
+
+        var mockCard = GetExampleCard(4, [State.AK, State.KY]);
+        
+        var engine = EngineFixtures.GetGameEngine();
+        
+        var playerChoices = new SetOfChanges();
+        var oneSupportInHawaii = new SupportChange<Player, State>(player, State.HI, 1);
+        var oneSupportInAlaska = new SupportChange<Player, State>(player, State.AK, 1);
+        playerChoices.StateChanges.Add(oneSupportInHawaii);
+        playerChoices.StateChanges.Add(oneSupportInAlaska);
+        playerChoices.NewPlayerLocation[player] = State.AK;
+        
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt, Validator);
+        sut.SetUpBoard();
+        sut.SetFirstPlayerForActivityPhase(player);
+        
+        sut.PlayCardToCampaignInStates(mockCard, playerChoices, player);
+    }
+    
+    [TestMethod]
+    public void PlayCardToCampaignInStates_BothLeavingAndEnteringAlaskaAndHawaiiCostOneCampaignPoint_ValidVersion()
+    {
+        var player = Player.Nixon;
+
+        var mockCard = GetExampleCard(5, [State.AK, State.KY]);
+        
+        var engine = EngineFixtures.GetGameEngine();
+        
+        var playerChoices = new SetOfChanges();
+        var oneSupportInHawaii = new SupportChange<Player, State>(player, State.HI, 1);
+        var oneSupportInAlaska = new SupportChange<Player, State>(player, State.AK, 1);
+        playerChoices.StateChanges.Add(oneSupportInHawaii);
+        playerChoices.StateChanges.Add(oneSupportInAlaska);
+        playerChoices.NewPlayerLocation[player] = State.AK;
+        
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt, Validator);
+        sut.SetUpBoard();
+        sut.SetFirstPlayerForActivityPhase(player);
+        
+        sut.PlayCardToCampaignInStates(mockCard, playerChoices, player);
+    }
+    
+    [TestMethod]
+    [ExpectedException(typeof(InvalidPlayerChoices))]
+    public void PlayCardToCampaignInStates_CrossCountryToHawaiiCostsMultiplePoints()
+    {
+        var player = Player.Kennedy;
+
+        var mockCard = GetExampleCard(4, [State.AK, State.KY]);
+        
+        var engine = EngineFixtures.GetGameEngine();
+        
+        var playerChoices = new SetOfChanges();
+        var oneSupportInHawaii = new SupportChange<Player, State>(player, State.HI, 1);
+        playerChoices.StateChanges.Add(oneSupportInHawaii);
+        playerChoices.NewPlayerLocation[player] = State.HI;
+        
+        var sut = new Controller(engine, GameEdition.SecondEditionByGmt, Validator);
+        sut.SetUpBoard();
+        sut.SetFirstPlayerForActivityPhase(player);
+        
+        sut.PlayCardToCampaignInStates(mockCard, playerChoices, player);
+    }
+    
     
     [TestMethod]
     [DataRow(Player.Nixon, State.WY)]
