@@ -131,6 +131,11 @@ namespace NineteenSixty.Tests.Fixtures
             //Seeded for consistency
             private readonly Random Random = new(60);
 
+            public int GetSeed()
+            {
+                return 60;
+            }
+
             public int GetRandomNumber(int maxValue)
             {
                 return Random.Next(maxValue);
