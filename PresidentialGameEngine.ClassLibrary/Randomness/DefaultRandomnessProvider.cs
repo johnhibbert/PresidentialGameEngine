@@ -4,28 +4,35 @@ namespace PresidentialGameEngine.ClassLibrary.Randomness
 {
     public class DefaultRandomnessProvider : IRandomnessProvider
     {
-        private readonly Random Random;
+        private readonly int _seed;
+        private readonly Random _random;
 
         public DefaultRandomnessProvider(int seed = 0)
         {
-            if (seed == 0)
+            _seed = seed;
+            if (_seed == 0)
             {
-                Random = new Random();
+                _random = new Random();
             }
             else
             {
-                Random = new Random(seed);
+                _random = new Random(_seed);
             }
+        }
+
+        public int GetSeed()
+        {
+            return _seed;
         }
 
         public int GetRandomNumber(int maxValue)
         {
-            return Random.Next(maxValue);
+            return _random.Next(maxValue);
         }
 
         public int GetRandomNumber(int minvalue, int maxValue)
         {
-            return Random.Next(minvalue, maxValue);
+            return _random.Next(minvalue, maxValue);
         }
     }
 }
